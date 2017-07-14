@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Group;
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
+use Illuminate\Support\Facades\DB;
 
 class GroupController extends Controller
 {
@@ -13,6 +13,49 @@ class GroupController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function findAllGroup()
+    {
+        $groupList = DB::table('groups')
+            ->join('users', 'groups.user_id', '=', 'users.id')
+            ->select('groups.*', 'users.prefix','users.fname_th','users.lname_th')
+            ->orderBy('fname_th','ASC')
+            ->orderBy('group_name','ASC')
+            ->get();
+//        $findAllSection = Section::all()->orderBy('section_name');
+        return response()->json($groupList);
+    }
+    public function findMyGroup(Request $request)
+    {
+        $groupList = DB::table('groups')
+            ->join('users', 'groups.user_id', '=', 'users.id')
+            ->select('groups.*', 'users.prefix','users.fname_th','users.lname_th')
+            ->where('groups.user_id',$request->id)
+            ->orderBy('group_name','ASC')
+            ->get();
+        return response()->json($groupList);
+    }
+    public function ManageGroup(Request $request)
+    {
+        $findGroup = Group::where('group_name', $request->group_name)->first();
+        if ($findGroup === NULL) {
+            $group = new Group;
+            $group->user_id = $request->user_id;
+            $group->group_name = $request->group_name;
+            $group->group_pass = $request->pass_name;
+            $group->save();
+        } else {
+            return response()->json(['error' => 'Error msg'], 209);
+        }
+    }
+    public function group()
+    {
+        $group = Group::all();
+        $data = array(
+            'group'=> $group
+
+        );
+        return view('pages.group',$data);
+    }
     public function index()
     {
         //
@@ -56,8 +99,16 @@ class GroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
+        $findSectionName = Group::where('group_name', $request->group_name)->first();
+        if ($findSectionName === NULL) {
+            $group = Group::find($request->id);
+            $group->group_name = $request->group_name;
+            $group->save();
+        } else {
+            return response()->json(['error' => 'Error msg'], 209);
+        }
         //
     }
 
@@ -79,8 +130,10 @@ class GroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
+        $section = Group::find($request->id);
+        $section->delete();
         //
     }
 }
