@@ -1,0 +1,206 @@
+@font-face {
+    font-family: THSarabun;
+    src: url('../fonts/THSarabun.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: THSarabunBold;
+    src: url('../fonts/THSarabun-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: ThaiSansNeue-Regular;
+    src: url('../fonts/ThaiSansNeue-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: CSChatThai;
+    src: url('../fonts/CSChatThai.ttf') format('truetype');
+}
+
+.fmemail {
+    font-family: "THSarabun";
+    font-size: 21px;
+    color: #333333;
+}
+
+.fmemail2 {
+    font-family: "THSarabunBold";
+    font-size: 21px;
+    color: #333333;
+}
+
+.fontTable {
+    font-family: "THSarabun";
+    font-size: 21px;
+    color: #333333;
+}
+
+.fontTable2 {
+    font-family: "THSarabunBold";
+    font-size: 21px;
+    color: #333333;
+}
+
+.regis {
+    font-family: "THSarabun";
+    font-size: 20px;
+    color: #333333;
+}
+
+
+.bs-example {
+    font-family: sans-serif;
+    position: relative;
+    margin: 100px;
+}
+.typeahead, .tt-query, .tt-hint {
+    border: 1px solid #CCCCCC;
+    /*border-radius: 2px;*/
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+    font-size: 14px; /* Set input font size */
+    height: 34px;
+    line-height: 30px;
+    outline: medium none;
+    width: 300px;
+    padding: 6px 12px;
+}
+
+.typeahead:focus {
+    /*border: 2px solid #0097CF;*/
+}
+.tt-query {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+.tt-hint {
+    color: #999999;
+}
+.tt-menu {
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    width: 300px;
+}
+.tt-suggestion {
+    font-size: 15px;  /* Set suggestion dropdown font size */
+    padding: 3px 20px;
+}
+.tt-suggestion:hover {
+    cursor: pointer;
+    background-color: #0097CF;
+    color: #FFFFFF;
+}
+.tt-suggestion p {
+    margin: 0;
+}
+.tt-dropdown-menu {
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.panel-edit {
+    border-color: #76b852;
+    -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+.panel-edit > .panel-heading {
+    color: #fff;
+    background-color: #76b852;
+    border-color: #76b852
+}
+
+.panel-edit > .panel-heading + .panel-collapse > .panel-body {
+    border-top-color: #76b852
+}
+
+.panel-edit > .panel-heading .badge {
+    color: #76b852;
+    background-color: #fff
+}
+
+.panel-edit > .panel-footer + .panel-collapse > .panel-body {
+    border-bottom-color: #76b852
+}
+
+.pagination-edit {
+    display: inline-block;
+    padding-left: 0;
+    margin: 20px 0;
+    border-radius: 4px
+}
+
+.pagination-edit > li {
+    display: inline
+}
+
+.pagination-edit > li > a, .pagination-edit > li > span {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #76b852;
+    text-decoration: none;
+    background-color: #f7f7f7;
+    border: 1px solid #ddd
+}
+
+.pagination-edit > li:first-child > a, .pagination-edit > li:first-child > span {
+    margin-left: 0;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px
+}
+
+.pagination-edit > li:last-child > a, .pagination-edit > li:last-child > span {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px
+}
+
+.pagination-edit > li > a:focus, .pagination-edit > li > a:hover, .pagination-edit > li > span:focus, .pagination-edit > li > span:hover {
+    z-index: 2;
+    color: #518f48;
+    background-color: #eee;
+    border-color: #ddd
+}
+
+.pagination-edit > .active > a, .pagination-edit > .active > a:focus, .pagination-edit > .active > a:hover, .pagination-edit > .active > span, .pagination-edit > .active > span:focus, .pagination-edit > .active > span:hover {
+    z-index: 3;
+    color: #fff;
+    cursor: default;
+    background-color: #76b852;
+    border-color: #76b852
+}
+
+.pagination-edit > .disabled > a, .pagination-edit > .disabled > a:focus, .pagination-edit > .disabled > a:hover, .pagination-edit > .disabled > span, .pagination-edit > .disabled > span:focus, .pagination-edit > .disabled > span:hover {
+    color: #777;
+    cursor: not-allowed;
+    background-color: #fff;
+    border-color: #ddd
+}
+
+@media (min-width: 768px) {
+    .col-sm-edit, .col-sm-edit2 {
+        float: left
+    }
+
+    .col-sm-edit {
+        width: 10%
+    }
+
+    .col-sm-edit2 {
+        width: 12%
+    }
+
+    .col-sm-edit, .col-sm-edit2 {
+        position: relative;
+        min-height: 1px;
+        padding-right: 15px;
+        padding-left: 15px
+    }
+}
+
