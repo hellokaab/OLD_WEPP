@@ -2,7 +2,7 @@
 <script xmlns:php="http://www.w3.org/1999/html">
     $(document).ready(function () {
         var x = screen.width;
-        if (parseInt(x) > 768) {
+        if (parseInt(x) >= 768) {
             document.getElementById("projectName").innerHTML = "ระบบใบงานและการสอบเขียนโปรแกรมคอมพิวเตอร์ภาคปฏิบัติ";
             $("#for-full-screen").css('display','block');
             $("#nav_home,#nav_exam_store,#nav_sheet_store,#nav_group,#nav_examing,#nav_sheeting,#nav_profile,#nav_logout").css('display','none');
@@ -16,7 +16,7 @@
 
     $(window).resize(function () {
         var x = screen.width;
-        if (parseInt(x) > 768) {
+        if (parseInt(x) >= 768) {
             document.getElementById("projectName").innerHTML = "ระบบใบงานและการสอบเขียนโปรแกรมคอมพิวเตอร์ภาคปฏิบัติ";
             $("#for-full-screen").css('display','block');
             $("#nav_home,#nav_exam_store,#nav_sheet_store,#nav_group,#nav_examing,#nav_sheeting,#nav_profile,#nav_logout").css('display','none');
@@ -64,11 +64,35 @@
                     <a href="<%myUrl%>/group"><i class="fa2 fa-users fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;กลุ่มเรียน</a>
                 </li>
                 <li id="nav_examing" style="display: none">
-                    <a href="#"><i class="fa2 fa-cog fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;จัดการการสอบ</a>
+                    <a href="" data-target="#nav_demo" data-toggle="collapse" role="presentation" class="collapsed">
+                        <i class="fa2 fa-cog fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;จัดการการสอบ<i id="nav_examming_chevron" class="fa2 fa-chevron-left" style="padding-left: 64%"></i>
+                    </a>
                 </li>
+                <div class="collapse" id="nav_demo">
+                    <ul class="nav navbar-nav navbar-right" style="margin-right: auto">
+                        <li role="presentation">
+                            <a href="#">&emsp;&emsp;&emsp;เปิดสอบ</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#">&emsp;&emsp;&emsp;ประวัติการเปิดสอบ</a>
+                        </li>
+                    </ul>
+                </div>
                 <li id="nav_sheeting" style="display: none">
-                    <a href="#"><i class="fa2 fa-cogs fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;จัดการการสั่งใบงาน</a>
+                    <a href="" data-target="#nav_demo2" data-toggle="collapse" role="presentation" class="collapsed">
+                        <i class="fa2 fa-cogs fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;จัดการการสั่งใบงาน<i id="nav_sheeting_chevron" class="fa2 fa-chevron-left" style="padding-left: 56%"></i>
+                    </a>
                 </li>
+                <div class="collapse" id="nav_demo2">
+                    <ul class="nav navbar-nav navbar-right" style="margin-right: auto">
+                        <li role="presentation">
+                            <a href="#">&emsp;&emsp;&emsp;สั่งใบงาน</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#">&emsp;&emsp;&emsp;ประวัติการสั่งใบงาน</a>
+                        </li>
+                    </ul>
+                </div>
                 <li id="nav_logout" style="display: none">
                     <a href="#"><i class="fa2 fa-sign-out fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;ออกจากระบบ</a>
                 </li>
