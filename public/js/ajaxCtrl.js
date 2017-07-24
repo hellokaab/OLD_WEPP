@@ -84,7 +84,7 @@ function createSection(data) {
                 if (xhr.status == 200) {
                     $('#add_exam_group_part').waitMe('hide');
                     alert("สำเร็จ");
-                    window.location.href = url+'/exam';
+                    window.location.href = url+'/myExam';
                 } else if (xhr.status == 209){
                     $('#add_exam_group_part').waitMe('hide');
                     $('#notice_add_exam_grp').html('* กลุ่มข้อสอบนี้มีอยู่แล้ว').show();
@@ -227,9 +227,13 @@ function createExam(data) {
         for (i = 0; i < data.keyword.length; i++) {
             createKeyword(exam.id, data.keyword[i]);
         }
+        createSharedExam(exam.id,data.user_id);
+        for (i = 0; i < data.shared.length; i++) {
+            createSharedExam(exam.id, data.shared[i].id);
+        }
         $('#add_exam_part').waitMe('hide');
         alert("สำเร็จ");
-        window.location.href = url+'/exam';
+        window.location.href = url+'/myExam';
     }
 
 }
@@ -264,9 +268,15 @@ function updateExam(data) {
         for (i = 0; i < data.keyword.length; i++) {
             createKeyword(data.id, data.keyword[i]);
         }
+        for (i =0; i < data.deleteShared.length;i++){
+            deleteUserShared(data.id,data.deleteShared[i]);
+        }
+        for (i = 0; i < data.shared.length;i++){
+            updateSharedExam(data.id,data.shared[i].id);
+        }
         $('#edit_exam_part').waitMe('hide');
         alert("สำเร็จ");
-        window.location.href = url+'/exam';
+        window.location.href = url+'/myExam';
     }
 }
 
@@ -346,20 +356,6 @@ function findExamByID(data) {
     return exam;
 }
 
-function findCreaterByPID(PID) {
-    var user = $.ajax({
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            Accept: "application/json"
-        },
-        url: url + '/findCreaterByPersonalID/'+PID,
-        async: false,
-    }).responseJSON;
-    var name = user.prefix+user.fname_th+" "+user.lname_th;
-    return name;
-}
-
 function createKeyword(examID,keyword) {
     $.ajax({
         contentType: "application/json; charset=utf-8",
@@ -402,7 +398,6 @@ function findAllGroup() {
 }
 
 function findMyGroup(data) {
-    console.log(data);
     var groupMyData = $.ajax({
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -414,4 +409,112 @@ function findMyGroup(data) {
         async: false,
     });
     return groupMyData;
+}
+
+function findTeacher() {
+    var teacher = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/findTeacher',
+        async: false,
+    }).responseJSON;
+    return teacher;
+}
+
+function createSharedExam(examID,userID) {
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/createSharedExam',
+        data:{exam_id:examID,user_id:userID},
+        async: false,
+    });
+}
+
+function findSharedUserNotMe(EID,MyID) {
+    var shared = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findSharedUserNotMe',
+        data:{exam_id:EID,my_id:MyID},
+        async: false,
+    }).responseJSON;
+    return shared;
+}
+
+function deleteUserShared(EID,UID) {
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/deleteUserShared',
+        data:{exam_id:EID,user_id:UID},
+        async: false,
+    });
+}
+
+function updateSharedExam(examID,userID) {
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/updateSharedExam',
+        data:{exam_id:examID,user_id:userID},
+        async: false,
+    });
+}
+
+function findSectionSharedToMe(MyID) {
+    var sectionSharedToMe = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findSectionSharedToMe',
+        data:{my_id:MyID},
+        async: false,
+    }).responseJSON;
+    return sectionSharedToMe
+}
+
+function findSectionSharedNotMe(MyID) {
+    var sectionSharedNotMe = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findSectionSharedNotMe',
+        data:{my_id:MyID},
+        async: false,
+    }).responseJSON;
+    return sectionSharedNotMe
+}
+
+function findExamSharedToMe(MyID) {
+    var examSharedToMe = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findExamSharedToMe',
+        data:{my_id:MyID},
+        async: false,
+    }).responseJSON;
+    return examSharedToMe
 }

@@ -27,12 +27,16 @@ class ExamController extends Controller
 //            $section->fname_th = utf8_decode($section->fname_th);
 //            $section->lname_th = utf8_decode($section->lname_th);
 //        }
-        $findAllSection = Section::orderBy('section_name')->get();
-        $data = array(
-            'sections' => $findAllSection
-        );
+//        $findAllSection = Section::orderBy('section_name')->get();
+//        $data = array(
+//            'sections' => $findAllSection
+//        );
 
-        return view('pages/exam',$data);
+        return view('pages/exam');
+    }
+
+    public function myExam(){
+        return view('pages/myExam');
     }
 
     public function findAllExam()

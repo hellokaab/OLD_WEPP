@@ -1,11 +1,9 @@
-app.controller('examCtrl', ['$scope', '$window', function ($scope, $window) {
+app.controller('myExamCtrl', ['$scope', '$window', function ($scope, $window) {
         $scope.thisUser = $window.myuser;
         $scope.exams = $window.exams;
         // $scope.allSection = $window.allsections;
-        $scope.sectionSharedToMe = findSectionSharedNotMe($window.myuser.id);
-        $scope.examShareToMe = findExamSharedToMe($window.myuser.id);
-        // $scope.mySection = $window.mysections;
-        // $scope.teacherId = $window.user_id;
+        $scope.mySection = $window.mysections;
+
         $scope.queryBy = 'section_name';
         $scope.selectRow = '10';
         $scope.groupId = 0;
@@ -177,19 +175,6 @@ app.controller('examCtrl', ['$scope', '$window', function ($scope, $window) {
             str = str.replace(/&#x2F;/g, '/');
             return str;
         }
-        //----------------------------------------------------------------------
-        $scope.findCreater = function (section) {
-            var name = findCreaterByPID(section.personal_id);
-            return name;
-        };
-        //----------------------------------------------------------------------
-        $scope.changePlaceholder  = function (section) {
-            if($scope.queryBy === 'section_name'){
-                $('#txt_search')[0].placeholder = "ชื่อกลุ่มข้อสอบ";
-            } else if($scope.queryBy === 'creater'){
-                $('#txt_search')[0].placeholder = "ชื่อผู้สร้างกลุ่มข้อสอบ";
-            }
-        };
         //----------------------------------------------------------------------
         $scope.sort = function(keyname){
             $scope.sortKey = keyname;   //set the sortKey to the param passed

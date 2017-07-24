@@ -10,9 +10,10 @@
     <link href="css/side_nav.css" rel="stylesheet">
     <link href="font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-    <link href="css/myCustom.css " rel="stylesheet" type="text/css">
     <link href="waitMe/waitMe.css " rel="stylesheet" type="text/css">
     <link href="LineControl-Editor/editor.css " rel="stylesheet" type="text/css">
+    <link href="dateTimePicker/DateTimePicker.min.css " rel="stylesheet" type="text/css">
+    <link href="css/myCustom.css " rel="stylesheet" type="text/css">
     <script src="js/jquery-3.2.1.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/side_nav.js"></script>
@@ -22,6 +23,7 @@
     <script src="js/ajaxCtrl.js"></script>
     <script src="js/dirPagination.js"></script>
     <script src="LineControl-Editor/editor.js"></script>
+    <script src="dateTimePicker/DateTimePicker.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
     {{--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>--}}
     <script>
@@ -29,19 +31,19 @@
             $scope.myUrl = "/WEPP/public";
         });
         var url = "/WEPP/public";
-        var mysession = {
-            personalId : "0425361073012",
-            prename : "นาย",
-            cn : "Pongpan",
-            firstNameThai : "พงศ์พันธ์",
-            sn : "Poonkhuntod",
-            lastNameThai : "ปูนขุนทด",
-            studentId : "",
-            faculty : "คณะวิศวกรรมศาสตร์และสถาปัตยกรรมศาสตร์",
-            program : "สาขาวิชาวิศวกรรมคอมพิวเตอร์",
-            mail : "pongpan.kho@rmuti.ac.th",
-            gidNumber : "2800"
-        }
+        {{--var mysession = {--}}
+            {{--personalId : "0425361073012",--}}
+            {{--prename : "นาย",--}}
+            {{--cn : "Pongpan",--}}
+            {{--firstNameThai : "พงศ์พันธ์",--}}
+            {{--sn : "Poonkhuntod",--}}
+            {{--lastNameThai : "ปูนขุนทด",--}}
+            {{--studentId : "",--}}
+            {{--faculty : "คณะวิศวกรรมศาสตร์และสถาปัตยกรรมศาสตร์",--}}
+            {{--program : "สาขาวิชาวิศวกรรมคอมพิวเตอร์",--}}
+            {{--mail : "pongpan.kho@rmuti.ac.th",--}}
+            {{--gidNumber : "2800"--}}
+        {{--}--}}
 
         {{--var mysession = {--}}
             {{--personalId : "0425361073013",--}}
@@ -56,6 +58,20 @@
             {{--mail : "pongpan.kho@rmuti.ac.th",--}}
             {{--gidNumber : "2800"--}}
         {{--}--}}
+
+        var mysession = {
+            personalId : "0425361073014",
+            prename : "นาย",
+            cn : "Sawatdee",
+            firstNameThai : "สวัสดี",
+            sn : "Meesuk",
+            lastNameThai : "มีสุข",
+            studentId : "",
+            faculty : "คณะวิศวกรรมศาสตร์และสถาปัตยกรรมศาสตร์",
+            program : "สาขาวิชาวิศวกรรมคอมพิวเตอร์",
+            mail : "pongpan.kho@rmuti.ac.th",
+            gidNumber : "2800"
+        }
     </script>
     @yield('checkUser')
     <script>

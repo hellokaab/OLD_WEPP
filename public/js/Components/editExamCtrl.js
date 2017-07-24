@@ -4,19 +4,28 @@ app.controller('editExamCtrl', ['$scope', '$window', function ($scope, $window) 
     $scope.examData = findExamByID(window.examId).responseJSON;
     $scope.groupId = $scope.examData.section_id;
     $scope.keywords = window.keywords;
-    console.log($scope.examData.section_id);
+    $scope.thisUser = $window.myuser;
+    $scope.teacher = findTeacher();
+    $scope.sharedUser = findSharedUserNotMe($scope.examData.id,$scope.thisUser.id);
+    $scope.selectTeacher = [];
+    var sharedUserToDelete = new Array();
+    setOldSharedUser();
+
+    // console.log($scope.sharedUser);
 
     $scope.mySection = findMySection(myuser).responseJSON;
     $('#exam_content').Editor();
     // Exam name
     $scope.examName = $scope.examData.exam_name;
 
-    // Exam group
+
     $(document).ready(function () {
+        // Exam group
         $('#ddl_group').val($scope.groupId);
+        // Checked Old Shared User
+        setCheckedOldSharedUser();
     });
     var fileData = readFile($scope.examData).responseJSON;
-    console.log(fileData);
 
     // Exam content
     $('#exam_content').Editor('setText', decapeHtml(fileData.content));
@@ -301,7 +310,20 @@ app.controller('editExamCtrl', ['$scope', '$window', function ($scope, $window) 
             && $scope.completeCutOverMem
             && $scope.completeCutOverTime) {
 
+            $('#edit_exam_part').waitMe({
+                effect: 'facebook',
+                bg: 'rgba(255,255,255,0.9)',
+                color: '#3bafda'
+            });
+
             createContentFile(escapeHtml($('#exam_content').Editor("getText")), function (content_part) {
+                for(i=0;i<$scope.sharedUser.length;i++){
+                    var UID = $scope.sharedUser[i].user_id;
+                    var indexOfStevie = $scope.selectTeacher.findIndex(i => i.id == UID);
+                    if(indexOfStevie == -1){
+                        sharedUserToDelete.push(UID)
+                    }
+                }
 
                 $scope.contentPart = content_part;
                 if ($scope.inputMode === 'no_input') {
@@ -338,7 +360,10 @@ app.controller('editExamCtrl', ['$scope', '$window', function ($scope, $window) 
                     main_code: $scope.main,
                     case_sensitive: $scope.classTestMode,
                     keyword: newKeywords,
+                    shared: $scope.selectTeacher,
+                    deleteShared:sharedUserToDelete,
                 };
+                console.log(data);
                 updateExam(data);
             });
 
@@ -482,7 +507,70 @@ app.controller('editExamCtrl', ['$scope', '$window', function ($scope, $window) 
             callback(data);
         });
     }
+    //----------------------------------------------------------------------
+    $scope.goBack = function () {
+        window.history.back();
+    }
+    //----------------------------------------------------------------------
+    $scope.addUserShare = function () {
 
+        $('#add_user_to_share_modal').modal({backdrop: 'static'});
+        // setTimeout(function () {
+        //     $('[ng-model=examGroupName]').focus();
+        // }, 200);
+    };
+    //----------------------------------------------------------------------
+    $scope.okAddTeacher = function () {
+        $('#add_user_share_part').waitMe({
+            effect: 'facebook',
+            bg: 'rgba(255,255,255,0.9)',
+            color: '#3bafda'
+        });
+        $scope.selectTeacher = [];
+        $('[id^=tea_]').each(function () {
+            if ($(this).prop('checked')) {
+                var indexOfStevie = $scope.teacher.findIndex(i => i.id == $(this).attr('id').substr(4));
+                $scope.selectTeacher.push($scope.teacher[indexOfStevie]);
+            }
+        });
+        $('#add_user_share_part').waitMe('hide');
+        $('#add_user_to_share_modal').modal('hide');
+    };
+    //----------------------------------------------------------------------
+    $scope.ticExam = function (id) {
+        if($('#tea_'+id)[0].checked){
+            $('#tea_'+id)[0].checked = false;
+        } else {
+            $('#tea_'+id)[0].checked = true;
+        }
+    };
+    //----------------------------------------------------------------------
+    $('#select_all').on('change',function () {
+        if($('#select_all')[0].checked){
+            $('[id^=tea_]').each(function () {
+                $(this)[0].checked = true;
+            });
+        } else {
+            $('[id^=tea_]').each(function () {
+                $(this)[0].checked = false;
+            });
+        }
+    });
+    //----------------------------------------------------------------------
+    function setOldSharedUser() {
+        for (i=0;i<$scope.sharedUser.length;i++){
+            var UID = $scope.sharedUser[i].user_id;
+            var indexOfStevie = $scope.teacher.findIndex(i => i.id == UID);
+            $scope.selectTeacher.push($scope.teacher[indexOfStevie]);
+        }
+    }
+    //----------------------------------------------------------------------
+    function setCheckedOldSharedUser() {
+        for (i=0;i<$scope.sharedUser.length;i++){
+            var UID = $scope.sharedUser[i].user_id;
+            $('#tea_'+UID)[0].checked = true;
+        }
+    }
     //----------------------------------------------------------------------
 }]);
 

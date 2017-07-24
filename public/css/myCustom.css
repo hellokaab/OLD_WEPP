@@ -218,3 +218,25 @@ footer a:hover {
 .danger {
     color:  #d9534f;
 }
+
+.dtpicker-content {
+    border-radius: 4px;
+}
+
+.dtpicker-buttonCont .dtpicker-button {
+    background: #8BC34A;
+    border-radius: 4px;
+}
+
+.dtpicker-header .dtpicker-close {
+    color: #8BC34A;
+
+}
+
+.dtpicker-header .dtpicker-close:hover {
+    color: #8BC34A
+}
+
+.dtpicker-header .dtpicker-value {
+    color: #8BC34A;
+}
