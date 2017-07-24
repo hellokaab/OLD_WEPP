@@ -195,7 +195,7 @@
                             <label class="col-md-2 control-label">Keyword:</label>
                             <div class="col-md-9">
                                 <div id="keyword_part">
-                                    <div class="form-group has-feedback" ng-repeat="k in keywords">
+                                    <div class="form-group has-feedback" ng-repeat="k in keywords" style="padding-left: 15px;padding-right: 15px">
                                         <div class="col-md-8" style="padding-left: 0;padding-right: 0">
                                             <input type="text" id="oldKeyword_<%k.id%>" value="<%k.keyword_data%>" class="form-control has-feedback" disabled/>
                                         </div>
@@ -210,7 +210,7 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="form-group has-feedback">
+                                    <div class="form-group has-feedback" style="padding-left: 15px;padding-right: 15px">
                                         <input type="text" class="form-control has-feedback" id="exam_keyword_1"
                                                maxlength="200" placeholder="เพิ่มคีย์เวิร์ด"/>
                                     </div>
@@ -220,7 +220,56 @@
                                 </button>
                             </div>
                         </div>
-                        <br>
+
+                        {{--Share--}}
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">แบ่งปันถึง:</label>
+                            <div class="col-md-9">
+                                <h5 ng-repeat="st in selectTeacher"><%st.fullname%></h5>
+                                <button class="btn btn-info btn-sm" ng-click="addUserShare()">
+                                    <i class="fa fa-plus"></i> เลือกผู้ที่ต้องการแบ่งปัน
+                                </button>
+                            </div>
+                        </div>
+
+                        {{--Select User To Share Exam--}}
+                        <div class="modal fade" id="add_user_to_share_modal" role="dialog">
+                            <div class="modal-dialog" style="width: 75%;padding-left: 17px">
+                                <div class="modal-content">
+                                    <div class="panel panel-default" id="add_user_share_part" style="margin-bottom: 0">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title" style="color: #555">เลือกบุคคลที่ต้องการแบ่งปัน</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <b>รายชื่อผู้สอนในระบบ</b>
+                                            <br>
+                                            <table class="table table-hover">
+                                                <thead>
+                                                <tr>
+                                                    <th style="width: 5%"><input type="checkbox" id="select_all"></th>
+                                                    <th style="width: 25%">ชื่อ - นามสกุล</th>
+                                                    <th style="width: 40%">คณะ</th>
+                                                    <th style="width: 30%">สาขาวิชา</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-repeat="t in teacher" ng-if="t.id != thisUser.id">
+                                                    <td><input type="checkbox" id="tea_<%t.id%>"> </td>
+                                                    <td ng-click="ticExam(t.id)"><%t.fullname%></td>
+                                                    <td ng-click="ticExam(t.id)"><%t.faculty%></td>
+                                                    <td ng-click="ticExam(t.id)"><%t.department%></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-success" ng-click="okAddTeacher()">ตกลง</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">ยกเลิก</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         {{--<!-- Limit -->--}}
                         <div class="form-group">
@@ -311,7 +360,7 @@
                                        value="บันทึกข้อสอบ"/>
                             </div>
                             <div class="col-md-3">
-                                <a class="btn btn-danger btn-block" href="<%myUrl%>/exam">ยกเลิก</a>
+                                <a class="btn btn-danger btn-block" ng-click="goBack()">ยกเลิก</a>
                             </div>
                         </div>
                     </div>
@@ -412,7 +461,7 @@
                 alert('จำกัดคีย์เวิร์ดไว้ไม่เกิน 10 คีย์เวิร์ด');
             } else {
                 _keyword_id++;
-                $('#keyword_part').append('<div class="form-group has-feedback"><input type="text" class="form-control" id="exam_keyword_' + _keyword_id + '" placeholder="เพิ่มคีย์เวิร์ด" maxlength="200"/></div>');
+                $('#keyword_part').append('<div class="form-group has-feedback" style="padding-left: 15px;padding-right: 15px"><input type="text" class="form-control" id="exam_keyword_' + _keyword_id + '" placeholder="เพิ่มคีย์เวิร์ด" maxlength="200"/></div>');
                 $('#add_keyword').hide();
                 $('#exam_keyword_' + _keyword_id).focus();
             }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Users;
 use Psy\Util\Str;
 
@@ -69,6 +70,15 @@ class UserController extends Controller
     public function findCreaterByPersonalID($PID){
         $findUser = Users::where('personal_id', $PID)->first();
         return $findUser;
+    }
+
+    public function findTeacher(){
+        $findTeacher = DB::table('users')
+            ->select('users.*', DB::raw('CONCAT("อ.",users.fname_th," ", users.lname_th) AS fullname'))
+            ->where('user_type','t')
+            ->orderBy('fname_th','ASC')
+            ->get();
+        return response()->json($findTeacher);
     }
 
 

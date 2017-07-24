@@ -78,3 +78,23 @@ Route::get('/deleteKeyword', 'KeywordController@destroy');
 Route::get('/findAllGroup', 'GroupController@findAllGroup');
 
 Route::get('/findMyGroup', 'GroupController@findMyGroup');
+
+Route::get('/openExam', 'ExamingController@index');
+
+Route::get('/findTeacher', 'UserController@findTeacher');
+
+Route::get('/myExam', 'ExamController@myExam');
+
+Route::get('/createSharedExam', 'ShareExamController@store');
+
+Route::get('/findSharedUserNotMe', 'ShareExamController@findSharedUserNotMe');
+
+Route::get('/deleteUserShared', 'ShareExamController@deleteUserShared');
+
+Route::get('/updateSharedExam', 'ShareExamController@updateSharedExam');
+
+Route::get('/findSectionSharedToMe', 'ShareExamController@findSectionSharedToMe');
+
+Route::get('/findSectionSharedNotMe', 'ShareExamController@findSectionSharedNotMe');
+
+Route::get('/findExamSharedToMe', 'ShareExamController@findExamSharedToMe');

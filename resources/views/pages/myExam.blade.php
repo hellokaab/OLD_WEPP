@@ -1,17 +1,17 @@
 @extends('layouts.template')
 @section('content')
-    <script src="js/Components/examCtrl.js"></script>
+    <script src="js/Components/myExamCtrl.js"></script>
     <script>
         var exams = findAllExam().responseJSON;
 //        var allsections = findAllSection().responseJSON;
-//        var mysections = findMySection(myuser).responseJSON;
+        var mysections = findMySection(myuser).responseJSON;
     </script>
-    <div ng-controller="examCtrl" style="display: none" id="exam_div">
+    <div ng-controller="myExamCtrl" style="display: none" id="exam_div">
         {{--Exam Group List--}}
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <b style="color: #555">กลุ่มข้อสอบที่แบ่งปันกับฉัน</b>
+                    <b style="color: #555">กลุ่มข้อสอบของฉัน</b>
                     <a href="" ng-click="addExamGroup()" style="float: right"><i class="fa fa-plus"></i>
                         เพิ่มกลุ่มข้อสอบ</a>
                 </div>
@@ -22,16 +22,8 @@
                                 <label class="col-md-1 col-xs-2 control-label"
                                        style="margin-top: 14px;padding-right: 0px">ค้นหา</label>
                                 <div class="col-md-4 col-xs-10" style="padding-right: 0px;padding-top: 7px">
-                                    <input type="text" id="txt_search" class="form-control" ng-model="query[queryBy]"
+                                    <input type="text" id="txt_search" class="form-control" ng-model="query"
                                            placeholder="ชื่อกลุ่มข้อสอบ">
-                                </div>
-                                <label class="col-md-1 col-xs-2 control-label"
-                                       style="margin-top: 14px;padding-right: 0px;text-align: center">จาก</label>
-                                <div class="col-md-4 col-xs-10" style="padding-right: 0px;padding-top: 7px">
-                                    <select class="form-control" ng-model="queryBy" ng-change="changePlaceholder()">
-                                        <option value="section_name">ชื่อกลุ่มข้อสอบ</option>
-                                        <option value="creater">ผู้สร้างกลุ่มข้อสอบ</option>
-                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -54,12 +46,12 @@
                         <thead>
                         <tr>
                             <th ng-click="sort('section_name')" style="cursor:pointer">กลุ่มข้อสอบ  <i class="fa" ng-show="sortKey=='section_name'" ng-class="{'fa-chevron-up':reverseS,'fa-chevron-down':!reverseS}"></i></th>
-                            <th ng-click="sort('creater')" style="cursor:pointer">ผู้สร้างกลุ่มข้อสอบ  <i class="fa" ng-show="sortKey=='creater'" ng-class="{'fa-chevron-up':reverseC,'fa-chevron-down':!reverseC}"></th>
+                            <th>ผู้สร้างกลุ่มข้อสอบ</th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-show="sectionSharedToMe.length > 0" dir-paginate="g in sectionSharedToMe|orderBy:[sortC,sortS]|filter:query|itemsPerPage:selectRow">
+                        <tr ng-show="mySection.length > 0" dir-paginate="g in mySection|orderBy:sortS|filter:query|itemsPerPage:selectRow">
                             <td><a href="#divExamList" ng-click="changeGroup(g)"><%g.section_name%></a></td>
                             {{--<td style="width: 40%;"><%g.prefix+g.fname_th+" "+g.lname_th%></td>--}}
                             <td style="width: 40%;"><%g.creater%></td>
@@ -76,7 +68,7 @@
                                 </a>
                             </td>
                         </tr>
-                        <tr ng-hide="sectionSharedToMe.length > 0">
+                        <tr ng-hide="mySection.length > 0">
                             <td>ไม่พบข้อมูล</td>
                             <td></td>
                             <td></td>
@@ -97,7 +89,7 @@
 
         {{--Exam List--}}
         <div class="col-lg-6" id="divExamList" style="display: none">
-            <div class="panel panel-default" ng-repeat="g in sectionSharedToMe" ng-hide="groupId != <%g.id%>">
+            <div class="panel panel-default" ng-repeat="g in mySection" ng-hide="groupId != <%g.id%>">
                 <div class="panel-heading">
                     <b style="color: #555"><%g.section_name%></b>
                     <a ng-hide="<%g.user_id%> != thisUser.id" href="<%myUrl%>/addExam<%groupId%>" style="float: right"><i class="fa fa-plus"></i>
@@ -112,7 +104,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="e in examShareToMe" ng-if="e.section_id === g.id">
+                        <tr ng-repeat="e in exams" ng-if="e.section_id === g.id">
                             <td><a href="" ng-click="detailExam(e)"><%e.exam_name%></a></td>
                             <td style="text-align: right" ng-hide="e.user_id != thisUser.id">
                                 <a title="รายละเอียด" style="cursor:pointer;color: #337ab7">
