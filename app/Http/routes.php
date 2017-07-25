@@ -98,3 +98,9 @@ Route::get('/findSectionSharedToMe', 'ShareExamController@findSectionSharedToMe'
 Route::get('/findSectionSharedNotMe', 'ShareExamController@findSectionSharedNotMe');
 
 Route::get('/findExamSharedToMe', 'ShareExamController@findExamSharedToMe');
+
+Route::get('/createExaming', 'ExamingController@createExaming');
+
+Route::get('/findExamingByNameAndGroup', 'ExamingController@findExamingByNameAndGroup');
+
+Route::get('/createExamExaming', 'ExamExamingController@store');

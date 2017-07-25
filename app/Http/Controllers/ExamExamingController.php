@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Examing;
+use App\ExamExaming;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-class ExamingController extends Controller
+class ExamExamingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,40 +16,9 @@ class ExamingController extends Controller
      */
     public function index()
     {
-        return view('pages/openExam');
+        //
     }
 
-    public function findExamingByNameAndGroup(Request $request)
-    {
-        $examing = Examing::where('examing_name',$request->examing_name)
-            ->where('group_id',$request->group_id)
-            ->first();
-        if ($examing === NULL) {
-//             return true;
-        }else{
-            return response()->json(['error' => 'Error msg'], 209);
-        }
-    }
-
-    public function createExaming(Request $request)
-    {
-        $examing = new Examing;
-        $examing->user_id = $request->user_id;
-        $examing->group_id = $request->group_id;
-        $examing->examing_mode = $request->examing_mode;
-        $examing->amount = $request->amount;
-        $examing->start_date_time = $request->start_date_time;
-        $examing->end_date_time = $request->end_date_time;
-        $examing->examing_pass = $request->examing_pass;
-        $examing->examing_name = $request->examing_name;
-        $examing->ip_group = $request->ip_group;
-        $examing->save();
-
-        $examing = Examing::where('user_id',$request->user_id)
-            ->where('examing_name',$request->examing_name)->first();
-
-        return response()->json($examing);
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -69,7 +38,10 @@ class ExamingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $examExaming = new ExamExaming;
+        $examExaming->exam_id = $request->exam_id;
+        $examExaming->examing_id = $request->examing_id;
+        $examExaming->save();
     }
 
     /**
