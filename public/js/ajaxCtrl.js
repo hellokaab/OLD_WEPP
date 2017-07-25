@@ -518,3 +518,75 @@ function findExamSharedToMe(MyID) {
     }).responseJSON;
     return examSharedToMe
 }
+
+function createExaming(data) {
+    var createExamingSuccess = false;
+    var examing = $.ajax ({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/createExaming',
+        data: data,
+        async: false,
+        complete: function (xhr) {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    createExamingSuccess = true;
+                    // $('#add_exam_part').waitMe('hide');
+                    // alert("สำเร็จ");
+                    // window.location.href = url+'/exam';
+                } else {
+                    $('#open_exam_part').waitMe('hide');
+                    alert("ผิดพลาด");
+                }
+
+            }
+        }
+    }).responseJSON;
+    if (createExamingSuccess) {
+        for(i=0;i<data.exam.length;i++){
+            createExamExaming(parseInt(data.exam[i]),examing.id);
+        }
+        $('#open_exam_part').waitMe('hide');
+        alert("สำเร็จ");
+        // window.location.href = url+'/myExam';
+    }
+
+}
+
+function findExamingByNameAndGroup(name,GID) {
+    var checked = false;
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findExamingByNameAndGroup',
+        data:{examing_name:name,group_id:GID},
+        async: false,
+        complete: function (xhr) {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    checked = true;
+                }
+            }
+        }
+    });
+    return checked;
+}
+
+function createExamExaming(examID,examingID) {
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/createExamExaming',
+        data:{exam_id:examID,examing_id:examingID},
+        async: false,
+    });
+}
