@@ -63,7 +63,7 @@
                 <ul class="list-unstyled main-menu" id="_menu" z="user-managed=">
                     <li role="presentation">
                         <a href="<%myUrl%>/openExam">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;เปิดสอบ</a>
-                        <a href="#">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ประวัติการเปิดสอบ</a>
+                        <a href="<%myUrl%>/examingHistory">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ประวัติการเปิดสอบ</a>
                     </li>
                 </ul>
             </div>

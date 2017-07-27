@@ -133,7 +133,7 @@
         </div>
 
 
-    <!-- Add Exam Group -->
+        <!-- Add Exam Group -->
         <div class="modal fade" id="add_exam_group_modal" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">

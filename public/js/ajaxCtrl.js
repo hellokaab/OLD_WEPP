@@ -590,3 +590,42 @@ function createExamExaming(examID,examingID) {
         async: false,
     });
 }
+
+function findExamingByUserID(UID) {
+    var examing = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findExamingByUserID',
+        data:{user_id:UID},
+        async: false,
+    }).responseJSON;
+    return examing;
+}
+
+function deleteExaming(EMID) {
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/deleteExaming',
+        data:{id:EMID},
+        async: false,
+        complete: function (xhr) {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    $('#deleteExamingPart').waitMe('hide');
+                    alert("ลบสำเร็จ");
+                    location.reload();
+                }  else {
+                    $('#deleteExamingPart').waitMe('hide');
+                    alert("ผิดพลาด");
+                }
+            }
+        }
+    });
+}
