@@ -104,3 +104,11 @@ Route::get('/createExaming', 'ExamingController@createExaming');
 Route::get('/findExamingByNameAndGroup', 'ExamingController@findExamingByNameAndGroup');
 
 Route::get('/createExamExaming', 'ExamExamingController@store');
+
+Route::get('/examingHistory', 'ExamingController@examingHistory');
+
+Route::get('/findExamingByUserID', 'ExamingController@findExamingByUserID');
+
+Route::get('/editOpenExam{id}', 'ExamingController@edit');
+
+Route::get('/deleteExaming', 'ExamingController@destroy');
