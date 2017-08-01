@@ -1,19 +1,8 @@
 /**
  * Created by Pongpan on 15-Jun-17.
  */
-function findUserByPersonalID() {
-    var user = $.ajax({
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            Accept: "application/json"
-        },
-        url: url + '/findByPersonalID',
-        data: mysession,
-        async: false,
-    });
-    return user;
-}
+
+//--------------------------- UserController ---------------------------
 
 function addUser() {
     var user = $.ajax({
@@ -29,18 +18,88 @@ function addUser() {
     return user;
 }
 
-function findAllExam() {
-    var exam = $.ajax({
+function findUserByPersonalID() {
+    var user = $.ajax({
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         headers: {
             Accept: "application/json"
         },
-        url: url + '/findAllExam',
+        url: url + '/findByPersonalID',
+        data: mysession,
         async: false,
     });
-    return exam;
+    return user;
 }
+
+function findTeacher() {
+    var teacher = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/findTeacher',
+        async: false,
+    }).responseJSON;
+    return teacher;
+}
+
+//--------------------------- GroupController ---------------------------
+
+function deleteSectionGroup(data) {
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/Group/delete',
+        data: data,
+        async: false,
+        complete: function (xhr) {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    $('#delete_group_part').waitMe('hide');
+                    alert("ลบสำเร็จ");
+                    location.reload();
+                } else {
+                    $('#delete_group_part').waitMe('hide');
+                    alert("ผิดพลาด");
+                }
+            }
+        }
+    });
+}
+
+function findAllGroup() {
+    var groupData = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/findAllGroup',
+        async: false,
+    });
+    return groupData;
+}
+
+function findMyGroup(data) {
+    var groupMyData = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/findMyGroup',
+        data: data,
+        async: false,
+    });
+    return groupMyData;
+}
+
+//--------------------------- SectionController ---------------------------
 
 function findAllSection() {
     var section = $.ajax({
@@ -151,6 +210,21 @@ function deleteSection(data) {
             }
         }
     });
+}
+
+//--------------------------- ExamController ---------------------------
+
+function findAllExam() {
+    var exam = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/findAllExam',
+        async: false,
+    });
+    return exam;
 }
 
 function findExamByName(data,section_id,user_id) {
@@ -280,31 +354,6 @@ function updateExam(data) {
     }
 }
 
-function deleteSectionGroup(data) {
-    $.ajax({
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            Accept: "application/json"
-        },
-        url: url + '/Group/delete',
-        data: data,
-        async: false,
-        complete: function (xhr) {
-            if (xhr.readyState == 4) {
-                if (xhr.status == 200) {
-                    $('#delete_group_part').waitMe('hide');
-                    alert("ลบสำเร็จ");
-                    location.reload();
-                } else {
-                    $('#delete_group_part').waitMe('hide');
-                    alert("ผิดพลาด");
-                }
-            }
-        }
-    });
-}
-
 function readFile(data) {
     var test = $.ajax({
         contentType: "application/json; charset=utf-8",
@@ -356,73 +405,7 @@ function findExamByID(data) {
     return exam;
 }
 
-function createKeyword(examID,keyword) {
-    $.ajax({
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            Accept: "application/json"
-        },
-        url:url + '/createKeyword',
-        data:{exam_id:examID,keyword:keyword},
-        async: false,
-    });
-
-}
-
-function findKeywordByEID(EID) {
-    var keyword = $.ajax({
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            Accept: "application/json"
-        },
-        url:url + '/findKeywordByEID',
-        data:{exam_id:EID},
-        async: false,
-    }).responseJSON;
-    return keyword;
-}
-
-function findAllGroup() {
-    var groupData = $.ajax({
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            Accept: "application/json"
-        },
-        url: url + '/findAllGroup',
-        async: false,
-    });
-    return groupData;
-}
-
-function findMyGroup(data) {
-    var groupMyData = $.ajax({
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            Accept: "application/json"
-        },
-        url: url + '/findMyGroup',
-        data: data,
-        async: false,
-    });
-    return groupMyData;
-}
-
-function findTeacher() {
-    var teacher = $.ajax({
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            Accept: "application/json"
-        },
-        url: url + '/findTeacher',
-        async: false,
-    }).responseJSON;
-    return teacher;
-}
+//--------------------------- ShareExamController ---------------------------
 
 function createSharedExam(examID,userID) {
     $.ajax({
@@ -519,6 +502,38 @@ function findExamSharedToMe(MyID) {
     return examSharedToMe
 }
 
+//--------------------------- KeywordController ---------------------------
+
+function createKeyword(examID,keyword) {
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/createKeyword',
+        data:{exam_id:examID,keyword:keyword},
+        async: false,
+    });
+
+}
+
+function findKeywordByEID(EID) {
+    var keyword = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findKeywordByEID',
+        data:{exam_id:EID},
+        async: false,
+    }).responseJSON;
+    return keyword;
+}
+
+//--------------------------- ExamingController ---------------------------
+
 function createExaming(data) {
     var createExamingSuccess = false;
     var examing = $.ajax ({
@@ -556,6 +571,46 @@ function createExaming(data) {
 
 }
 
+function updateExaming(data) {
+    var updateExamingSuccess = false;
+    $.ajax ({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/updateExaming',
+        data: data,
+        async: false,
+        complete: function (xhr) {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    updateExamingSuccess = true;
+                    // $('#add_exam_part').waitMe('hide');
+                    // alert("สำเร็จ");
+                    // window.location.href = url+'/exam';
+                } else {
+                    $('#edit_examing_part').waitMe('hide');
+                    alert("ผิดพลาด");
+                }
+
+            }
+        }
+    });
+    if (updateExamingSuccess) {
+        for(i=0;i<data.deleteExamExaming.length;i++){
+            daleteExamExaming(data.deleteExamExaming[i],data.id) ;
+        }
+        for(i=0;i<data.exam.length;i++){
+            updateExamExaming(data.exam[i],data.id);
+        }
+        $('#edit_examing_part').waitMe('hide');
+        alert("สำเร็จ");
+        window.location.href = url+'/examingHistory';
+    }
+
+}
+
 function findExamingByNameAndGroup(name,GID) {
     var checked = false;
     $.ajax({
@@ -576,19 +631,6 @@ function findExamingByNameAndGroup(name,GID) {
         }
     });
     return checked;
-}
-
-function createExamExaming(examID,examingID) {
-    $.ajax({
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            Accept: "application/json"
-        },
-        url:url + '/createExamExaming',
-        data:{exam_id:examID,examing_id:examingID},
-        async: false,
-    });
 }
 
 function findExamingByUserID(UID) {
@@ -632,16 +674,31 @@ function deleteExaming(EMID) {
 
 function findExamingByID(EMID) {
     var examing = $.ajax({
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            headers: {
-                Accept: "application/json"
-            },
-            url:url + '/findExamingByID',
-            data:{id:EMID},
-            async: false,
-        }).responseJSON;
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findExamingByID',
+        data:{id:EMID},
+        async: false,
+    }).responseJSON;
     return examing;
+}
+
+//--------------------------- ExamExamingController ---------------------------
+
+function createExamExaming(examID,examingID) {
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/createExamExaming',
+        data:{exam_id:examID,examing_id:examingID},
+        async: false,
+    });
 }
 
 function findExamExamingByExamingID(EMID) {
@@ -656,46 +713,6 @@ function findExamExamingByExamingID(EMID) {
         async: false,
     }).responseJSON;
     return examExaming
-}
-
-function updateExaming(data) {
-    var updateExamingSuccess = false;
-     $.ajax ({
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            Accept: "application/json"
-        },
-        url: url + '/updateExaming',
-        data: data,
-        async: false,
-        complete: function (xhr) {
-            if (xhr.readyState == 4) {
-                if (xhr.status == 200) {
-                    updateExamingSuccess = true;
-                    // $('#add_exam_part').waitMe('hide');
-                    // alert("สำเร็จ");
-                    // window.location.href = url+'/exam';
-                } else {
-                    $('#edit_examing_part').waitMe('hide');
-                    alert("ผิดพลาด");
-                }
-
-            }
-        }
-    });
-    if (updateExamingSuccess) {
-        for(i=0;i<data.deleteExamExaming.length;i++){
-            daleteExamExaming(data.deleteExamExaming[i],data.id) ;
-        }
-        for(i=0;i<data.exam.length;i++){
-            updateExamExaming(data.exam[i],data.id);
-        }
-        $('#edit_examing_part').waitMe('hide');
-        alert("สำเร็จ");
-        window.location.href = url+'/examingHistory';
-    }
-
 }
 
 function updateExamExaming(examID,examingID) {
