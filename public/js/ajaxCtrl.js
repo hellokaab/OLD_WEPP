@@ -551,7 +551,7 @@ function createExaming(data) {
         }
         $('#open_exam_part').waitMe('hide');
         alert("สำเร็จ");
-        // window.location.href = url+'/myExam';
+        window.location.href = url+'/examingHistory';
     }
 
 }
@@ -628,4 +628,99 @@ function deleteExaming(EMID) {
             }
         }
     });
+}
+
+function findExamingByID(EMID) {
+    var examing = $.ajax({
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Accept: "application/json"
+            },
+            url:url + '/findExamingByID',
+            data:{id:EMID},
+            async: false,
+        }).responseJSON;
+    return examing;
+}
+
+function findExamExamingByExamingID(EMID) {
+    var examExaming =  $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findExamExamingByExamingID',
+        data:{examing_id:EMID},
+        async: false,
+    }).responseJSON;
+    return examExaming
+}
+
+function updateExaming(data) {
+    var updateExamingSuccess = false;
+     $.ajax ({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/updateExaming',
+        data: data,
+        async: false,
+        complete: function (xhr) {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    updateExamingSuccess = true;
+                    // $('#add_exam_part').waitMe('hide');
+                    // alert("สำเร็จ");
+                    // window.location.href = url+'/exam';
+                } else {
+                    $('#edit_examing_part').waitMe('hide');
+                    alert("ผิดพลาด");
+                }
+
+            }
+        }
+    });
+    if (updateExamingSuccess) {
+        for(i=0;i<data.deleteExamExaming.length;i++){
+            daleteExamExaming(data.deleteExamExaming[i],data.id) ;
+        }
+        for(i=0;i<data.exam.length;i++){
+            updateExamExaming(data.exam[i],data.id);
+        }
+        $('#edit_examing_part').waitMe('hide');
+        alert("สำเร็จ");
+        window.location.href = url+'/examingHistory';
+    }
+
+}
+
+function updateExamExaming(examID,examingID) {
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/updateExamExaming',
+        data:{exam_id:examID,examing_id:examingID},
+        async: false,
+    });
+}
+
+function daleteExamExaming(examID,examingID) {
+        $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/daleteExamExaming',
+        data:{exam_id:examID,examing_id:examingID},
+        async: false,
+    });
+
 }

@@ -102,7 +102,7 @@ app.controller('openExamCtrl', ['$scope', '$window', function ($scope, $window) 
                 user_id: $window.myuser.id,
                 examing_name: $scope.openExamName,
                 group_id: $scope.userGroupId,
-                exam: JSON.stringify($scope.selectExam),
+                exam: $scope.selectExam,
                 examing_mode: $scope.examingMode,
                 amount: $scope.examingMode === 'n' ? $scope.selectExam.length : $scope.amountExam,
                 start_date_time: dtJsToDtDB(dateBegin),
@@ -155,6 +155,10 @@ app.controller('openExamCtrl', ['$scope', '$window', function ($scope, $window) 
         d = dt[0].split('/');
         r = (d[2] - 543) + '-' + d[1] + '-' + d[0] + ' ' + dt[1];
         return r;
+    }
+    //----------------------------------------------------------------------
+    $scope.goBack = function () {
+        window.history.back();
     }
 
 }]);

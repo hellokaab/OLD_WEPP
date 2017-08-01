@@ -46,6 +46,19 @@ class ExamingController extends Controller
         return response()->json($examing);
     }
 
+    public  function  updateExaming(Request $request){
+        $examing = Examing::find($request->id);
+        $examing->group_id = $request->group_id;
+        $examing->examing_mode = $request->examing_mode;
+        $examing->amount = $request->amount;
+        $examing->start_date_time = $request->start_date_time;
+        $examing->end_date_time = $request->end_date_time;
+        $examing->examing_pass = $request->examing_pass;
+        $examing->examing_name = $request->examing_name;
+        $examing->ip_group = $request->ip_group;
+        $examing->save();
+    }
+
     public function examingHistory(){
         return view('pages/openExamHistory');
     }
@@ -56,6 +69,11 @@ class ExamingController extends Controller
             ->orderBy('end_date_time','ASC')
             ->orderBy('examing_name','ASC')
             ->get();
+        return response()->json($examing);
+    }
+
+    public function findExamingByID(Request $request){
+        $examing = Examing::find($request->id);
         return response()->json($examing);
     }
 

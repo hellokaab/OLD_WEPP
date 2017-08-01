@@ -52,6 +52,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="notice" id="notice_exam" style="display: none">กรุณาระบุข้อสอบที่ใช้ในการสอบ</div>
                             </div>
                         </div>
 
@@ -76,8 +77,8 @@
                         <div class="form-group" ng-show="examingMode === 'r'">
                             <label class="col-md-2 control-label">จำนวนข้อ: <b class="danger">*</b></label>
                             <div class="col-md-3">
-                                <select class="form-control">
-                                    <option value="<%a%>" ng-model="amountExam" ng-repeat="a in randomExam"><%a%></option>
+                                <select class="form-control" ng-model="amountExam">
+                                    <option value="<%a%>" ng-repeat="a in randomExam"><%a%></option>
                                 </select>
                             </div>
                         </div>
@@ -207,7 +208,7 @@
                                 <input type="button" class="btn btn-success btn-block" value="เปิดสอบ" ng-click="openExam()"/>
                             </div>
                             <div class="col-md-3">
-                                <a class="btn btn-danger btn-block" href="listOpenExam.php">ยกเลิก</a>
+                                <a class="btn btn-danger btn-block" ng-click="goBack()">ยกเลิก</a>
                             </div>
                         </div>
                     </div>

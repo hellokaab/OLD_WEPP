@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ExamExaming;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use App\Http\Requests;
 
@@ -19,6 +20,10 @@ class ExamExamingController extends Controller
         //
     }
 
+    public function findExamExamingByExamingID(Request $request){
+        $examExaming = ExamExaming::where('examing_id',$request->examing_id)->get();
+        return response()->json($examExaming);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -73,19 +78,26 @@ class ExamExamingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $examExaming = ExamExaming::where('exam_id',$request->exam_id)
+            ->where('examing_id',$request->examing_id)->first();
+        if($examExaming === NULL){
+            $newEEM = new ExamExaming;
+            $newEEM->exam_id = $request->exam_id;
+            $newEEM->examing_id = $request->examing_id;
+            $newEEM->save();
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+
+    public function destroy(Request $request)
     {
-        //
+        $examExaming = DB::table('exam_examings')
+            ->where('exam_id',$request->exam_id)
+            ->where('examing_id',$request->examing_id)
+            ->first();
+        $delEEM = ExamExaming::find($examExaming->id);
+        $delEEM->delete();
     }
 }

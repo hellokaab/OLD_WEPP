@@ -101,9 +101,15 @@ Route::get('/findExamSharedToMe', 'ShareExamController@findExamSharedToMe');
 
 Route::get('/createExaming', 'ExamingController@createExaming');
 
+Route::get('/updateExaming', 'ExamingController@updateExaming');
+
 Route::get('/findExamingByNameAndGroup', 'ExamingController@findExamingByNameAndGroup');
 
 Route::get('/createExamExaming', 'ExamExamingController@store');
+
+Route::get('/updateExamExaming', 'ExamExamingController@update');
+
+Route::get('/daleteExamExaming', 'ExamExamingController@destroy');
 
 Route::get('/examingHistory', 'ExamingController@examingHistory');
 
@@ -112,3 +118,7 @@ Route::get('/findExamingByUserID', 'ExamingController@findExamingByUserID');
 Route::get('/editOpenExam{id}', 'ExamingController@edit');
 
 Route::get('/deleteExaming', 'ExamingController@destroy');
+
+Route::get('/findExamingByID', 'ExamingController@findExamingByID');
+
+Route::get('/findExamExamingByExamingID', 'ExamExamingController@findExamExamingByExamingID');
