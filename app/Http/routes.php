@@ -19,21 +19,33 @@ Route::get('/index', function () {
     return view('pages/index');
 });
 
+//--------------------------- UserController ---------------------------
+
 Route::resource('/user', 'UserController');
 
 Route::get('/findByPersonalID','UserController@findByPersonalID' );
 
+Route::get('/findCreaterByPersonalID/{PID}', 'UserController@findCreaterByPersonalID');
+
+Route::get('/findTeacher', 'UserController@findTeacher');
+
+//--------------------------- GroupController ---------------------------
+
 Route::get('/group','GroupController@group' );
-
-Route::resource('/exam', 'ExamController');
-
-Route::get('/section/save', 'SectionController@store');
 
 Route::get('/addGroup', 'GroupController@ManageGroup');
 
-Route::get('/findAllExam', 'ExamController@findAllExam');
+Route::get('/Group/delete', 'GroupController@destroy');
 
-Route::get('/checkExamByName', 'ExamController@checkExamByName');
+Route::get('/Group/edit', 'GroupController@edit');
+
+Route::get('/findAllGroup', 'GroupController@findAllGroup');
+
+Route::get('/findMyGroup', 'GroupController@findMyGroup');
+
+//--------------------------- SectionController ---------------------------
+
+Route::get('/section/save', 'SectionController@store');
 
 Route::get('/findAllSection', 'SectionController@findAllSection');
 
@@ -43,6 +55,14 @@ Route::get('/section/edit', 'SectionController@edit');
 
 Route::get('/section/delete', 'SectionController@destroy');
 
+//--------------------------- ExamController ---------------------------
+
+Route::resource('/exam', 'ExamController');
+
+Route::get('/findAllExam', 'ExamController@findAllExam');
+
+Route::get('/checkExamByName', 'ExamController@checkExamByName');
+
 Route::get('/addExam{id}', 'ExamController@create');
 
 Route::get('/createTextFile', 'ExamController@createTextFile');
@@ -50,8 +70,6 @@ Route::get('/createTextFile', 'ExamController@createTextFile');
 Route::post('/uploadFile', 'ExamController@uploadFile');
 
 Route::get('/createExam', 'ExamController@store');
-
-Route::get('/Group/delete', 'GroupController@destroy');
 
 Route::get('/readFile', 'ExamController@readFile');
 
@@ -63,27 +81,9 @@ Route::get('/findExamByID/{id}', 'ExamController@show');
 
 Route::get('/updateExam', 'ExamController@update');
 
-Route::get('/Group/edit', 'GroupController@edit');
-
-Route::get('/findCreaterByPersonalID/{PID}', 'UserController@findCreaterByPersonalID');
-
-Route::get('/createKeyword', 'KeywordController@store');
-
-Route::get('/findKeywordByEID', 'KeywordController@findKeywordByEID');
-
-Route::get('/updateKeyword', 'KeywordController@update');
-
-Route::get('/deleteKeyword', 'KeywordController@destroy');
-
-Route::get('/findAllGroup', 'GroupController@findAllGroup');
-
-Route::get('/findMyGroup', 'GroupController@findMyGroup');
-
-Route::get('/openExam', 'ExamingController@index');
-
-Route::get('/findTeacher', 'UserController@findTeacher');
-
 Route::get('/myExam', 'ExamController@myExam');
+
+//--------------------------- ShareExamController ---------------------------
 
 Route::get('/createSharedExam', 'ShareExamController@store');
 
@@ -99,17 +99,25 @@ Route::get('/findSectionSharedNotMe', 'ShareExamController@findSectionSharedNotM
 
 Route::get('/findExamSharedToMe', 'ShareExamController@findExamSharedToMe');
 
+//--------------------------- KeywordController ---------------------------
+
+Route::get('/createKeyword', 'KeywordController@store');
+
+Route::get('/findKeywordByEID', 'KeywordController@findKeywordByEID');
+
+Route::get('/updateKeyword', 'KeywordController@update');
+
+Route::get('/deleteKeyword', 'KeywordController@destroy');
+
+//--------------------------- ExamingController ---------------------------
+
+Route::get('/openExam', 'ExamingController@index');
+
 Route::get('/createExaming', 'ExamingController@createExaming');
 
 Route::get('/updateExaming', 'ExamingController@updateExaming');
 
 Route::get('/findExamingByNameAndGroup', 'ExamingController@findExamingByNameAndGroup');
-
-Route::get('/createExamExaming', 'ExamExamingController@store');
-
-Route::get('/updateExamExaming', 'ExamExamingController@update');
-
-Route::get('/daleteExamExaming', 'ExamExamingController@destroy');
 
 Route::get('/examingHistory', 'ExamingController@examingHistory');
 
@@ -120,5 +128,13 @@ Route::get('/editOpenExam{id}', 'ExamingController@edit');
 Route::get('/deleteExaming', 'ExamingController@destroy');
 
 Route::get('/findExamingByID', 'ExamingController@findExamingByID');
+
+//--------------------------- ExamExamingController ---------------------------
+
+Route::get('/createExamExaming', 'ExamExamingController@store');
+
+Route::get('/updateExamExaming', 'ExamExamingController@update');
+
+Route::get('/daleteExamExaming', 'ExamExamingController@destroy');
 
 Route::get('/findExamExamingByExamingID', 'ExamExamingController@findExamExamingByExamingID');
