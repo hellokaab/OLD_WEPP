@@ -107,8 +107,8 @@
                     <table class="table table-hover">
                         <thead>
                         <tr>
-                            <th>โจทย์</th>
-                            <th></th>
+                            <th style="width: 60%">โจทย์</th>
+                            <th style="width: 40%"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -131,6 +131,11 @@
                             <td style="text-align: center" ng-show="e.user_id != thisUser.id">
                                 <a title="รายละเอียด" style="cursor:pointer;color: #337ab7">
                                     <i class="fa fa-tasks fa-lg" aria-hidden="true" ng-click="detailExam(e)"></i>
+                                </a>
+                                &nbsp;&nbsp;
+                                <a title="คัดลอกข้อสอบ" style="cursor:pointer;color: #5cb85c"
+                                   href="<%myUrl%>/copyExam<%e.id%>">
+                                    <i class="fa fa-clone fa-lg" aria-hidden="true"></i>
                                 </a>
                             </td>
                         </tr>

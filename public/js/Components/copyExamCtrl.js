@@ -1,16 +1,13 @@
-app.controller('editExamCtrl', ['$scope', '$window', function ($scope, $window) {
+app.controller('copyExamCtrl', ['$scope', '$window', function ($scope, $window) {
     // $scope.groups = $window.group_list;
     var newKeywords = new Array();
     $scope.examData = findExamByID(window.examId).responseJSON;
-    $scope.groupId = $scope.examData.section_id;
+    $scope.groupId = "0";
     $scope.keywords = window.keywords;
     $scope.thisUser = $window.myuser;
     $scope.teacher = findTeacher();
     $scope.sharedUser = findSharedUserNotMe($scope.examData.id,$scope.thisUser.id);
     $scope.selectTeacher = [];
-    var sharedUserToDelete = new Array();
-    setOldSharedUser();
-
     // console.log($scope.sharedUser);
 
     $scope.mySection = findMySection(myuser).responseJSON;
@@ -22,8 +19,6 @@ app.controller('editExamCtrl', ['$scope', '$window', function ($scope, $window) 
     $(document).ready(function () {
         // Exam group
         $('#ddl_group').val($scope.groupId);
-        // Checked Old Shared User
-        setCheckedOldSharedUser();
     });
     var fileData = readFile($scope.examData).responseJSON;
 
@@ -193,90 +188,18 @@ app.controller('editExamCtrl', ['$scope', '$window', function ($scope, $window) 
     };
 
     //----------------------------------------------------------------------
-    $scope.editKeyword = function (keywordId, content) {
-        $('#edit_modal').modal({backdrop: 'static'});
-        $('#notice_keyword').hide();
-        $scope.keyword = content;
-        $scope.keywordId = keywordId;
-    };
-    //----------------------------------------------------------------------
-    $scope.deleteKeyword = function (keywordId) {
-        $scope.keywordId = keywordId;
-        $('#delete_modal').modal({backdrop: 'static'});
-    };
-    //----------------------------------------------------------------------
-    $scope.okEditKeyword = function () {
-        if ($scope.keyword.length === 0) {
-            $('#notice_keyword').html('กรุณาระบุคีย์เวิร์ด').show();
-        } else {
-            $('#edit_keyword_part').waitMe({
-                effect: 'facebook',
-                bg: 'rgba(255,255,255,0.9)',
-                color: '#3bafda'
-            });
-            $.ajax({
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                headers: {
-                    Accept: "application/json"
-                },
-                url: url + '/updateKeyword',
-                data: {
-                    id: $scope.keywordId,
-                    keyword_data: $scope.keyword
-                },
-                async: false,
-                complete: function (xhr) {
-                    if (xhr.readyState == 4) {
-                        $('#edit_keyword_part').waitMe('hide');
-                        if (xhr.status == 200) {
-                            $scope.keywords = findKeywordByEID(window.examId);
-                            // $('#oldKeyword_' + $scope.keywordId).val($scope.keyword);
-                            $('#edit_modal').modal('hide');
-                        } else {
-                            alert("ผิดพลาด");
-                        }
-                    }
-                },
-            });
-        }
-    };
-    //----------------------------------------------------------------------
-    $scope.okDeleteKeyword = function () {
-        $('#delete_keyword_part').waitMe({
-            effect: 'facebook',
-            bg: 'rgba(255,255,255,0.9)',
-            color: '#3bafda'
-        });
-        $.ajax({
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            headers: {
-                Accept: "application/json"
-            },
-            url: url + '/deleteKeyword',
-            data: {id: $scope.keywordId},
-            async: false,
-            complete: function (xhr) {
-                if (xhr.readyState == 4) {
-                    $('#delete_keyword_part').waitMe('hide');
-                    if (xhr.status == 200) {
-                        $window.countOldKeyword--;
-                        $scope.keywords = findKeywordByEID(window.examId);
-                        // $('#oldKeyword_' + $scope.keywordId).parent().parent().hide();
-                        $('#delete_modal').modal('hide');
-
-                    } else {
-                        $('#delete_modal').modal('hide');
-                        alert("ผิดพลาด");
-                    }
-                }
-            },
-        });
-    };
-
-    //----------------------------------------------------------------------
     $scope.editExam = function () {
+        $('#notice_exam_descore').hide();
+        $('#notice_exam_score').hide();
+        $('#notice_exam_limit').hide();
+        $('#notice_exam_main_input').hide();
+        $('#notice_exam_txt_output').hide();
+        $('#notice_exam_file_output').hide();
+        $('#notice_exam_txt_input').hide();
+        $('#notice_exam_file_input').hide();
+        $('#notice_exam_content').hide();
+        $('#notice_exam_name').hide();
+        $('#notice_section').hide();
         $scope.completeExamName = $scope.examName.length > 0;
         if ($scope.completeExamName) {
             if ($scope.examName === $scope.examData.exam_name) {
@@ -287,6 +210,7 @@ app.controller('editExamCtrl', ['$scope', '$window', function ($scope, $window) 
 
         }
         $scope.completeExamContent = $('#exam_content').Editor("getText").length > 0;
+        $scope.completeSelectSection = $('#ddl_group').val() === '0' ? false : true ;
         $scope.completeInputMode = $scope.inputMode === 'no_input' ? true :
             $scope.inputMode === 'key_input' ? ($scope.input === '' ? false : true) :
                 $scope.inputMode === 'file_input' ? ($('[name=exam_file_input]').val() === '' ? false : checkTxtFile($('[name=exam_file_input]').val())) : false;
@@ -297,6 +221,7 @@ app.controller('editExamCtrl', ['$scope', '$window', function ($scope, $window) 
 
         if ($scope.completeExamName
             && $scope.completeNoDuplicate
+            && $scope.completeSelectSection
             && $scope.completeExamContent
             && $scope.completeInputMode
             && $scope.completeOutputMode
@@ -310,21 +235,13 @@ app.controller('editExamCtrl', ['$scope', '$window', function ($scope, $window) 
             && $scope.completeCutOverMem
             && $scope.completeCutOverTime) {
 
-            $('#edit_exam_part').waitMe({
+            $('#copy_exam_part').waitMe({
                 effect: 'facebook',
                 bg: 'rgba(255,255,255,0.9)',
                 color: '#3bafda'
             });
 
             createContentFile(escapeHtml($('#exam_content').Editor("getText")), function (content_part) {
-                for(i=0;i<$scope.sharedUser.length;i++){
-                    var UID = $scope.sharedUser[i].user_id;
-                    var indexOfStevie = $scope.selectTeacher.findIndex(i => i.id == UID);
-                    if(indexOfStevie == -1){
-                        sharedUserToDelete.push(UID)
-                    }
-                }
-
                 $scope.contentPart = content_part;
                 if ($scope.inputMode === 'no_input') {
                     $scope.inputPart = "";
@@ -343,7 +260,7 @@ app.controller('editExamCtrl', ['$scope', '$window', function ($scope, $window) 
                 }
                 getKeyword();
                 data = {
-                    id: $scope.examData.id,
+                    user_id: $window.myuser.id,
                     section_id: $('#ddl_group').val(),
                     exam_name: $scope.examName,
                     exam_data: $scope.contentPart,
@@ -360,11 +277,14 @@ app.controller('editExamCtrl', ['$scope', '$window', function ($scope, $window) 
                     main_code: $scope.main,
                     case_sensitive: $scope.classTestMode,
                     keyword: newKeywords,
-                    shared: $scope.selectTeacher,
-                    deleteShared:sharedUserToDelete,
                 };
-                console.log(data);
-                updateExam(data);
+                if($scope.selectTeacher.length>0){
+                    data.shared = $scope.selectTeacher;
+                } else {
+                    var share = new Array();
+                    data.shared = share;
+                }
+                createExam(data);
             });
 
         } else {
@@ -445,6 +365,11 @@ app.controller('editExamCtrl', ['$scope', '$window', function ($scope, $window) 
                 $('#notice_exam_name').html('* ข้อสอบนี้มีอยู่แล้ว').show();
                 $('[ng-model=examName]').focus();
             }
+
+            if (!$scope.completeSelectSection) {
+                $('#notice_section').html('* กรุณาเลือกกลุ่มข้อสอบ').show();
+                $('[ng-model=groupId]').focus();
+            }
         }
     };
     //----------------------------------------------------------------------
@@ -492,7 +417,10 @@ app.controller('editExamCtrl', ['$scope', '$window', function ($scope, $window) 
     //----------------------------------------------------------------------
     function getKeyword() {
         newKeywords = new Array();
-
+        $('[id^=old_keyword_]').each(function () {
+            if (this.value.length > 0)
+                newKeywords.push(this.value);
+        });
         $('[id^=exam_keyword_]').each(function () {
             if (this.value.length > 0)
                 newKeywords.push(this.value);
@@ -556,21 +484,6 @@ app.controller('editExamCtrl', ['$scope', '$window', function ($scope, $window) 
             });
         }
     });
-    //----------------------------------------------------------------------
-    function setOldSharedUser() {
-        for (i=0;i<$scope.sharedUser.length;i++){
-            var UID = $scope.sharedUser[i].user_id;
-            var indexOfStevie = $scope.teacher.findIndex(i => i.id == UID);
-            $scope.selectTeacher.push($scope.teacher[indexOfStevie]);
-        }
-    }
-    //----------------------------------------------------------------------
-    function setCheckedOldSharedUser() {
-        for (i=0;i<$scope.sharedUser.length;i++){
-            var UID = $scope.sharedUser[i].user_id;
-            $('#tea_'+UID)[0].checked = true;
-        }
-    }
     //----------------------------------------------------------------------
 }]);
 

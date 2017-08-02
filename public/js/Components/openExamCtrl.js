@@ -93,7 +93,7 @@ app.controller('openExamCtrl', ['$scope', '$window', function ($scope, $window) 
             dateEnd = new Date(dtPickerToDtJs($('#examingEnd').val()));
 
             $('#open_exam_part').waitMe({
-                effect: 'win8_linear',
+                effect: 'facebook',
                 bg: 'rgba(255,255,255,0.9)',
                 color: '#3bafda'
             });

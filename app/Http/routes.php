@@ -77,6 +77,8 @@ Route::get('/deleteExam/{id}', 'ExamController@destroy');
 
 Route::get('/editExam{id}', 'ExamController@edit');
 
+Route::get('/copyExam{id}', 'ExamController@copyExam');
+
 Route::get('/findExamByID/{id}', 'ExamController@show');
 
 Route::get('/updateExam', 'ExamController@update');

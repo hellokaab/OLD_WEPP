@@ -48,7 +48,7 @@ app.controller('myExamCtrl', ['$scope', '$window', function ($scope, $window) {
         };
         //----------------------------------------------------------------------
         $scope.editExamGroup = function (data) {
-            $scope.CurrentIndex = $scope.allSection.indexOf(data);
+            $scope.CurrentIndex = $scope.mySection.indexOf(data);
             $scope.examGroupName = data.section_name;
             $scope.groupId = data.id;
             $('#notice_edit_exam_grp').hide();

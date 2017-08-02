@@ -115,7 +115,7 @@ app.controller('editOpenExamingCtrl', ['$scope', '$window', function ($scope, $w
             dateEnd = new Date(dtPickerToDtJs($('#examingEnd').val()));
 
             $('#edit_examing_part').waitMe({
-                effect: 'win8_linear',
+                effect: 'facebook',
                 bg: 'rgba(255,255,255,0.9)',
                 color: '#3bafda'
             });
