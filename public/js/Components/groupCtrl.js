@@ -4,12 +4,19 @@ app.controller('groupCtrl', ['$scope', '$window', function ($scope, $window) {
     $scope.teacherId = $window.user_id;
     $scope.grouplist = $window.groupList;
     $scope.mygroup = $window.myGroupList;
+    console.log($scope.mygroup);
     $scope.thisUser = $window.myuser;
     $scope.groupId = 0;
+    $scope.queryBy = 'group_name';
+    $scope.selectRow = '5';
+    $scope.groupId = 0;
+    $scope.sortS = 'group_name';
+    $scope.sortC = 'group_admin';
 
     //----------------------------------------------------------------------
     $scope.changeGroup = function (data) {
-        $scope.groupId = data.user_group_id;
+        $scope.groupId = data.id;
+        $('#listNameGroup').removeAttr('style');
     };
     //----------------------------------------------------------------------
     $scope.detail = function (data) {
@@ -27,7 +34,7 @@ app.controller('groupCtrl', ['$scope', '$window', function ($scope, $window) {
     $scope.deleteGroup = function (data) {
         $scope.groupName = data.group_name;
         $scope.groupId = data.id;
-         /*$scope.CurrentIndex = $scope.groups.indexOf(data);
+        /*$scope.CurrentIndex = $scope.groups.indexOf(data);
          $scope.groupId = data.user_group_id;
          $scope.groupName = $scope.groups[$scope.CurrentIndex].group_name;*/
         $('#delete_grp_modal').modal({backdrop: 'static'});
@@ -61,7 +68,7 @@ app.controller('groupCtrl', ['$scope', '$window', function ($scope, $window) {
     //----------------------------------------------------------------------
     $scope.okDeleteGroup = function () {
         var dataGroup = {
-           id : $scope.groupId,
+            id : $scope.groupId,
         };
         $('#delete_group_part').waitMe({
             effect: 'win8_linear',
@@ -171,12 +178,14 @@ app.controller('groupCtrl', ['$scope', '$window', function ($scope, $window) {
         $('#notice_name_add_grp').hide();
         $('#notice_pass_add_grp').hide();
 
-        if ($scope.groupName.length > 0 && $scope.passwordGroup.length > 3 ) {
+        if ($scope.groupName.length > 0 && $scope.passwordGroup.length > 3) {
             var dataGroup = {
-                id : $scope.groupId,
+                id        : $scope.groupId,
                 group_name: $scope.groupName,
-                pass_name : $scope.passwordGroup
+                pass_name : $scope.passwordGroup,
+                user_id   :$scope.thisUser.id
             };
+            console.log(dataGroup);
             $('#editGroupPart').waitMe({
                 effect: 'win8_linear',
                 bg: 'rgba(255,255,255,0.9)',
@@ -217,7 +226,33 @@ app.controller('groupCtrl', ['$scope', '$window', function ($scope, $window) {
         }
     };
     //----------------------------------------------------------------------
-
+    $scope.changePlaceholder  = function (data) {
+        if($scope.queryBy === 'group_name'){
+            $('#txt_search')[0].placeholder = "ชื่อกลุ่มเรียน";
+        } else if($scope.queryBy === 'group_admin'){
+            $('#txt_search')[0].placeholder = "ผู้ดูแลกลุ่ม";
+        }
+    };
+    //----------------------------------------------------------------------
+    $scope.sort = function(keyname){
+        $scope.sortKey = keyname;   //set the sortKey to the param passed
+        if($scope.sortKey === 'group_name'){
+            $scope.reverseS = !$scope.reverseS; //if true make it false and vice versa
+            if($scope.sortS === 'group_name'){
+                $scope.sortS = '-group_name';
+            } else {
+                $scope.sortS = 'group_name';
+            }
+        } else {
+            $scope.reverseC = !$scope.reverseC; //if true make it false and vice versa
+            if($scope.sortC === 'group_admin'){
+                $scope.sortC = '-group_admin';
+            } else {
+                $scope.sortC = 'group_admin';
+            }
+        }
+    };
+    //----------------------------------------------------------------------
 
 }]);
 

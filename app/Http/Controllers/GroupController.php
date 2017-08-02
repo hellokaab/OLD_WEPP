@@ -36,7 +36,9 @@ class GroupController extends Controller
     }
     public function ManageGroup(Request $request)
     {
-        $findGroup = Group::where('group_name', $request->group_name)->first();
+        $findGroup = Group::where('group_name', $request->group_name)
+            ->where('user_id', $request->user_id)
+            ->first();
         if ($findGroup === NULL) {
             $group = new Group;
             $group->user_id = $request->user_id;
@@ -101,17 +103,25 @@ class GroupController extends Controller
      */
     public function edit(Request $request)
     {
-        $findSectionName = Group::where('group_name', $request->group_name)->first();
+        $findSectionName = Group::where('group_name', $request->group_name)
+            ->where('user_id', $request->user_id)
+            ->first();
         if ($findSectionName === NULL) {
             $group = Group::find($request->id);
             $group->group_name = $request->group_name;
+            $group->group_pass = $request->pass_name;
             $group->save();
-        } else {
-            return response()->json(['error' => 'Error msg'], 209);
+        } else{
+            if ($findSectionName->id == $request->id){
+                $group = Group::find($request->id);
+                $group->group_name = $request->group_name;
+                $group->group_pass = $request->pass_name;
+                $group->save();
+            } else {
+                return response()->json(['error' => 'Error msg'], 209);
+            }
         }
-        //
     }
-
     /**
      * Update the specified resource in storage.
      *

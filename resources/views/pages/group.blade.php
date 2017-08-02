@@ -8,103 +8,56 @@
         var myGroupList = findMyGroup(myuser).responseJSON;
     </script>
     <div ng-controller="groupCtrl" style="display: none" id="group_div">
+        <div class="col-lg-12">
         <div class="panel panel-default ">
             <div class="panel-heading"><b>กลุ่มเรียน</b>
                 <a href="" ng-click="addGroup()"><i class="fa fa-plus" style="float: right"> เพิ่มกลุ่มเรียน</i></a>
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <div class="form-group">
-                            <label class="col-md-2" style="margin-top: 7px">แสดง</label>
-                            <div class="col-md-2" style="padding: 0px">
-                                <select class="form-control">
+                            <label class="col-md-1 col-xs-2 control-label" style="margin-top: 7px">ค้นหา</label>
+                            <div class="col-md-4 col-xs-4" style="padding-left: 4px">
+                                <input type="text" id="txt_search" class="form-control" ng-model="query[queryBy]"
+                                       placeholder="ชื่อกลุ่มเรียน">
+                            </div>
+                        </div>
+                    </div>
+                    {{--    ---------------select--------------- --}}
+                    <div class="col-md-4 col-xs-12" style="text-align:center">
+                        <div class="form-group">
+                            <label class="col-md-offset-4 col-md-2 col-xs-2 control-label " style="margin-top: 7px" >แสดง</label>
+                            <div class="col-md-4 col-xs-8"  style="padding-right: 0px;">
+                                <select class="form-control" ng-model="selectRow">
+                                    <option value="5">5</option>
                                     <option value="10">10</option>
                                     <option value="25">25</option>
                                     <option value="50">50</option>
                                     <option value="100">100</option>
                                 </select>
                             </div>
-                            <label class="col-md-2" style="margin-top: 7px">แถว</label>
+                            <label class="col-md-2 col-xs-4" style="margin-top: 7px">แถว</label>
                         </div>
-                    </div>
-                    <div class="col-md-6" style="text-align: right">
-                        <div class="form-group">
-                            <label class="col-md-offset-2 col-md-4 col-xs-4 control-label"
-                                   style="margin-top: 7px;padding-right: 0px">ค้นหา :</label>
-                            <div class="col-md-6 col-xs-6">
-                                <input type="text" class="form-control" ng-model="searchText"
-                                       placeholder="ชื่อกลุ่มเรียน">
-                            </div>
-                        </div>
-                        {{--<div class="text-right">--}}
-                        {{--<label>ค้นหา : <input type="search" class="form-control" ng-model="searchText"></label>--}}
-                        {{--</div>--}}
-                    </div>
+                    </div> {{--    -------------End-select--------------- --}}
                 </div>
                 {{---=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=--}}
                 <br/>
-                <ul class="nav nav-tabs">
-                    <li class="active"><a href="#allGroup">กลุ่มเรียนทั้งหมด</a></li>
-                    <li><a href="#myGroup">กลุ่มของฉัน</a></li>
-                </ul>
-
-                {{--tab content--}}
-                <div class="tab-content">
-                    <div id="allGroup" class="tab-pane fade in active">
                         <div class="row">
                             <div class="col-lg-12">
                                 <table class="table table-striped">
                                     <thead>
                                     <tr>
-                                        <th>ชื่อกลุ่มเรียน</th>
-                                        <th>ผู้ดูแลกลุ่ม</th>
-                                        <th>แก้ไข</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr ng-show="grouplist.length > 0" ng-repeat="m in grouplist">
-                                        <td><%m.group_name%></td>
-                                        <td><%m.prefix+m.fname_th+" "+m.lname_th%></td>
-                                        <td ng-hide="m.user_id == thisUser.id"></td>
-                                        <td ng-show="m.user_id == thisUser.id">
-                                            <a title="แก้ไขกลุ่มเรียน" style="cursor:pointer;color: #f0ad4e">
-                                                <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"
-                                                   data-toggle="modal" ng-click="editGroup(m)"></i>
-                                            </a>
-                                            &nbsp;&nbsp;
-                                            <a title="ลบกลุ่มเรียน" style="cursor:pointer;color: #d9534f">
-                                                <i class="fa fa-trash fa-lg" aria-hidden="true" data-toggle="modal"
-                                                   ng-click="deleteGroup(m)"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr ng-hide="grouplist.length > 0">
-                                        <td>ไม่พบข้อมูล</td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="myGroup" class="tab-pane fade">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <table class="table table-striped">
-                                    <thead>
-                                    <tr>
-                                        <th>ชื่อกลุ่มเรียน</th>
+                                        <th ng-click="sort('group_name')" style="cursor:pointer">ชื่อกลุ่มเรียน  <i class="fa" ng-show="sortKey=='group_name'" ng-class="{'fa-chevron-up':reverseS,'fa-chevron-down':!reverseS}"></i></th>
                                         <th>ผู้ดูแลกลุ่ม</th>
                                         <th>แก้ไข</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     {{--@forelse($group as $name)--}}
-                                    <tr ng-repeat="m in mygroup">
-                                        <td><%m.group_name%></td>
-                                        <td><%m.prefix+m.fname_th+" "+m.lname_th%></td>
+                                    <tr ng-show="mygroup.length > 0" dir-paginate="m in mygroup|orderBy:[sortC,sortS]|filter:query|itemsPerPage:selectRow">
+                                        <td><a href="#listNameGroup" ng-click="changeGroup(m)"><%m.group_name%></a></td>
+                                        <td>อ.<%m.fname_th+" "+m.lname_th%></td>
                                         <td ng-hide="m.user_id == thisUser.id"></td>
                                         <td ng-show="m.user_id == thisUser.id">
                                             <a title="แก้ไขกลุ่มเรียน" style="cursor:pointer;color: #f0ad4e">
@@ -118,23 +71,67 @@
                                             </a>
                                         </td>
                                     </tr>
-                                    {{-- @empty--}}
-                                    {{-- <tr>
-                                         <td colspan="6">No data </td>
-                                     </tr>--}}
-                                    {{--  @endforelse--}}
+                                    <tr ng-hide="mygroup.length > 0">
+                                        <td>ไม่พบข้อมูล</td>
+                                    </tr>
                                     </tbody>
+
                                 </table>
+                                <dir-pagination-controls
+                                        max-size="5"
+                                        direction-links="true"
+                                        boundary-links="true" >
+                                </dir-pagination-controls>
                             </div>
                         </div>
-                    </div>
-
-                </div> {{--End tab content--}}
             </div>
             <div class="panel-footer" id="move">
                 <b class="notice">*</b> คลิกที่ชื่อกลุ่มเรียนเพื่อดูรายชื่อผู้นักศึกษา
             </div>
         </div>
+
+        {{------------------------------listNameGroup--------------------------------------}}
+        <div id="listNameGroup" style="display: none">
+            <div class="panel panel-default" ng-repeat="m in grouplist" ng-hide="groupId != <%m.id%>">
+                <div class="panel-heading">
+                    รายชื่อนักศึกษาในกลุ่มเรียน ( <%m.group_name%> )
+                </div>
+                <div class="panel-body">
+                    <div class="dataTable_wrapper">
+                        <table class="table table-striped table-hover tableStudent">
+                            <thead>
+                            <tr>
+                                <th>รหัสนักศึกษา</th>
+                                <th>ชื่อ-นามสกุล</th>
+                                <th>สาขา</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                            </tr>
+                            {{--<tr ng-repeat="s in (students| filter: {user_group_id: g.user_group_id} )">--}}
+                            {{--<td>{{s.card_id.substr(0, 12) + '-' + s.card_id[12]}}</td>--}}
+                            {{--<td>{{s.pre_name + s.fname + ' ' + s.lname}}</td>--}}
+                            {{--<td>{{s.dep_name}}</td>--}}
+                            {{--<td class="text-right">--}}
+                            {{--<a class="info" title="รายละเอียด" style="cursor:pointer">--}}
+                            {{--<span class="glyphicon glyphicon-th-list" data-toggle="modal" ng-click="detail(s)"></span>--}}
+                            {{--</a>--}}
+                            {{--<a class="danger" title="ลบ" style="cursor:pointer">--}}
+                            {{--<span class="glyphicon glyphicon-remove" data-toggle="modal" ng-click="delete(s)"></span>--}}
+                            {{--</a>--}}
+                            {{--</td>--}}
+                            {{--</tr>--}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        {{--------------------------END----listNameGroup--------------------------------------}}
+
 
     <!-- Add Group Modal -->
         <div class="modal fade" id="add_modal" role="dialog">
@@ -177,7 +174,7 @@
                 </div>
             </div>
         </div>
-    {{--end--}}
+        {{--end--}}
 
     <!-- Delete Group Modal -->
         <div class="modal fade" id="delete_grp_modal" role="dialog">
