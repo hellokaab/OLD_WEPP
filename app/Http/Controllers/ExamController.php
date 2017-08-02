@@ -102,6 +102,13 @@ class ExamController extends Controller
         return view('pages/addExam',$data);
     }
 
+    public function copyExam($id){
+        $data = array(
+            'examId' => $id
+        );
+        return view('pages/copyExam',$data);
+    }
+
 
     public function store(Request $request)
     {
