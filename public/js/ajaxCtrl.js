@@ -741,3 +741,43 @@ function daleteExamExaming(examID,examingID) {
     });
 
 }
+
+//--------------------------- JoinGroupController ---------------------------
+
+function checkJoinGroup(UID,GID) {
+    var checker = true
+    var test = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/checkJoinGroup',
+        data:{user_id:UID,group_id:GID},
+        async: false,
+        complete: function (xhr) {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    checker = true;
+                }  else {
+                    checker = false;
+                }
+            }
+        }
+    });
+    console.log(test);
+    return checker;
+}
+
+function createJoinGroup(UID,GID) {
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/createJoinGroup',
+        data:{user_id:UID,group_id:GID},
+        async: false,
+    });
+}

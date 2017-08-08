@@ -46,7 +46,6 @@
                                     </select>
                                 </div>
                                 <label class="col-md-2 col-xs-2 control-label" style="margin-top: 14px">แถว</label>
-
                         </div>
                     </div>
                     <br>
@@ -54,7 +53,7 @@
                         <thead>
                         <tr>
                             <th ng-click="sort('section_name')" style="cursor:pointer">กลุ่มข้อสอบ  <i class="fa" ng-show="sortKey=='section_name'" ng-class="{'fa-chevron-up':reverseS,'fa-chevron-down':!reverseS}"></i></th>
-                            <th ng-click="sort('creater')" style="cursor:pointer">ผู้สร้างกลุ่มข้อสอบ  <i class="fa" ng-show="sortKey=='creater'" ng-class="{'fa-chevron-up':reverseC,'fa-chevron-down':!reverseC}"></th>
+                            <th ng-click="sort('creater')" style="cursor:pointer">ผู้สร้างกลุ่มข้อสอบ  <i class="fa" ng-show="sortKey=='creater'" ng-class="{'fa-chevron-up':reverseC,'fa-chevron-down':!reverseC}"></i></th>
                             <th></th>
                         </tr>
                         </thead>

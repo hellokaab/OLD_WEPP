@@ -43,6 +43,8 @@ Route::get('/findAllGroup', 'GroupController@findAllGroup');
 
 Route::get('/findMyGroup', 'GroupController@findMyGroup');
 
+Route::get('/stdGroup', 'GroupController@stdGroup');
+
 //--------------------------- SectionController ---------------------------
 
 Route::get('/section/save', 'SectionController@store');
@@ -140,3 +142,9 @@ Route::get('/updateExamExaming', 'ExamExamingController@update');
 Route::get('/daleteExamExaming', 'ExamExamingController@destroy');
 
 Route::get('/findExamExamingByExamingID', 'ExamExamingController@findExamExamingByExamingID');
+
+//--------------------------- JoinGroupController ---------------------------
+
+Route::get('/checkJoinGroup', 'JoinGroupController@checkJoinGroup');
+
+Route::get('/createJoinGroup', 'JoinGroupController@store');

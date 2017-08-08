@@ -17,7 +17,7 @@ class GroupController extends Controller
     {
         $groupList = DB::table('groups')
             ->join('users', 'groups.user_id', '=', 'users.id')
-            ->select('groups.*', 'users.prefix','users.fname_th','users.lname_th')
+            ->select('groups.*', DB::raw('CONCAT("อ.",users.fname_th," ", users.lname_th) AS creater'))
             ->orderBy('fname_th','ASC')
             ->orderBy('group_name','ASC')
             ->get();
@@ -58,6 +58,11 @@ class GroupController extends Controller
         );
         return view('pages.group',$data);
     }
+
+    public function stdGroup(){
+        return view('pages.stdGroup');
+    }
+
     public function index()
     {
         //
