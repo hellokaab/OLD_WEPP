@@ -44,7 +44,7 @@ app.controller('stdGroupCtrl', ['$scope', '$window', function ($scope, $window) 
         var checkJoin = checkJoinGroup($scope.thisUser.id,group.id);
         console.log(checkJoin);
         if(checkJoin){
-            window.location.href = url+"/index";
+            window.location.href = url+"/inGroup"+$scope.groupID;
         } else {
             $('#join_group_modal').modal({backdrop: 'static'});
         }
@@ -59,7 +59,7 @@ app.controller('stdGroupCtrl', ['$scope', '$window', function ($scope, $window) 
                 color: '#3bafda'
             });
             createJoinGroup($scope.thisUser.id,$scope.groupID);
-            window.location.href = url+"/index";
+            window.location.href = url+"/inGroup"+$scope.groupID;
         } else {
             $('#notice_pass_grp').html('* รหัสผ่านไม่ถูกต้อง').show();
             $('[ng-model=joinPass]').focus();

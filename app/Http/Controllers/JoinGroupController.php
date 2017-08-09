@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\JoinGroup;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use App\Http\Requests;
 
@@ -21,6 +22,22 @@ class JoinGroupController extends Controller
         if($join === NULL){
             return response()->json(['error' => 'Error msg'], 209);
         }
+    }
+
+    public function findMemberGroup(Request $request){
+        $memberList = DB::table('join_groups')
+            ->join('users', 'join_groups.user_id', '=', 'users.id')
+            ->select('join_groups.*', DB::raw('CONCAT(users.prefix,users.fname_th," ", users.lname_th) AS fullName'),'users.stu_id')
+            ->where('join_groups.group_id',$request->group_id)
+            ->orderBy('stu_id','ASC')
+            ->get();
+        return response()->json($memberList);
+    }
+
+    public function exitGroup(Request $request){
+        $join = JoinGroup::where('user_id',$request->user_id)
+            ->where('group_id',$request->group_id)->first();
+        $join->delete();
     }
 
 

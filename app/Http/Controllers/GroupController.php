@@ -63,6 +63,22 @@ class GroupController extends Controller
         return view('pages.stdGroup');
     }
 
+    public function inGroup($id){
+        $data = array(
+            'groupID' => $id
+        );
+        return view('pages/inGroup',$data);
+    }
+
+    public function findGroupDataByID(Request $request){
+        $groupData = DB::table('groups')
+            ->join('users', 'groups.user_id', '=', 'users.id')
+            ->select('groups.*', DB::raw('CONCAT("อ.",users.fname_th," ", users.lname_th) AS creater'))
+            ->where('groups.id',$request->id)
+            ->first();
+        return response()->json($groupData);
+    }
+
     public function index()
     {
         //
