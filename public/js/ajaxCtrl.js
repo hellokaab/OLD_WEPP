@@ -99,6 +99,21 @@ function findMyGroup(data) {
     return groupMyData;
 }
 
+function findGroupDataByID(id) {
+    var groupData = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/findGroupDataByID',
+        data: {id: id},
+        async: false,
+    }).responseJSON;
+    return groupData;
+
+}
+
 //--------------------------- SectionController ---------------------------
 
 function findAllSection() {
@@ -779,5 +794,42 @@ function createJoinGroup(UID,GID) {
         url:url + '/createJoinGroup',
         data:{user_id:UID,group_id:GID},
         async: false,
+    });
+}
+
+function findMemberGroup(GID) {
+    var member = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findMemberGroup',
+        data:{group_id:GID},
+        async: false,
+    }).responseJSON;
+    return member;
+}
+
+function exitGroup(UID,GID) {
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/exitGroup',
+        data:{user_id:UID,group_id:GID},
+        async: false,
+        complete: function (xhr) {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    window.location.href = url+'/stdGroup';
+                }  else {
+                    $('#join_group_part').waitMe('hide');
+                    alert("ผิดพลาด");
+                }
+            }
+        }
     });
 }

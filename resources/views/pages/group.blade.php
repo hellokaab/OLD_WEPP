@@ -324,6 +324,5 @@
                 });
             });
         </script>
-        <script src="js/Components/groupCtrl.js"></script>
     </div>
 @endsection

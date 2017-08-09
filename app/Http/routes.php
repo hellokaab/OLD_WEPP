@@ -45,6 +45,10 @@ Route::get('/findMyGroup', 'GroupController@findMyGroup');
 
 Route::get('/stdGroup', 'GroupController@stdGroup');
 
+Route::get('/inGroup{id}', 'GroupController@inGroup');
+
+Route::get('/findGroupDataByID', 'GroupController@findGroupDataByID');
+
 //--------------------------- SectionController ---------------------------
 
 Route::get('/section/save', 'SectionController@store');
@@ -148,3 +152,7 @@ Route::get('/findExamExamingByExamingID', 'ExamExamingController@findExamExaming
 Route::get('/checkJoinGroup', 'JoinGroupController@checkJoinGroup');
 
 Route::get('/createJoinGroup', 'JoinGroupController@store');
+
+Route::get('/findMemberGroup', 'JoinGroupController@findMemberGroup');
+
+Route::get('/exitGroup', 'JoinGroupController@exitGroup');
