@@ -40,6 +40,22 @@ class JoinGroupController extends Controller
         $join->delete();
     }
 
+    public function stdMyGroup(){
+        return view('pages/stdMyGroup');
+    }
+
+    public function findMyJoinGroup(Request $request){
+        $myGroup = DB::table('join_groups')
+            ->join('groups', 'join_groups.group_id', '=', 'groups.id')
+            ->join('users', 'groups.user_id', '=', 'users.id')
+            ->select('join_groups.*','groups.group_name', DB::raw('CONCAT("อ.",users.fname_th," ", users.lname_th) AS creater'))
+            ->where('join_groups.user_id',$request->user_id)
+            ->orderBy('fname_th','ASC')
+            ->orderBy('group_name','ASC')
+            ->get();
+        return response()->json($myGroup);
+    }
+
 
     public function create()
     {

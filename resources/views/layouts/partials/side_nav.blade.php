@@ -96,7 +96,7 @@
                 <ul class="list-unstyled main-menu" id="_menu_std_group" z="user-managed=">
                     <li role="presentation">
                         <a href="<%myUrl%>/stdGroup">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;กลุ่มเรียนทั้งหมด</a>
-                        <a href="#">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;กลุ่มเรียนของฉัน</a>
+                        <a href="<%myUrl%>/stdMyGroup">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;กลุ่มเรียนของฉัน</a>
                     </li>
                 </ul>
             </div>

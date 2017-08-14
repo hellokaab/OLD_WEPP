@@ -833,3 +833,17 @@ function exitGroup(UID,GID) {
         }
     });
 }
+
+function findMyJoinGroup(UID) {
+    var myGroup = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findMyJoinGroup',
+        data:{user_id:UID},
+        async: false,
+    }).responseJSON;
+    return myGroup
+}
