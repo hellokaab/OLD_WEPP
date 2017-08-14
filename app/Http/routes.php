@@ -156,3 +156,7 @@ Route::get('/createJoinGroup', 'JoinGroupController@store');
 Route::get('/findMemberGroup', 'JoinGroupController@findMemberGroup');
 
 Route::get('/exitGroup', 'JoinGroupController@exitGroup');
+
+Route::get('/stdMyGroup', 'JoinGroupController@stdMyGroup');
+
+Route::get('/findMyJoinGroup', 'JoinGroupController@findMyJoinGroup');
