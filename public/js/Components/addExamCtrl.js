@@ -215,7 +215,7 @@ app.controller('addExamCtrl', ['$scope', '$window', function ($scope, $window) {
                     cut_overmemory: $scope.cutOverMem,
                     cut_overtime: $scope.cutOverTime,
                     main_code: $scope.main,
-                    case_sensitive: $scope.classTestMode,
+                    case_sensitive: $scope.casesensitive,
                     keyword: keywords,
                 };
                 if($scope.selectTeacher.length>0){

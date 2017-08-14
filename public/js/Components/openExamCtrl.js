@@ -15,6 +15,8 @@ app.controller('openExamCtrl', ['$scope', '$window', function ($scope, $window) 
     $scope.gatewayIp = '';
     $scope.subnetmask = '/32';
     $scope.allowNetwork = '';
+    $scope.hiddenMode = '0';
+    $scope.historyMode = '0';
 
     $scope.selectExam = [];
     $scope.randomExam = [];
@@ -108,7 +110,9 @@ app.controller('openExamCtrl', ['$scope', '$window', function ($scope, $window) 
                 start_date_time: dtJsToDtDB(dateBegin),
                 end_date_time: dtJsToDtDB(dateEnd),
                 examing_pass: $scope.examingPassword,
-                ip_group: $scope.allowNetwork
+                ip_group: $scope.allowNetwork,
+                hide_examing : $scope.hiddenMode,
+                hide_history : $scope.historyMode,
             }
             createExaming(data);
             

@@ -25,6 +25,8 @@ class CreateExamingsTable extends Migration
             $table->string('examing_pass',8)->nullable();
             $table->string('examing_name');
             $table->string('ip_group',100)->nullable();
+            $table->enum('hide_examing',['0','1']);
+            $table->enum('hide_history',['0','1']);
             $table->timestamps();
         });
     }

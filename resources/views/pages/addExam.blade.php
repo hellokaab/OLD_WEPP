@@ -236,11 +236,17 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr ng-repeat="t in teacher" ng-if="t.id != thisUser.id">
+                                                    <tr ng-repeat="t in teacher" ng-if="t.id != thisUser.id" ng-show="teacher.length > 1">
                                                         <td><input type="checkbox" id="tea_<%t.id%>"> </td>
                                                         <td ng-click="ticExam(t.id)"><%t.fullname%></td>
                                                         <td ng-click="ticExam(t.id)"><%t.faculty%></td>
                                                         <td ng-click="ticExam(t.id)"><%t.department%></td>
+                                                    </tr>
+                                                    <tr ng-hide="teacher.length > 1">
+                                                        <td></td>
+                                                        <td>ไม่พบข้อมูล</td>
+                                                        <td></td>
+                                                        <td></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
