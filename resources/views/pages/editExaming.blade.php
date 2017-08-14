@@ -200,6 +200,40 @@
 
                             </div>
                         </div>
+
+                        {{--Hide Examing--}}
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">แสดงในกลุ่มเรียน:</label>
+                            <div class="col-md-8">
+                                <div class="radio">
+                                    <div class="col-md-2">
+                                        <input type="radio" name="hide_examing" id="hide_ex" value="0" ng-model="hiddenMode">
+                                        <label for="hide_ex">ซ่อน</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="radio" name="hide_examing" id="show_ex" value="1" ng-model="hiddenMode">
+                                        <label for="show_ex">แสดง</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{--History Examing--}}
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">เข้าถึงประวัติการสอบ:</label>
+                            <div class="col-md-8">
+                                <div class="radio">
+                                    <div class="col-md-2">
+                                        <input type="radio" name="hide_history" id="hide_his" value="0" ng-model="historyMode">
+                                        <label for="hide_his">อนุญาต</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="radio" name="hide_history" id="show_his" value="1" ng-model="historyMode">
+                                        <label for="show_his">ไม่อนุญาต</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <br>
                         <br>
 

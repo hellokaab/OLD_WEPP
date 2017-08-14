@@ -18,6 +18,8 @@ app.controller('editOpenExamingCtrl', ['$scope', '$window', function ($scope, $w
     $scope.gatewayIp = '';
     $scope.subnetmask = '/32';
     $scope.allowNetwork = $scope.examing.ip_group;
+    $scope.hiddenMode = $scope.examing.hide_examing;
+    $scope.historyMode = $scope.examing.hide_history;
 
     $scope.selectExam = [];
     for (i = 0; i < $scope.examExamings.length; i++)
@@ -140,7 +142,9 @@ app.controller('editOpenExamingCtrl', ['$scope', '$window', function ($scope, $w
                 end_date_time: dtJsToDtDB(dateEnd),
                 examing_pass: $scope.examingPassword,
                 ip_group: $scope.allowNetwork,
-                deleteExamExaming:deleteExamExaming
+                deleteExamExaming:deleteExamExaming,
+                hide_examing : $scope.hiddenMode,
+                hide_history : $scope.historyMode,
             }
             updateExaming(data);
 
