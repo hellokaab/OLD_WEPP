@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Examing;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use App\Http\Requests;
 
@@ -78,6 +79,17 @@ class ExamingController extends Controller
 
     public function findExamingByID(Request $request){
         $examing = Examing::find($request->id);
+        return response()->json($examing);
+    }
+
+    public function findExaminhItsComing(Request $request){
+        $examing = Examing::where('group_id',$request->group_id)
+            ->where('end_date_time','>',DB::raw('NOW()'))
+            ->where('hide_examing','1')
+            ->orderBy('start_date_time','ASC')
+            ->orderBy('end_date_time','ASC')
+            ->orderBy('examing_name','ASC')
+            ->get();
         return response()->json($examing);
     }
 

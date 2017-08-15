@@ -701,6 +701,20 @@ function findExamingByID(EMID) {
     return examing;
 }
 
+function findExaminhItsComing(GID) {
+    var examing = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findExaminhItsComing',
+        data:{group_id:GID},
+        async: false,
+    }).responseJSON;
+    return examing;
+}
+
 //--------------------------- ExamExamingController ---------------------------
 
 function createExamExaming(examID,examingID) {

@@ -137,6 +137,8 @@ Route::get('/deleteExaming', 'ExamingController@destroy');
 
 Route::get('/findExamingByID', 'ExamingController@findExamingByID');
 
+Route::get('/findExaminhItsComing', 'ExamingController@findExaminhItsComing');
+
 //--------------------------- ExamExamingController ---------------------------
 
 Route::get('/createExamExaming', 'ExamExamingController@store');

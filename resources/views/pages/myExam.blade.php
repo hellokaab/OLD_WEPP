@@ -10,10 +10,10 @@
         {{--Exam Group List--}}
         <div class="col-lg-12">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <b style="color: #555">กลุ่มข้อสอบของฉัน</b>
-                    <a href="" ng-click="addExamGroup()" style="float: right"><i class="fa fa-plus"></i>
-                        เพิ่มกลุ่มข้อสอบ</a>
+                <div class="panel-heading" style="height: 51px">
+                    <label style="color: #555;font-size: 18px;padding-top: 5px">กลุ่มข้อสอบของฉัน</label>
+                    <button class="btn btn-sm btn-outline-success" href="" ng-click="addExamGroup()" style="float: right"><i class="fa fa-plus"></i>
+                        เพิ่มกลุ่มข้อสอบ</button>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -57,15 +57,13 @@
                             <td style="width: 40%;"><%g.creater%></td>
                             <td ng-hide="g.user_id == thisUser.id"></td>
                             <td ng-show="g.user_id == thisUser.id" style="text-align: center;width: 20%">
-                                <a title="แก้ไขกลุ่มข้อสอบ" style="cursor:pointer;color: #f0ad4e">
-                                    <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"
-                                       ng-click="editExamGroup(g)"></i>
-                                </a>
+                                <button class="btn btn-outline-warning" title="แก้ไขกลุ่มข้อสอบ" style="cursor:pointer" ng-click="editExamGroup(g)">
+                                    <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
+                                </button>
                                 &nbsp;&nbsp;
-                                <a title="ลบกลุ่มข้อสอบ" style="cursor:pointer;color: #d9534f">
-                                    <i class="fa fa-trash fa-lg" aria-hidden="true"
-                                       ng-click="deleteExamGroup(g)"></i>
-                                </a>
+                                <button class="btn btn-outline-danger" title="ลบกลุ่มข้อสอบ" style="cursor:pointer" ng-click="deleteExamGroup(g)">
+                                    <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+                                </button>
                             </td>
                         </tr>
                         <tr ng-hide="mySection.length > 0">
@@ -88,12 +86,12 @@
         </div>
 
         {{--Exam List--}}
-        <div class="col-lg-6" id="divExamList" style="display: none">
+        <div class="col-lg-7" id="divExamList" style="display: none">
             <div class="panel panel-default" ng-repeat="g in mySection" ng-hide="groupId != <%g.id%>">
-                <div class="panel-heading">
-                    <b style="color: #555"><%g.section_name%></b>
-                    <a ng-hide="<%g.user_id%> != thisUser.id" href="<%myUrl%>/addExam<%groupId%>" style="float: right"><i class="fa fa-plus"></i>
-                        เพิ่มข้อสอบ</a>
+                <div class="panel-heading" style="height: 51px">
+                    <label style="color: #555;padding-top: 5px"><%g.section_name%></label>
+                    <button class="btn btn-sm btn-outline-success" ng-hide="<%g.user_id%> != thisUser.id" ng-click="addExam()" style="float: right"><i class="fa fa-plus"></i>
+                        เพิ่มข้อสอบ</button>
                 </div>
                 <div class="panel-body">
                     <table class="table table-hover">
@@ -106,19 +104,18 @@
                         <tbody>
                         <tr ng-repeat="e in exams" ng-if="e.section_id === g.id">
                             <td><a href="" ng-click="detailExam(e)"><%e.exam_name%></a></td>
-                            <td style="text-align: right" ng-hide="e.user_id != thisUser.id">
-                                <a title="รายละเอียด" style="cursor:pointer;color: #337ab7">
-                                    <i class="fa fa-tasks fa-lg" aria-hidden="true" ng-click="detailExam(e)"></i>
-                                </a>
-                                &nbsp;&nbsp;
-                                <a title="แก้ไขข้อสอบ" style="cursor:pointer;color: #f0ad4e"
-                                   href="<%myUrl%>/editExam<%e.id%>">
+                            <td style="text-align: center;width: 30%" ng-hide="e.user_id != thisUser.id">
+                                <button class="btn btn-outline-primary btn-sm" title="รายละเอียด" style="cursor:pointer" ng-click="detailExam(e)">
+                                    <i class="fa fa-tasks fa-lg" aria-hidden="true"></i>
+                                </button>
+                                &nbsp;
+                                <button class="btn btn-outline-warning btn-sm" title="แก้ไขข้อสอบ" style="cursor:pointer" ng-click="editExam(e)">
                                     <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
-                                </a>
-                                &nbsp;&nbsp;
-                                <a title="ลบข้อสอบ" style="cursor:pointer;color: #d9534f">
-                                    <i class="fa fa-trash fa-lg" aria-hidden="true" ng-click="deleteExam(e)"></i>
-                                </a>
+                                </button>
+                                &nbsp;
+                                <button class="btn btn-outline-danger btn-sm" title="ลบข้อสอบ" style="cursor:pointer" ng-click="deleteExam(e)">
+                                    <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+                                </button>
                             </td>
                             <td style="text-align: center" ng-show="e.user_id != thisUser.id">
                                 <a title="รายละเอียด" style="cursor:pointer;color: #337ab7">
@@ -137,9 +134,9 @@
         <div class="modal fade" id="add_exam_group_modal" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="panel panel-default" id="add_exam_group_part" style="margin-bottom: 0">
+                    <div class="panel panel-success" id="add_exam_group_part" style="margin-bottom: 0">
                         <div class="panel-heading">
-                            <h3 class="panel-title" style="color: #555">เพิ่มกลุ่มข้อสอบ</h3>
+                            <h3 class="panel-title" style="color: #fff">เพิ่มกลุ่มข้อสอบ</h3>
                         </div>
                         <div class="form-horizontal" role="form" style="padding-top: 7%">
                             <div class="form-group">
@@ -157,8 +154,8 @@
                             <div class="form-group"></div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-success" ng-click="okAddExamGroup()">เพิ่ม</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">ยกเลิก</button>
+                            <button type="button" class="btn btn-outline-success" ng-click="okAddExamGroup()">เพิ่ม</button>
+                            <button type="button" class="btn btn-outline-default" data-dismiss="modal">ยกเลิก</button>
                         </div>
                     </div>
                 </div>
@@ -169,9 +166,9 @@
         <div class="modal fade" id="edit_exam_group_modal" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="panel panel-default" id="edit_exam_group_part" style="margin-bottom: 0">
+                    <div class="panel panel-warning" id="edit_exam_group_part" style="margin-bottom: 0">
                         <div class="panel-heading">
-                            <h3 class="panel-title" style="color: #555">แก้ไขกลุ่มข้อสอบ</h3>
+                            <h3 class="panel-title" style="color: #fff">แก้ไขกลุ่มข้อสอบ</h3>
                         </div>
                         <div class="form-horizontal" role="form" style="padding-top: 7%">
                             <div class="form-group">
@@ -187,8 +184,8 @@
                             <div class="form-group"></div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-success" ng-click="okEditExamGroup()">บันทึก</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">ยกเลิก</button>
+                            <button type="button" class="btn btn-outline-warning" ng-click="okEditExamGroup()">บันทึก</button>
+                            <button type="button" class="btn btn-outline-default" data-dismiss="modal">ยกเลิก</button>
                         </div>
                     </div>
                 </div>
@@ -199,9 +196,9 @@
         <div class="modal fade" id="delete_exam_group_modal" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="panel panel-default" id="delete_exam_group_part" style="margin-bottom: 0">
+                    <div class="panel panel-danger" id="delete_exam_group_part" style="margin-bottom: 0">
                         <div class="panel-heading">
-                            <h3 class="panel-title" style="color: #555">ยืนยันการลบรายการ</h3>
+                            <h3 class="panel-title" style="color: #fff">ยืนยันการลบรายการ</h3>
                         </div>
                         <div class="form-horizontal" role="form" style="padding-top: 7%">
                             <label class="col-md-4 control-label">ชื่อกลุ่มข้อสอบ</label>
@@ -214,8 +211,8 @@
                             <div class="form-group"></div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-warning" ng-click="okDeleteExamGroup()">ลบ</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">ยกเลิก</button>
+                            <button type="button" class="btn btn-outline-danger" ng-click="okDeleteExamGroup()">ลบ</button>
+                            <button type="button" class="btn btn-outline-default" data-dismiss="modal">ยกเลิก</button>
                         </div>
                     </div>
                 </div>
@@ -226,9 +223,9 @@
         <div class="modal fade" id="detail_exam_modal" role="dialog">
             <div class="modal-dialog" style="width: 98%; padding-right: 12px">
                 <div class="modal-content">
-                    <div class="panel panel-default" style="margin-bottom: 0">
+                    <div class="panel panel-primary" style="margin-bottom: 0">
                         <div class="panel-heading">
-                            <h3 class="panel-title" style="color: #555">รายละเอียดข้อสอบ</h3>
+                            <h3 class="panel-title" style="color: #fff">รายละเอียดข้อสอบ</h3>
                         </div>
                         <div class="panel-body">
 
@@ -322,8 +319,8 @@
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-warning" ng-click="editExam()" ng-show="createrID == thisUser.id">แก้ไข</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">ยกเลิก</button>
+                            <button type="button" class="btn btn-outline-warning" ng-click="editExam()" ng-show="createrID == thisUser.id">แก้ไข</button>
+                            <button type="button" class="btn btn-outline-danger" data-dismiss="modal">ยกเลิก</button>
                         </div>
                     </div>
                 </div>
