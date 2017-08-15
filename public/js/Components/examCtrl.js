@@ -19,83 +19,6 @@ app.controller('examCtrl', ['$scope', '$window', function ($scope, $window) {
             $('#divExamList').removeAttr('style');
         };
         //----------------------------------------------------------------------
-        $scope.addExamGroup = function () {
-            $scope.examGroupName = '';
-            $('#notice_add_exam_grp').hide();
-            $('#add_exam_group_modal').modal({backdrop: 'static'});
-            setTimeout(function () {
-                $('[ng-model=examGroupName]').focus();
-            }, 200);
-        };
-        //----------------------------------------------------------------------
-        $scope.enterAdd = function() {
-            $scope.okAddExamGroup();
-        };
-        //----------------------------------------------------------------------
-        $scope.okAddExamGroup = function () {
-            if ($scope.examGroupName.length > 0) {
-                var data = {
-                    user_id : $scope.thisUser.id,
-                    section_name: $scope.examGroupName
-                };
-                $('#add_exam_group_part').waitMe({
-                    effect: 'facebook',
-                    bg: 'rgba(255,255,255,0.9)',
-                    color: '#3bafda'
-                });
-                createSection(data);
-            } else {
-                $('#notice_add_exam_grp').html('* กรุณาระบุชื่อกลุ่มข้อสอบ').show();
-            }
-        };
-        //----------------------------------------------------------------------
-        $scope.editExamGroup = function (data) {
-            $scope.CurrentIndex = $scope.allSection.indexOf(data);
-            $scope.examGroupName = data.section_name;
-            $scope.groupId = data.id;
-            $('#notice_edit_exam_grp').hide();
-            $('#edit_exam_group_modal').modal({backdrop: 'static'});
-            setTimeout(function () {
-                $('[ng-model=examGroupName]').focus();
-            }, 200);
-        };
-        //----------------------------------------------------------------------
-        $scope.okEditExamGroup = function () {
-            if ($scope.examGroupName.length > 0) {
-                var data = {
-                    id : $scope.groupId,
-                    section_name: $scope.examGroupName,
-                    user_id : $window.myuser.id
-                };
-                $('#edit_exam_group_part').waitMe({
-                    effect: 'facebook',
-                    bg: 'rgba(255,255,255,0.9)',
-                    color: '#3bafda'
-                });
-                editSection(data);
-            } else {
-                $('#notice_edit_exam_grp').html('* กรุณาระบุชื่อกลุ่มข้อสอบ').show();
-            }
-        };
-        //----------------------------------------------------------------------
-        $scope.deleteExamGroup = function (data) {
-            $scope.examGroupName = data.section_name;
-            $scope.groupId = data.id;
-            $('#delete_exam_group_modal').modal({backdrop: 'static'});
-        };
-        //----------------------------------------------------------------------
-        $scope.okDeleteExamGroup = function () {
-            var data = {
-                id : $scope.groupId
-            };
-            $('#delete_exam_group_part').waitMe({
-                effect: 'facebook',
-                bg: 'rgba(255,255,255,0.9)',
-                color: '#3bafda'
-            });
-            deleteSection(data);
-        };
-        //----------------------------------------------------------------------
         $scope.detailExam = function (data) {
             $scope.examId = data.id;
             $scope.createrID = data.user_id;
@@ -152,21 +75,9 @@ app.controller('examCtrl', ['$scope', '$window', function ($scope, $window) {
            window.location.href = url+"/editExam"+$scope.examId;
         };
         //----------------------------------------------------------------------
-        $scope.deleteExam = function (data) {
-            $scope.examName = data.exam_name;
-            $scope.examId = data.id;
-            $('#delete_exam_modal').modal({backdrop: 'static'});
+        $scope.copyExam = function (data) {
+            window.location.href = url+"/copyExam"+data.id;
         };
-        //----------------------------------------------------------------------
-        $scope.okDelete = function () {
-            $('#edit_exam_part').waitMe({
-                effect: 'facebook',
-                bg: 'rgba(255,255,255,0.9)',
-                color: '#3bafda'
-            });
-            daleteExam($scope.examId);
-        };
-
         //----------------------------------------------------------------------
         function decapeHtml(str) {
             str = str.replace(/&amp;/g, '&');

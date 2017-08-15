@@ -8,6 +8,14 @@
     </script>
     <div ng-controller="copyExamCtrl">
         <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
+                <li>คลังข้อสอบ</li>
+                <li><a href="<%myUrl%>/exam">กลุ่มข้อสอบที่แบ่งปันกับฉัน</a></li>
+                <li class="active">คัดลอกข้อสอบ</li>
+            </ol>
+        </div>
+        <div class="col-lg-12">
             <div class="panel panel-default" id="copy_exam_part">
                 <div class="panel-heading">
                     <b style="color: #555">แก้ไขข้อสอบ</b>
@@ -206,7 +214,7 @@
                                                maxlength="200" placeholder="เพิ่มคีย์เวิร์ด"/>
                                     </div>
                                 </div>
-                                <button id="add_keyword" class="btn btn-success btn-sm" style="display: none">
+                                <button id="add_keyword" class="btn btn-outline-success btn-sm" style="display: none">
                                     <i class="fa fa-plus"></i> เพิ่มคีย์เวิร์ด
                                 </button>
                             </div>
@@ -217,7 +225,7 @@
                             <label class="col-md-2 control-label">แบ่งปันถึง:</label>
                             <div class="col-md-9">
                                 <h5 ng-repeat="st in selectTeacher"><%st.fullname%></h5>
-                                <button class="btn btn-info btn-sm" ng-click="addUserShare()">
+                                <button class="btn btn-outline-info btn-sm" ng-click="addUserShare()">
                                     <i class="fa fa-plus"></i> เลือกผู้ที่ต้องการแบ่งปัน
                                 </button>
                             </div>
@@ -227,7 +235,7 @@
                         <div class="modal fade" id="add_user_to_share_modal" role="dialog">
                             <div class="modal-dialog" style="width: 75%;padding-left: 17px">
                                 <div class="modal-content">
-                                    <div class="panel panel-default" id="add_user_share_part" style="margin-bottom: 0">
+                                    <div class="panel panel-info" id="add_user_share_part" style="margin-bottom: 0">
                                         <div class="panel-heading">
                                             <h3 class="panel-title" style="color: #555">เลือกบุคคลที่ต้องการแบ่งปัน</h3>
                                         </div>
@@ -254,8 +262,8 @@
                                             </table>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-success" ng-click="okAddTeacher()">ตกลง</button>
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal">ยกเลิก</button>
+                                            <button type="button" class="btn btn-outline-success" ng-click="okAddTeacher()">ตกลง</button>
+                                            <button type="button" class="btn btn-outline-danger" data-dismiss="modal">ยกเลิก</button>
                                         </div>
                                     </div>
                                 </div>
@@ -347,58 +355,11 @@
                         <div class="form-group">
                             <div class="col-md-3"></div>
                             <div class="col-md-3">
-                                <input type="button" class="btn btn-success btn-block" ng-click="editExam()"
+                                <input type="button" class="btn btn-outline-success btn-block" ng-click="editExam()"
                                        value="คัดลอกข้อสอบ"/>
                             </div>
                             <div class="col-md-3">
-                                <a class="btn btn-danger btn-block" ng-click="goBack()">ยกเลิก</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Edit Keyword Modal -->
-                <div class="modal fade" id="edit_modal" role="dialog">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="panel panel-warning" id="edit_keyword_part" style="margin-bottom: 0;border-color: #eea236">
-                                <div class="panel-heading" style="background-color: #f0ad4e">
-                                    <h3 class="panel-title">แก้ไขคีย์เวิร์ด</h3>
-                                </div>
-                                <div class="form-horizontal" role="form" style="padding-top: 7%">
-                                    <label class="col-md-4 control-label">ข้อมูลคีย์เวิร์ด</label>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <textarea class="form-control io_textarea" ng-model="keyword" maxlength="200"></textarea>
-                                            <div class="notice" id="notice_keyword" style="display: none">กรุณาระบุคีย์เวิร์ด</div>
-                                        </div>
-                                    </div>
-                                    <!-- un use -->
-                                    <div class = "form-group"></div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-warning" ng-click="okEditKeyword()">บันทึก</button>
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Delete Keyword Modal -->
-                <div class="modal fade" id="delete_modal" role="dialog">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="panel panel-danger" id="delete_keyword_part" style="margin-bottom: 0;border-color: #d43f3a">
-                                <div class="panel-heading" style="background-color: #d9534f">
-                                    <h3 class="panel-title">ยืนยันการทำรายการ</h3>
-                                </div>
-                                <div style="padding-top: 7%; text-align: center">คุณต้องการลบคีย์เวิร์ดนี้หรือไม่</div>
-                                <br>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger" ng-click="okDeleteKeyword()">ตกลง</button>
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
-                                </div>
+                                <a class="btn btn-outline-danger btn-block" ng-click="goBack()">ยกเลิก</a>
                             </div>
                         </div>
                     </div>
@@ -410,6 +371,33 @@
 
                 {{--</form>--}}
 
+            </div>
+        </div>
+        <!-- Success Modal -->
+        <div class="modal fade" id="success_modal" role="dialog">
+            <div class="modal-dialog" style="width: 20%;padding-right: 12px">
+                <div class="modal-content">
+                    <div class="modal-body" style="text-align: center">
+                        <h1 style="color: #28a745">สำเร็จ&nbsp;&nbsp;<i class="fa fa-check-circle" aria-hidden="true"></i></h1>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="okSuccess" type="button" class="btn btn-outline-success" data-dismiss="modal">ตกลง</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Unsuccess Modal -->
+        <div class="modal fade" id="unsuccess_modal" role="dialog">
+            <div class="modal-dialog" style="width: 20%;padding-right: 12px">
+                <div class="modal-content">
+                    <div class="modal-body" style="text-align: center">
+                        <h1 style="color: #dc3545">ผิดพลาด&nbsp;&nbsp;<i class="fa fa-times-circle" aria-hidden="true"></i></h1>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">ตกลง</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
