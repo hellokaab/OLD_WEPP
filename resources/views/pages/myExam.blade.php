@@ -7,6 +7,13 @@
         var mysections = findMySection(myuser).responseJSON;
     </script>
     <div ng-controller="myExamCtrl" style="display: none" id="exam_div">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
+                <li>คลังข้อสอบ</li>
+                <li class="active">กลุ่มข้อสอบของฉัน</li>
+            </ol>
+        </div>
         {{--Exam Group List--}}
         <div class="col-lg-12">
             <div class="panel panel-default">
@@ -109,7 +116,7 @@
                                     <i class="fa fa-tasks fa-lg" aria-hidden="true"></i>
                                 </button>
                                 &nbsp;
-                                <button class="btn btn-outline-warning btn-sm" title="แก้ไขข้อสอบ" style="cursor:pointer" ng-click="editExam(e)">
+                                <button class="btn btn-outline-warning btn-sm" title="แก้ไขข้อสอบ" style="cursor:pointer" ng-click="gotoEditExam(e)">
                                     <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
                                 </button>
                                 &nbsp;
@@ -331,9 +338,9 @@
         <div class="modal fade" id="delete_exam_modal" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="panel panel-default" id="delete_exam_part" style="margin-bottom: 0">
+                    <div class="panel panel-danger" id="delete_exam_part" style="margin-bottom: 0">
                         <div class="panel-heading">
-                            <h3 class="panel-title" style="color: #555">ยืนยันการทำรายการ</h3>
+                            <h3 class="panel-title" style="color: #fff">ยืนยันการทำรายการ</h3>
                         </div>
                         <!-- Form -->
                         <div style="padding-top: 7%; text-align: center">คุณต้องการลบข้อสอบนี้หรือไม่</div>
@@ -345,9 +352,37 @@
                         </div>
                         <br>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-success" ng-click="okDelete()">ตกลง</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">ยกเลิก</button>
+                            <button type="button" class="btn btn-outline-danger" ng-click="okDelete()">ตกลง</button>
+                            <button type="button" class="btn btn-outline-default" data-dismiss="modal">ยกเลิก</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <div class="modal fade" id="success_modal" role="dialog">
+            <div class="modal-dialog" style="width: 20%;padding-right: 12px">
+                <div class="modal-content">
+                    <div class="modal-body" style="text-align: center">
+                        <h1 style="color: #28a745">สำเร็จ&nbsp;&nbsp;<i class="fa fa-check-circle" aria-hidden="true"></i></h1>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="okSuccess" type="button" class="btn btn-outline-success" data-dismiss="modal">ตกลง</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Unsuccess Modal -->
+        <div class="modal fade" id="unsuccess_modal" role="dialog">
+            <div class="modal-dialog" style="width: 20%;padding-right: 12px">
+                <div class="modal-content">
+                    <div class="modal-body" style="text-align: center">
+                        <h1 style="color: #dc3545">ผิดพลาด&nbsp;&nbsp;<i class="fa fa-times-circle" aria-hidden="true"></i></h1>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">ตกลง</button>
                     </div>
                 </div>
             </div>

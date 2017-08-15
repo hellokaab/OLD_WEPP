@@ -448,6 +448,10 @@ app.controller('editExamCtrl', ['$scope', '$window', function ($scope, $window) 
         }
     };
     //----------------------------------------------------------------------
+    $('#okSuccess').on('click',function () {
+        window.location.href = url+'/myExam';
+    });
+    //----------------------------------------------------------------------
     var entityMap = {
         "&": "&amp;",
         "<": "&lt;",

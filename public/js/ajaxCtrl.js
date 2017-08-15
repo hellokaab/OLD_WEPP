@@ -157,15 +157,16 @@ function createSection(data) {
             if (xhr.readyState == 4) {
                 if (xhr.status == 200) {
                     $('#add_exam_group_part').waitMe('hide');
-                    alert("สำเร็จ");
-                    window.location.href = url+'/myExam';
+                    $('#add_exam_group_modal').modal('hide');
+                    $('#success_modal').modal({backdrop: 'static'});
                 } else if (xhr.status == 209){
                     $('#add_exam_group_part').waitMe('hide');
                     $('#notice_add_exam_grp').html('* กลุ่มข้อสอบนี้มีอยู่แล้ว').show();
                     $('[ng-model=examGroupName]').focus();
                 } else {
                     $('#add_exam_group_part').waitMe('hide');
-                    alert("ผิดพลาด");
+                    $('#add_exam_group_modal').modal('hide');
+                    $('#unsuccess_modal').modal({backdrop: 'static'});
                 }
             }
         }
@@ -186,16 +187,16 @@ function editSection(data) {
             if (xhr.readyState == 4) {
                 if (xhr.status == 200) {
                     $('#edit_exam_group_part').waitMe('hide');
-                    alert("สำเร็จ");
-                    location.reload();
-                    // $scope.groups[$scope.CurrentIndex].section_name = $scope.examGroupName;
+                    $('#edit_exam_group_modal').modal('hide');
+                    $('#success_modal').modal({backdrop: 'static'});
                 } else if (xhr.status == 209){
                     $('#edit_exam_group_part').waitMe('hide');
                     $('#notice_edit_exam_grp').html('* กลุ่มข้อสอบนี้มีอยู่แล้ว').show();
                     $('[ng-model=examGroupName]').focus();
                 } else {
                     $('#edit_exam_group_part').waitMe('hide');
-                    alert("ผิดพลาด");
+                    $('#edit_exam_group_modal').modal('hide');
+                    $('#unsuccess_modal').modal({backdrop: 'static'});
                 }
             }
         }
@@ -216,11 +217,12 @@ function deleteSection(data) {
             if (xhr.readyState == 4) {
                 if (xhr.status == 200) {
                     $('#delete_exam_group_part').waitMe('hide');
-                    alert("ลบสำเร็จ");
-                    location.reload();
+                    $('#delete_exam_group_modal').modal('hide');
+                    $('#success_modal').modal({backdrop: 'static'});
                 }  else {
                     $('#delete_exam_group_part').waitMe('hide');
-                    alert("ผิดพลาด");
+                    $('#delete_exam_group_modal').modal('hide');
+                    $('#unsuccess_modal').modal({backdrop: 'static'});
                 }
             }
         }
@@ -306,7 +308,7 @@ function createExam(data) {
                     // window.location.href = url+'/exam';
                 } else {
                     $('#add_exam_part').waitMe('hide');
-                    alert("ผิดพลาด");
+                    $('#unsuccess_modal').modal({backdrop: 'static'});
                 }
 
             }
@@ -321,8 +323,7 @@ function createExam(data) {
             createSharedExam(exam.id, data.shared[i].id);
         }
         $('#add_exam_part').waitMe('hide');
-        alert("สำเร็จ");
-        window.location.href = url+'/myExam';
+        $('#success_modal').modal({backdrop: 'static'});
     }
 
 }
@@ -347,7 +348,7 @@ function updateExam(data) {
                     // window.location.href = url+'/exam';
                 } else {
                     $('#edit_exam_part').waitMe('hide');
-                    alert("ผิดพลาด");
+                    $('#unsuccess_modal').modal({backdrop: 'static'});
                 }
 
             }
@@ -364,8 +365,7 @@ function updateExam(data) {
             updateSharedExam(data.id,data.shared[i].id);
         }
         $('#edit_exam_part').waitMe('hide');
-        alert("สำเร็จ");
-        window.location.href = url+'/myExam';
+        $('#success_modal').modal({backdrop: 'static'});
     }
 }
 
@@ -396,11 +396,12 @@ function daleteExam(data) {
             if (xhr.readyState == 4) {
                 if (xhr.status == 200) {
                     $('#delete_exam_part').waitMe('hide');
-                    alert("ลบสำเร็จ");
-                    location.reload();
+                    $('#delete_exam_modal').modal('hide');
+                    $('#success_modal').modal({backdrop: 'static'});
                 } else {
                     $('#delete_exam_part').waitMe('hide');
-                    alert("ผิดพลาด");
+                    $('#delete_exam_modal').modal('hide');
+                    $('#success_modal').modal({backdrop: 'static'});
                 }
             }
         }

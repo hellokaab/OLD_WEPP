@@ -32,15 +32,15 @@ app.controller('myExamCtrl', ['$scope', '$window', function ($scope, $window) {
         //----------------------------------------------------------------------
         $scope.okAddExamGroup = function () {
             if ($scope.examGroupName.length > 0) {
-                var data = {
-                    user_id : $scope.thisUser.id,
-                    section_name: $scope.examGroupName
-                };
                 $('#add_exam_group_part').waitMe({
                     effect: 'facebook',
                     bg: 'rgba(255,255,255,0.9)',
                     color: '#3bafda'
                 });
+                var data = {
+                    user_id : $scope.thisUser.id,
+                    section_name: $scope.examGroupName
+                };
                 createSection(data);
             } else {
                 $('#notice_add_exam_grp').html('* กรุณาระบุชื่อกลุ่มข้อสอบ').show();
@@ -98,7 +98,7 @@ app.controller('myExamCtrl', ['$scope', '$window', function ($scope, $window) {
             window.location.href = url+"/addExam"+$scope.groupId;
         };
         //----------------------------------------------------------------------
-        $scope.editExam = function (data) {
+        $scope.gotoEditExam = function (data) {
             window.location.href = url+"/editExam"+data.id;
         };
         //----------------------------------------------------------------------
@@ -172,7 +172,10 @@ app.controller('myExamCtrl', ['$scope', '$window', function ($scope, $window) {
             });
             daleteExam($scope.examId);
         };
-
+        //----------------------------------------------------------------------
+        $('#okSuccess').on('click',function () {
+            window.location.href = url+'/myExam';
+        });
         //----------------------------------------------------------------------
         function decapeHtml(str) {
             str = str.replace(/&amp;/g, '&');
