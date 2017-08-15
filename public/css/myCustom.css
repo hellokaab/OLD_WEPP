@@ -535,3 +535,196 @@ footer a:hover {
     background-color: #dc3545;
     border-color: #dc3545
 }
+
+.sidebar-nav li1 {
+    text-indent: 20px;
+    line-height: 40px;
+
+}
+
+.sidebar-nav li1 a {
+    display: block;
+    text-decoration: none;
+    color: #777;
+}
+
+.sidebar-nav li1 a:hover {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(219, 40, 40, 0.5);
+}
+
+.sidebar-nav li1 a:active,
+.sidebar-nav li1 a:focus {
+    text-decoration: none;
+}
+
+.sidebar-nav li1 a.active{
+    text-decoration: none;
+    color: #fff;
+    background: rgba(219, 40, 40, 0.5);
+}
+
+/**/
+
+.sidebar-nav li2 {
+    text-indent: 20px;
+    line-height: 40px;
+
+}
+
+.sidebar-nav li2 a {
+    display: block;
+    text-decoration: none;
+    color: #777;
+}
+
+.sidebar-nav li2 a:hover {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(242, 113, 28, 0.5);
+}
+
+.sidebar-nav li2 a:active,
+.sidebar-nav li2 a:focus {
+    text-decoration: none;
+}
+
+.sidebar-nav li2 a.active{
+    text-decoration: none;
+    color: #fff;
+    background: rgba(242, 113, 28, 0.5);
+}
+
+/**/
+
+.sidebar-nav li3 {
+    text-indent: 20px;
+    line-height: 40px;
+
+}
+
+.sidebar-nav li3 a {
+    display: block;
+    text-decoration: none;
+    color: #777;
+}
+
+.sidebar-nav li3 a:hover {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(251, 189, 8, 0.5);
+}
+
+.sidebar-nav li3 a:active,
+.sidebar-nav li3 a:focus {
+    text-decoration: none;
+}
+
+.sidebar-nav li3 a.active{
+    text-decoration: none;
+    color: #fff;
+    background: rgba(251, 189, 8, 0.5);
+}
+
+/**/
+
+.sidebar-nav li4 {
+    text-indent: 20px;
+    line-height: 40px;
+
+}
+
+.sidebar-nav li4 a {
+    display: block;
+    text-decoration: none;
+    color: #777;
+}
+
+.sidebar-nav li4 a:hover {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(33, 186, 69, 0.5);
+}
+
+.sidebar-nav li4 a:active,
+.sidebar-nav li4 a:focus {
+    text-decoration: none;
+}
+
+.sidebar-nav li4 a.active{
+    text-decoration: none;
+    color: #fff;
+    background: rgba(33, 186, 69, 0.5);
+}
+
+/**/
+
+.sidebar-nav li5 {
+    text-indent: 20px;
+    line-height: 40px;
+
+}
+
+.sidebar-nav li5 a {
+    display: block;
+    text-decoration: none;
+    color: #777;
+}
+
+.sidebar-nav li5 a:hover {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(33, 133, 208, 0.5);
+}
+
+.sidebar-nav li5 a:active,
+.sidebar-nav li5 a:focus {
+    text-decoration: none;
+}
+
+.sidebar-nav li5 a.active{
+    text-decoration: none;
+    color: #fff;
+    background: rgba(33, 133, 208, 0.5);
+}
+
+/**/
+
+.sidebar-nav li6 {
+    text-indent: 20px;
+    line-height: 40px;
+
+}
+
+.sidebar-nav li6 a {
+    display: block;
+    text-decoration: none;
+    color: #777;
+}
+
+.sidebar-nav li6 a:hover {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(100, 53, 201, 0.5);
+}
+
+.sidebar-nav li6 a:active,
+.sidebar-nav li6 a:focus {
+    text-decoration: none;
+}
+
+.sidebar-nav li6 a.active{
+    text-decoration: none;
+    color: #fff;
+    background: rgba(100, 53, 201, 0.5);
+}
+
+.breadcrumb {
+    padding: 8px 15px;
+    margin-bottom: 20px;
+    list-style: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px
+}

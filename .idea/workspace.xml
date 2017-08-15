@@ -2,17 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76624c7e-95f8-42be-9433-084b58182432" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/upload/exam/content/20170814-120536_7994.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/upload/exam/input/20170814-050536_7030.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/upload/exam/output/20170814-050537_1793.txt" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/ExamingController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/ExamingController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/myCustom.css" afterPath="$PROJECT_DIR$/public/css/myCustom.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/Components/inGroupCtrl.js" afterPath="$PROJECT_DIR$/public/js/Components/inGroupCtrl.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/Components/addExamCtrl.js" afterPath="$PROJECT_DIR$/public/js/Components/addExamCtrl.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/Components/editExamCtrl.js" afterPath="$PROJECT_DIR$/public/js/Components/editExamCtrl.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/Components/myExamCtrl.js" afterPath="$PROJECT_DIR$/public/js/Components/myExamCtrl.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ajaxCtrl.js" afterPath="$PROJECT_DIR$/public/js/ajaxCtrl.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/pages/inGroup.blade.php" afterPath="$PROJECT_DIR$/resources/views/pages/inGroup.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/layouts/partials/side_nav.blade.php" afterPath="$PROJECT_DIR$/resources/views/layouts/partials/side_nav.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/layouts/template.blade.php" afterPath="$PROJECT_DIR$/resources/views/layouts/template.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/pages/addExam.blade.php" afterPath="$PROJECT_DIR$/resources/views/pages/addExam.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/pages/editExam.blade.php" afterPath="$PROJECT_DIR$/resources/views/pages/editExam.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/pages/myExam.blade.php" afterPath="$PROJECT_DIR$/resources/views/pages/myExam.blade.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -25,16 +24,92 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="template.blade.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="template.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/layouts/template.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="45" column="10" lean-forward="false" selection-start-line="33" selection-start-column="8" selection-end-line="45" selection-end-column="10" />
+            <state relative-caret-position="170">
+              <caret line="43" column="53" lean-forward="true" selection-start-line="43" selection-start-column="53" selection-end-line="43" selection-end-column="53" />
               <folding>
-                <marker date="1502779286326" expanded="true" signature="3972:3983" ph="..." />
-                <marker date="1502779286326" expanded="true" signature="4449:4478" ph="..." />
-                <marker date="1502779286326" expanded="true" signature="4490:4517" ph="..." />
+                <marker date="1502779733105" expanded="true" signature="3972:3983" ph="..." />
+                <marker date="1502779733105" expanded="true" signature="4449:4478" ph="..." />
+                <marker date="1502779733105" expanded="true" signature="4490:4517" ph="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="addExam.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/pages/addExam.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="434">
+              <caret line="399" column="14" lean-forward="false" selection-start-line="399" selection-start-column="14" selection-end-line="399" selection-end-column="14" />
+              <folding>
+                <element signature="e#23296#23334#0#HTML" expanded="true" />
+                <element signature="e#23424#23450#0#HTML" expanded="true" />
+                <element signature="e#23480#23502#0#HTML" expanded="true" />
+                <element signature="e#23509#23515#0#HTML" expanded="true" />
+                <element signature="e#23515#23521#0#HTML" expanded="true" />
+                <element signature="e#24006#24044#0#HTML" expanded="true" />
+                <element signature="e#24134#24160#0#HTML" expanded="true" />
+                <element signature="e#24190#24212#0#HTML" expanded="true" />
+                <element signature="e#24220#24226#0#HTML" expanded="true" />
+                <element signature="e#24226#24232#0#HTML" expanded="true" />
+                <marker date="1502789732528" expanded="true" signature="9:27" ph="..." />
+                <marker date="1502789732528" expanded="true" signature="38:47" ph="..." />
+                <marker date="1502789732528" expanded="true" signature="143:151" ph="..." />
+                <marker date="1502789732528" expanded="true" signature="5791:5805" ph="..." />
+                <marker date="1502789732528" expanded="true" signature="8630:8644" ph="..." />
+                <marker date="1502789732528" expanded="true" signature="25897:25935" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="editExam.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/pages/editExam.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="508">
+              <caret line="457" column="14" lean-forward="false" selection-start-line="457" selection-start-column="14" selection-end-line="457" selection-end-column="14" />
+              <folding>
+                <element signature="e#24151#24175#0#HTML" expanded="true" />
+                <element signature="e#25972#25996#0#HTML" expanded="true" />
+                <element signature="e#27256#27294#0#HTML" expanded="true" />
+                <element signature="e#27384#27410#0#HTML" expanded="true" />
+                <element signature="e#27440#27462#0#HTML" expanded="true" />
+                <element signature="e#27469#27475#0#HTML" expanded="true" />
+                <element signature="e#27475#27481#0#HTML" expanded="true" />
+                <element signature="e#27966#28004#0#HTML" expanded="true" />
+                <element signature="e#28094#28120#0#HTML" expanded="true" />
+                <element signature="e#28150#28172#0#HTML" expanded="true" />
+                <element signature="e#28180#28186#0#HTML" expanded="true" />
+                <element signature="e#28186#28192#0#HTML" expanded="true" />
+                <marker date="1502789732235" expanded="true" signature="9:27" ph="..." />
+                <marker date="1502789732235" expanded="true" signature="38:47" ph="..." />
+                <marker date="1502789732235" expanded="true" signature="143:150" ph="..." />
+                <marker date="1502789732235" expanded="true" signature="5888:5902" ph="..." />
+                <marker date="1502789732235" expanded="true" signature="8727:8741" ph="..." />
+                <marker date="1502789732235" expanded="true" signature="29875:29913" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="addExamCtrl.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/Components/addExamCtrl.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="425">
+              <caret line="226" column="20" lean-forward="true" selection-start-line="226" selection-start-column="20" selection-end-line="226" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="editExamCtrl.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/Components/editExamCtrl.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="646">
+              <caret line="452" column="7" lean-forward="false" selection-start-line="452" selection-start-column="7" selection-end-line="452" selection-end-column="7" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -42,38 +117,9 @@
       <file leaf-file-name="myCustom.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/css/myCustom.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="212">
-              <caret line="525" column="25" lean-forward="false" selection-start-line="525" selection-start-column="25" selection-end-line="525" selection-end-column="25" />
+            <state relative-caret-position="481">
+              <caret line="729" column="1" lean-forward="false" selection-start-line="729" selection-start-column="1" selection-end-line="729" selection-end-column="1" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="inGroup.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/pages/inGroup.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="106" column="80" lean-forward="false" selection-start-line="106" selection-start-column="80" selection-end-line="106" selection-end-column="80" />
-              <folding>
-                <element signature="e#421#441#0#HTML" expanded="true" />
-                <element signature="e#449#504#0#HTML" expanded="true" />
-                <element signature="e#4849#4868#0#HTML" expanded="true" />
-                <marker date="1502779248297" expanded="true" signature="9:27" ph="..." />
-                <marker date="1502779248297" expanded="true" signature="38:47" ph="..." />
-                <marker date="1502779248297" expanded="true" signature="143:151" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="inGroupCtrl.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/js/Components/inGroupCtrl.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="8" column="38" lean-forward="false" selection-start-line="8" selection-start-column="38" selection-end-line="8" selection-end-column="38" />
-              <folding>
-                <element signature="e#0#43#0" expanded="false" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -81,26 +127,25 @@
       <file leaf-file-name="myExam.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/pages/myExam.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="322" column="79" lean-forward="false" selection-start-line="322" selection-start-column="79" selection-end-line="322" selection-end-column="79" />
+            <state relative-caret-position="318">
+              <caret line="337" column="53" lean-forward="false" selection-start-line="337" selection-start-column="36" selection-end-line="337" selection-end-column="53" />
               <folding>
-                <element signature="e#526#546#0#HTML" expanded="true" />
-                <element signature="e#575#627#0#HTML" expanded="true" />
-                <element signature="e#755#775#0#HTML" expanded="true" />
-                <element signature="e#3741#3778#0#HTML" expanded="true" />
-                <element signature="e#5431#5451#0#HTML" expanded="true" />
-                <element signature="e#5480#5516#0#HTML" expanded="true" />
-                <element signature="e#6326#6363#0#HTML" expanded="true" />
-                <element signature="e#6498#6520#0#HTML" expanded="true" />
-                <element signature="e#6710#6716#0#HTML" expanded="true" />
-                <element signature="e#6816#6838#0#HTML" expanded="true" />
-                <element signature="e#7138#7160#0#HTML" expanded="true" />
-                <element signature="e#8272#8291#0#HTML" expanded="true" />
-                <element signature="e#10147#10166#0#HTML" expanded="true" />
-                <element signature="e#11874#11893#0#HTML" expanded="true" />
-                <element signature="e#13377#13396#0#HTML" expanded="true" />
-                <marker date="1502778540842" expanded="true" signature="9:27" ph="..." />
-                <marker date="1502778540842" expanded="true" signature="38:47" ph="..." />
+                <element signature="e#4367#4373#0#HTML" expanded="true" />
+                <element signature="e#10280#10304#0#HTML" expanded="true" />
+                <element signature="e#13372#13411#0#HTML" expanded="true" />
+                <element signature="e#20102#20121#0#HTML" expanded="true" />
+                <element signature="e#21288#21326#0#HTML" expanded="true" />
+                <element signature="e#21416#21442#0#HTML" expanded="true" />
+                <element signature="e#21472#21494#0#HTML" expanded="true" />
+                <element signature="e#21501#21507#0#HTML" expanded="true" />
+                <element signature="e#21507#21513#0#HTML" expanded="true" />
+                <element signature="e#21998#22036#0#HTML" expanded="true" />
+                <element signature="e#22126#22152#0#HTML" expanded="true" />
+                <element signature="e#22182#22204#0#HTML" expanded="true" />
+                <element signature="e#22212#22218#0#HTML" expanded="true" />
+                <element signature="e#22218#22224#0#HTML" expanded="true" />
+                <marker date="1502789001261" expanded="true" signature="9:27" ph="..." />
+                <marker date="1502789001261" expanded="true" signature="38:47" ph="..." />
               </folding>
             </state>
           </provider>
@@ -109,58 +154,38 @@
       <file leaf-file-name="myExamCtrl.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/Components/myExamCtrl.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="100" column="23" lean-forward="false" selection-start-line="100" selection-start-column="15" selection-end-line="100" selection-end-column="23" />
+            <state relative-caret-position="255">
+              <caret line="177" column="11" lean-forward="true" selection-start-line="174" selection-start-column="8" selection-end-line="177" selection-end-column="11" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="bootstrap.min.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/css/bootstrap.min.css">
+      <file leaf-file-name="side_nav.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/layouts/partials/side_nav.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="384">
-              <caret line="3604" column="1" lean-forward="true" selection-start-line="3562" selection-start-column="0" selection-end-line="3604" selection-end-column="1" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="editExam.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/pages/editExam.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="202" column="74" lean-forward="false" selection-start-line="202" selection-start-column="74" selection-end-line="202" selection-end-column="74" />
+            <state relative-caret-position="1258">
+              <caret line="80" column="24" lean-forward="false" selection-start-line="80" selection-start-column="24" selection-end-line="80" selection-end-column="24" />
               <folding>
-                <marker date="1502711163612" expanded="true" signature="9:27" ph="..." />
-                <marker date="1502711163612" expanded="true" signature="38:47" ph="..." />
-                <marker date="1502711163612" expanded="true" signature="143:150" ph="..." />
-                <marker date="1502711163612" expanded="true" signature="5561:5575" ph="..." />
-                <marker date="1502711163612" expanded="true" signature="8400:8414" ph="..." />
-                <marker date="1502711163612" expanded="true" signature="28174:28212" ph="..." />
+                <element signature="n#style#0;n#i#0;n#a#0;n#li1#0;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#0;n#a#0;n#li2#0;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#1;n#a#0;n#li2#0;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#0;n#a#0;n#li3#0;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#0;n#a#0;n#li4#0;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#0;n#a#0;n#li5#0;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#0;n#a#0;n#li6#0;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <marker date="1502785069277" expanded="true" signature="6112:6121" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ajaxCtrl.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ajaxCtrl.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/js/ajaxCtrl.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-339">
-              <caret line="703" column="29" lean-forward="false" selection-start-line="703" selection-start-column="9" selection-end-line="703" selection-end-column="29" />
+            <state relative-caret-position="334">
+              <caret line="402" column="41" lean-forward="false" selection-start-line="402" selection-start-column="41" selection-end-line="402" selection-end-column="41" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ExamingController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ExamingController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="87" column="33" lean-forward="false" selection-start-line="87" selection-start-column="33" selection-end-line="87" selection-end-column="33" />
-              <folding>
-                <element signature="e#40#56#0#PHP" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -176,8 +201,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>.location</find>
-      <find>.location =</find>
       <find>location =</find>
       <find>groupLisCtrl</find>
       <find>groupLiCtrl</find>
@@ -204,8 +227,10 @@
       <find>.btn-prima</find>
       <find>.btn-primary</find>
       <find>btn-default</find>
-      <find>btn-info</find>
       <find>.addExam</find>
+      <find>btn-info</find>
+      <find>li</find>
+      <find>edit_modal</find>
     </findStrings>
     <replaceStrings>
       <replace>btn-outline-success</replace>
@@ -241,7 +266,6 @@
         <option value="$PROJECT_DIR$/app/Http/Controllers/ExamController.php" />
         <option value="$PROJECT_DIR$/public/js/Components/copyExamCtrl.js" />
         <option value="$PROJECT_DIR$/resources/views/pages/copyExam.blade.php" />
-        <option value="$PROJECT_DIR$/public/js/Components/editExamCtrl.js" />
         <option value="$PROJECT_DIR$/resources/views/pages/exam.blade.php" />
         <option value="$PROJECT_DIR$/database/migrations/2017_08_08_041356_create_join_groups_table.php" />
         <option value="$PROJECT_DIR$/resources/views/pages/stdGroup.blade.php" />
@@ -250,28 +274,29 @@
         <option value="$PROJECT_DIR$/public/js/Components/stdGroupCtrl.js" />
         <option value="$PROJECT_DIR$/resources/views/pages/group.blade.php" />
         <option value="$PROJECT_DIR$/public/js/Components/groupCtrl.js" />
-        <option value="$PROJECT_DIR$/resources/views/layouts/partials/side_nav.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/GroupController.php" />
         <option value="$PROJECT_DIR$/public/js/Components/stdMyGroupCtrl.js" />
         <option value="$PROJECT_DIR$/resources/views/pages/stdMyGroup.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/JoinGroupController.php" />
         <option value="$PROJECT_DIR$/database/migrations/2017_07_17_102334_create_examings_table.php" />
-        <option value="$PROJECT_DIR$/resources/views/pages/addExam.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/pages/openExam.blade.php" />
-        <option value="$PROJECT_DIR$/public/js/Components/addExamCtrl.js" />
         <option value="$PROJECT_DIR$/public/js/Components/openExamCtrl.js" />
         <option value="$PROJECT_DIR$/resources/views/pages/editExaming.blade.php" />
         <option value="$PROJECT_DIR$/public/js/Components/editExamingCtrl.js" />
-        <option value="$PROJECT_DIR$/public/js/ajaxCtrl.js" />
         <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/ExamingController.php" />
         <option value="$PROJECT_DIR$/public/js/Components/inGroupCtrl.js" />
-        <option value="$PROJECT_DIR$/resources/views/pages/editExam.blade.php" />
-        <option value="$PROJECT_DIR$/public/js/Components/myExamCtrl.js" />
-        <option value="$PROJECT_DIR$/public/css/myCustom.css" />
-        <option value="$PROJECT_DIR$/resources/views/pages/myExam.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/pages/inGroup.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/template.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/layouts/partials/side_nav.blade.php" />
+        <option value="$PROJECT_DIR$/public/css/myCustom.css" />
+        <option value="$PROJECT_DIR$/resources/views/pages/myExam.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/pages/addExam.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/pages/editExam.blade.php" />
+        <option value="$PROJECT_DIR$/public/js/Components/myExamCtrl.js" />
+        <option value="$PROJECT_DIR$/public/js/Components/addExamCtrl.js" />
+        <option value="$PROJECT_DIR$/public/js/Components/editExamCtrl.js" />
+        <option value="$PROJECT_DIR$/public/js/ajaxCtrl.js" />
       </list>
     </option>
   </component>
@@ -751,12 +776,12 @@
       <workItem from="1502250332579" duration="6895000" />
       <workItem from="1502423460546" duration="2857000" />
       <workItem from="1502683853079" duration="14890000" />
-      <workItem from="1502773887161" duration="5393000" />
+      <workItem from="1502773887161" duration="15474000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="187018000" />
+    <option name="totallyTimeSpent" value="197099000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
@@ -815,14 +840,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ShareExamController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ExamExamingController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="179">
@@ -862,13 +879,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/Components/editExamCtrl.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="36" lean-forward="false" selection-start-line="6" selection-start-column="22" selection-end-line="6" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/pages/index.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
@@ -903,13 +913,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="9" column="34" lean-forward="false" selection-start-line="9" selection-start-column="34" selection-end-line="9" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/layouts/partials/side_nav.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1411">
-          <caret line="98" column="48" lean-forward="false" selection-start-line="98" selection-start-column="48" selection-end-line="98" selection-end-column="48" />
         </state>
       </provider>
     </entry>
@@ -971,6 +974,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1300">
           <caret line="11" column="22" lean-forward="true" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
+          <folding>
+            <marker date="1502685771753" expanded="true" signature="9:27" ph="..." />
+            <marker date="1502685771753" expanded="true" signature="38:47" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1012,20 +1019,6 @@
         <state relative-caret-position="493">
           <caret line="33" column="12" lean-forward="false" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="53" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/pages/addExam.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="148" column="70" lean-forward="false" selection-start-line="148" selection-start-column="57" selection-end-line="148" selection-end-column="70" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/Components/addExamCtrl.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="217" column="56" lean-forward="false" selection-start-line="217" selection-start-column="56" selection-end-line="217" selection-end-column="56" />
         </state>
       </provider>
     </entry>
@@ -1099,6 +1092,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="454">
           <caret line="70" column="47" lean-forward="true" selection-start-line="70" selection-start-column="47" selection-end-line="70" selection-end-column="47" />
+          <folding>
+            <element signature="e#4075#4101#0#HTML" expanded="false" />
+            <element signature="e#4169#4195#0#HTML" expanded="false" />
+            <element signature="e#4261#4298#0#HTML" expanded="false" />
+            <marker date="1501149570280" expanded="true" signature="9:27" ph="..." />
+            <marker date="1501149570280" expanded="true" signature="38:47" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1118,52 +1118,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/ajaxCtrl.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-339">
-          <caret line="703" column="29" lean-forward="false" selection-start-line="703" selection-start-column="9" selection-end-line="703" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ExamingController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="87" column="33" lean-forward="false" selection-start-line="87" selection-start-column="33" selection-end-line="87" selection-end-column="33" />
           <folding>
-            <element signature="e#40#56#0#PHP" expanded="true" />
+            <element signature="e#40#56#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/pages/editExam.blade.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/pages/inGroup.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="202" column="74" lean-forward="false" selection-start-line="202" selection-start-column="74" selection-end-line="202" selection-end-column="74" />
+        <state relative-caret-position="425">
+          <caret line="106" column="80" lean-forward="false" selection-start-line="106" selection-start-column="80" selection-end-line="106" selection-end-column="80" />
           <folding>
-            <marker date="1502711163612" expanded="true" signature="9:27" ph="..." />
-            <marker date="1502711163612" expanded="true" signature="38:47" ph="..." />
-            <marker date="1502711163612" expanded="true" signature="143:150" ph="..." />
-            <marker date="1502711163612" expanded="true" signature="5561:5575" ph="..." />
-            <marker date="1502711163612" expanded="true" signature="8400:8414" ph="..." />
-            <marker date="1502711163612" expanded="true" signature="28174:28212" ph="..." />
+            <element signature="e#421#441#0#HTML" expanded="true" />
+            <element signature="e#449#504#0#HTML" expanded="true" />
+            <element signature="e#4849#4868#0#HTML" expanded="true" />
+            <marker date="1502779638377" expanded="true" signature="9:27" ph="..." />
+            <marker date="1502779638377" expanded="true" signature="38:47" ph="..." />
+            <marker date="1502779638377" expanded="true" signature="143:151" ph="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/css/bootstrap.min.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="3604" column="1" lean-forward="true" selection-start-line="3562" selection-start-column="0" selection-end-line="3604" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/Components/myExamCtrl.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="100" column="23" lean-forward="false" selection-start-line="100" selection-start-column="15" selection-end-line="100" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1177,64 +1153,165 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/pages/myExam.blade.php">
+    <entry file="file://$PROJECT_DIR$/public/css/bootstrap.min.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="322" column="79" lean-forward="false" selection-start-line="322" selection-start-column="79" selection-end-line="322" selection-end-column="79" />
+        <state relative-caret-position="384">
+          <caret line="3604" column="1" lean-forward="false" selection-start-line="3562" selection-start-column="0" selection-end-line="3604" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/template.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="43" column="53" lean-forward="true" selection-start-line="43" selection-start-column="53" selection-end-line="43" selection-end-column="53" />
           <folding>
-            <element signature="e#526#546#0#HTML" expanded="true" />
-            <element signature="e#575#627#0#HTML" expanded="true" />
-            <element signature="e#755#775#0#HTML" expanded="true" />
-            <element signature="e#3741#3778#0#HTML" expanded="true" />
-            <element signature="e#5431#5451#0#HTML" expanded="true" />
-            <element signature="e#5480#5516#0#HTML" expanded="true" />
-            <element signature="e#6326#6363#0#HTML" expanded="true" />
-            <element signature="e#6498#6520#0#HTML" expanded="true" />
-            <element signature="e#6710#6716#0#HTML" expanded="true" />
-            <element signature="e#6816#6838#0#HTML" expanded="true" />
-            <element signature="e#7138#7160#0#HTML" expanded="true" />
-            <element signature="e#8272#8291#0#HTML" expanded="true" />
-            <element signature="e#10147#10166#0#HTML" expanded="true" />
-            <element signature="e#11874#11893#0#HTML" expanded="true" />
-            <element signature="e#13377#13396#0#HTML" expanded="true" />
-            <marker date="1502778540842" expanded="true" signature="9:27" ph="..." />
-            <marker date="1502778540842" expanded="true" signature="38:47" ph="..." />
+            <marker date="1502779733105" expanded="true" signature="3972:3983" ph="..." />
+            <marker date="1502779733105" expanded="true" signature="4449:4478" ph="..." />
+            <marker date="1502779733105" expanded="true" signature="4490:4517" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/side_nav.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="282">
+          <caret line="146" column="17" lean-forward="true" selection-start-line="146" selection-start-column="17" selection-end-line="146" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/partials/side_nav.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1258">
+          <caret line="80" column="24" lean-forward="false" selection-start-line="80" selection-start-column="24" selection-end-line="80" selection-end-column="24" />
+          <folding>
+            <element signature="n#style#0;n#i#0;n#a#0;n#li1#0;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#a#0;n#li2#0;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#1;n#a#0;n#li2#0;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#a#0;n#li3#0;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#a#0;n#li4#0;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#a#0;n#li5#0;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#a#0;n#li6#0;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <marker date="1502785069277" expanded="true" signature="6112:6121" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/css/myCustom.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="525" column="25" lean-forward="false" selection-start-line="525" selection-start-column="25" selection-end-line="525" selection-end-column="25" />
+        <state relative-caret-position="481">
+          <caret line="729" column="1" lean-forward="false" selection-start-line="729" selection-start-column="1" selection-end-line="729" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/pages/inGroup.blade.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/pages/addExam.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="106" column="80" lean-forward="false" selection-start-line="106" selection-start-column="80" selection-end-line="106" selection-end-column="80" />
+        <state relative-caret-position="434">
+          <caret line="399" column="14" lean-forward="false" selection-start-line="399" selection-start-column="14" selection-end-line="399" selection-end-column="14" />
           <folding>
-            <element signature="e#421#441#0#HTML" expanded="true" />
-            <element signature="e#449#504#0#HTML" expanded="true" />
-            <element signature="e#4849#4868#0#HTML" expanded="true" />
-            <marker date="1502779248297" expanded="true" signature="9:27" ph="..." />
-            <marker date="1502779248297" expanded="true" signature="38:47" ph="..." />
-            <marker date="1502779248297" expanded="true" signature="143:151" ph="..." />
+            <element signature="e#23296#23334#0#HTML" expanded="true" />
+            <element signature="e#23424#23450#0#HTML" expanded="true" />
+            <element signature="e#23480#23502#0#HTML" expanded="true" />
+            <element signature="e#23509#23515#0#HTML" expanded="true" />
+            <element signature="e#23515#23521#0#HTML" expanded="true" />
+            <element signature="e#24006#24044#0#HTML" expanded="true" />
+            <element signature="e#24134#24160#0#HTML" expanded="true" />
+            <element signature="e#24190#24212#0#HTML" expanded="true" />
+            <element signature="e#24220#24226#0#HTML" expanded="true" />
+            <element signature="e#24226#24232#0#HTML" expanded="true" />
+            <marker date="1502789732528" expanded="true" signature="9:27" ph="..." />
+            <marker date="1502789732528" expanded="true" signature="38:47" ph="..." />
+            <marker date="1502789732528" expanded="true" signature="143:151" ph="..." />
+            <marker date="1502789732528" expanded="true" signature="5791:5805" ph="..." />
+            <marker date="1502789732528" expanded="true" signature="8630:8644" ph="..." />
+            <marker date="1502789732528" expanded="true" signature="25897:25935" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/layouts/template.blade.php">
+    <entry file="file://$PROJECT_DIR$/public/js/Components/myExamCtrl.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="45" column="10" lean-forward="false" selection-start-line="33" selection-start-column="8" selection-end-line="45" selection-end-column="10" />
+        <state relative-caret-position="255">
+          <caret line="177" column="11" lean-forward="true" selection-start-line="174" selection-start-column="8" selection-end-line="177" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/pages/editExam.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="508">
+          <caret line="457" column="14" lean-forward="false" selection-start-line="457" selection-start-column="14" selection-end-line="457" selection-end-column="14" />
           <folding>
-            <marker date="1502779286326" expanded="true" signature="3972:3983" ph="..." />
-            <marker date="1502779286326" expanded="true" signature="4449:4478" ph="..." />
-            <marker date="1502779286326" expanded="true" signature="4490:4517" ph="..." />
+            <element signature="e#24151#24175#0#HTML" expanded="true" />
+            <element signature="e#25972#25996#0#HTML" expanded="true" />
+            <element signature="e#27256#27294#0#HTML" expanded="true" />
+            <element signature="e#27384#27410#0#HTML" expanded="true" />
+            <element signature="e#27440#27462#0#HTML" expanded="true" />
+            <element signature="e#27469#27475#0#HTML" expanded="true" />
+            <element signature="e#27475#27481#0#HTML" expanded="true" />
+            <element signature="e#27966#28004#0#HTML" expanded="true" />
+            <element signature="e#28094#28120#0#HTML" expanded="true" />
+            <element signature="e#28150#28172#0#HTML" expanded="true" />
+            <element signature="e#28180#28186#0#HTML" expanded="true" />
+            <element signature="e#28186#28192#0#HTML" expanded="true" />
+            <marker date="1502789732235" expanded="true" signature="9:27" ph="..." />
+            <marker date="1502789732235" expanded="true" signature="38:47" ph="..." />
+            <marker date="1502789732235" expanded="true" signature="143:150" ph="..." />
+            <marker date="1502789732235" expanded="true" signature="5888:5902" ph="..." />
+            <marker date="1502789732235" expanded="true" signature="8727:8741" ph="..." />
+            <marker date="1502789732235" expanded="true" signature="29875:29913" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/Components/editExamCtrl.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="452" column="7" lean-forward="false" selection-start-line="452" selection-start-column="7" selection-end-line="452" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/Components/addExamCtrl.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="226" column="20" lean-forward="true" selection-start-line="226" selection-start-column="20" selection-end-line="226" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/pages/myExam.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="318">
+          <caret line="337" column="53" lean-forward="false" selection-start-line="337" selection-start-column="36" selection-end-line="337" selection-end-column="53" />
+          <folding>
+            <element signature="e#4367#4373#0#HTML" expanded="true" />
+            <element signature="e#10280#10304#0#HTML" expanded="true" />
+            <element signature="e#13372#13411#0#HTML" expanded="true" />
+            <element signature="e#20102#20121#0#HTML" expanded="true" />
+            <element signature="e#21288#21326#0#HTML" expanded="true" />
+            <element signature="e#21416#21442#0#HTML" expanded="true" />
+            <element signature="e#21472#21494#0#HTML" expanded="true" />
+            <element signature="e#21501#21507#0#HTML" expanded="true" />
+            <element signature="e#21507#21513#0#HTML" expanded="true" />
+            <element signature="e#21998#22036#0#HTML" expanded="true" />
+            <element signature="e#22126#22152#0#HTML" expanded="true" />
+            <element signature="e#22182#22204#0#HTML" expanded="true" />
+            <element signature="e#22212#22218#0#HTML" expanded="true" />
+            <element signature="e#22218#22224#0#HTML" expanded="true" />
+            <marker date="1502789001261" expanded="true" signature="9:27" ph="..." />
+            <marker date="1502789001261" expanded="true" signature="38:47" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/ajaxCtrl.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="334">
+          <caret line="402" column="41" lean-forward="false" selection-start-line="402" selection-start-column="41" selection-end-line="402" selection-end-column="41" />
+          <folding />
         </state>
       </provider>
     </entry>

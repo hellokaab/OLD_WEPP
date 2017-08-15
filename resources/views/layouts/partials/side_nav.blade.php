@@ -36,52 +36,52 @@
                    วันที่ 10 มิถุนายน 2560
                 </a>
             </li>
-            <li>
-                <a id="side_index" href="<%myUrl%>/index"><i class="fa2 fa-home fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;หน้าหลัก</a>
-            </li>
-            <li ng-show="thisUser.user_type === 't'">
+            <li1>
+                <a id="side_index" href="<%myUrl%>/index"><i class="fa2 fa-home fa-lg" aria-hidden="true" style="color: #db2828"></i>&nbsp;&nbsp;หน้าหลัก</a>
+            </li1>
+            <li2 ng-show="thisUser.user_type === 't'">
                 <a data-target="#demo3" data-toggle="collapse" role="presentation" id="side_exam_store" href="" class="collapsed">
-                    <i class="fa2 fa-database fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;คลังข้อสอบ<i id="exam_chevron" class="fa2 fa-chevron-left" style="padding-left: 118px"></i>
+                    <i class="fa2 fa-database fa-lg" aria-hidden="true" style="color: #f2711c"></i>&nbsp;&nbsp;คลังข้อสอบ<i id="exam_chevron" class="fa2 fa-chevron-left" style="padding-left: 118px"></i>
                 </a>
-            </li>
+            </li2>
             <div class="collapse" id="demo3">
                 <ul class="list-unstyled main-menu" id="_menu3" z="user-managed=">
-                    <li role="presentation">
+                    <li2 role="presentation">
                         <a href="<%myUrl%>/myExam">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ข้อสอบของฉัน</a>
                         <a href="<%myUrl%>/exam">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ข้อสอบที่แบ่งปันกับฉัน</a>
-                    </li>
+                    </li2>
                 </ul>
             </div>
-            <li ng-show="thisUser.user_type === 't'">
-                <a id="side_sheet_store" href="#"><i class="fa2 fa-archive fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;คลังใบงาน</a>
-            </li>
-            <li ng-show="thisUser.user_type === 't'">
-                <a id="side_group" href="<%myUrl%>/group"><i class="fa2 fa-users fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;กลุ่มเรียน</a>
-            </li>
-            <li ng-show="thisUser.user_type === 't'">
+            <li3 ng-show="thisUser.user_type === 't'">
+                <a id="side_sheet_store" href="#"><i class="fa2 fa-archive fa-lg" aria-hidden="true" style="color: #fbbd08"></i>&nbsp;&nbsp;คลังใบงาน</a>
+            </li3>
+            <li4 ng-show="thisUser.user_type === 't'">
+                <a id="side_group" href="<%myUrl%>/group"><i class="fa2 fa-users fa-lg" aria-hidden="true" style="color: #21ba45"></i>&nbsp;&nbsp;กลุ่มเรียน</a>
+            </li4>
+            <li5 ng-show="thisUser.user_type === 't'">
                 <a data-target="#demo" data-toggle="collapse" role="presentation" id="side_examming" href="" class="collapsed">
-                    <i class="fa2 fa-cog fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;จัดการการสอบ<i id="examming_chevron" class="fa2 fa-chevron-left" style="padding-left: 100px"></i>
+                    <i class="fa2 fa-cog fa-lg" aria-hidden="true" style="color: #2185d0"></i>&nbsp;&nbsp;จัดการการสอบ<i id="examming_chevron" class="fa2 fa-chevron-left" style="padding-left: 100px"></i>
                 </a>
-            </li>
+            </li5>
             <div class="collapse" id="demo">
                 <ul class="list-unstyled main-menu" id="_menu" z="user-managed=">
-                    <li role="presentation">
+                    <li5 role="presentation">
                         <a href="<%myUrl%>/openExam">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;เปิดสอบ</a>
                         <a href="<%myUrl%>/examingHistory">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ประวัติการเปิดสอบ</a>
-                    </li>
+                    </li5>
                 </ul>
             </div>
-            <li ng-show="thisUser.user_type === 't'">
+            <li6 ng-show="thisUser.user_type === 't'">
                 <a data-target="#demo2" data-toggle="collapse" role="presentation" id="side_sheeting" href="" class="collapsed">
-                    <i class="fa2 fa-cogs fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;จัดการการสั่งใบงาน<i id="sheeting_chevron" class="fa2 fa-chevron-left" style="padding-left: 70px"></i>
+                    <i class="fa2 fa-cogs fa-lg" aria-hidden="true" style="color: #6435c9"></i>&nbsp;&nbsp;จัดการการสั่งใบงาน<i id="sheeting_chevron" class="fa2 fa-chevron-left" style="padding-left: 70px"></i>
                 </a>
-            </li>
+            </li6>
             <div class="collapse" id="demo2">
                 <ul class="list-unstyled main-menu" id="_menu2" z="user-managed=">
-                    <li role="presentation">
+                    <li6 role="presentation">
                         <a href="#">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;สั่งใบงาน</a>
                         <a href="#">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ประวัติการสั่งใบงาน</a>
-                    </li>
+                    </li6>
                 </ul>
             </div>
             {{--<li ng-show="thisUser.user_type === 's'">--}}
