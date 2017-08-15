@@ -4,15 +4,40 @@
     <script>
         var groupId = {{$groupID}};
         var groupData = findGroupDataByID(groupId);
-        console.log(groupData);
     </script>
     <div ng-controller="inGroupCtrl" style="display: none" id="in_group_div">
         <div class="col-lg-12">
             <div class="panel panel-default ">
-                <div class="panel-heading"><b><%groupData.group_name%> (<%groupData.creater%>)</b>
-                    <a href="" ng-click="exitGroup()" style="float: right"><i class="fa fa-sign-out"> </i> ออกจากกลุ่ม</a>
+                <div class="panel-heading" style="height: 54px"><label style="font-size: 20px;color: #337ab7;padding-top: 5px"><%groupData.group_name%> (<%groupData.creater%>)</label>
+                    <button class="btn btn-outline-danger" href="" ng-click="exitGroup()" style="float: right"><i class="fa fa-sign-out"> </i> ออกจากกลุ่ม</button>
                 </div>
-                <div class="panel-body"></div>
+                <div class="panel-body">
+                    <h4 style="text-decoration:underline">การสอบ</h4>
+                    <table class="table table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th style="width: 25%">ชื่อการสอบ</th>
+                            <th style="width: 25%;text-align: center">เริ่มต้น</th>
+                            <th style="width: 25%;text-align: center">สิ้นสุด</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="e in examingComing" ng-show="examingComing.length > 0">
+                            <td><%e.examing_name%></td>
+                            <td style="text-align: center"><%e.start_date_time%></td>
+                            <td style="text-align: center"><%e.end_date_time%></td>
+                            <td></td>
+                        </tr>
+                        <tr ng-hide="examingComing.length > 0">
+                            <td>ไม่พบข้อมูล</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <div class="col-lg-12">
@@ -67,9 +92,9 @@
         <div class="modal fade" id="exit_group_modal" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="panel panel-default" id="exit_group_part" style="margin-bottom: 0">
+                    <div class="panel panel-danger" id="exit_group_part" style="margin-bottom: 0">
                         <div class="panel-heading">
-                            <h3 class="panel-title" style="color: #555">ยืนยันการทำรายการ</h3>
+                            <h3 class="panel-title" style="color: #fff">ยืนยันการทำรายการ</h3>
                         </div>
                         <!-- Form -->
                         <div style="padding-top: 7%; text-align: center">คุณต้องการออกจากกลุ่มเรียนนี้หรือไม่</div>
@@ -78,8 +103,8 @@
                                ng-model="groupName" disabled/>
                         <br>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-success" ng-click="okExit()">ตกลง</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">ยกเลิก</button>
+                            <button type="button" class="btn btn-outline-danger" ng-click="okExit()">ตกลง</button>
+                            <button type="button" class="btn btn-outline-default" data-dismiss="modal">ยกเลิก</button>
                         </div>
                     </div>
                 </div>

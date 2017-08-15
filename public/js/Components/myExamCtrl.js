@@ -94,6 +94,14 @@ app.controller('myExamCtrl', ['$scope', '$window', function ($scope, $window) {
             deleteSection(data);
         };
         //----------------------------------------------------------------------
+        $scope.addExam = function () {
+            window.location.href = url+"/addExam"+$scope.groupId;
+        };
+        //----------------------------------------------------------------------
+        $scope.editExam = function (data) {
+            window.location.href = url+"/editExam"+data.id;
+        };
+        //----------------------------------------------------------------------
         $scope.detailExam = function (data) {
             $scope.examId = data.id;
             $scope.createrID = data.user_id;
