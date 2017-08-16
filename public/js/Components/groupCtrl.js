@@ -129,15 +129,16 @@ app.controller('groupCtrl', ['$scope', '$window', function ($scope, $window) {
                     if (xhr.readyState == 4) {
                         if (xhr.status == 200) {
                             $('#addGroupPart').waitMe('hide');
-                            alert("สำเร็จ");
-                            window.location.href = url+'/group';
+                            $('#add_modal').modal('hide');
+                            $('#success_modal').modal({backdrop: 'static'});
                         } else if (xhr.status == 209){
                             $('#addGroupPart').waitMe('hide');
                             $('#notice_name_add_grp').html('* กลุ่มเรียนนี้มีอยู่แล้ว').show();
                             $('[ng-model=groupName]').focus();
                         } else {
                             $('#addGroupPart').waitMe('hide');
-                            alert("ผิดพลาด");
+                            $('#add_modal').modal('hide');
+                            $('#unsuccess_modal').modal({backdrop: 'static'});
                         }
                     }
                 }
@@ -204,15 +205,16 @@ app.controller('groupCtrl', ['$scope', '$window', function ($scope, $window) {
                     if (xhr.readyState == 4) {
                         if (xhr.status == 200) {
                             $('#editGroupPart').waitMe('hide');
-                            alert("สำเร็จ");
-                            window.location.href = url+'/group';
+                            $('#edit_modal').modal('hide');
+                            $('#success_modal').modal({backdrop: 'static'});
                         } else if (xhr.status == 209){
                             $('#editGroupPart').waitMe('hide');
                             $('#notice_pass_edit_grp').html('* กลุ่มเรียนนี้มีอยู่แล้ว').show();
                             $('[ng-model=groupName]').focus();
                         } else {
                             $('#editGroupPart').waitMe('hide');
-                            alert("ผิดพลาด");
+                            $('#edit_modal').modal('hide');
+                            $('#unsuccess_modal').modal({backdrop: 'static'});
                         }
                     }
                 }
@@ -252,6 +254,10 @@ app.controller('groupCtrl', ['$scope', '$window', function ($scope, $window) {
             }
         }
     };
+    //----------------------------------------------------------------------
+    $('#okSuccess').on('click',function () {
+        window.location.href = url+'/group';
+    });
     //----------------------------------------------------------------------
 
 }]);

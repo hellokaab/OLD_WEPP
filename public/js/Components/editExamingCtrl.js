@@ -219,4 +219,8 @@ app.controller('editOpenExamingCtrl', ['$scope', '$window', function ($scope, $w
         r = (d[2]) + '-' + d[1] + '-' + d[0] + ' ' + dt[1];
         return r.substring(0, 16);
     }
+    //----------------------------------------------------------------------
+    $('#okSuccess').on('click',function () {
+        window.location.href = url+'/examingHistory';
+    });
 }]);

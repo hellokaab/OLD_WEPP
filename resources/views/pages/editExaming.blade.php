@@ -8,7 +8,15 @@
         var exams = findExamSharedToMe(myuser.id);
         var exam_examing = findExamExamingByExamingID(examingID);
     </script>
-    <div ng-controller="editOpenExamingCtrl">
+    <div ng-controller="editOpenExamingCtrl" style="display: none" id="editOpenExam_div">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
+                <li>จัดการการสอบ</li>
+                <li><a href="<%myUrl%>/examingHistory">ประวัติการเปิดสอบ</a></li>
+                <li class="active">แก้ไขการเปิดสอบ</li>
+            </ol>
+        </div>
         <div class="col-lg-12">
             <div class="panel panel-default" id="edit_examing_part">
                 <div class="panel-heading">
@@ -183,7 +191,7 @@
                                         <option value="/2">192.0.0.0</option>
                                         <option value="/1">128.0.0.0</option>
                                     </select>
-                                    <button ng-click="addNetwork()" class="btn btn-info" style="margin-top: 15px"><i class="fa fa-arrow-down" aria-hidden="true"></i> เพิ่มเครือข่าย</button>
+                                    <button ng-click="addNetwork()" class="btn btn-outline-info" style="margin-top: 15px"><i class="fa fa-arrow-down" aria-hidden="true"></i> เพิ่มเครือข่าย</button>
                                 </div>
                             </div>
                         </div>
@@ -241,10 +249,10 @@
                         <div class = "form-group">
                             <div class="col-md-3"></div>
                             <div class="col-md-3">
-                                <input type="button" class="btn btn-success btn-block" value="บันทึก" ng-click="okEditOpenExam()"/>
+                                <input type="button" class="btn btn-outline-success btn-block" value="บันทึก" ng-click="okEditOpenExam()"/>
                             </div>
                             <div class="col-md-3">
-                                <a class="btn btn-danger btn-block" ng-click="goBack()">ยกเลิก</a>
+                                <a class="btn btn-outline-danger btn-block" ng-click="goBack()">ยกเลิก</a>
                             </div>
                         </div>
                     </div>
@@ -255,6 +263,34 @@
             </div>
         </div>
         <div id="dtBox"></div>
+
+        <!-- Success Modal -->
+        <div class="modal fade" id="success_modal" role="dialog">
+            <div class="modal-dialog" style="width: 20%;padding-right: 12px">
+                <div class="modal-content">
+                    <div class="modal-body" style="text-align: center">
+                        <h1 style="color: #28a745">สำเร็จ&nbsp;&nbsp;<i class="fa fa-check-circle" aria-hidden="true"></i></h1>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="okSuccess" type="button" class="btn btn-outline-success" data-dismiss="modal">ตกลง</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Unsuccess Modal -->
+        <div class="modal fade" id="unsuccess_modal" role="dialog">
+            <div class="modal-dialog" style="width: 20%;padding-right: 12px">
+                <div class="modal-content">
+                    <div class="modal-body" style="text-align: center">
+                        <h1 style="color: #dc3545">ผิดพลาด&nbsp;&nbsp;<i class="fa fa-times-circle" aria-hidden="true"></i></h1>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">ตกลง</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -276,7 +312,7 @@
 
             });
 
-            $('#openExam_div').css('display','block');
+            $('#editOpenExam_div').css('display','block');
         });
 
         function setDataTimePart() {

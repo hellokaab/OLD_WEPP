@@ -61,11 +61,12 @@ function deleteSectionGroup(data) {
             if (xhr.readyState == 4) {
                 if (xhr.status == 200) {
                     $('#delete_group_part').waitMe('hide');
-                    alert("ลบสำเร็จ");
-                    location.reload();
+                    $('#delete_grp_modal').modal('hide');
+                    $('#success_modal').modal({backdrop: 'static'});
                 } else {
                     $('#delete_group_part').waitMe('hide');
-                    alert("ผิดพลาด");
+                    $('#delete_grp_modal').modal('hide');
+                    $('#unsuccess_modal').modal({backdrop: 'static'});
                 }
             }
         }
@@ -570,7 +571,7 @@ function createExaming(data) {
                     // window.location.href = url+'/exam';
                 } else {
                     $('#open_exam_part').waitMe('hide');
-                    alert("ผิดพลาด");
+                    $('#unsuccess_modal').modal({backdrop: 'static'});
                 }
 
             }
@@ -581,8 +582,7 @@ function createExaming(data) {
             createExamExaming(parseInt(data.exam[i]),examing.id);
         }
         $('#open_exam_part').waitMe('hide');
-        alert("สำเร็จ");
-        window.location.href = url+'/examingHistory';
+        $('#success_modal').modal({backdrop: 'static'});
     }
 
 }
@@ -607,7 +607,7 @@ function updateExaming(data) {
                     // window.location.href = url+'/exam';
                 } else {
                     $('#edit_examing_part').waitMe('hide');
-                    alert("ผิดพลาด");
+                    $('#unsuccess_modal').modal({backdrop: 'static'});
                 }
 
             }
@@ -621,8 +621,7 @@ function updateExaming(data) {
             updateExamExaming(data.exam[i],data.id);
         }
         $('#edit_examing_part').waitMe('hide');
-        alert("สำเร็จ");
-        window.location.href = url+'/examingHistory';
+        $('#success_modal').modal({backdrop: 'static'});
     }
 
 }

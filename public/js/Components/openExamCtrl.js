@@ -164,6 +164,10 @@ app.controller('openExamCtrl', ['$scope', '$window', function ($scope, $window) 
     $scope.goBack = function () {
         window.history.back();
     }
+    //----------------------------------------------------------------------
+    $('#okSuccess').on('click',function () {
+        window.location.href = url+'/examingHistory';
+    });
 
 }]);
 
