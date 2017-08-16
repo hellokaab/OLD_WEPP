@@ -235,6 +235,12 @@
     <script>
         $(document).ready(function () {
             $('#exam_div').css('display', 'block');
+            $("#side_exam_store").removeAttr('class');
+            $('#side_exam_store').attr('class', 'active');
+            $("#exam_chevron").removeAttr('class');
+            $("#exam_chevron").attr('class','fa2 fa-chevron-down');
+            $('#demo3').attr('class', 'collapse in');
+            $('#side_shared_exam').attr('class', 'active');
 
             $(".nav-tabs a").click(function () {
                 $(this).tab('show');

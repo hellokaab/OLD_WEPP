@@ -14,6 +14,10 @@ app.controller('openExamHistoryCtrl', ['$scope', '$window', function ($scope, $w
         $scope.examings[i].end_date_time = dtDBToDtPicker($scope.examings[i].end_date_time);
     }
     //----------------------------------------------------------------------
+    $scope.editExaming = function (data) {
+        window.location.href = url+"/editOpenExam"+data.id;
+    };
+    //----------------------------------------------------------------------
     $scope.deleteExaming = function (data) {
         $scope.examingName = data.examing_name;
         $scope.examingId = data.id;

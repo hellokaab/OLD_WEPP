@@ -7,6 +7,13 @@
     </script>
     <div ng-controller="openExamHistoryCtrl" style="display: none" id="openExamHistory_div">
         <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
+                <li>จัดการการสอบ</li>
+                <li class="active">ประวัติการเปิดสอบ</li>
+            </ol>
+        </div>
+        <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <b style="color: #555">ประวัติการเปิดสอบ</b>
@@ -62,21 +69,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr dir-paginate="e in examings|filter:query|itemsPerPage:selectRow">
+                                <tr ng-show="groupId == e.group_id" dir-paginate="e in examings|filter:query|itemsPerPage:selectRow">
                                     <td><%e.examing_name%></td>
                                     <td ng-show="e.examing_mode === 'n'">เรียงตามลำดับ</td>
                                     <td ng-show="e.examing_mode === 'r'">สุ่ม</td>
                                     <td style="text-align: center"><%e.start_date_time%></td>
                                     <td style="text-align: center"><%e.end_date_time%></td>
                                     <td style="text-align: center;width: 20%">
-                                        <a title="แก้ไข" style="cursor:pointer;color: #f0ad4e" href="<%myUrl%>/editOpenExam<%e.id%>">
+                                        <button class="btn btn-sm btn-outline-warning" title="แก้ไข" style="cursor:pointer" ng-click="editExaming(e)">
                                             <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
-                                        </a>
+                                        </button>
                                         &nbsp;&nbsp;
-                                        <a title="ลบ" style="cursor:pointer;color: #d9534f">
-                                            <i class="fa fa-trash fa-lg" aria-hidden="true"
-                                               ng-click="deleteExaming(e)"></i>
-                                        </a>
+                                        <button class="btn btn-sm btn-outline-danger" title="ลบ" style="cursor:pointer" ng-click="deleteExaming(e)">
+                                            <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -90,8 +96,8 @@
         <div class="modal fade" id="delete_modal" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="panel panel-danger" id="deleteExamingPart" style="margin-bottom: 0;border-color: #d43f3a">
-                        <div class="panel-heading" style="background-color: #d9534f">
+                    <div class="panel panel-danger" id="deleteExamingPart" style="margin-bottom: 0">
+                        <div class="panel-heading">
                             <h3 class="panel-title">ยืนยันการทำรายการ</h3>
                         </div>
                         <div style="padding-top: 7%; text-align: center">คุณต้องการลบประวัติการเปิดสอบนี้หรือไม่</div>
@@ -99,8 +105,8 @@
                         <input ng-model="examingName" value="" style="margin-left: 10%; width: 80%" type="text" class="form-control text-center"  disabled/>
                         <br>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" ng-click="okDeleteExaming()">ตกลง</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
+                            <button type="button" class="btn btn-outline-danger" ng-click="okDeleteExaming()">ตกลง</button>
+                            <button type="button" class="btn btn-outline-default" data-dismiss="modal">ยกเลิก</button>
                         </div>
                     </div>
                 </div>
@@ -110,6 +116,12 @@
     <script>
         $(document).ready(function () {
             $('#openExamHistory_div').css('display','block');
+            $("#side_examming").removeAttr('class');
+            $('#side_examming').attr('class', 'active');
+            $("#examming_chevron").removeAttr('class');
+            $("#examming_chevron").attr('class','fa2 fa-chevron-down');
+            $('#demo').attr('class', 'collapse in');
+            $('#side_historyExaming').attr('class', 'active');
         });
     </script>
 @endsection

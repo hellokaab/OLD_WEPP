@@ -9,9 +9,15 @@
     </script>
     <div ng-controller="groupCtrl" style="display: none" id="group_div">
         <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
+                <li class="active">กลุ่มเรียน</li>
+            </ol>
+        </div>
+        <div class="col-lg-12">
         <div class="panel panel-default ">
-            <div class="panel-heading"><b>กลุ่มเรียน</b>
-                <a href="" ng-click="addGroup()"><i class="fa fa-plus" style="float: right"> เพิ่มกลุ่มเรียน</i></a>
+            <div class="panel-heading" style="height: 51px"><label style="padding-top: 5px">กลุ่มเรียน</label>
+                <button class="btn btn-sm btn-outline-success" href="" ng-click="addGroup()" style="float: right"><i class="fa fa-plus"> เพิ่มกลุ่มเรียน</i></button>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -48,9 +54,9 @@
                                 <table class="table table-striped">
                                     <thead>
                                     <tr>
-                                        <th ng-click="sort('group_name')" style="cursor:pointer">ชื่อกลุ่มเรียน  <i class="fa" ng-show="sortKey=='group_name'" ng-class="{'fa-chevron-up':reverseS,'fa-chevron-down':!reverseS}"></i></th>
-                                        <th>ผู้ดูแลกลุ่ม</th>
-                                        <th>แก้ไข</th>
+                                        <th ng-click="sort('group_name')" style="cursor:pointer;width: 40%">ชื่อกลุ่มเรียน  <i class="fa" ng-show="sortKey=='group_name'" ng-class="{'fa-chevron-up':reverseS,'fa-chevron-down':!reverseS}"></i></th>
+                                        <th style="width:40%">ผู้ดูแลกลุ่ม</th>
+                                        <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -59,16 +65,15 @@
                                         <td><a href="#listNameGroup" ng-click="changeGroup(m)"><%m.group_name%></a></td>
                                         <td>อ.<%m.fname_th+" "+m.lname_th%></td>
                                         <td ng-hide="m.user_id == thisUser.id"></td>
-                                        <td ng-show="m.user_id == thisUser.id">
-                                            <a title="แก้ไขกลุ่มเรียน" style="cursor:pointer;color: #f0ad4e">
+                                        <td ng-show="m.user_id == thisUser.id" style="text-align: center">
+                                            <button class="btn btn-sm btn-outline-warning" title="แก้ไขกลุ่มเรียน" style="cursor:pointer" ng-click="editGroup(m)">
                                                 <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"
-                                                   data-toggle="modal" ng-click="editGroup(m)"></i>
-                                            </a>
+                                                   data-toggle="modal"></i>
+                                            </button>
                                             &nbsp;&nbsp;
-                                            <a title="ลบกลุ่มเรียน" style="cursor:pointer;color: #d9534f">
-                                                <i class="fa fa-trash fa-lg" aria-hidden="true" data-toggle="modal"
-                                                   ng-click="deleteGroup(m)"></i>
-                                            </a>
+                                            <button class="btn btn-sm btn-outline-danger" title="ลบกลุ่มเรียน" style="cursor:pointer" ng-click="deleteGroup(m)">
+                                                <i class="fa fa-trash fa-lg" aria-hidden="true" data-toggle="modal"></i>
+                                            </button>
                                         </td>
                                     </tr>
                                     <tr ng-hide="mygroup.length > 0">
@@ -137,9 +142,9 @@
         <div class="modal fade" id="add_modal" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="panel panel-default" id="addGroupPart" style="margin-bottom: 0">
+                    <div class="panel panel-success" id="addGroupPart" style="margin-bottom: 0">
                         <div class="panel-heading">
-                            <h3 class="panel-title" style="color: #555">เพิ่มกลุ่มเรียน</h3>
+                            <h3 class="panel-title" style="color: #fff">เพิ่มกลุ่มเรียน</h3>
                         </div>
                         <div class="form-horizontal" role="form" style="padding-top: 7%">
                             <label class="col-md-4 control-label">ชื่อกลุ่มเรียน</label>
@@ -167,8 +172,8 @@
                             <div class="form-group"></div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-success" ng-click="okAddGroup()">ตกลง</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">ยกเลิก</button>
+                            <button type="button" class="btn btn-outline-success" ng-click="okAddGroup()">ตกลง</button>
+                            <button type="button" class="btn btn-outline-default" data-dismiss="modal">ยกเลิก</button>
                         </div>
                     </div>
                 </div>
@@ -180,9 +185,9 @@
         <div class="modal fade" id="delete_grp_modal" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="panel panel-default" id="delete_group_part" style="margin-bottom: 0">
+                    <div class="panel panel-danger" id="delete_group_part" style="margin-bottom: 0">
                         <div class="panel-heading">
-                            <h3 class="panel-title" style="color: #555">ยืนยันการลบรายการ</h3>
+                            <h3 class="panel-title" style="color: #fff">ยืนยันการลบรายการ</h3>
                         </div>
                         <div class="form-horizontal" role="form" style="padding-top: 7%">
                             <label class="col-md-4 control-label">กลุ่มการเรียน</label>
@@ -195,8 +200,8 @@
                             <div class="form-group"></div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-success" ng-click="okDeleteGroup()">ลบ</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">ยกเลิก</button>
+                            <button type="button" class="btn btn-outline-danger" ng-click="okDeleteGroup()">ลบ</button>
+                            <button type="button" class="btn btn-outline-default" data-dismiss="modal">ยกเลิก</button>
                         </div>
                     </div>
                 </div>
@@ -234,9 +239,9 @@
         <div class="modal fade" id="edit_modal" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="panel panel-default" id="editGroupPart" style="margin-bottom: 0">
+                    <div class="panel panel-warning" id="editGroupPart" style="margin-bottom: 0">
                         <div class="panel-heading">
-                            <h3 class="panel-title" style="color: #555">แก้ไขกลุ่มเรียน</h3>
+                            <h3 class="panel-title" style="color: #fff">แก้ไขกลุ่มเรียน</h3>
                         </div>
                         <div class="form-horizontal" role="form" style="padding-top: 7%">
                             <label class="col-md-4 control-label">ชื่อกลุ่มเรียน</label>
@@ -264,8 +269,8 @@
                             <div class="form-group"></div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-success" ng-click="okEditGroup()">ตกลง</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">ยกเลิก</button>
+                            <button type="button" class="btn btn-outline-warning" ng-click="okEditGroup()">ตกลง</button>
+                            <button type="button" class="btn btn-outline-default" data-dismiss="modal">ยกเลิก</button>
                         </div>
                     </div>
                 </div>
@@ -293,26 +298,38 @@
             </div>
         </div>
 
-        {{--<script>--}}
-        {{--$(document).ready(function () {--}}
-        {{--$('#tableGroup').DataTable({--}}
-        {{--responsive: true,--}}
-        {{--"aoColumnDefs": [--}}
-        {{--{"bSortable": false, "aTargets": [1]}--}}
-        {{--], "order": [[0, "asc"]]--}}
-        {{--});--}}
-        {{--$('.tableStudent').DataTable({--}}
-        {{--responsive: true,--}}
-        {{--"aoColumnDefs": [--}}
-        {{--{"bSortable": false, "aTargets": [3]}--}}
-        {{--], "order": [[0, "asc"]]--}}
-        {{--});--}}
-        {{--});</script>--}}
+        <!-- Success Modal -->
+        <div class="modal fade" id="success_modal" role="dialog">
+            <div class="modal-dialog" style="width: 20%;padding-right: 12px">
+                <div class="modal-content">
+                    <div class="modal-body" style="text-align: center">
+                        <h1 style="color: #28a745">สำเร็จ&nbsp;&nbsp;<i class="fa fa-check-circle" aria-hidden="true"></i></h1>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="okSuccess" type="button" class="btn btn-outline-success" data-dismiss="modal">ตกลง</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Unsuccess Modal -->
+        <div class="modal fade" id="unsuccess_modal" role="dialog">
+            <div class="modal-dialog" style="width: 20%;padding-right: 12px">
+                <div class="modal-content">
+                    <div class="modal-body" style="text-align: center">
+                        <h1 style="color: #dc3545">ผิดพลาด&nbsp;&nbsp;<i class="fa fa-times-circle" aria-hidden="true"></i></h1>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">ตกลง</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <script>
             $(document).ready(function () {
                 $('#group_div').css('display', 'block');
-
+                $('#side_group').attr('class','active');
                 $(".nav-tabs a").click(function () {
                     $(this).tab('show');
                 });

@@ -47,8 +47,8 @@
             <div class="collapse" id="demo3">
                 <ul class="list-unstyled main-menu" id="_menu3" z="user-managed=">
                     <li2 role="presentation">
-                        <a href="<%myUrl%>/myExam">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ข้อสอบของฉัน</a>
-                        <a href="<%myUrl%>/exam">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ข้อสอบที่แบ่งปันกับฉัน</a>
+                        <a id="side_my_exam" href="<%myUrl%>/myExam">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ข้อสอบของฉัน</a>
+                        <a id="side_shared_exam" href="<%myUrl%>/exam">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ข้อสอบที่แบ่งปันกับฉัน</a>
                     </li2>
                 </ul>
             </div>
@@ -66,8 +66,8 @@
             <div class="collapse" id="demo">
                 <ul class="list-unstyled main-menu" id="_menu" z="user-managed=">
                     <li5 role="presentation">
-                        <a href="<%myUrl%>/openExam">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;เปิดสอบ</a>
-                        <a href="<%myUrl%>/examingHistory">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ประวัติการเปิดสอบ</a>
+                        <a id="side_openExaming" href="<%myUrl%>/openExam">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;เปิดสอบ</a>
+                        <a id="side_historyExaming" href="<%myUrl%>/examingHistory">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ประวัติการเปิดสอบ</a>
                     </li5>
                 </ul>
             </div>
@@ -87,17 +87,17 @@
             {{--<li ng-show="thisUser.user_type === 's'">--}}
                 {{--<a id="side_std_group" href="<%myUrl%>/stdGroup"><i class="fa2 fa-users fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;กลุ่มเรียน</a>--}}
             {{--</li>--}}
-            <li ng-show="thisUser.user_type === 's'">
+            <li5 ng-show="thisUser.user_type === 's'">
                 <a data-target="#demo_std_group" data-toggle="collapse" role="presentation" id="side_std_group" href="" class="collapsed">
-                    <i class="fa2 fa-users fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;กลุ่มเรียน<i id="std_group_chevron" class="fa2 fa-chevron-left" style="padding-left: 129px"></i>
+                    <i class="fa2 fa-users fa-lg" aria-hidden="true" style="color: #2185d0"></i>&nbsp;&nbsp;กลุ่มเรียน<i id="std_group_chevron" class="fa2 fa-chevron-left" style="padding-left: 129px"></i>
                 </a>
-            </li>
+            </li5>
             <div class="collapse" id="demo_std_group">
                 <ul class="list-unstyled main-menu" id="_menu_std_group" z="user-managed=">
-                    <li role="presentation">
+                    <li5 role="presentation">
                         <a href="<%myUrl%>/stdGroup">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;กลุ่มเรียนทั้งหมด</a>
                         <a href="<%myUrl%>/stdMyGroup">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;กลุ่มเรียนของฉัน</a>
-                    </li>
+                    </li5>
                 </ul>
             </div>
         </ul>
@@ -127,7 +127,9 @@
         if($("#side_exam_store")[0].className == "collapsed"){
             $("#exam_chevron").removeAttr('class');
             $("#exam_chevron").attr('class','fa2 fa-chevron-down');
+            $("#side_exam_store").attr('class','active');
         } else {
+            $("#side_exam_store").removeAttr('class');
             $("#exam_chevron").removeAttr('class');
             $("#exam_chevron").attr('class','fa2 fa-chevron-left');
 
@@ -138,7 +140,9 @@
         if($("#side_examming")[0].className == "collapsed"){
             $("#examming_chevron").removeAttr('class');
             $("#examming_chevron").attr('class','fa2 fa-chevron-down');
+            $("#side_examming").attr('class','active');
         } else {
+            $("#side_examming").removeAttr('class');
             $("#examming_chevron").removeAttr('class');
             $("#examming_chevron").attr('class','fa2 fa-chevron-left');
 
@@ -149,7 +153,9 @@
         if($("#side_sheeting")[0].className == "collapsed"){
             $("#sheeting_chevron").removeAttr('class');
             $("#sheeting_chevron").attr('class','fa2 fa-chevron-down');
+            $("#side_sheeting").attr('class','active');
         } else {
+            $("#side_sheeting").removeAttr('class');
             $("#sheeting_chevron").removeAttr('class');
             $("#sheeting_chevron").attr('class','fa2 fa-chevron-left');
 
@@ -160,7 +166,9 @@
         if($("#side_std_group")[0].className == "collapsed"){
             $("#std_group_chevron").removeAttr('class');
             $("#std_group_chevron").attr('class','fa2 fa-chevron-down');
+            $("#side_std_group").attr('class','active');
         } else {
+            $("#side_std_group").removeAttr('class');
             $("#std_group_chevron").removeAttr('class');
             $("#std_group_chevron").attr('class','fa2 fa-chevron-left');
 
