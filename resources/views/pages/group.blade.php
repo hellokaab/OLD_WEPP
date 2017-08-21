@@ -3,8 +3,8 @@
 @section('content')
     <script src="js/Components/groupCtrl.js"></script>
     <script>
-        var groupList = findAllGroup().responseJSON;
-        console.log(groupList);
+//        var groupList = findAllGroup().responseJSON;
+//        console.log(groupList);
         var myGroupList = findMyGroup(myuser).responseJSON;
     </script>
     <div ng-controller="groupCtrl" style="display: none" id="group_div">
@@ -62,7 +62,7 @@
                                     <tbody>
                                     {{--@forelse($group as $name)--}}
                                     <tr ng-show="mygroup.length > 0" dir-paginate="m in mygroup|orderBy:[sortC,sortS]|filter:query|itemsPerPage:selectRow">
-                                        <td><a href="#listNameGroup" ng-click="changeGroup(m)"><%m.group_name%></a></td>
+                                        <td><a href="" ng-click="inGroup(m)"><%m.group_name%></a></td>
                                         <td>อ.<%m.fname_th+" "+m.lname_th%></td>
                                         <td ng-hide="m.user_id == thisUser.id"></td>
                                         <td ng-show="m.user_id == thisUser.id" style="text-align: center">
@@ -90,53 +90,7 @@
                             </div>
                         </div>
             </div>
-            <div class="panel-footer" id="move">
-                <b class="notice">*</b> คลิกที่ชื่อกลุ่มเรียนเพื่อดูรายชื่อผู้นักศึกษา
-            </div>
         </div>
-
-        {{------------------------------listNameGroup--------------------------------------}}
-        <div id="listNameGroup" style="display: none">
-            <div class="panel panel-default" ng-repeat="m in grouplist" ng-hide="groupId != <%m.id%>">
-                <div class="panel-heading">
-                    รายชื่อนักศึกษาในกลุ่มเรียน ( <%m.group_name%> )
-                </div>
-                <div class="panel-body">
-                    <div class="dataTable_wrapper">
-                        <table class="table table-striped table-hover tableStudent">
-                            <thead>
-                            <tr>
-                                <th>รหัสนักศึกษา</th>
-                                <th>ชื่อ-นามสกุล</th>
-                                <th>สาขา</th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                            </tr>
-                            {{--<tr ng-repeat="s in (students| filter: {user_group_id: g.user_group_id} )">--}}
-                            {{--<td>{{s.card_id.substr(0, 12) + '-' + s.card_id[12]}}</td>--}}
-                            {{--<td>{{s.pre_name + s.fname + ' ' + s.lname}}</td>--}}
-                            {{--<td>{{s.dep_name}}</td>--}}
-                            {{--<td class="text-right">--}}
-                            {{--<a class="info" title="รายละเอียด" style="cursor:pointer">--}}
-                            {{--<span class="glyphicon glyphicon-th-list" data-toggle="modal" ng-click="detail(s)"></span>--}}
-                            {{--</a>--}}
-                            {{--<a class="danger" title="ลบ" style="cursor:pointer">--}}
-                            {{--<span class="glyphicon glyphicon-remove" data-toggle="modal" ng-click="delete(s)"></span>--}}
-                            {{--</a>--}}
-                            {{--</td>--}}
-                            {{--</tr>--}}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-        {{--------------------------END----listNameGroup--------------------------------------}}
-
 
     <!-- Add Group Modal -->
         <div class="modal fade" id="add_modal" role="dialog">
@@ -202,33 +156,6 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-danger" ng-click="okDeleteGroup()">ลบ</button>
                             <button type="button" class="btn btn-outline-default" data-dismiss="modal">ยกเลิก</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Delete Modal -->
-        <div class="modal fade" id="delete_grp_modal" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="panel panel-default" id="delete_user_part">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">ยืนยันการลบรายการ</h3>
-                        </div>
-                        <div class="form-horizontal" role="form" style="padding-top: 7%">
-                            <label class="col-md-4 control-label">ชื่อ-นามสกุล</label>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" ng-model="groupName" disabled/>
-                                </div>
-                            </div>
-                            <!-- un use -->
-                            <div class="form-group"></div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn" ng-click="okDelete()">ลบ</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
                         </div>
                     </div>
                 </div>

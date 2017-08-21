@@ -5,7 +5,7 @@ app.controller('inGroupCtrl', ['$scope', '$window', function ($scope, $window) {
     $scope.groupData = $window.groupData;
     $scope.selectRow = "10";
     $scope.memberList = findMemberGroup($scope.groupData.id);
-    $scope.examingComing = findExaminhItsComing($scope.groupData.id);
+    $scope.examingComing = findSTDExamingItsComing($scope.groupData.id);
     console.log($scope.examingComing);
 
     // // เปลี่ยนเวลาแบบ Database เป็นเวลาแบบ Data Time Picker

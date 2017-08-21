@@ -2,7 +2,7 @@ app.controller('groupCtrl', ['$scope', '$window', function ($scope, $window) {
     $scope.students = $window.student_list;
     $scope.groups = $window.group_list;
     $scope.teacherId = $window.user_id;
-    $scope.grouplist = $window.groupList;
+    // $scope.grouplist = $window.groupList;
     $scope.mygroup = $window.myGroupList;
     console.log($scope.mygroup);
     $scope.thisUser = $window.myuser;
@@ -14,21 +14,8 @@ app.controller('groupCtrl', ['$scope', '$window', function ($scope, $window) {
     $scope.sortC = 'group_admin';
 
     //----------------------------------------------------------------------
-    $scope.changeGroup = function (data) {
-        $scope.groupId = data.id;
-        $('#listNameGroup').removeAttr('style');
-    };
-    //----------------------------------------------------------------------
-    $scope.detail = function (data) {
-        $scope.prefix = data.pre_name;
-        $scope.name = data.fname + ' ' + data.lname;
-        $scope.email = data.email;
-        $scope.cardId = data.card_id.substr(0, 12) + '-' + data.card_id[12];
-        $scope.faculty = data.fac_name;
-        $scope.department = data.dep_name;
-        $scope.userId = data.user_id;
-        $scope.passwordGroup = data.user_pass;
-        $('#detail_modal').modal({backdrop: 'static'});
+    $scope.inGroup = function (data) {
+        window.location.href = url+"/teaInGroup"+data.id;
     };
     //----------------------------------------------------------------------
     $scope.deleteGroup = function (data) {
@@ -38,32 +25,6 @@ app.controller('groupCtrl', ['$scope', '$window', function ($scope, $window) {
          $scope.groupId = data.user_group_id;
          $scope.groupName = $scope.groups[$scope.CurrentIndex].group_name;*/
         $('#delete_grp_modal').modal({backdrop: 'static'});
-    };
-    //----------------------------------------------------------------------
-    $scope.okDelete = function () {
-        $('#delete_user_part').waitMe({
-            effect: 'win8_linear',
-            bg: 'rgba(255,255,255,0.9)',
-            color: '#3bafda'
-        });
-        $.post("../Process.php", {
-            process: 'delete student',
-            userStu: $scope.deleteUser
-        }, function (data) {
-            if (data === '1') {
-                location.reload();
-            } else {
-                $('#delete_user_part').waitMe('hide');
-                $('#delete_modal').modal('hide');
-                $('#fail_modal').modal({backdrop: 'static'});
-            }
-        });
-    };
-    //----------------------------------------------------------------------
-    $scope.delete = function (data) {
-        $scope.name = data.pre_name + data.fname + ' ' + data.lname;
-        $scope.deleteUser = data.user_id;
-        $('#delete_modal').modal({backdrop: 'static'});
     };
     //----------------------------------------------------------------------
     $scope.okDeleteGroup = function () {
