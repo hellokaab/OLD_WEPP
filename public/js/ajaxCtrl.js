@@ -701,14 +701,28 @@ function findExamingByID(EMID) {
     return examing;
 }
 
-function findExaminhItsComing(GID) {
+function findSTDExamingItsComing(GID) {
     var examing = $.ajax({
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         headers: {
             Accept: "application/json"
         },
-        url:url + '/findExaminhItsComing',
+        url:url + '/findSTDExamingItsComing',
+        data:{group_id:GID},
+        async: false,
+    }).responseJSON;
+    return examing;
+}
+
+function findExamingItsComing(GID) {
+    var examing = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findExamingItsComing',
         data:{group_id:GID},
         async: false,
     }).responseJSON;

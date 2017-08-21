@@ -70,6 +70,13 @@ class GroupController extends Controller
         return view('pages/inGroup',$data);
     }
 
+    public function teaInGroup($id){
+        $data = array(
+            'groupID' => $id
+        );
+        return view('pages/teaInGroup',$data);
+    }
+
     public function findGroupDataByID(Request $request){
         $groupData = DB::table('groups')
             ->join('users', 'groups.user_id', '=', 'users.id')

@@ -47,6 +47,8 @@ Route::get('/stdGroup', 'GroupController@stdGroup');
 
 Route::get('/inGroup{id}', 'GroupController@inGroup');
 
+Route::get('/teaInGroup{id}', 'GroupController@teaInGroup');
+
 Route::get('/findGroupDataByID', 'GroupController@findGroupDataByID');
 
 //--------------------------- SectionController ---------------------------
@@ -137,7 +139,11 @@ Route::get('/deleteExaming', 'ExamingController@destroy');
 
 Route::get('/findExamingByID', 'ExamingController@findExamingByID');
 
-Route::get('/findExaminhItsComing', 'ExamingController@findExaminhItsComing');
+Route::get('/findSTDExamingItsComing', 'ExamingController@findSTDExamingItsComing');
+
+Route::get('/findExamingItsComing', 'ExamingController@findExamingItsComing');
+
+Route::get('/changeHiddenExaming', 'ExamingController@changeHiddenExaming');
 
 //--------------------------- ExamExamingController ---------------------------
 

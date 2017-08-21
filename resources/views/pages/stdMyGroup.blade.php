@@ -58,10 +58,9 @@
                             <td><a href="<%myUrl%>/inGroup<%g.group_id%>"><%g.group_name%></a></td>
                             <td><%g.creater%></td>
                             <td>
-                                <a title="ออกจากกลุ่ม" style="cursor:pointer;color: #d9534f">
-                                    <i class="fa fa-sign-out fa-lg" aria-hidden="true"
-                                       ng-click="exitGroup(g)"></i>
-                                </a>
+                                <button class="btn btn-sm btn-outline-danger" title="ออกจากกลุ่ม" style="cursor:pointer" ng-click="exitGroup(g)">
+                                    <i class="fa fa-sign-out fa-lg" aria-hidden="true"></i>
+                                </button>
                             </td>
                         </tr>
                         <tr ng-hide="myJoinGroup.length > 0">
