@@ -103,9 +103,25 @@ class ExamingController extends Controller
         return response()->json($examing);
     }
 
+    public function findExamingItsEnding(Request $request){
+        $examing = Examing::where('group_id',$request->group_id)
+            ->where('end_date_time','<',DB::raw('NOW()'))
+            ->orderBy('start_date_time','ASC')
+            ->orderBy('end_date_time','ASC')
+            ->orderBy('examing_name','ASC')
+            ->get();
+        return response()->json($examing);
+    }
+
     public function changeHiddenExaming(Request $request){
         $examing = Examing::find($request->id);
         $examing->hide_examing = $request->hide_examing;
+        $examing->save();
+    }
+
+    public function changeHistoryExaming(Request $request){
+        $examing = Examing::find($request->id);
+        $examing->hide_history = $request->hide_history;
         $examing->save();
     }
 

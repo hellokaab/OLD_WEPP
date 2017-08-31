@@ -29,8 +29,8 @@
                             <th style="width: 20%">ชื่อการสอบ</th>
                             <th style="width: 20%;text-align: center">เริ่มต้น</th>
                             <th style="width: 20%;text-align: center">สิ้นสุด</th>
-                            <th style="width: 20%;text-align: center">ซ่อน/แสดง</th>
-                            <th style="width: 20%;text-align: center"></th>
+                            <th style="width: 23%;text-align: center">ซ่อน/แสดง</th>
+                            <th style="width: 17%;text-align: center"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -61,6 +61,57 @@
                             </td>
                         </tr>
                         <tr ng-hide="examingComing.length > 0">
+                            <td>ไม่พบข้อมูล</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                    <br>
+                    <div class="col-lg-12" style="padding: 0px">
+                        <label style="text-decoration:underline;font-size: 18px;padding-top: 5px">การสอบที่เสร็จสิ้นแล้ว</label>
+                    </div>
+                    <table class="table table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th style="width: 20%">ชื่อการสอบ</th>
+                            <th style="width: 20%;text-align: center">เริ่มต้น</th>
+                            <th style="width: 20%;text-align: center">สิ้นสุด</th>
+                            <th style="width: 23%;text-align: center">การเข้าถึงประวัติการสอบ</th>
+                            <th style="width: 17%;text-align: center"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="e in examingEnding" ng-show="examingEnding.length > 0">
+                            <td><%e.examing_name%></td>
+                            <td style="text-align: center"><%e.start_date_time%></td>
+                            <td style="text-align: center"><%e.end_date_time%></td>
+                            <td>
+                                <div class="radio inline-form-control">
+                                    <div class="col-md-6" style="text-align: center">
+                                        <input type="radio" name="hide_history" id="hide_hi_<%e.id%>" value="0" ng-click="changeToAllow(e)">
+                                        <label for="hide_hi" style="padding-left: 2px">อนุญาต</label>
+                                    </div>
+                                    <div class="col-md-6" style="text-align: center">
+                                        <input type="radio" name="hide_history" id="show_hi_<%e.id%>" value="1" ng-click="changeToDisallow(e)">
+                                        <label for="show_hi" style="padding-left: 2px">ไม่อนุญาต</label>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="text-align: center">
+                                <button class="btn btn-sm btn-outline-warning" title="แก้ไข" style="cursor:pointer" ng-click="editExaming(e)">
+                                    <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
+                                </button>
+                                &nbsp;&nbsp;
+                                <button class="btn btn-sm btn-outline-danger" title="ลบ" style="cursor:pointer" ng-click="deleteExaming(e)">
+                                    <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr ng-hide="examingEnding.length > 0">
                             <td>ไม่พบข้อมูล</td>
                             <td></td>
                             <td></td>
@@ -108,7 +159,7 @@
                             <td><%m.stu_id%></td>
                             <td><%m.fullName%></td>
                             <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-primary" title="รายละเอียด" style="cursor:pointer" ng-click="">
+                                <button class="btn btn-sm btn-outline-primary" title="รายละเอียด" style="cursor:pointer" ng-click="showProfile(m)">
                                     <i class="fa fa-address-card fa-lg" aria-hidden="true"></i>
                                 </button>
                                 &nbsp;&nbsp;
@@ -255,6 +306,107 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-info" ng-click="okShow()">ตกลง</button>
                             <button type="button" class="btn btn-outline-default" ng-click="cancelShow()">ยกเลิก</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Allow Modal -->
+        <div class="modal fade" id="change_allow_modal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="panel panel-info" id="change_allow_part" style="margin-bottom: 0">
+                        <div class="panel-heading">
+                            <h3 class="panel-title" style="color: #555">ยืนยันการทำรายการ</h3>
+                        </div>
+                        <div style="padding-top: 7%; text-align: center">คุณต้องการเปลี่ยนแปลงการเข้าถึงประวัติการสอบนี้</div>
+                        <br>
+                        <input style="margin-left: 10%; width: 80%" type="text" class="form-control text-center"
+                               ng-model="examingName" disabled/>
+                        <br>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-info" ng-click="okAllow()">ตกลง</button>
+                            <button type="button" class="btn btn-outline-default" ng-click="cancelAllow()">ยกเลิก</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Disallow Modal -->
+        <div class="modal fade" id="change_disallow_modal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="panel panel-info" id="change_disallow_part" style="margin-bottom: 0">
+                        <div class="panel-heading">
+                            <h3 class="panel-title" style="color: #555">ยืนยันการทำรายการ</h3>
+                        </div>
+                        <div style="padding-top: 7%; text-align: center">คุณต้องการเปลี่ยนแปลงการเข้าถึงประวัติการสอบนี้</div>
+                        <br>
+                        <input style="margin-left: 10%; width: 80%" type="text" class="form-control text-center"
+                               ng-model="examingName" disabled/>
+                        <br>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-info" ng-click="okDisallow()">ตกลง</button>
+                            <button type="button" class="btn btn-outline-default" ng-click="cancelDisallow()">ยกเลิก</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detail Modal -->
+        <div class="modal fade" id="detail_modal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="panel panel-info" id="detail_part" style="margin-bottom: 0">
+                        <div class="panel-heading">
+                            <h3 class="panel-title" style="color:#555">ข้อมูลส่วนตัว</h3>
+                        </div>
+                        <div class="form-horizontal" role="form" style="padding-top: 7%">
+                            <label class="col-md-4 control-label">คำนำหน้า</label>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" ng-model="prefix" disabled/>
+                                </div>
+                            </div>
+                            <label class="col-md-4 control-label">ชื่อ-นามสกุล</label>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" ng-model="name" disabled/>
+                                </div>
+                            </div>
+                            <label class="col-md-4 control-label">อีเมล</label>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" ng-model="email" disabled/>
+                                </div>
+                            </div>
+                            <label class="col-md-4 control-label">รหัสประจำตัวนักศึกษา</label>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" ng-model="cardId" disabled/>
+                                </div>
+                            </div>
+                            <label class="col-md-4 control-label">คณะ</label>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" ng-model="faculty" disabled/>
+                                </div>
+                            </div>
+                            <label class="col-md-4 control-label">สาขา</label>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" ng-model="department" disabled/>
+                                </div>
+                            </div>
+                            <!-- un use -->
+                            <div class="form-group"></div>
+                        </div>
+                        <!-- Model footer -->
+                        <div class="modal-footer">
+                            <button class="btn btn-outline-info" data-dismiss="modal">ปิด</button>
                         </div>
                     </div>
                 </div>
