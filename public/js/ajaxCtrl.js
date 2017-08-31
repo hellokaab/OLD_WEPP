@@ -45,6 +45,20 @@ function findTeacher() {
     return teacher;
 }
 
+function findUserByID(UID) {
+    var user = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/findUserByID',
+        data: {id:UID},
+        async: false,
+    }).responseJSON;
+    return user;
+}
+
 //--------------------------- GroupController ---------------------------
 
 function deleteSectionGroup(data) {
@@ -723,6 +737,20 @@ function findExamingItsComing(GID) {
             Accept: "application/json"
         },
         url:url + '/findExamingItsComing',
+        data:{group_id:GID},
+        async: false,
+    }).responseJSON;
+    return examing;
+}
+
+function findExamingItsEnding(GID) {
+    var examing = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findExamingItsEnding',
         data:{group_id:GID},
         async: false,
     }).responseJSON;

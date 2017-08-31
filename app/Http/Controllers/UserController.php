@@ -81,6 +81,11 @@ class UserController extends Controller
         return response()->json($findTeacher);
     }
 
+    public function findUserByID(Request $request){
+        $findUser = Users::find($request->id);
+        return response()->json($findUser);
+    }
+
 
     /**
      * Show the form for creating a new resource.

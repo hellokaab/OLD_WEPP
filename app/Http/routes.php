@@ -29,6 +29,8 @@ Route::get('/findCreaterByPersonalID/{PID}', 'UserController@findCreaterByPerson
 
 Route::get('/findTeacher', 'UserController@findTeacher');
 
+Route::get('/findUserByID', 'UserController@findUserByID');
+
 //--------------------------- GroupController ---------------------------
 
 Route::get('/group','GroupController@group' );
@@ -143,7 +145,11 @@ Route::get('/findSTDExamingItsComing', 'ExamingController@findSTDExamingItsComin
 
 Route::get('/findExamingItsComing', 'ExamingController@findExamingItsComing');
 
+Route::get('/findExamingItsEnding', 'ExamingController@findExamingItsEnding');
+
 Route::get('/changeHiddenExaming', 'ExamingController@changeHiddenExaming');
+
+Route::get('/changeHistoryExaming', 'ExamingController@changeHistoryExaming');
 
 //--------------------------- ExamExamingController ---------------------------
 
