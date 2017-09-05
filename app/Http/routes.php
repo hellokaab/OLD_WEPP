@@ -174,3 +174,17 @@ Route::get('/exitGroup', 'JoinGroupController@exitGroup');
 Route::get('/stdMyGroup', 'JoinGroupController@stdMyGroup');
 
 Route::get('/findMyJoinGroup', 'JoinGroupController@findMyJoinGroup');
+
+//--------------------------- WorkSheetController ---------------------------
+
+Route::get('/myWorksheet','WorkSheetController@myWorksheet');
+
+Route::get('/shareWorksheet','WorkSheetController@shareWorksheet');
+
+Route::get('/addMyWorksheetGroup','WorkSheetController@addMyWorksheetGroup');
+
+Route::get('/dataSheetGroup','WorkSheetController@dataSheetGroup');
+
+Route::get('/delete/groupSheet','WorkSheetController@destroy');
+
+Route::get('/edit/groupSheet','WorkSheetController@editSheetGroup');

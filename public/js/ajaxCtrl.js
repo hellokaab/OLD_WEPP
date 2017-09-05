@@ -903,3 +903,103 @@ function findMyJoinGroup(UID) {
     }).responseJSON;
     return myGroup
 }
+
+//--------------------------- WorkSheetController ---------------------------
+
+function addMyWorksheetGroup(data) {
+    $.ajax ({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/addMyWorksheetGroup',
+        data: data,
+        async: false,
+        complete: function (xhr) {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    $('#addWorkSheetGroupPart').waitMe('hide');
+                    $('#success_modal').modal({backdrop: 'static'});
+                } else if (xhr.status == 209){
+                    $('#addWorkSheetGroupPart').waitMe('hide');
+                    $('#notice_name_add_mwsg').html('* กลุ่มใบงานนี้มีอยู่แล้ว').show();
+                    $('[ng-model=MySheetName]').focus();
+                } else {
+                    $('#addWorkSheetGroupPart').waitMe('hide');
+                    $('#unsuccess_modal').modal({backdrop: 'static'});
+                }
+            }
+        }
+    });
+}
+
+function dataSheetGroup(data) {
+    var dataSheet = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/dataSheetGroup',
+        data: data,
+        async: false,
+    });
+    return dataSheet;
+}
+
+function deleteWorksheetGroup(data) {
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/delete/groupSheet',
+        data: data,
+        async: false,
+        complete: function (xhr) {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    $('#delete_WorksheetGroup_part').waitMe('hide');
+                    $('#delete_wsg_modal').modal('hide');
+                    $('#success_modal').modal({backdrop: 'static'});
+                } else {
+                    $('#delete_WorksheetGroup_part').waitMe('hide');
+                    $('#delete_wsg_modal').modal('hide');
+                    $('#unsuccess_modal').modal({backdrop: 'static'});
+                }
+            }
+        }
+    });
+}
+
+function editWorksheetGroup(data) {
+    $.ajax ({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/edit/groupSheet',
+        data: data,
+        async: false,
+        complete: function (xhr) {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    $('#edit_worksheet_group_part').waitMe('hide');
+                    $('#edit_worksheet_group_modal').modal('hide');
+                    $('#success_modal').modal({backdrop: 'static'});
+                } else if (xhr.status == 209){
+                    $('#edit_worksheet_group_part').waitMe('hide');
+                    $('#notice_edit_worksheetGroup_ewsg').html('* กลุ่มใบงานนี้มีอยู่แล้ว').show();
+                    $('[ng-model=MySheetName]').focus();
+                } else {
+                    $('#edit_worksheet_group_part').waitMe('hide');
+                    $('#edit_worksheet_group_modal').modal('hide');
+                    $('#unsuccess_modal').modal({backdrop: 'static'});
+                }
+            }
+        }
+    });
+}

@@ -53,8 +53,18 @@
                 </ul>
             </div>
             <li3 ng-show="thisUser.user_type === 't'">
-                <a id="side_sheet_store" href="#"><i class="fa2 fa-archive fa-lg" aria-hidden="true" style="color: #fbbd08"></i>&nbsp;&nbsp;คลังใบงาน</a>
+                <a data-target="#demo4" data-toggle="collapse" role="presentation" id="side_sheet_store" href="" class="collapsed">
+                    <i class="fa2 fa-archive fa-lg" aria-hidden="true" style="color: #fbbd08"></i>&nbsp;&nbsp;คลังใบงาน <i id="sheet_chevron" class="fa2 fa-chevron-left" style="padding-left: 117px"></i>
+                </a>
             </li3>
+            <div class="collapse" id="demo4">
+                <ul class="list-unstyled main-menu" id="_menu" z="user-managed=">
+                    <li3 role="presentation">
+                        <a href="<%myUrl%>/myWorksheet">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ใบงานของฉัน</a>
+                        <a href="<%myUrl%>/shareWorksheet">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ใบงานที่แบ่งปันกับฉัน</a>
+                    </li3>
+                </ul>
+            </div>
             <li4 ng-show="thisUser.user_type === 't'">
                 <a id="side_group" href="<%myUrl%>/group"><i class="fa2 fa-users fa-lg" aria-hidden="true" style="color: #21ba45"></i>&nbsp;&nbsp;กลุ่มเรียน</a>
             </li4>
@@ -132,6 +142,19 @@
             $("#side_exam_store").removeAttr('class');
             $("#exam_chevron").removeAttr('class');
             $("#exam_chevron").attr('class','fa2 fa-chevron-left');
+
+        }
+    });
+
+    $("#side_sheet_store").on('click',function () {
+        if($("#side_sheet_store")[0].className == "collapsed"){
+            $("#sheet_chevron").removeAttr('class');
+            $("#sheet_chevron").attr('class','fa2 fa-chevron-down');
+            $("#side_sheet_store").attr('class','active');
+        } else {
+            $("#side_sheet_store").removeAttr('class');
+            $("#sheet_chevron").removeAttr('class');
+            $("#sheet_chevron").attr('class','fa2 fa-chevron-left');
 
         }
     });

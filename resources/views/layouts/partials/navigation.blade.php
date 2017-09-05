@@ -58,7 +58,7 @@
                     <a href="<%myUrl%>/exam"><i class="fa2 fa-database fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;คลังข้อสอบ</a>
                 </li>
                 <li id="nav_sheet_store" style="display: none">
-                    <a href="#"><i class="fa2 fa-archive fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;คลังใบงาน</a>
+                    <a href="<%myUrl%>/worksheet"><i class="fa2 fa-archive fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;คลังใบงาน</a>
                 </li>
                 <li id="nav_group" style="display: none">
                     <a href="<%myUrl%>/group"><i class="fa2 fa-users fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;กลุ่มเรียน</a>
