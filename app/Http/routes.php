@@ -151,6 +151,8 @@ Route::get('/changeHiddenExaming', 'ExamingController@changeHiddenExaming');
 
 Route::get('/changeHistoryExaming', 'ExamingController@changeHistoryExaming');
 
+Route::get('/checkIP', 'ExamingController@checkIP');
+
 //--------------------------- ExamExamingController ---------------------------
 
 Route::get('/createExamExaming', 'ExamExamingController@store');

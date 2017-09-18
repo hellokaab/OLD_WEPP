@@ -3,10 +3,16 @@
   <component name="ChangeListManager">
     <list default="true" id="76624c7e-95f8-42be-9433-084b58182432" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/ExamingController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/ExamingController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ajaxCtrl.js" afterPath="$PROJECT_DIR$/public/js/ajaxCtrl.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/layouts/partials/navigation.blade.php" afterPath="$PROJECT_DIR$/resources/views/layouts/partials/navigation.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/Components/inGroupCtrl.js" afterPath="$PROJECT_DIR$/public/js/Components/inGroupCtrl.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/Components/stdMyGroupCtrl.js" afterPath="$PROJECT_DIR$/public/js/Components/stdMyGroupCtrl.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/layouts/partials/side_nav.blade.php" afterPath="$PROJECT_DIR$/resources/views/layouts/partials/side_nav.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/layouts/template.blade.php" afterPath="$PROJECT_DIR$/resources/views/layouts/template.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/pages/inGroup.blade.php" afterPath="$PROJECT_DIR$/resources/views/pages/inGroup.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/pages/stdGroup.blade.php" afterPath="$PROJECT_DIR$/resources/views/pages/stdGroup.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/pages/stdMyGroup.blade.php" afterPath="$PROJECT_DIR$/resources/views/pages/stdMyGroup.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/pages/teaInGroup.blade.php" afterPath="$PROJECT_DIR$/resources/views/pages/teaInGroup.blade.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,25 +24,73 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="side_nav.blade.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/resources/views/layouts/partials/side_nav.blade.php">
+      <file leaf-file-name="template.blade.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/views/layouts/template.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="97">
-              <caret line="59" column="42" lean-forward="false" selection-start-line="59" selection-start-column="42" selection-end-line="59" selection-end-column="42" />
+            <state relative-caret-position="141">
+              <caret line="72" column="38" lean-forward="true" selection-start-line="72" selection-start-column="38" selection-end-line="72" selection-end-column="38" />
               <folding>
-                <element signature="n#style#0;n#i#0;n#a#0;n#li3#0;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="e#2637#2643#0#HTML" expanded="true" />
-                <element signature="e#2643#2649#0#HTML" expanded="true" />
-                <element signature="n#style#0;n#i#1;n#a#0;n#li3#0;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="e#3012#3018#0#HTML" expanded="true" />
-                <element signature="e#3023#3029#0#HTML" expanded="true" />
-                <element signature="e#3034#3040#0#HTML" expanded="true" />
-                <element signature="e#3045#3051#0#HTML" expanded="true" />
-                <element signature="e#3126#3132#0#HTML" expanded="true" />
-                <element signature="e#3137#3143#0#HTML" expanded="true" />
-                <element signature="e#3148#3154#0#HTML" expanded="true" />
-                <element signature="e#3159#3165#0#HTML" expanded="true" />
-                <marker date="1504591603571" expanded="true" signature="6905:6914" ph="..." />
+                <marker date="1505720892108" expanded="true" signature="3972:3983" ph="..." />
+                <marker date="1505720892108" expanded="true" signature="4449:4478" ph="..." />
+                <marker date="1505720892108" expanded="true" signature="4490:4517" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="stdMyGroup.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/pages/stdMyGroup.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="75" column="37" lean-forward="false" selection-start-line="75" selection-start-column="37" selection-end-line="75" selection-end-column="37" />
+              <folding>
+                <marker date="1504685910602" expanded="true" signature="9:27" ph="..." />
+                <marker date="1504685910602" expanded="true" signature="38:47" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="inGroup.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/pages/inGroup.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="321">
+              <caret line="194" column="54" lean-forward="false" selection-start-line="194" selection-start-column="36" selection-end-line="194" selection-end-column="54" />
+              <folding>
+                <element signature="e#6729#6753#0#HTML" expanded="true" />
+                <element signature="e#7967#7991#0#HTML" expanded="true" />
+                <element signature="e#8214#8237#0#HTML" expanded="true" />
+                <element signature="e#9455#9479#0#HTML" expanded="true" />
+                <element signature="e#9661#9704#0#HTML" expanded="true" />
+                <element signature="e#10346#10370#0#HTML" expanded="true" />
+                <element signature="e#10647#10690#0#HTML" expanded="true" />
+                <marker date="1505724938157" expanded="true" signature="9:27" ph="..." />
+                <marker date="1505724938157" expanded="true" signature="38:47" ph="..." />
+                <marker date="1505724938157" expanded="true" signature="143:151" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="inGroupCtrl.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/Components/inGroupCtrl.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="307">
+              <caret line="24" column="9" lean-forward="false" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="teaInGroup.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/pages/teaInGroup.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1615">
+              <caret line="98" column="87" lean-forward="false" selection-start-line="98" selection-start-column="87" selection-end-line="98" selection-end-column="87" />
+              <folding>
+                <marker date="1505707692866" expanded="true" signature="9:27" ph="..." />
+                <marker date="1505707692866" expanded="true" signature="38:47" ph="..." />
+                <marker date="1505707692866" expanded="true" signature="146:154" ph="..." />
               </folding>
             </state>
           </provider>
@@ -45,8 +99,8 @@
       <file leaf-file-name="ajaxCtrl.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/ajaxCtrl.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1888">
-              <caret line="1004" column="1" lean-forward="false" selection-start-line="1004" selection-start-column="1" selection-end-line="1004" selection-end-column="1" />
+            <state relative-caret-position="408">
+              <caret line="741" column="20" lean-forward="true" selection-start-line="732" selection-start-column="4" selection-end-line="741" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -55,18 +109,28 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="468">
-              <caret line="189" column="68" lean-forward="false" selection-start-line="189" selection-start-column="68" selection-end-line="189" selection-end-column="68" />
+            <state relative-caret-position="528">
+              <caret line="153" column="20" lean-forward="false" selection-start-line="153" selection-start-column="13" selection-end-line="153" selection-end-column="20" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="navigation.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/layouts/partials/navigation.blade.php">
+      <file leaf-file-name="ExamingController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ExamingController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-73">
-              <caret line="57" column="31" lean-forward="true" selection-start-line="57" selection-start-column="31" selection-end-line="57" selection-end-column="31" />
+            <state relative-caret-position="485">
+              <caret line="144" column="9" lean-forward="true" selection-start-line="140" selection-start-column="7" selection-end-line="144" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ExamController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ExamController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="357">
+              <caret line="105" column="7" lean-forward="true" selection-start-line="105" selection-start-column="7" selection-end-line="107" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -83,15 +147,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>.btn-pa</find>
-      <find>.btn-p</find>
-      <find>.btn-pr</find>
-      <find>.btn-pri</find>
-      <find>.btn-prima</find>
-      <find>.btn-primary</find>
-      <find>btn-default</find>
-      <find>.addExam</find>
-      <find>btn-info</find>
       <find>li</find>
       <find>edit_modal</find>
       <find>r</find>
@@ -113,6 +168,15 @@
       <find>change_history_modal</find>
       <find>change_history_part</find>
       <find>okH</find>
+      <find>exit_group_part</find>
+      <find>join_group_part</find>
+      <find>exitGroup</find>
+      <find>groupID</find>
+      <find>join_group_modal</find>
+      <find>/findSTDExamingItsComing</find>
+      <find>findSTDExamingItsComing</find>
+      <find>IPv6</find>
+      <find>examing</find>
     </findStrings>
     <replaceStrings>
       <replace>btn-outline-success</replace>
@@ -142,11 +206,9 @@
         <option value="$PROJECT_DIR$/database/migrations/2017_07_14_122544_create_groups_table.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/ExamController.php" />
         <option value="$PROJECT_DIR$/database/migrations/2017_08_08_041356_create_join_groups_table.php" />
-        <option value="$PROJECT_DIR$/resources/views/pages/stdGroup.blade.php" />
         <option value="$PROJECT_DIR$/public/js/Components/groupListCtrl.js" />
         <option value="$PROJECT_DIR$/resources/views/pages/groupList.blade.php" />
         <option value="$PROJECT_DIR$/public/js/Components/stdGroupCtrl.js" />
-        <option value="$PROJECT_DIR$/public/js/Components/stdMyGroupCtrl.js" />
         <option value="$PROJECT_DIR$/database/migrations/2017_07_17_102334_create_examings_table.php" />
         <option value="$PROJECT_DIR$/public/css/myCustom.css" />
         <option value="$PROJECT_DIR$/resources/views/pages/addExam.blade.php" />
@@ -168,19 +230,21 @@
         <option value="$PROJECT_DIR$/resources/views/pages/group.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/GroupController.php" />
         <option value="$PROJECT_DIR$/public/js/Components/groupCtrl.js" />
-        <option value="$PROJECT_DIR$/resources/views/pages/inGroup.blade.php" />
-        <option value="$PROJECT_DIR$/public/js/Components/inGroupCtrl.js" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/JoinGroupController.php" />
-        <option value="$PROJECT_DIR$/resources/views/layouts/template.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/pages/stdMyGroup.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/UserController.php" />
         <option value="$PROJECT_DIR$/public/js/Components/teaInGroupCtrl.js" />
-        <option value="$PROJECT_DIR$/resources/views/pages/teaInGroup.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/ExamingController.php" />
-        <option value="$PROJECT_DIR$/resources/views/layouts/partials/side_nav.blade.php" />
         <option value="$PROJECT_DIR$/public/js/ajaxCtrl.js" />
-        <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/partials/navigation.blade.php" />
+        <option value="$PROJECT_DIR$/public/js/Components/stdMyGroupCtrl.js" />
+        <option value="$PROJECT_DIR$/resources/views/layouts/partials/side_nav.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/pages/stdGroup.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/pages/stdMyGroup.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/pages/teaInGroup.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/routes.php" />
+        <option value="$PROJECT_DIR$/resources/views/layouts/template.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/ExamingController.php" />
+        <option value="$PROJECT_DIR$/resources/views/pages/inGroup.blade.php" />
+        <option value="$PROJECT_DIR$/public/js/Components/inGroupCtrl.js" />
       </list>
     </option>
   </component>
@@ -219,7 +283,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -535,10 +598,11 @@
         </subPane>
       </pane>
       <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../JCP2" />
     <property name="settings.editor.selected.configurable" value="configurable.group.editor" />
     <property name="WebServerToolWindowFactoryState" value="false" />
   </component>
@@ -666,19 +730,22 @@
       <workItem from="1503376044258" duration="3830000" />
       <workItem from="1504001899443" duration="267000" />
       <workItem from="1504157938814" duration="4532000" />
-      <workItem from="1504590848233" duration="1623000" />
+      <workItem from="1504590848233" duration="1892000" />
+      <workItem from="1504683724210" duration="3577000" />
+      <workItem from="1505282772982" duration="9014000" />
+      <workItem from="1505705896979" duration="10119000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="234519000" />
+    <option name="totallyTimeSpent" value="257498000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24281392" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25416037" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -709,7 +776,7 @@
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2657005" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3441755" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25416037" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -730,50 +797,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.env">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="11" lean-forward="true" selection-start-line="10" selection-start-column="11" selection-end-line="10" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2017_07_20_055944_create_share_exams_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="19" column="91" lean-forward="true" selection-start-line="16" selection-start-column="11" selection-end-line="19" selection-end-column="91" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/Components/groupListCtrl.js" />
-    <entry file="file://$PROJECT_DIR$/resources/views/pages/groupList.blade.php" />
-    <entry file="file://$PROJECT_DIR$/resources/views/pages/stdGroup.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1003">
-          <caret line="59" column="28" lean-forward="false" selection-start-line="46" selection-start-column="20" selection-end-line="59" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/Components/stdGroupCtrl.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="816">
-          <caret line="50" column="5" lean-forward="false" selection-start-line="50" selection-start-column="5" selection-end-line="50" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/Components/stdMyGroupCtrl.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="36" column="20" lean-forward="false" selection-start-line="36" selection-start-column="11" selection-end-line="36" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2017_07_14_122514_create_sections_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/migrations/2017_07_14_122544_create_groups_table.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="154">
@@ -793,14 +816,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
           <caret line="28" column="38" lean-forward="false" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ExamController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-731">
-          <caret line="106" column="19" lean-forward="false" selection-start-line="106" selection-start-column="19" selection-end-line="106" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -875,13 +890,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/Components/addExamCtrl.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="318" column="7" lean-forward="true" selection-start-line="315" selection-start-column="3" selection-end-line="318" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/Components/editExamCtrl.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="562">
@@ -922,13 +930,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="17" column="47" lean-forward="false" selection-start-line="17" selection-start-column="37" selection-end-line="17" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/pages/openExam.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="214" column="78" lean-forward="false" selection-start-line="214" selection-start-column="66" selection-end-line="214" selection-end-column="78" />
         </state>
       </provider>
     </entry>
@@ -974,13 +975,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/Components/inGroupCtrl.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="5" column="4" lean-forward="false" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/JoinGroupController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="884">
@@ -989,46 +983,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/pages/inGroup.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1955">
-          <caret line="115" column="54" lean-forward="false" selection-start-line="115" selection-start-column="54" selection-end-line="115" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/pages/stdMyGroup.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="67" column="37" lean-forward="false" selection-start-line="67" selection-start-column="37" selection-end-line="67" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
           <caret line="24" column="38" lean-forward="false" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/Components/teaInGroupCtrl.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3502">
-          <caret line="208" column="27" lean-forward="false" selection-start-line="208" selection-start-column="11" selection-end-line="208" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#43#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/pages/teaInGroup.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1411">
-          <caret line="83" column="47" lean-forward="false" selection-start-line="83" selection-start-column="47" selection-end-line="83" selection-end-column="47" />
-          <folding>
-            <marker date="1504162673666" expanded="true" signature="9:27" ph="..." />
-            <marker date="1504162673666" expanded="true" signature="38:47" ph="..." />
-            <marker date="1504162673666" expanded="true" signature="146:154" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1040,68 +998,202 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ExamingController.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/partials/navigation.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2040">
-          <caret line="124" column="25" lean-forward="false" selection-start-line="124" selection-start-column="25" selection-end-line="124" selection-end-column="25" />
+        <state relative-caret-position="969">
+          <caret line="57" column="31" lean-forward="false" selection-start-line="57" selection-start-column="31" selection-end-line="57" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/pages/openExam.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5049">
+          <caret line="297" column="12" lean-forward="false" selection-start-line="297" selection-start-column="12" selection-end-line="300" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/Components/teaInGroupCtrl.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="21" column="5" lean-forward="false" selection-start-line="18" selection-start-column="4" selection-end-line="21" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#43#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/partials/side_nav.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1819">
+          <caret line="107" column="48" lean-forward="false" selection-start-line="107" selection-start-column="31" selection-end-line="107" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/Components/stdMyGroupCtrl.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="562">
+          <caret line="68" column="11" lean-forward="false" selection-start-line="68" selection-start-column="11" selection-end-line="68" selection-end-column="11" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/layouts/template.blade.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/pages/stdGroup.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="23" column="47" lean-forward="false" selection-start-line="23" selection-start-column="47" selection-end-line="23" selection-end-column="47" />
+        <state relative-caret-position="1802">
+          <caret line="106" column="18" lean-forward="false" selection-start-line="106" selection-start-column="18" selection-end-line="106" selection-end-column="18" />
           <folding>
-            <marker date="1503311675674" expanded="true" signature="3972:3983" ph="..." />
-            <marker date="1503311675674" expanded="true" signature="4449:4478" ph="..." />
-            <marker date="1503311675674" expanded="true" signature="4490:4517" ph="..." />
+            <marker date="1504685910333" expanded="true" signature="9:27" ph="..." />
+            <marker date="1504685910333" expanded="true" signature="38:47" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Exam.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/ExamExaming.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/Components/addExamCtrl.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="396" column="52" lean-forward="true" selection-start-line="396" selection-start-column="8" selection-end-line="396" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/Components/Contentfile.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="50" lean-forward="false" selection-start-line="8" selection-start-column="50" selection-end-line="8" selection-end-column="50" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/ajaxCtrl.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1888">
-          <caret line="1004" column="1" lean-forward="false" selection-start-line="1004" selection-start-column="1" selection-end-line="1004" selection-end-column="1" />
+        <state relative-caret-position="408">
+          <caret line="741" column="20" lean-forward="true" selection-start-line="732" selection-start-column="4" selection-end-line="741" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/stubs/superglobals/_superglobals.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="118" column="0" lean-forward="false" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ExamController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="105" column="7" lean-forward="true" selection-start-line="105" selection-start-column="7" selection-end-line="107" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/stubs/regex/ereg.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="181">
+          <caret line="166" column="9" lean-forward="false" selection-start-line="166" selection-start-column="9" selection-end-line="166" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/stubs/standard/standard_3.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-5976">
+          <caret line="760" column="25" lean-forward="false" selection-start-line="760" selection-start-column="25" selection-end-line="760" selection-end-column="25" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="189" column="68" lean-forward="false" selection-start-line="189" selection-start-column="68" selection-end-line="189" selection-end-column="68" />
+        <state relative-caret-position="528">
+          <caret line="153" column="20" lean-forward="false" selection-start-line="153" selection-start-column="13" selection-end-line="153" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/layouts/partials/navigation.blade.php">
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ExamingController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-73">
-          <caret line="57" column="31" lean-forward="true" selection-start-line="57" selection-start-column="31" selection-end-line="57" selection-end-column="31" />
+        <state relative-caret-position="485">
+          <caret line="144" column="9" lean-forward="true" selection-start-line="140" selection-start-column="7" selection-end-line="144" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/layouts/partials/side_nav.blade.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/pages/teaInGroup.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="97">
-          <caret line="59" column="42" lean-forward="false" selection-start-line="59" selection-start-column="42" selection-end-line="59" selection-end-column="42" />
+        <state relative-caret-position="1615">
+          <caret line="98" column="87" lean-forward="false" selection-start-line="98" selection-start-column="87" selection-end-line="98" selection-end-column="87" />
           <folding>
-            <element signature="n#style#0;n#i#0;n#a#0;n#li3#0;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="e#2637#2643#0#HTML" expanded="true" />
-            <element signature="e#2643#2649#0#HTML" expanded="true" />
-            <element signature="n#style#0;n#i#1;n#a#0;n#li3#0;n#ul#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="e#3012#3018#0#HTML" expanded="true" />
-            <element signature="e#3023#3029#0#HTML" expanded="true" />
-            <element signature="e#3034#3040#0#HTML" expanded="true" />
-            <element signature="e#3045#3051#0#HTML" expanded="true" />
-            <element signature="e#3126#3132#0#HTML" expanded="true" />
-            <element signature="e#3137#3143#0#HTML" expanded="true" />
-            <element signature="e#3148#3154#0#HTML" expanded="true" />
-            <element signature="e#3159#3165#0#HTML" expanded="true" />
-            <marker date="1504591603571" expanded="true" signature="6905:6914" ph="..." />
+            <marker date="1505707692866" expanded="true" signature="9:27" ph="..." />
+            <marker date="1505707692866" expanded="true" signature="38:47" ph="..." />
+            <marker date="1505707692866" expanded="true" signature="146:154" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/Components/inGroupCtrl.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="307">
+          <caret line="24" column="9" lean-forward="false" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/pages/inGroup.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="321">
+          <caret line="194" column="54" lean-forward="false" selection-start-line="194" selection-start-column="36" selection-end-line="194" selection-end-column="54" />
+          <folding>
+            <element signature="e#6729#6753#0#HTML" expanded="true" />
+            <element signature="e#7967#7991#0#HTML" expanded="true" />
+            <element signature="e#8214#8237#0#HTML" expanded="true" />
+            <element signature="e#9455#9479#0#HTML" expanded="true" />
+            <element signature="e#9661#9704#0#HTML" expanded="true" />
+            <element signature="e#10346#10370#0#HTML" expanded="true" />
+            <element signature="e#10647#10690#0#HTML" expanded="true" />
+            <marker date="1505724938157" expanded="true" signature="9:27" ph="..." />
+            <marker date="1505724938157" expanded="true" signature="38:47" ph="..." />
+            <marker date="1505724938157" expanded="true" signature="143:151" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/pages/stdMyGroup.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="75" column="37" lean-forward="false" selection-start-line="75" selection-start-column="37" selection-end-line="75" selection-end-column="37" />
+          <folding>
+            <marker date="1504685910602" expanded="true" signature="9:27" ph="..." />
+            <marker date="1504685910602" expanded="true" signature="38:47" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/template.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="141">
+          <caret line="72" column="38" lean-forward="true" selection-start-line="72" selection-start-column="38" selection-end-line="72" selection-end-column="38" />
+          <folding>
+            <marker date="1505720892108" expanded="true" signature="3972:3983" ph="..." />
+            <marker date="1505720892108" expanded="true" signature="4449:4478" ph="..." />
+            <marker date="1505720892108" expanded="true" signature="4490:4517" ph="..." />
           </folding>
         </state>
       </provider>

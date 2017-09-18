@@ -105,8 +105,8 @@
             <div class="collapse" id="demo_std_group">
                 <ul class="list-unstyled main-menu" id="_menu_std_group" z="user-managed=">
                     <li5 role="presentation">
-                        <a href="<%myUrl%>/stdGroup">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;กลุ่มเรียนทั้งหมด</a>
-                        <a href="<%myUrl%>/stdMyGroup">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;กลุ่มเรียนของฉัน</a>
+                        <a id="side_std_allGroup" href="<%myUrl%>/stdGroup">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;กลุ่มเรียนทั้งหมด</a>
+                        <a id="side_std_myGroup" href="<%myUrl%>/stdMyGroup">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;กลุ่มเรียนของฉัน</a>
                     </li5>
                 </ul>
             </div>

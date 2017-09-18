@@ -6,9 +6,16 @@
     </script>
     <div ng-controller="stdGroupCtrl" style="display: none" id="std_group_div">
         <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
+                <li>กลุ่มเรียน</li>
+                <li class="active">กลุ่มเรียนทั้งหมด</li>
+            </ol>
+        </div>
+        <div class="col-lg-12">
             <div class="panel panel-default ">
                 <div class="panel-heading">
-                    <b>กลุ่มเรียน</b>
+                    <b>กลุ่มเรียนทั้งหมด</b>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -66,9 +73,9 @@
         <div class="modal fade" id="join_group_modal" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="panel panel-default" id="join_group_part" style="margin-bottom: 0">
+                    <div class="panel panel-success" id="join_group_part" style="margin-bottom: 0">
                         <div class="panel-heading">
-                            <h3 class="panel-title" style="color: #555">เข้าร่วมกลุ่ม</h3>
+                            <h3 class="panel-title" style="color: #fff">เข้าร่วมกลุ่ม</h3>
                         </div>
                         <div class="form-horizontal" role="form" style="padding-top: 7%">
                             <label class="col-md-4 control-label">ชื่อกลุ่มชื่อกลุ่มเรียน</label>
@@ -92,8 +99,8 @@
                             <div class="form-group"></div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-success" ng-click="okJoinGroup()">ตกลง</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">ยกเลิก</button>
+                            <button type="button" class="btn btn-outline-success" ng-click="okJoinGroup()">ตกลง</button>
+                            <button type="button" class="btn btn-outline-default" data-dismiss="modal">ยกเลิก</button>
                         </div>
                     </div>
                 </div>
@@ -103,7 +110,12 @@
     <script>
         $(document).ready(function () {
             $('#std_group_div').css('display', 'block');
-
+            $("#side_std_group").removeAttr('class');
+            $('#side_std_group').attr('class', 'active');
+            $("#std_group_chevron").removeAttr('class');
+            $("#std_group_chevron").attr('class','fa2 fa-chevron-down');
+            $('#demo_std_group').attr('class', 'collapse in');
+            $('#side_std_allGroup').attr('class', 'active');
 //            $(".nav-tabs a").click(function () {
 //                $(this).tab('show');
 //            });

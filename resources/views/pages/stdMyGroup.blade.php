@@ -7,6 +7,13 @@
     </script>
     <div ng-controller="stdMyGroupCtrl" style="display: none" id="std_my_group_div">
         <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
+                <li>กลุ่มเรียน</li>
+                <li class="active">กลุ่มเรียนของฉัน</li>
+            </ol>
+        </div>
+        <div class="col-lg-12">
             <div class="panel panel-default ">
                 <div class="panel-heading">
                     <b>กลุ่มเรียนของฉัน</b>
@@ -78,9 +85,9 @@
         <div class="modal fade" id="exit_group_modal" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="panel panel-default" id="exit_group_part" style="margin-bottom: 0">
+                    <div class="panel panel-danger" id="exit_group_part" style="margin-bottom: 0">
                         <div class="panel-heading">
-                            <h3 class="panel-title" style="color: #555">ยืนยันการทำรายการ</h3>
+                            <h3 class="panel-title" style="color: #fff">ยืนยันการทำรายการ</h3>
                         </div>
                         <!-- Form -->
                         <div style="padding-top: 7%; text-align: center">คุณต้องการออกจากกลุ่มเรียนนี้หรือไม่</div>
@@ -89,8 +96,8 @@
                                ng-model="groupName" disabled/>
                         <br>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-success" ng-click="okExit()">ตกลง</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">ยกเลิก</button>
+                            <button type="button" class="btn btn-outline-danger" ng-click="okExit()">ตกลง</button>
+                            <button type="button" class="btn btn-outline-default" data-dismiss="modal">ยกเลิก</button>
                         </div>
                     </div>
                 </div>
@@ -100,7 +107,13 @@
     <script>
         $(document).ready(function () {
             $('#std_my_group_div').css('display', 'block');
-
+            $('#std_group_div').css('display', 'block');
+            $("#side_std_group").removeAttr('class');
+            $('#side_std_group').attr('class', 'active');
+            $("#std_group_chevron").removeAttr('class');
+            $("#std_group_chevron").attr('class','fa2 fa-chevron-down');
+            $('#demo_std_group').attr('class', 'collapse in');
+            $('#side_std_myGroup').attr('class', 'active');
 //            $(".nav-tabs a").click(function () {
 //                $(this).tab('show');
 //            });

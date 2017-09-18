@@ -125,6 +125,36 @@ class ExamingController extends Controller
         $examing->save();
     }
 
+    public function checkIP(Request $request){
+        $my_ip = $_SERVER['REMOTE_ADDR'];
+        $ip_groups = explode("\n", $request->ip_group);
+        $in_network = FALSE;
+        foreach ($ip_groups as $check_ip) {
+            $ip = ip2long($my_ip);
+            $cidrArr = explode('/', $check_ip);
+            $maskIP = ip2long($cidrArr[0]);
+            $maskBits = 32 - $cidrArr[1];
+            if(($ip >> $maskBits) == ($maskIP >> $maskBits)){
+                $in_network = TRUE;
+            }
+        }
+        if ($in_network) {
+            return response()->json(true);
+        } else {
+            return response()->json(false);
+        }
+
+//        $data = array(
+//            'my_ip' => $my_ip,
+//            '$ip_groups' => $ip_groups,
+//            'ip' => $ip,
+//            'cidrArr' => $cidrArr,
+//            'maskIP' => $maskIP,
+//            'maskBits' => $maskBits,
+//        );
+//        return response()->json($data);
+    }
+
     public function create()
     {
         //
