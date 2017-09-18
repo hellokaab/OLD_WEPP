@@ -41,12 +41,12 @@
                             <td>
                                 <div class="radio inline-form-control">
                                     <div class="col-md-6" style="text-align: center">
-                                        <input type="radio" name="hide_examing" id="hide_ex_<%e.id%>" value="0" ng-click="changeToHidden(e)">
-                                        <label for="hide_ex" style="padding-left: 2px">ซ่อน</label>
+                                        <input type="radio" name="hide_examing_<%e.id%>" id="hide_ex_<%e.id%>" value="0" ng-click="changeToHidden(e)">
+                                        <label for="hide_ex_<%e.id%>" style="padding-left: 2px">ซ่อน</label>
                                     </div>
                                     <div class="col-md-6" style="text-align: center">
-                                        <input type="radio" name="hide_examing" id="show_ex_<%e.id%>" value="1" ng-click="changeToShow(e)">
-                                        <label for="show_ex" style="padding-left: 2px">แสดง</label>
+                                        <input type="radio" name="hide_examing_<%e.id%>" id="show_ex_<%e.id%>" value="1" ng-click="changeToShow(e)">
+                                        <label for="show_ex_<%e.id%>" style="padding-left: 2px">แสดง</label>
                                     </div>
                                 </div>
                             </td>
@@ -72,7 +72,7 @@
                     <br>
                     <br>
                     <div class="col-lg-12" style="padding: 0px">
-                        <label style="text-decoration:underline;font-size: 18px;padding-top: 5px">การสอบที่เสร็จสิ้นแล้ว</label>
+                        <label style="text-decoration:underline;font-size: 18px;padding-top: 5px">ประวัติการเปิดสอบ</label>
                     </div>
                     <table class="table table-hover table-striped">
                         <thead>
@@ -92,11 +92,11 @@
                             <td>
                                 <div class="radio inline-form-control">
                                     <div class="col-md-6" style="text-align: center">
-                                        <input type="radio" name="hide_history" id="hide_hi_<%e.id%>" value="0" ng-click="changeToAllow(e)">
+                                        <input type="radio" name="hide_history_<%e.id%>" id="hide_hi_<%e.id%>" value="0" ng-click="changeToAllow(e)">
                                         <label for="hide_hi" style="padding-left: 2px">อนุญาต</label>
                                     </div>
                                     <div class="col-md-6" style="text-align: center">
-                                        <input type="radio" name="hide_history" id="show_hi_<%e.id%>" value="1" ng-click="changeToDisallow(e)">
+                                        <input type="radio" name="hide_history_<%e.id%>" id="show_hi_<%e.id%>" value="1" ng-click="changeToDisallow(e)">
                                         <label for="show_hi" style="padding-left: 2px">ไม่อนุญาต</label>
                                     </div>
                                 </div>

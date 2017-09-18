@@ -1,11 +1,10 @@
-/**
- * Created by Pongpan on 09-Aug-17.
- */
 app.controller('stdMyGroupCtrl', ['$scope', '$window', function ($scope, $window) {
     $scope.myJoinGroup = $window.myJoinGroup;
     $scope.queryBy = 'group_name';
     $scope.selectRow = '10';
     $scope.thisUser = $window.myuser;
+    $scope.groupID = 0;
+
     //----------------------------------------------------------------------
     $scope.changePlaceholder  = function (section) {
         if($scope.queryBy === 'group_name'){
@@ -35,7 +34,7 @@ app.controller('stdMyGroupCtrl', ['$scope', '$window', function ($scope, $window
     };
     //----------------------------------------------------------------------
     $scope.exitGroup = function (group) {
-        $scope.groupID = group.id;
+        $scope.groupID = group.group_id;
         $scope.groupName = group.group_name;
         $('#exit_group_modal').modal({backdrop: 'static'});
     };
@@ -46,6 +45,27 @@ app.controller('stdMyGroupCtrl', ['$scope', '$window', function ($scope, $window
             bg: 'rgba(255,255,255,0.9)',
             color: '#3bafda'
         });
-        exitGroup($window.myuser.id,$scope.groupID);
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Accept: "application/json"
+            },
+            url:url + '/exitGroup',
+            data:{
+                user_id:$scope.thisUser.id,
+                group_id:$scope.groupID},
+            async: false,
+            complete: function (xhr) {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        window.location.href = url+'/stdMyGroup';
+                    }  else {
+                        $('#exit_group_part').waitMe('hide');
+                        alert("ผิดพลาด");
+                    }
+                }
+            }
+        });
     }
 }]);
