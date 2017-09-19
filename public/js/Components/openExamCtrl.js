@@ -45,6 +45,19 @@ app.controller('openExamCtrl', ['$scope', '$window', function ($scope, $window) 
             $('#group_' + examGroupId).parent().parent().children('div').hide();
         }
     };
+    //----------------------------------------------------------------------
+    $scope.ticAllInSec = function (SID) {
+        $scope.exams.forEach(function(exam) {
+            if(exam.section_id === SID){
+                if($('#sec_'+SID)[0].checked){
+                    $('#exam_'+exam.id)[0].checked = true;
+                } else {
+                    $('#exam_'+exam.id)[0].checked = false;
+                }
+            }
+        });
+        $scope.ticExam();
+    };
 
     //----------------------------------------------------------------------
     $scope.randomPassword = function () {
@@ -53,13 +66,9 @@ app.controller('openExamCtrl', ['$scope', '$window', function ($scope, $window) 
 
     //----------------------------------------------------------------------
     $scope.addNetwork = function () {
-        $('#notice_gateway_ip').html('* กรุณาระบุไอพี Gateway ให้ถูกต้อง').show();
-        if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test($scope.gatewayIp)) {
             $scope.allowNetwork = $scope.allowNetwork.length === 0 ? $scope.allowNetwork : $scope.allowNetwork + '\n';
-            $scope.allowNetwork = $scope.allowNetwork + $scope.gatewayIp + $scope.subnetmask;
+            $scope.allowNetwork = $scope.allowNetwork + $scope.gatewayIp;
             $scope.gatewayIp = '';
-            $('#notice_gateway_ip').hide();
-        }
     };
     //----------------------------------------------------------------------
     $scope.clearIP = function () {

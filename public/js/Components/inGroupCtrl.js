@@ -61,7 +61,6 @@ app.controller('inGroupCtrl', ['$scope', '$window', function ($scope, $window) {
                     data: $scope.examing,
                     async: false,
                 }).responseJSON;
-                console.log(in_network);
                 if(in_network){
                     alert("Yes");
                 } else {

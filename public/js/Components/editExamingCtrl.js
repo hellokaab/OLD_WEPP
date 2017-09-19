@@ -61,6 +61,19 @@ app.controller('editOpenExamingCtrl', ['$scope', '$window', function ($scope, $w
             $('#group_' + examGroupId).parent().parent().children('div').hide();
         }
     };
+    //----------------------------------------------------------------------
+    $scope.ticAllInSec = function (SID) {
+        $scope.exams.forEach(function(exam) {
+            if(exam.section_id === SID){
+                if($('#sec_'+SID)[0].checked){
+                    $('#exam_'+exam.id)[0].checked = true;
+                } else {
+                    $('#exam_'+exam.id)[0].checked = false;
+                }
+            }
+        });
+        $scope.ticExam();
+    };
 
     //----------------------------------------------------------------------
     $scope.randomPassword = function () {
@@ -69,13 +82,9 @@ app.controller('editOpenExamingCtrl', ['$scope', '$window', function ($scope, $w
 
     //----------------------------------------------------------------------
     $scope.addNetwork = function () {
-        $('#notice_gateway_ip').html('* กรุณาระบุไอพี Gateway ให้ถูกต้อง').show();
-        if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test($scope.gatewayIp)) {
             $scope.allowNetwork = $scope.allowNetwork.length === 0 ? $scope.allowNetwork : $scope.allowNetwork + '\n';
-            $scope.allowNetwork = $scope.allowNetwork + $scope.gatewayIp + $scope.subnetmask;
+            $scope.allowNetwork = $scope.allowNetwork + $scope.gatewayIp;
             $scope.gatewayIp = '';
-            $('#notice_gateway_ip').hide();
-        }
     };
     //----------------------------------------------------------------------
     $scope.clearIP = function () {
@@ -147,27 +156,6 @@ app.controller('editOpenExamingCtrl', ['$scope', '$window', function ($scope, $w
                 hide_history : $scope.historyMode,
             }
             updateExaming(data);
-
-//             $.post('../Process.php', {
-//                 process: 'edit examing',
-//                 examingId: $scope.examingId,
-//                 name: $scope.openExamName,
-// //                    usrGrp: $scope.userGroupId,
-//                 exam: JSON.stringify($scope.selectExam),
-//                 mode: $scope.examingMode,
-//                 amount: $scope.examingMode === 'n' ? $scope.selectExam.length : $scope.amountExam,
-//                 start: dtJsToDtDB(dateBegin),
-//                 end: dtJsToDtDB(dateEnd),
-//                 pass: $scope.examingPassword,
-//                 ip: $scope.allowNetwork
-//             }, function (data) {
-//                 if (data === '1') {
-//                     window.location.href = 'listOpenExam.php';
-//                 } else {
-//                     $('#open_exam_part').waitMe('hide');
-//                     alert(data);
-//                 }
-//             });
         } else {
             if (!completeIP) {
                 $('#notice_gateway_ip').html('* กรุณาระบุเครือข่ายที่อนุณาตให้ทำข้อสอบ').show();
