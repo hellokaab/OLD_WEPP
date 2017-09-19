@@ -130,11 +130,15 @@ class ExamingController extends Controller
         $ip_groups = explode("\n", $request->ip_group);
         $in_network = FALSE;
         foreach ($ip_groups as $check_ip) {
-            $ip = ip2long($my_ip);
-            $cidrArr = explode('/', $check_ip);
-            $maskIP = ip2long($cidrArr[0]);
-            $maskBits = 32 - $cidrArr[1];
-            if(($ip >> $maskBits) == ($maskIP >> $maskBits)){
+            $check_ip_sp = explode('.', $check_ip);
+            $ip = explode('.', $my_ip);
+            $count = 0;
+            for($i = 0; $i < count($check_ip_sp) ; $i++){
+                if($check_ip_sp[$i] === $ip[$i]){
+                    $count++;
+                }
+            }
+            if($count === count($check_ip_sp)){
                 $in_network = TRUE;
             }
         }
@@ -146,11 +150,9 @@ class ExamingController extends Controller
 
 //        $data = array(
 //            'my_ip' => $my_ip,
-//            '$ip_groups' => $ip_groups,
-//            'ip' => $ip,
-//            'cidrArr' => $cidrArr,
-//            'maskIP' => $maskIP,
-//            'maskBits' => $maskBits,
+//            'ip_groups' => $ip_groups,
+//            'in_network' => $in_network,
+//
 //        );
 //        return response()->json($data);
     }

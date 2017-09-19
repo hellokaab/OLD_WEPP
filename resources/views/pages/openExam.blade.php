@@ -49,7 +49,8 @@
                                 <div class="row">
                                     <label class="control-label" style="padding-left: 15px" ng-show="sections.length == 0">ไม่พบข้อมูล</label>
                                     <div class="col-md-12 checkbox" ng-repeat="s in sections">
-                                        <a href="" ng-click="viewExam(s.id)">
+                                        <input type="checkbox" id="sec_<%s.id%>" style="margin-left: 0px" ng-click="ticAllInSec(s.id)">
+                                        <a href="" ng-click="viewExam(s.id)" style="padding-left: 20px">
                                             <i id="group_<%s.id%>" class="fa fa-plus-square"></i> <%s.section_name%>
                                         </a>
                                         &nbsp;&nbsp;&nbsp;<b style="font-weight: 500" ng-show="s.user_id != thisUser.id">(<%s.creater%>)</b>
@@ -136,59 +137,15 @@
                             </div>
                         </div>
 
-                        <!-- Gateway IP -->
+                        <!-- IP -->
                         <div class="form-group" ng-show="ipMode === '1'">
-                            <label class="col-md-2 control-label">IP Router/Gateway:</label>
+                            <label class="col-md-2 control-label">กลุ่ม IP:</label>
                             <div class="col-md-5">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <input type="text" class="form-control" ng-model="gatewayIp" maxlength="15" placeholder="เช่น 172.17.5.254"/>
-                                        <div class="col-md-12 notice" id="notice_gateway_ip" style="display: none">กรุณาระบุไอพี Gateway ให้ถูกต้อง</div>
+                                        <button ng-click="addNetwork()" class="btn btn-outline-info" style="margin-top: 15px"><i class="fa fa-arrow-down" aria-hidden="true"></i> เพิ่มเครือข่าย</button>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Subnet mask -->
-                        <div class="form-group" ng-show="ipMode === '1'">
-                            <label class="col-md-2 control-label">Subnet Mask:</label>
-                            <div class="col-md-5">
-                                <div>
-                                    <select name="selecter_basic" ng-model="subnetmask" class="form-control">
-                                        <option value="/32">255.255.255.255</option>
-                                        <option value="/31">255.255.255.254</option>
-                                        <option value="/30">255.255.255.252</option>
-                                        <option value="/29">255.255.255.248</option>
-                                        <option value="/28">255.255.255.240</option>
-                                        <option value="/27">255.255.255.224</option>
-                                        <option value="/26">255.255.255.192</option>
-                                        <option value="/25">255.255.255.128</option>
-                                        <option value="/24">255.255.255.0</option>
-                                        <option value="/23">255.255.254.0</option>
-                                        <option value="/22">255.255.252.0</option>
-                                        <option value="/21">255.255.248.0</option>
-                                        <option value="/20">255.255.240.0</option>
-                                        <option value="/19">255.255.224.0</option>
-                                        <option value="/18">255.255.192.0</option>
-                                        <option value="/17">255.255.128.0</option>
-                                        <option value="/16">255.255.0.0</option>
-                                        <option value="/15">255.254.0.0</option>
-                                        <option value="/14">255.252.0.0</option>
-                                        <option value="/13">255.248.0.0</option>
-                                        <option value="/12">255.240.0.0</option>
-                                        <option value="/11">255.224.0.0</option>
-                                        <option value="/10">255.192.0.0</option>
-                                        <option value="/9">255.128.0.0</option>
-                                        <option value="/8">255.0.0.0</option>
-                                        <option value="/7">254.0.0.0</option>
-                                        <option value="/6">252.0.0.0</option>
-                                        <option value="/5">248.0.0.0</option>
-                                        <option value="/4">240.0.0.0</option>
-                                        <option value="/3">224.0.0.0</option>
-                                        <option value="/2">192.0.0.0</option>
-                                        <option value="/1">128.0.0.0</option>
-                                    </select>
-                                    <button ng-click="addNetwork()" class="btn btn-outline-info" style="margin-top: 15px"><i class="fa fa-arrow-down" aria-hidden="true"></i> เพิ่มเครือข่าย</button>
                                 </div>
                             </div>
                         </div>
