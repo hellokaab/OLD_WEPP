@@ -1003,3 +1003,31 @@ function editWorksheetGroup(data) {
         }
     });
 }
+
+//--------------------------- ExamRandomController ---------------------------
+function findExamRandomByUID(UID) {
+    var examRandom = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/findExamRandomByUID',
+        data:{user_id:UID},
+        async: false,
+    }).responseJSON;
+    return examRandom;
+}
+
+function addRandomExam(data) {
+   $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/addRandomExam/'+data.examing_id+'/'+data.user_id+'/'+data.exam_id,
+        async: false,
+    });
+}
+

@@ -492,14 +492,14 @@
                     count++;
             });
 
-            if (count > 10) {
-                alert('จำกัดคีย์เวิร์ดไว้ไม่เกิน 10 คีย์เวิร์ด');
-            } else {
+//            if (count > 10) {
+//                alert('จำกัดคีย์เวิร์ดไว้ไม่เกิน 10 คีย์เวิร์ด');
+//            } else {
                 _keyword_id++;
                 $('#keyword_part').append('<div class="form-group has-feedback" style="padding-left: 15px;padding-right: 15px"><input type="text" class="form-control" id="exam_keyword_' + _keyword_id + '" placeholder="เพิ่มคีย์เวิร์ด" maxlength="200"/></div>');
                 $('#add_keyword').hide();
                 $('#exam_keyword_' + _keyword_id).focus();
-            }
+//            }
         }
 
         function submitInputForm() {

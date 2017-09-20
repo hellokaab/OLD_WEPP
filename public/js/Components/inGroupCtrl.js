@@ -49,6 +49,7 @@ app.controller('inGroupCtrl', ['$scope', '$window', function ($scope, $window) {
     $scope.okAdmitExaming = function () {
         if($scope.examingPassword === $scope.examing.examing_pass){
             if($scope.examing.ip_group === ""){
+                checkRandomExam($scope.examing);
                 alert("Yes");
             } else {
                 var in_network = $.ajax({
@@ -62,6 +63,7 @@ app.controller('inGroupCtrl', ['$scope', '$window', function ($scope, $window) {
                     async: false,
                 }).responseJSON;
                 if(in_network){
+                    checkRandomExam($scope.examing);
                     alert("Yes");
                 } else {
                     $('#admit_modal').modal('hide');
@@ -87,5 +89,40 @@ app.controller('inGroupCtrl', ['$scope', '$window', function ($scope, $window) {
         d = dt[0].split('-');
         r = (d[2]) + '-' + d[1] + '-' + d[0] + 'T' + dt[1] + ':00Z';
         return r;
+    }
+    //----------------------------------------------------------------------
+    function checkRandomExam(examing) {
+        if(examing.examing_mode === 'r'){
+            var randomExam = findExamRandomByUID(myuser.id);
+            if(randomExam.length == 0){
+                var examExaming = findExamExamingByExamingID(examing.id);
+                console.log(examExaming);
+                var randoms = [];
+                for(i = 0 ; i < examing.amount ; i++){
+                    var randomNum;
+                    do{
+                        var randomNum = Math.floor((Math.random() * examExaming.length));
+                        var duplicate = false;
+                        for(j = 0 ; j < randoms.length ; j++){
+                            if(randoms[j] === randomNum){
+                                duplicate = true;
+                            }
+                        }
+                    }while(duplicate);
+                    randoms.push(randomNum);
+                }
+                console.log(randoms);
+                for(i = 0 ; i < randoms.length ; i++){
+                    var num = randoms[i];
+                    data = {
+                        examing_id : examing.id,
+                        user_id : myuser.id,
+                        exam_id : examExaming[num].exam_id,
+                    };
+                    console.log(data);
+                    addRandomExam(data);
+                }
+            }
+        }
     }
 }]);

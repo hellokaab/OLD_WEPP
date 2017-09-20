@@ -190,3 +190,9 @@ Route::get('/dataSheetGroup','WorkSheetController@dataSheetGroup');
 Route::get('/delete/groupSheet','WorkSheetController@destroy');
 
 Route::get('/edit/groupSheet','WorkSheetController@editSheetGroup');
+
+//--------------------------- ExamRandomController ---------------------------
+
+Route::get('/findExamRandomByUID','ExamRandomController@findExamRandomByUID');
+
+Route::get('/addRandomExam/{examing_id}/{user_id}/{exam_id}','ExamRandomController@addRandomExam');
