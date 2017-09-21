@@ -75,53 +75,6 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-12">
-            <div class="panel panel-default ">
-                <div class="panel-heading">
-                    <b>รายชื่อสมาชิก</b>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-offset-8 col-md-4 col-xs-12" style="text-align: center">
-                            <label class="col-md-offset-4 col-md-2 col-xs-2 control-label" style="margin-top: 14px">แสดง</label>
-                            <div class="col-md-4 col-xs-8" style="padding-right: 0px;padding-top: 7px">
-                                <select class="form-control" ng-model="selectRow">
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                            </div>
-                            <label class="col-md-2 col-xs-2 control-label" style="margin-top: 14px">แถว</label>
-                        </div>
-                    </div>
-                    <br>
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th>รหัสนักศึกษา</th>
-                            <th>ชื่อ - นามสกุล</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-show="memberList.length > 0" dir-paginate="m in memberList|orderBy:stu_id|itemsPerPage:selectRow">
-                            <td><%m.stu_id%></td>
-                            <td><%m.fullName%></td>
-                        </tr>
-                        <tr ng-hide="memberList.length > 0">
-                            <td>ไม่พบรายชื่อสมาชิก</td>
-                            <td></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <dir-pagination-controls
-                            max-size="5"
-                            direction-links="true"
-                            boundary-links="true" >
-                    </dir-pagination-controls>
-                </div>
-            </div>
-        </div>
 
         <!-- Exit Group Modal -->
         <div class="modal fade" id="exit_group_modal" role="dialog">

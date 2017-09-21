@@ -1,7 +1,6 @@
 app.controller('inGroupCtrl', ['$scope', '$window', function ($scope, $window) {
     $scope.groupData = $window.groupData;
     $scope.selectRow = "10";
-    $scope.memberList = findMemberGroup($scope.groupData.id);
     $scope.examingComing = findSTDExamingItsComing($scope.groupData.id);
     $scope.examingEnding = findExamingItsEnding($scope.groupData.id);
 
@@ -50,7 +49,7 @@ app.controller('inGroupCtrl', ['$scope', '$window', function ($scope, $window) {
         if($scope.examingPassword === $scope.examing.examing_pass){
             if($scope.examing.ip_group === ""){
                 checkRandomExam($scope.examing);
-                alert("Yes");
+                window.location.href = url+'/viewExam'+$scope.examing.id;
             } else {
                 var in_network = $.ajax({
                     contentType: "application/json; charset=utf-8",
@@ -64,7 +63,7 @@ app.controller('inGroupCtrl', ['$scope', '$window', function ($scope, $window) {
                 }).responseJSON;
                 if(in_network){
                     checkRandomExam($scope.examing);
-                    alert("Yes");
+                    window.location.href = url+'/viewExam'+$scope.examing.id;
                 } else {
                     $('#admit_modal').modal('hide');
                     $('#network_fail_modal').modal({backdrop: 'static'});

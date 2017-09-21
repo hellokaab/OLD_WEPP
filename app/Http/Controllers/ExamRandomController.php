@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ExamRandom;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use App\Http\Requests;
 
@@ -24,6 +25,16 @@ class ExamRandomController extends Controller
     public function create()
     {
         //
+    }
+
+    public function findExamRandomInViewExam(Request $request){
+        $examExaming = DB::table('exam_randoms')
+            ->join('exams', 'exam_randoms.exam_id', '=', 'exams.id')
+            ->select('exam_randoms.*', 'exams.*')
+            ->where('examing_id',$request->examing_id)
+            ->where('exam_randoms.user_id',$request->user_id)
+            ->get();
+        return response()->json($examExaming);
     }
 
     public function addRandomExam($examing_id,$user_id,$exam_id)
