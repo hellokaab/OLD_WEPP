@@ -390,23 +390,28 @@
     </div>
     <script>
         $(document).ready(function () {
-            $('#exam_div').css('display', 'block');
-            $("#side_exam_store").removeAttr('class');
-            $('#side_exam_store').attr('class', 'active');
-            $("#exam_chevron").removeAttr('class');
-            $("#exam_chevron").attr('class','fa2 fa-chevron-down');
-            $('#demo3').attr('class', 'collapse in');
-            $('#side_my_exam').attr('class', 'active');
+            if(myuser.user_type === 't'){
+                $('#exam_div').css('display', 'block');
+                $("#side_exam_store").removeAttr('class');
+                $('#side_exam_store').attr('class', 'active');
+                $("#exam_chevron").removeAttr('class');
+                $("#exam_chevron").attr('class','fa2 fa-chevron-down');
+                $('#demo3').attr('class', 'collapse in');
+                $('#side_my_exam').attr('class', 'active');
 
-            $(".nav-tabs a").click(function () {
-                $(this).tab('show');
-            });
-            $('.nav-tabs a').on('shown.bs.tab', function (event) {
-                var x = $(event.target).text();         // active tab
-                var y = $(event.relatedTarget).text();  // previous tab
-                $(".act span").text(x);
-                $(".prev span").text(y);
-            });
+                $(".nav-tabs a").click(function () {
+                    $(this).tab('show');
+                });
+                $('.nav-tabs a').on('shown.bs.tab', function (event) {
+                    var x = $(event.target).text();         // active tab
+                    var y = $(event.relatedTarget).text();  // previous tab
+                    $(".act span").text(x);
+                    $(".prev span").text(y);
+                });
+            }
+            else {
+                window.location.href = url + '/index';
+            }
         });
     </script>
 @endsection

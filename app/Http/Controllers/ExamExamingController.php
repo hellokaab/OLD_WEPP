@@ -25,6 +25,14 @@ class ExamExamingController extends Controller
         return response()->json($examExaming);
     }
 
+    public function findExamExamingInViewExam(Request $request){
+        $examExaming = DB::table('exam_examings')
+            ->join('exams', 'exam_examings.exam_id', '=', 'exams.id')
+            ->select('exam_examings.*', 'exams.*')
+            ->where('examing_id',$request->examing_id)
+            ->get();
+        return response()->json($examExaming);
+    }
     /**
      * Show the form for creating a new resource.
      *

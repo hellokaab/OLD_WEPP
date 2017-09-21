@@ -800,7 +800,7 @@ function updateExamExaming(examID,examingID) {
 }
 
 function daleteExamExaming(examID,examingID) {
-        $.ajax({
+    $.ajax({
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         headers: {
@@ -812,6 +812,21 @@ function daleteExamExaming(examID,examingID) {
     });
 
 }
+
+function findExamExamingInViewExam(EMID) {
+    var examExaming =  $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findExamExamingInViewExam',
+        data:{examing_id:EMID},
+        async: false,
+    }).responseJSON;
+    return examExaming
+}
+
 
 //--------------------------- JoinGroupController ---------------------------
 
@@ -1020,7 +1035,7 @@ function findExamRandomByUID(UID) {
 }
 
 function addRandomExam(data) {
-   $.ajax({
+    $.ajax({
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         headers: {
@@ -1029,5 +1044,19 @@ function addRandomExam(data) {
         url: url + '/addRandomExam/'+data.examing_id+'/'+data.user_id+'/'+data.exam_id,
         async: false,
     });
+}
+
+function findExamRandomInViewExam(EXID,UID) {
+    var examRandom = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/findExamRandomInViewExam',
+        data:{examing_id:EXID,user_id:UID},
+        async: false,
+    }).responseJSON;
+    return examRandom;
 }
 

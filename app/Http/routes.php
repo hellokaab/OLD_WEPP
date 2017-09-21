@@ -153,6 +153,8 @@ Route::get('/changeHistoryExaming', 'ExamingController@changeHistoryExaming');
 
 Route::get('/checkIP', 'ExamingController@checkIP');
 
+Route::get('/viewExam{id}', 'ExamingController@viewExam');
+
 //--------------------------- ExamExamingController ---------------------------
 
 Route::get('/createExamExaming', 'ExamExamingController@store');
@@ -162,6 +164,8 @@ Route::get('/updateExamExaming', 'ExamExamingController@update');
 Route::get('/daleteExamExaming', 'ExamExamingController@destroy');
 
 Route::get('/findExamExamingByExamingID', 'ExamExamingController@findExamExamingByExamingID');
+
+Route::get('/findExamExamingInViewExam', 'ExamExamingController@findExamExamingInViewExam');
 
 //--------------------------- JoinGroupController ---------------------------
 
@@ -196,3 +200,5 @@ Route::get('/edit/groupSheet','WorkSheetController@editSheetGroup');
 Route::get('/findExamRandomByUID','ExamRandomController@findExamRandomByUID');
 
 Route::get('/addRandomExam/{examing_id}/{user_id}/{exam_id}','ExamRandomController@addRandomExam');
+
+Route::get('/findExamRandomInViewExam','ExamRandomController@findExamRandomInViewExam');

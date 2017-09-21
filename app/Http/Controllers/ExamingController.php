@@ -180,6 +180,14 @@ class ExamingController extends Controller
         return view('pages/editExaming',$data);
     }
 
+    public function viewExam($id)
+    {
+        $data = array(
+            'examingID' => $id
+        );
+        return view('pages/viewExam',$data);
+    }
+
     public function update(Request $request, $id)
     {
         //
