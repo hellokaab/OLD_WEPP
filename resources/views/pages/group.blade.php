@@ -78,6 +78,8 @@
                                     </tr>
                                     <tr ng-hide="mygroup.length > 0">
                                         <td>ไม่พบข้อมูล</td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                     </tbody>
 

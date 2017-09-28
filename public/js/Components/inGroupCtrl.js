@@ -17,7 +17,9 @@ app.controller('inGroupCtrl', ['$scope', '$window', function ($scope, $window) {
     $(document).ready(function () {
         var currentDate = new Date();
         for (i = 0; i < $scope.examingComing.length; i++) {
+            console.log($scope.examingComing[i].start_date_time);
             var examingDate = new Date(dtPickerToDtJS($scope.examingComing[i].start_date_time));
+            examingDate = new Date(examingDate.valueOf()+ examingDate.getTimezoneOffset() * 60000);
             if(currentDate > examingDate){
                 $('#btn_examing_'+$scope.examingComing[i].id).attr('style','visibility: show');
             }
@@ -87,6 +89,7 @@ app.controller('inGroupCtrl', ['$scope', '$window', function ($scope, $window) {
         dt = date.split(' ');
         d = dt[0].split('-');
         r = (d[2]) + '-' + d[1] + '-' + d[0] + 'T' + dt[1] + ':00Z';
+        console.log(r);
         return r;
     }
     //----------------------------------------------------------------------

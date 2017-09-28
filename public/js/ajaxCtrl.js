@@ -436,6 +436,20 @@ function findExamByID(data) {
     return exam;
 }
 
+function readExamContent(data) {
+    var test = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/readExamContent',
+        data: data,
+        async: false,
+    }).responseJSON;
+    return test;
+}
+
 //--------------------------- ShareExamController ---------------------------
 
 function createSharedExam(examID,userID) {
@@ -813,7 +827,7 @@ function daleteExamExaming(examID,examingID) {
 
 }
 
-function findExamExamingInViewExam(EMID) {
+function findExamExamingInViewExam(EMID,UID) {
     var examExaming =  $.ajax({
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -821,7 +835,7 @@ function findExamExamingInViewExam(EMID) {
             Accept: "application/json"
         },
         url:url + '/findExamExamingInViewExam',
-        data:{examing_id:EMID},
+        data:{examing_id:EMID,user_id:UID},
         async: false,
     }).responseJSON;
     return examExaming
