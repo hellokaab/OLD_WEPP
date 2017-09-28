@@ -116,4 +116,7 @@ app.controller('myWorksheetCtrl', ['$scope', '$window', function ($scope, $windo
     $scope.enterOkEdit = function() {
         $scope.okEditExamGroup();
     };
+    $scope.addWorksheet = function () {
+        window.location.href = url+"/addWorksheet"+$scope.sheetGroupId;
+    };
 }]);

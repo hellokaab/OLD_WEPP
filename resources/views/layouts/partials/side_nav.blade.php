@@ -60,7 +60,7 @@
             <div class="collapse" id="demo4">
                 <ul class="list-unstyled main-menu" id="_menu" z="user-managed=">
                     <li3 role="presentation">
-                        <a href="<%myUrl%>/myWorksheet">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ใบงานของฉัน</a>
+                        <a id="side_my_Worksheet" href="<%myUrl%>/myWorksheet">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ใบงานของฉัน</a>
                         <a href="<%myUrl%>/shareWorksheet">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ใบงานที่แบ่งปันกับฉัน</a>
                     </li3>
                 </ul>

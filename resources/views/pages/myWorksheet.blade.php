@@ -251,6 +251,12 @@
     <script>
         $(document).ready(function () {
             $('#worksheet_div').css('display', 'block');
+            $("#side_sheet_store").removeAttr('class');
+            $('#side_sheet_store').attr('class', 'active');
+            $("#sheet_chevron").removeAttr('class');
+            $("#sheet_chevron").attr('class','fa2 fa-chevron-down');
+            $('#demo4').attr('class', 'collapse in');
+            $('#side_my_Worksheet').attr('class', 'active');
 
             $(".nav-tabs a").click(function () {
                 $(this).tab('show');

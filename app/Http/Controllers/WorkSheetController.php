@@ -53,23 +53,30 @@ class WorkSheetController extends Controller
     public function editSheetGroup(Request $request)
     {
         $findWorksheetName = WorksheetGroup::where('sheetName_group', $request->sheet_name)
-            ->where('user_id', $request->user_id)
-            ->first();
+        ->where('user_id', $request->user_id)
+        ->first();
 
         if ($findWorksheetName === NULL) {
             $worksheet = WorksheetGroup::find($request->id);
             $worksheet->sheetName_group = $request->sheet_name;
             $worksheet->save();
         } else {
-            if($findWorksheetName->id == $request->id){
+            if ($findWorksheetName->id == $request->id) {
                 $worksheet = WorksheetGroup::find($request->id);
                 $worksheet->sheetName_group = $request->sheet_name;
                 $worksheet->save();
-            }else {
+            } else {
                 return response()->json(['error' => 'Error msg'], 209);
             }
 
         }
+    }
+    public function addWorksheet($id)
+    {
+        $data = array(
+            'sheetGroupId' => $id
+        );
+        return view('pages/addWorksheet', $data);
     }
 }
 
