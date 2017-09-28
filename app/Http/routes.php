@@ -95,6 +95,8 @@ Route::get('/updateExam', 'ExamController@update');
 
 Route::get('/myExam', 'ExamController@myExam');
 
+Route::get('/readExamContent', 'ExamController@readExamContent');
+
 //--------------------------- ShareExamController ---------------------------
 
 Route::get('/createSharedExam', 'ShareExamController@store');
@@ -195,6 +197,8 @@ Route::get('/delete/groupSheet','WorkSheetController@destroy');
 
 Route::get('/edit/groupSheet','WorkSheetController@editSheetGroup');
 
+Route::get('/addWorksheet{id}', 'WorkSheetController@addWorksheet');
+
 //--------------------------- ExamRandomController ---------------------------
 
 Route::get('/findExamRandomByUID','ExamRandomController@findExamRandomByUID');
@@ -202,3 +206,7 @@ Route::get('/findExamRandomByUID','ExamRandomController@findExamRandomByUID');
 Route::get('/addRandomExam/{examing_id}/{user_id}/{exam_id}','ExamRandomController@addRandomExam');
 
 Route::get('/findExamRandomInViewExam','ExamRandomController@findExamRandomInViewExam');
+
+//--------------------------- ResExamController ---------------------------
+
+Route::post('/uploadExamFile','ResExamController@store');

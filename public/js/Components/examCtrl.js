@@ -57,6 +57,9 @@ app.controller('examCtrl', ['$scope', '$window', function ($scope, $window) {
 
             var fileData = readFile(data).responseJSON;
             $('#exam_content').Editor('setText', decapeHtml(fileData.content));
+            $('.Editor-editor').attr('contenteditable', false);
+            $('[id^=menuBarDiv]').hide();
+            $('[id^=statusbar]').hide();
             $('#examInput').html(fileData.input);
             $('#examOutput').html(fileData.output);
             //

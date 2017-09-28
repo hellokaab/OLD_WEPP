@@ -33,18 +33,134 @@
                         </thead>
                         <tbody>
                         <tr ng-repeat="e in examExaming">
-                            <td><%$index + 1%></td>
-                            <td><%e.exam_name%></td>
-                            <td></td>
-                            <td></td>
+                            <td style="width: 10%"><%$index + 1%></td>
+                            <td style="width: 40%"><%e.exam_name%></td>
+                            <td style="width: 30%"><%  e.current_status==='q'?'ค้างคิวตรวจ':
+                                        e.current_status==='a'?'ผ่าน':
+                                        e.current_status==='w'?'คำตอบผิด':
+                                        e.current_status==='m'?'ความจำเกินกำหนด':
+                                        e.current_status==='t'?'เวลาเกินกำหนด':
+                                        e.current_status==='c'?'คอมไพล์ไม่ผ่าน':
+                                        e.current_status==='Q'?'กำลังรอคิวตรวจ...':
+                                        e.current_status==='P'?'กำลังตรวจ...':
+                                        e.current_status==='9'?'PPPPP-':
+                                        e.current_status==='8'?'PPPP--':
+                                        e.current_status==='7'?'PPP---':
+                                        e.current_status==='6'?'PP----':
+                                        e.current_status==='5'?'P-----' : '-'
+                                    %></td>
+                            <td style="width: 20%">
+                                <button class="btn btn-outline-primary btn-sm" ng-click="startExam(e)">
+                                    <i class="fa fa-pencil"></i> ทำข้อสอบ
+                                </button>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+
+        <!-- Detail Exam Modal -->
+        <div class="modal fade" id="detail_exam_modal" role="dialog">
+            <div class="modal-dialog" style="width: 95%">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="panel panel-primary" id="detail_exam_part" style="margin-bottom: 0">
+                        <!-- Panel header -->
+                        <div class="panel-heading">
+                            <h3 class="panel-title">ทำข้อสอบ</h3>
+                        </div>
+                        <!-- Form -->
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h4 class="text-center" id="exam_name"></h4>
+                                    <br>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="col-md-3"><b>Time limit: </b><span id="exam_time">NaN</span> Seconds</div>
+                                    <div class="col-md-3"><b>Memory limit: </b><span id="exam_memory">NaN</span> KB</div>
+                                </div>
+                                <br>
+                                <div class="col-lg-12">
+                                    <div class="col-md-12">
+                                        <div id="exam_content"></div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="col-md-12">
+                                        <b>หมายเหตุ: </b>
+                                        <i>
+                                            <u>Full score</u> <span id="full_score">NaN</span> คะแนน,
+                                            <u>Imperfect score</u> <span id="imper_score">NaN</span> คะแนน,
+                                            <u>Wrong answer</u> -<span id="cut_wrongans">NaN</span> คะแนน,
+                                            <u>Compile error</u> -<span id="cut_comerror">NaN</span> คะแนน,
+                                            <u>Over memory</u> -<span id="cut_overmemory">NaN</span> คะแนน,
+                                            <u>Over time</u> -<span id="cut_overtime">NaN</span> คะแนน
+                                        </i>
+                                        <br>
+                                        <br>
+                                        <i>* ไม่ควรตั้งชื่อคลาสเป็น Main</i>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <div class="row">
+                                <div class="text-center"><b>การส่งคำตอบ</b></div>
+                                <br>
+                                <div class="col-lg-12">
+                                    <b style="padding-left: 11%;">รูปแบบการส่ง</b>
+                                </div>
+                                <div class="col-lg-12" style="padding-top: 15px">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-2">
+                                        <div class="radio">
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <input type="radio" name="input" id="keyInputChk" value="key_input" ng-model="inputMode" checked>
+                                                    <label for="keyInputChk">พิมพ์โค้ด</label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <input type="radio" name="input" id="fileInputChk" value="file_input" ng-model="inputMode">
+                                                    <label for="fileInputChk">อัพโหลด File</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="row" ng-show="inputMode === 'key_input'">
+                                            <textarea ng-model="input" class="form-control io_textarea" placeholder="ใส่โค้ดคำตอบที่นี่" rows="8"></textarea>
+                                            <div class="notice" id="notice_exam_key_ans" style="display: none">กรุณาใส่โค้ดโปรแกรม</div>
+                                        </div>
+
+                                        <form id="AnsFileForm" action="javascript:submitAnsForm();" method="post" enctype = "multipart/form-data">
+                                            <div class="form-group" ng-show="inputMode == 'file_input'">
+                                                <div class="col-md-4">
+                                                    <input type="file" id="file_ans" class="inline-form-control" name="file_ans[]" multiple="" accept=".java">
+                                                    <div class="notice" id="notice_exam_file_ans" style="display: none">กรุณาเลือกไฟล์</div>
+                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Model footer -->
+                        <div class="modal-footer">
+                            <button ng-click="okSend()" type="button" class="btn btn-outline-primary">ส่งตรวจ</button>
+                            <button type="button" class="btn btn-outline-default" data-dismiss="modal">ยกเลิก</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
 
     <script>
         var second = 0;
@@ -84,7 +200,7 @@
         function countdown() {
             timer = setInterval(function () {
                 if (second <= 0)
-                    location.href = 'examing.php';
+                    window.location.href = url+'/inGroup'+examing.group_id;
                 hour = parseInt(second / 3600);
                 min = parseInt((second % 3600) / 60);
                 sec = second % 60;
@@ -97,6 +213,22 @@
                     $('#time').html('<i class="fa fa-clock-o"></i> สิ้นสุดการสอบเวลา ' + examing.end_date_time);
 
             }, 1000);
+        }
+
+        function submitAnsForm() {
+            var formData = new FormData($('#AnsFileForm')[0]);
+            console.log(formData);
+            exam_part = $.ajax({
+                url: url+'/uploadExamFile',
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false
+            }).responseJSON;
+            console.log(exam_part);
+            return false;
         }
     </script>
 @endsection

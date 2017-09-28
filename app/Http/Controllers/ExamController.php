@@ -173,6 +173,16 @@ class ExamController extends Controller
         return response()->json($data);
     }
 
+    public function readExamContent(Request $request)
+    {
+        $contentFile = fopen("$request->exam_data", "r") or die("Unable to open file!");
+        $content = fread($contentFile,filesize("$request->exam_data"));
+
+
+        return response()->json($content);
+    }
+
+
 
     public function show($id)
     {
