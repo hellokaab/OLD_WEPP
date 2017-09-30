@@ -1,22 +1,24 @@
 @extends('layouts.template')
 @section('content')
-    <script src="js/Components/addExamCtrl.js"></script>
+    <script src="js/Components/teacher/editExamCtrl.js"></script>
     <script>
-        var groupId = {{$groupID}};
+        var examId = {{$examId}};
+        var keywords = findKeywordByEID(examId);
+        var countOldKeyword = keywords.length;
     </script>
-    <div ng-controller="addExamCtrl">
+    <div ng-controller="editExamCtrl"  style="display: none" id="edit_exam_div">
         <div class="col-lg-12">
             <ol class="breadcrumb">
                 <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
                 <li>คลังข้อสอบ</li>
                 <li><a href="<%myUrl%>/myExam">กลุ่มข้อสอบของฉัน</a></li>
-                <li class="active">เพิ่มข้อสอบ</li>
+                <li class="active">แก้ไขข้อสอบ</li>
             </ol>
         </div>
         <div class="col-lg-12">
-            <div class="panel panel-default" id="add_exam_part">
+            <div class="panel panel-default" id="edit_exam_part">
                 <div class="panel-heading">
-                    <b style="color: #555">เพิ่มข้อสอบ</b>
+                    <b style="color: #555">แก้ไขข้อสอบ</b>
                 </div>
                 <div class="panel-body">
                     <div class="form-horizontal" role="form">
@@ -201,6 +203,21 @@
                             <label class="col-md-2 control-label">Keyword:</label>
                             <div class="col-md-9">
                                 <div id="keyword_part">
+                                    <div class="form-group has-feedback" ng-repeat="k in keywords" style="padding-left: 15px;padding-right: 15px">
+                                        <div class="col-md-8" style="padding-left: 0;padding-right: 0">
+                                            <input type="text" id="oldKeyword_<%k.id%>" value="<%k.keyword_data%>" class="form-control has-feedback" disabled/>
+                                        </div>
+                                        <div class="col-md-2" style="padding-right: 0">
+                                            <button class="btn btn-outline-warning btn-block" data-toggle="modal" ng-click="editKeyword(k.id,k.keyword_data)">
+                                                <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>  แก้ไข
+                                            </button>
+                                        </div>
+                                        <div class="col-md-2" style="padding-right: 0">
+                                            <button class="btn btn-outline-danger btn-block" data-toggle="modal" ng-click="deleteKeyword(k.id)">
+                                                <i class="fa fa-trash fa-lg" aria-hidden="true"></i>  ลบ
+                                            </button>
+                                        </div>
+                                    </div>
                                     <div class="form-group has-feedback" style="padding-left: 15px;padding-right: 15px">
                                         <input type="text" class="form-control has-feedback" id="exam_keyword_1"
                                                maxlength="200" placeholder="เพิ่มคีย์เวิร์ด"/>
@@ -217,7 +234,7 @@
                             <label class="col-md-2 control-label">แบ่งปันถึง:</label>
                             <div class="col-md-9">
                                 <h5 ng-repeat="st in selectTeacher"><%st.fullname%></h5>
-                                <button class="btn btn-outline-info btn-sm" ng-click="addUserShare()">
+                                <button class="btn btn-outline-info" ng-click="addUserShare()">
                                     <i class="fa fa-plus"></i> เลือกผู้ที่ต้องการแบ่งปัน
                                 </button>
                             </div>
@@ -236,26 +253,20 @@
                                             <br>
                                             <table class="table table-hover">
                                                 <thead>
-                                                    <tr>
-                                                        <th style="width: 5%"><input type="checkbox" id="select_all"></th>
-                                                        <th style="width: 25%">ชื่อ - นามสกุล</th>
-                                                        <th style="width: 40%">คณะ</th>
-                                                        <th style="width: 30%">สาขาวิชา</th>
-                                                    </tr>
+                                                <tr>
+                                                    <th style="width: 5%"><input type="checkbox" id="select_all"></th>
+                                                    <th style="width: 25%">ชื่อ - นามสกุล</th>
+                                                    <th style="width: 40%">คณะ</th>
+                                                    <th style="width: 30%">สาขาวิชา</th>
+                                                </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr ng-repeat="t in teacher" ng-if="t.id != thisUser.id" ng-show="teacher.length > 1">
-                                                        <td><input type="checkbox" id="tea_<%t.id%>"> </td>
-                                                        <td ng-click="ticExam(t.id)"><%t.fullname%></td>
-                                                        <td ng-click="ticExam(t.id)"><%t.faculty%></td>
-                                                        <td ng-click="ticExam(t.id)"><%t.department%></td>
-                                                    </tr>
-                                                    <tr ng-hide="teacher.length > 1">
-                                                        <td></td>
-                                                        <td>ไม่พบข้อมูล</td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
+                                                <tr ng-repeat="t in teacher" ng-if="t.id != thisUser.id">
+                                                    <td><input type="checkbox" id="tea_<%t.id%>"> </td>
+                                                    <td ng-click="ticExam(t.id)"><%t.fullname%></td>
+                                                    <td ng-click="ticExam(t.id)"><%t.faculty%></td>
+                                                    <td ng-click="ticExam(t.id)"><%t.department%></td>
+                                                </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -353,11 +364,58 @@
                         <div class="form-group">
                             <div class="col-md-3"></div>
                             <div class="col-md-3">
-                                <input type="button" class="btn btn-outline-success btn-block" ng-click="addExam()"
-                                       value="เพิ่มข้อสอบ"/>
+                                <input type="button" class="btn btn-outline-success btn-block" ng-click="editExam()"
+                                       value="บันทึกข้อสอบ"/>
                             </div>
                             <div class="col-md-3">
                                 <a class="btn btn-outline-danger btn-block" ng-click="goBack()">ยกเลิก</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Edit Keyword Modal -->
+                <div class="modal fade" id="edit_modal" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="panel panel-warning" id="edit_keyword_part" style="margin-bottom: 0">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">แก้ไขคีย์เวิร์ด</h3>
+                                </div>
+                                <div class="form-horizontal" role="form" style="padding-top: 7%">
+                                    <label class="col-md-4 control-label">ข้อมูลคีย์เวิร์ด</label>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <textarea class="form-control io_textarea" ng-model="keyword" maxlength="200"></textarea>
+                                            <div class="notice" id="notice_keyword" style="display: none">กรุณาระบุคีย์เวิร์ด</div>
+                                        </div>
+                                    </div>
+                                    <!-- un use -->
+                                    <div class = "form-group"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-warning" ng-click="okEditKeyword()">บันทึก</button>
+                                    <button type="button" class="btn btn-outline-default" data-dismiss="modal">ยกเลิก</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Delete Keyword Modal -->
+                <div class="modal fade" id="delete_modal" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="panel panel-danger" id="delete_keyword_part" style="margin-bottom: 0">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">ยืนยันการทำรายการ</h3>
+                                </div>
+                                <div style="padding-top: 7%; text-align: center">คุณต้องการลบคีย์เวิร์ดนี้หรือไม่</div>
+                                <br>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-danger" ng-click="okDeleteKeyword()">ตกลง</button>
+                                    <button type="button" class="btn btn-outline-default" data-dismiss="modal">ยกเลิก</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -426,7 +484,7 @@
         });
 
         function addFieldKeyword() {
-            count = 1;
+            count = 1 + countOldKeyword;
             $('[id^=exam_keyword_]').each(function () {
                 if (this.value.length === 0)
                     $(this).parent().remove();
@@ -434,11 +492,14 @@
                     count++;
             });
 
-            _keyword_id++;
-            $('#keyword_part').append('<div class="form-group has-feedback" style="padding-left: 15px;padding-right: 15px"><input type="text" class="form-control" id="exam_keyword_' + _keyword_id + '" placeholder="เพิ่มคีย์เวิร์ด" maxlength="200"/></div>');
-            $('#add_keyword').hide();
-            $('#exam_keyword_' + _keyword_id).focus();
-
+//            if (count > 10) {
+//                alert('จำกัดคีย์เวิร์ดไว้ไม่เกิน 10 คีย์เวิร์ด');
+//            } else {
+                _keyword_id++;
+                $('#keyword_part').append('<div class="form-group has-feedback" style="padding-left: 15px;padding-right: 15px"><input type="text" class="form-control" id="exam_keyword_' + _keyword_id + '" placeholder="เพิ่มคีย์เวิร์ด" maxlength="200"/></div>');
+                $('#add_keyword').hide();
+                $('#exam_keyword_' + _keyword_id).focus();
+//            }
         }
 
         function submitInputForm() {
@@ -506,6 +567,10 @@
                 e.preventDefault();
             }
 
+        });
+
+        $(document).ready(function () {
+            $('#edit_exam_div').css('display', 'block');
         });
     </script>
 

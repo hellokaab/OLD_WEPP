@@ -56,25 +56,25 @@ class GroupController extends Controller
             'group'=> $group
 
         );
-        return view('pages.group',$data);
+        return view('pages/teacher/group',$data);
     }
 
     public function stdGroup(){
-        return view('pages.stdGroup');
+        return view('pages/student/stdGroup');
     }
 
     public function inGroup($id){
         $data = array(
             'groupID' => $id
         );
-        return view('pages/inGroup',$data);
+        return view('pages/student/inGroup',$data);
     }
 
     public function teaInGroup($id){
         $data = array(
             'groupID' => $id
         );
-        return view('pages/teaInGroup',$data);
+        return view('pages/teacher/teaInGroup',$data);
     }
 
     public function findGroupDataByID(Request $request){

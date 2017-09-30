@@ -12,7 +12,7 @@ class WorkSheetController extends Controller
 {
     public function myWorksheet()
     {
-        return view('pages/myWorksheet');
+        return view('pages/teacher/myWorksheet');
     }
     public function shareWorksheet()
     {
@@ -76,7 +76,7 @@ class WorkSheetController extends Controller
         $data = array(
             'sheetGroupId' => $id
         );
-        return view('pages/addWorksheet', $data);
+        return view('pages/teacher/addWorksheet', $data);
     }
 }
 

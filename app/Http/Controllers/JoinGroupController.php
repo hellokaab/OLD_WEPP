@@ -41,7 +41,7 @@ class JoinGroupController extends Controller
     }
 
     public function stdMyGroup(){
-        return view('pages/stdMyGroup');
+        return view('pages/student/stdMyGroup');
     }
 
     public function findMyJoinGroup(Request $request){

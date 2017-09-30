@@ -261,7 +261,7 @@ function findAllExam() {
 
 function findExamByName(data,section_id,user_id) {
     var checked = false;
-    $.ajax ({
+    var test = $.ajax ({
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         headers: {
@@ -281,7 +281,7 @@ function findExamByName(data,section_id,user_id) {
                 }
             }
         }
-    });
+    }).responseJSON;
     return checked;
 }
 

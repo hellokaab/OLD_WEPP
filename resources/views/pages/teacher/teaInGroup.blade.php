@@ -1,6 +1,6 @@
 @extends('layouts.template')
 @section('content')
-    <script src="js/Components/teaInGroupCtrl.js"></script>
+    <script src="js/Components/teacher/teaInGroupCtrl.js"></script>
     <script>
         var groupId = {{$groupID}};
         var groupData = findGroupDataByID(groupId);

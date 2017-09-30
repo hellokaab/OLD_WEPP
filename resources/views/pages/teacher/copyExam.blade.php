@@ -1,12 +1,12 @@
 @extends('layouts.template')
 @section('content')
-    <script src="js/Components/copyExamCtrl.js"></script>
+    <script src="js/Components/teacher/copyExamCtrl.js"></script>
     <script>
         var examId = {{$examId}};
         var keywords = findKeywordByEID(examId);
         var countOldKeyword = keywords.length;
     </script>
-    <div ng-controller="copyExamCtrl">
+    <div ng-controller="copyExamCtrl" style="display: none" id="copy_exam_div">
         <div class="col-lg-12">
             <ol class="breadcrumb">
                 <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
@@ -355,7 +355,7 @@
                         <div class="form-group">
                             <div class="col-md-3"></div>
                             <div class="col-md-3">
-                                <input type="button" class="btn btn-outline-success btn-block" ng-click="editExam()"
+                                <input type="button" class="btn btn-outline-success btn-block" ng-click="copyExam()"
                                        value="คัดลอกข้อสอบ"/>
                             </div>
                             <div class="col-md-3">
@@ -511,6 +511,10 @@
                 e.preventDefault();
             }
 
+        });
+
+        $(document).ready(function () {
+            $('#copy_exam_div').css('display', 'block');
         });
     </script>
 

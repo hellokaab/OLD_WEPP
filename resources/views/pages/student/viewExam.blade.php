@@ -1,6 +1,6 @@
 @extends('layouts.template')
 @section('content')
-    <script src="js/Components/viewExamCtrl.js"></script>
+    <script src="js/Components/student/viewExamCtrl.js"></script>
     <script>
         var examingID = {{$examingID}};
         var examing = findExamingByID(examingID);

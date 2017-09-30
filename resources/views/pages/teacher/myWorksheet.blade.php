@@ -1,7 +1,7 @@
 @extends('layouts.template')
 
 @section('content')
-    <script src="js/Components/myWorksheetCtrl.js"></script>
+    <script src="js/Components/teacher/myWorksheetCtrl.js"></script>
     <script>
         var dataSheetGroup = dataSheetGroup(myuser).responseJSON;
         console.log(dataSheetGroup);

@@ -1,6 +1,6 @@
 @extends('layouts.template')
 @section('content')
-    <script src="js/Components/stdMyGroupCtrl.js"></script>
+    <script src="js/Components/student/stdMyGroupCtrl.js"></script>
     <script>
         var myJoinGroup = findMyJoinGroup(myuser.id);
         console.log(myJoinGroup);

@@ -1,6 +1,6 @@
 @extends('layouts.template')
 @section('content')
-    <script src="js/Components/openExamHistoryCtrl.js"></script>
+    <script src="js/Components/teacher/openExamHistoryCtrl.js"></script>
     <script>
         var myGroup = findMyGroup(myuser).responseJSON;
         var myExaming = findExamingByUserID(myuser.id);

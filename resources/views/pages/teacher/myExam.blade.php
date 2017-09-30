@@ -1,6 +1,6 @@
 @extends('layouts.template')
 @section('content')
-    <script src="js/Components/myExamCtrl.js"></script>
+    <script src="js/Components/teacher/myExamCtrl.js"></script>
     <script>
         var exams = findAllExam().responseJSON;
 //        var allsections = findAllSection().responseJSON;

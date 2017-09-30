@@ -1,7 +1,7 @@
 @extends('layouts.template')
 
 @section('content')
-    <script src="js/Components/addWorksheetCtrl.js"></script>
+    <script src="js/Components/teacher/addWorksheetCtrl.js"></script>
     <script>
         var sheetGroupId = {{$sheetGroupId}};
     </script>
