@@ -1,6 +1,6 @@
 @extends('layouts.template')
 @section('content')
-    <script src="js/Components/stdGroupCtrl.js"></script>
+    <script src="js/Components/student/stdGroupCtrl.js"></script>
     <script>
         var allGroup = findAllGroup().responseJSON;
     </script>

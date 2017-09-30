@@ -1,7 +1,7 @@
 @extends('layouts.template')
 
 @section('content')
-    <script src="js/Components/groupCtrl.js"></script>
+    <script src="js/Components/teacher/groupCtrl.js"></script>
     <script>
 //        var groupList = findAllGroup().responseJSON;
 //        console.log(groupList);

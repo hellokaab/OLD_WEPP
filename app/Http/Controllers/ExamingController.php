@@ -12,7 +12,7 @@ class ExamingController extends Controller
 {
     public function index()
     {
-        return view('pages/openExam');
+        return view('pages/teacher/openExam');
     }
 
     public function findExamingByNameAndGroup(Request $request)
@@ -65,7 +65,7 @@ class ExamingController extends Controller
     }
 
     public function examingHistory(){
-        return view('pages/openExamHistory');
+        return view('pages/teacher/openExamHistory');
     }
 
     public function findExamingByUserID(Request $request){
@@ -177,7 +177,7 @@ class ExamingController extends Controller
         $data = array(
             'examingID' => $id
         );
-        return view('pages/editExaming',$data);
+        return view('pages/teacher/editExaming',$data);
     }
 
     public function viewExam($id)
@@ -185,7 +185,7 @@ class ExamingController extends Controller
         $data = array(
             'examingID' => $id
         );
-        return view('pages/viewExam',$data);
+        return view('pages/student/viewExam',$data);
     }
 
     public function update(Request $request, $id)

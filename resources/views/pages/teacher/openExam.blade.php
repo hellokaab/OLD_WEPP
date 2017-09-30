@@ -1,26 +1,23 @@
 @extends('layouts.template')
 @section('content')
-    <script src="js/Components/editExamingCtrl.js"></script>
+    <script src="js/Components/teacher/openExamCtrl.js"></script>
     <script>
-        var examingID = {{$examingID}};
         var myGroup = findMyGroup(myuser).responseJSON;
         var sections = findSectionSharedToMe(myuser.id);
         var exams = findExamSharedToMe(myuser.id);
-        var exam_examing = findExamExamingByExamingID(examingID);
     </script>
-    <div ng-controller="editOpenExamingCtrl" style="display: none" id="editOpenExam_div">
+    <div ng-controller="openExamCtrl" style="display: none" id="openExam_div">
         <div class="col-lg-12">
             <ol class="breadcrumb">
                 <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
                 <li>จัดการการสอบ</li>
-                <li><a href="<%myUrl%>/examingHistory">ประวัติการเปิดสอบ</a></li>
-                <li class="active">แก้ไขการเปิดสอบ</li>
+                <li class="active">เปิดสอบ</li>
             </ol>
         </div>
         <div class="col-lg-12">
-            <div class="panel panel-default" id="edit_examing_part">
+            <div class="panel panel-default" id="open_exam_part">
                 <div class="panel-heading">
-                    <b style="color: #555">แก้ไขการเปิดสอบ</b>
+                    <b style="color: #555">ตั้งค่าการเปิดสอบ</b>
                 </div>
                 <div class="panel-body">
                     <div class="form-horizontal" role="form">
@@ -37,7 +34,7 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label">กลุ่มเรียน: <b class="danger">*</b></label>
                             <div class="col-md-5">
-                                <select class="form-control" ng-model="userGroupId" id="group_id">
+                                <select class="form-control" ng-model="userGroupId">
                                     <option value="0">กรุณาเลือก</option>
                                     <option ng-repeat="g in myGroups" value="<%g.id%>"><%g.group_name%></option>
                                 </select>
@@ -88,8 +85,8 @@
                         <div class="form-group" ng-show="examingMode === 'r'">
                             <label class="col-md-2 control-label">จำนวนข้อ: <b class="danger">*</b></label>
                             <div class="col-md-3">
-                                <select class="form-control">
-                                    <option value="<%a%>" ng-model="amountExam" ng-repeat="a in randomExam"><%a%></option>
+                                <select class="form-control" ng-model="amountExam">
+                                    <option value="<%a%>" ng-repeat="a in randomExam"><%a%></option>
                                 </select>
                             </div>
                         </div>
@@ -140,9 +137,9 @@
                             </div>
                         </div>
 
-                        <!-- Gateway IP -->
+                        <!-- IP -->
                         <div class="form-group" ng-show="ipMode === '1'">
-                            <label class="col-md-2 control-label">IP Router/Gateway:</label>
+                            <label class="col-md-2 control-label">กลุ่ม IP:</label>
                             <div class="col-md-5">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -199,14 +196,14 @@
                                 </div>
                             </div>
                         </div>
-                        <br>
-                        <br>
 
+                        <br>
+                        <br>
                         <!--Submit part -->
                         <div class = "form-group">
                             <div class="col-md-3"></div>
                             <div class="col-md-3">
-                                <input type="button" class="btn btn-outline-success btn-block" value="บันทึก" ng-click="okEditOpenExam()"/>
+                                <input type="button" class="btn btn-outline-success btn-block" value="เปิดสอบ" ng-click="openExam()"/>
                             </div>
                             <div class="col-md-3">
                                 <a class="btn btn-outline-danger btn-block" ng-click="goBack()">ยกเลิก</a>
@@ -252,24 +249,15 @@
 
     <script>
         $(document).ready(function () {
+            $('#openExam_div').css('display','block');
+            $("#side_examming").removeAttr('class');
+            $('#side_examming').attr('class', 'active');
+            $("#examming_chevron").removeAttr('class');
+            $("#examming_chevron").attr('class','fa2 fa-chevron-down');
+            $('#demo').attr('class', 'collapse in');
+            $('#side_openExaming').attr('class', 'active');
             $('[ng-model=userGroupId]').val(0);
             setDataTimePart();
-
-            // จัดการติกข้อสอบที่เลือกไว้
-            $('[id^=exam_]').each(function () {
-                examID = $(this).attr('id').substr(5);
-                $(exam_examing).each(function (k, v) {
-                    if (parseInt(examID) === v.exam_id) {
-                        $('#exam_' + examID).attr('checked', 'checked');
-                        $('#exam_' + examID).parent().parent().children('div').show();
-                        $('#exam_' + examID).parent().parent().children().children('.fa-plus-square').addClass('fa-minus-square');
-                        $('#exam_' + examID).parent().parent().children().children('.fa-plus-square').removeClass('fa-plus-square');
-                    }
-                });
-
-            });
-
-            $('#editOpenExam_div').css('display','block');
         });
 
         function setDataTimePart() {

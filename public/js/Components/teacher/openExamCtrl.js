@@ -2,6 +2,7 @@ app.controller('openExamCtrl', ['$scope', '$window', function ($scope, $window) 
     $scope.myGroups = $window.myGroup;
     $scope.sections = $window.sections;
     $scope.exams = $window.exams;
+    console.log($scope.exams);
     $scope.thisUser = $window.myuser;
     // $scope.teacherId = $window.user_id;
 

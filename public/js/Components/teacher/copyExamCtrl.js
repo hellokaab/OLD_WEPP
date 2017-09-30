@@ -188,7 +188,7 @@ app.controller('copyExamCtrl', ['$scope', '$window', function ($scope, $window) 
     };
 
     //----------------------------------------------------------------------
-    $scope.editExam = function () {
+    $scope.copyExam = function () {
         $('#notice_exam_descore').hide();
         $('#notice_exam_score').hide();
         $('#notice_exam_limit').hide();
@@ -202,12 +202,7 @@ app.controller('copyExamCtrl', ['$scope', '$window', function ($scope, $window) 
         $('#notice_section').hide();
         $scope.completeExamName = $scope.examName.length > 0;
         if ($scope.completeExamName) {
-            if ($scope.examName === $scope.examData.exam_name) {
-                $scope.completeNoDuplicate = true;
-            } else {
-                $scope.completeNoDuplicate = findExamByName($scope.examName,$('#ddl_group').val(),myuser.id);
-            }
-
+            $scope.completeNoDuplicate = findExamByName($scope.examName,$('#ddl_group').val(),myuser.id);
         }
         $scope.completeExamContent = $('#exam_content').Editor("getText").length > 0;
         $scope.completeSelectSection = $('#ddl_group').val() === '0' ? false : true ;
@@ -284,7 +279,7 @@ app.controller('copyExamCtrl', ['$scope', '$window', function ($scope, $window) 
                     var share = new Array();
                     data.shared = share;
                 }
-                createExam(data);
+                // createExam(data);
             });
 
         } else {

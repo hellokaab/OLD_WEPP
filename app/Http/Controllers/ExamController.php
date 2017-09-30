@@ -32,11 +32,11 @@ class ExamController extends Controller
 //            'sections' => $findAllSection
 //        );
 
-        return view('pages/exam');
+        return view('pages/teacher/exam');
     }
 
     public function myExam(){
-        return view('pages/myExam');
+        return view('pages/teacher/myExam');
     }
 
     public function findAllExam()
@@ -99,14 +99,14 @@ class ExamController extends Controller
         $data = array(
             'groupID' => $id
         );
-        return view('pages/addExam',$data);
+        return view('pages/teacher/addExam',$data);
     }
 
     public function copyExam($id){
         $data = array(
             'examId' => $id
         );
-        return view('pages/copyExam',$data);
+        return view('pages/teacher/copyExam',$data);
     }
 
 
@@ -196,7 +196,7 @@ class ExamController extends Controller
         $data = array(
             'examId' => $id
         );
-        return view('pages/editExam',$data);
+        return view('pages/teacher/editExam',$data);
     }
 
 
