@@ -217,34 +217,6 @@
             </div>
         </div>
         <div id="dtBox"></div>
-
-        <!-- Success Modal -->
-        <div class="modal fade" id="success_modal" role="dialog">
-            <div class="modal-dialog" style="width: 20%;padding-right: 12px">
-                <div class="modal-content">
-                    <div class="modal-body" style="text-align: center">
-                        <h1 style="color: #28a745">สำเร็จ&nbsp;&nbsp;<i class="fa fa-check-circle" aria-hidden="true"></i></h1>
-                    </div>
-                    <div class="modal-footer">
-                        <button id="okSuccess" type="button" class="btn btn-outline-success" data-dismiss="modal">ตกลง</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Unsuccess Modal -->
-        <div class="modal fade" id="unsuccess_modal" role="dialog">
-            <div class="modal-dialog" style="width: 20%;padding-right: 12px">
-                <div class="modal-content">
-                    <div class="modal-body" style="text-align: center">
-                        <h1 style="color: #dc3545">ผิดพลาด&nbsp;&nbsp;<i class="fa fa-times-circle" aria-hidden="true"></i></h1>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">ตกลง</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
     <script>

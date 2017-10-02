@@ -373,35 +373,9 @@
 
             </div>
         </div>
-        <!-- Success Modal -->
-        <div class="modal fade" id="success_modal" role="dialog">
-            <div class="modal-dialog" style="width: 20%;padding-right: 12px">
-                <div class="modal-content">
-                    <div class="modal-body" style="text-align: center">
-                        <h1 style="color: #28a745">สำเร็จ&nbsp;&nbsp;<i class="fa fa-check-circle" aria-hidden="true"></i></h1>
-                    </div>
-                    <div class="modal-footer">
-                        <button id="okSuccess" type="button" class="btn btn-outline-success" data-dismiss="modal">ตกลง</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Unsuccess Modal -->
-        <div class="modal fade" id="unsuccess_modal" role="dialog">
-            <div class="modal-dialog" style="width: 20%;padding-right: 12px">
-                <div class="modal-content">
-                    <div class="modal-body" style="text-align: center">
-                        <h1 style="color: #dc3545">ผิดพลาด&nbsp;&nbsp;<i class="fa fa-times-circle" aria-hidden="true"></i></h1>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">ตกลง</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
     <script>
+        var pathExam = "";
         var input_part = "";
         var output_part = "";
         var $numberOnly = $("#time_limit,#cut_wrong_ans,#cut_compile_err,#cut_over_mem,#cut_over_time");
@@ -447,9 +421,9 @@
         }
 
         function submitInputForm() {
-            var formData = new FormData($('#inputFileForum')[0]);
+            var formData = new FormData($('#inputFileForm')[0]);
             input_part = $.ajax({
-                url: url+'/uploadFile',
+                url: url+'/uploadFile/'+pathExam,
                 type: 'POST',
                 data: formData,
                 async: false,
@@ -461,15 +435,12 @@
         }
 
         function submitOutputForm() {
-            var formData = new FormData($('#outputFileForum')[0]);
+            var formData = new FormData($('#outputFileForm')[0]);
             output_part = $.ajax({
-                url: url+'/uploadFile',
+                url: url+'/uploadFile/'+pathExam,
                 type: 'POST',
                 data: formData,
                 async: false,
-                success: function (data) {
-                    alert('posted')
-                },
                 cache: false,
                 contentType: false,
                 processData: false

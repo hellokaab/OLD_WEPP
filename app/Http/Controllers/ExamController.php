@@ -63,33 +63,32 @@ class ExamController extends Controller
 
     public function createTextFile(Request $request)
     {
-        $part = "upload/exam/";
-        if($request->status == "input")$part = $part."input/";
-        else if($request->status == "output")$part = $part."output/";
-        else if($request->status == "main")$part = $part."main/";
-        $file_up = $part . date('Ymd-His') . '_' . rand(1, 9999);
-        $file_up = "$file_up.txt";
+        $path = str_replace("*","/",$request->path);;
+        if($request->status == "input")$file_up = $path."input.txt";
+        else if($request->status == "output")$file_up = $path."output.txt";
+        else if($request->status == "main")$file_up = $path."main.txt";
         $myfile = fopen($file_up, "w") or die("Unable to open file!");
-//        $txt = $request->content;
         fwrite($myfile, $request->content);
         fclose($myfile);
         return response()->json($file_up);
     }
 
-    public function uploadFile(Request $req)
+    public function uploadFile($path,Request $req)
     {
+        $pathExam = str_replace("*","/",$path);
+
         if($req->hasFile('exam_file_input')) {
             $file = $req->file('exam_file_input');
-            $fileName = date('Ymd-His') . '_' . rand(1, 9999).".txt";
-            $file->move('upload/exam/input/' , $fileName);
-            return response()->json('upload/exam/input/'.$fileName);
+            $fileName = "input.txt";
+            $file->move($pathExam , $fileName);
+            return response()->json($pathExam.$fileName);
         }
 
         if($req->hasFile('exam_file_output')) {
             $file = $req->file('exam_file_output');
-            $fileName = date('Ymd-His') . '_' . rand(1, 9999).".txt";
-            $file->move('upload/exam/output/' , $fileName);
-            return response()->json('upload/exam/output/'.$fileName);
+            $fileName = "output.txt";
+            $file->move($pathExam , $fileName);
+            return response()->json($pathExam.$fileName);
         }
     }
 

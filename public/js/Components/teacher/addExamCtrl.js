@@ -181,31 +181,45 @@ app.controller('addExamCtrl', ['$scope', '$window', function ($scope, $window) {
                 color: '#3bafda'
             });
 
-            createContentFile(escapeHtml($('#exam_content').Editor("getText")), function (content_part) {
-                $scope.contentPart = content_part;
+            createContentFile(escapeHtml($('#exam_content').Editor("getText")), function (content_path) {
+                $scope.contentPath = content_path;
+                var content_path_split = content_path.split('/');
+                var path = "";
+                for(var i=0;i<content_path_split.length-1;i++){
+                    path += content_path_split[i]+"*";
+                }
                 if ($scope.inputMode === 'no_input') {
-                    $scope.inputPart = "";
+                    $scope.inputPath = "";
                 } else if ($scope.inputMode === 'key_input') {
-                    $scope.inputPart = createTextFile($scope.input, "input");
+                    $scope.inputPath = createTextFile($scope.input, "input",path);
                 } else {
+                    $window.pathExam = path;
                     $('#inputFileForm').submit();
-                    $scope.inputPart = $window.input_part;
+                    $scope.inputPath = $window.input_part;
                 }
 
                 if ($scope.outputMode === 'key_output') {
-                    $scope.outputPart = createTextFile($scope.output, "output");
+                    $scope.outputPath = createTextFile($scope.output, "output",path);
                 } else {
+                    $window.pathExam = path;
                     $('#outputFileForm').submit();
-                    $scope.outputPart = $window.output_part;
+                    $scope.outputPath = $window.output_part;
                 }
+
+                if($scope.classTestMode == 1){
+                    $scope.mainPath = createTextFile($scope.main, "main",path);
+                } else {
+                    $scope.mainPath = "";
+                }
+
                 getKeyword();
                 data = {
                     user_id: $window.myuser.id,
                     section_id: $('#ddl_group').val(),
                     exam_name: $scope.examName,
-                    exam_data: $scope.contentPart,
-                    exam_inputfile: $scope.inputPart,
-                    exam_outputfile: $scope.outputPart,
+                    exam_data: $scope.contentPath,
+                    exam_inputfile: $scope.inputPath,
+                    exam_outputfile: $scope.outputPath,
                     memory_size: $scope.memLimit,
                     time_limit: $scope.timeLimit,
                     full_score: $scope.fullScore,
@@ -214,7 +228,7 @@ app.controller('addExamCtrl', ['$scope', '$window', function ($scope, $window) {
                     cut_comerror: $scope.cutComplieError,
                     cut_overmemory: $scope.cutOverMem,
                     cut_overtime: $scope.cutOverTime,
-                    main_code: $scope.main,
+                    main_code: $scope.mainPath,
                     case_sensitive: $scope.casesensitive,
                     keyword: keywords,
                 };
@@ -362,7 +376,10 @@ app.controller('addExamCtrl', ['$scope', '$window', function ($scope, $window) {
     //----------------------------------------------------------------------
     function createContentFile(content, callback) {
         $.post("../public/js/Components/Contentfile.php", {
-            Content: content
+            Content: content,
+            userID : myuser.id,
+            userName : myuser.fname_en+"_"+myuser.lname_en,
+            section_id: $('#ddl_group').val()
         }, function (data) {
             callback(data);
         });
