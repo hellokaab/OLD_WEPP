@@ -1,4 +1,5 @@
 app.controller('openExamCtrl', ['$scope', '$window', function ($scope, $window) {
+    var allowed_file_type = "";
     $scope.myGroups = $window.myGroup;
     $scope.sections = $window.sections;
     $scope.exams = $window.exams;
@@ -85,6 +86,9 @@ app.controller('openExamCtrl', ['$scope', '$window', function ($scope, $window) 
         $('#notice_exam').hide();
         $('#notice_examing_usr_grp').hide();
         $('#notice_examing_name').hide();
+        $('#notice_file_type').hide();
+
+        allowed_file_type = getFileType();
 
         completeExamName = $scope.openExamName.length > 0;
         completeUserGroup = $scope.userGroupId > 0;
@@ -98,8 +102,9 @@ app.controller('openExamCtrl', ['$scope', '$window', function ($scope, $window) 
 
         completeAllowNetwork = $scope.allowNetwork.length > 0;
         completeIP = $scope.ipMode === '0' ? true : (completeAllowNetwork ? true : false);
+        completeFileType = allowed_file_type.length > 0;
 
-        if (completeExamName && completeUserGroup && completeExam && completeExamingBegin && completeExamingEnd && completeIP && completeNoDuplicate) {
+        if (completeExamName && completeUserGroup && completeExam && completeExamingBegin && completeExamingEnd && completeIP && completeNoDuplicate && completeFileType) {
 
             dateBegin = new Date(dtPickerToDtJs($('#examingBegin').val()));
             dateEnd = new Date(dtPickerToDtJs($('#examingEnd').val()));
@@ -121,6 +126,7 @@ app.controller('openExamCtrl', ['$scope', '$window', function ($scope, $window) 
                 end_date_time: dtJsToDtDB(dateEnd),
                 examing_pass: $scope.examingPassword,
                 ip_group: $scope.allowNetwork,
+                allowed_file_type: allowed_file_type,
                 hide_examing : $scope.hiddenMode,
                 hide_history : $scope.historyMode,
             }
@@ -154,6 +160,11 @@ app.controller('openExamCtrl', ['$scope', '$window', function ($scope, $window) 
                 $('#notice_examing_name').html('* มีการสอบนี้ในกลุ่มเรียนที่เลือกแล้ว').show();
                 $('[ng-model=openExamName]').focus();
             }
+
+            if (!completeFileType) {
+                $('#notice_file_type').html('* กรุณาระบุไฟล์ที่อนุญาตให้ส่ง').show();
+                // $('[ng-model=gatewayIp]').focus();
+            }
         }
     };
 
@@ -178,6 +189,23 @@ app.controller('openExamCtrl', ['$scope', '$window', function ($scope, $window) 
     $('#okSuccess').on('click',function () {
         window.location.href = url+'/examingHistory';
     });
+    //----------------------------------------------------------------------
+    function getFileType() {
+        var array_file_type = new Array();
+        $('[id^=file_type_]').each(function () {
+            if ($(this).prop('checked')) {
+                array_file_type.push($(this).attr('value'));
+            }
+        });
+        var file_type = "";
+        for(var i=0;i<array_file_type.length;i++){
+            file_type += array_file_type[i];
+            if(i != array_file_type.length-1){
+                file_type += ",";
+            }
+        }
+        return file_type;
+    }
 
 }]);
 
