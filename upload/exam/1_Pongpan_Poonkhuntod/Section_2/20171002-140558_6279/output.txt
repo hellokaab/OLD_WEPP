@@ -1,8 +1,0 @@
-#include <stdio.h>
-main()
-{
-    int r,w,h;
-    if((w=4)&&(h=5))
-        printf("4*5");
-    return 0;
-}

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Users;
+use DirectoryIterator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Section;
@@ -100,10 +102,26 @@ class SectionController extends Controller
         //
     }
 
-
     public function destroy(Request $request)
     {
         $section = Section::find($request->id);
+        $user = Users::find($section->user_id);
+        $userFolder = $user->id."_".$user->fname_en."_".$user->lname_en;
+        $sectionFolder = "Section_".$section->id;
+        $this->rrmdir("../upload/exam/".$userFolder."/".$sectionFolder);
         $section->delete();
+    }
+
+    public function rrmdir($path) {
+        // Open the source directory to read in files
+        $i = new DirectoryIterator($path);
+        foreach ($i as $f) {
+            if ($f->isFile()) {
+                unlink($f->getRealPath());
+            } else if (!$f->isDot() && $f->isDir()) {
+                $this->rrmdir($f->getRealPath());
+            }
+        }
+        rmdir($path);
     }
 }

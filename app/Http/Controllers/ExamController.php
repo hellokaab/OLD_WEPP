@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Keyword;
+use DirectoryIterator;
 use Dotenv\Validator;
 use Faker\Provider\DateTime;
 use Illuminate\Http\Request;
@@ -201,19 +202,13 @@ class ExamController extends Controller
 
     public function update(Request $request)
     {
+        $folderPath = "";
         $exam = Exam::find($request->id);
-        @unlink("$exam->exam_data");
-
-        if($exam->exam_inputfile != NULL) {
-            @unlink("$exam->exam_inputfile");
+        $getpath = explode("/",$exam->exam_data);
+        for($i=0;$i<sizeof($getpath)-1;$i++){
+            $folderPath = $folderPath.$getpath[$i]."/";
         }
-
-        @unlink("$exam->exam_outputfile");
-
-        if($exam->main_code != NULL) {
-            @unlink("$exam->main_code");
-        }
-
+        $this->rrmdir($folderPath);
         $exam->section_id = $request->section_id;
         $exam->exam_name = $request->exam_name;
         $exam->exam_data = $request->exam_data;
@@ -237,19 +232,26 @@ class ExamController extends Controller
     public function destroy($id)
     {
         $exam = Exam::find($id);
-
-        @unlink("$exam->exam_data");
-
-        if($exam->exam_inputfile != NULL) {
-            @unlink("$exam->exam_inputfile");
+        $folderPath = "";
+        $getpath = explode("/",$exam->exam_data);
+        for($i=0;$i<sizeof($getpath)-1;$i++){
+            $folderPath = $folderPath.$getpath[$i]."/";
         }
-
-        @unlink("$exam->exam_outputfile");
-
-        if($exam->main_code != NULL) {
-            @unlink("$exam->main_code");
-        }
+        $this->rrmdir($folderPath);
 
         $exam->delete();
+    }
+
+    public function rrmdir($path) {
+        // Open the source directory to read in files
+        $i = new DirectoryIterator($path);
+        foreach ($i as $f) {
+            if ($f->isFile()) {
+                unlink($f->getRealPath());
+            } else if (!$f->isDot() && $f->isDir()) {
+                $this->rrmdir($f->getRealPath());
+            }
+        }
+        rmdir($path);
     }
 }
