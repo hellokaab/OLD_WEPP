@@ -285,8 +285,8 @@ function findExamByName(data,section_id,user_id) {
     return checked;
 }
 
-function createTextFile(data,status) {
-    var part = $.ajax({
+function createTextFile(data,status,path) {
+    var path = $.ajax({
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         headers: {
@@ -295,11 +295,12 @@ function createTextFile(data,status) {
         url: url + '/createTextFile',
         data:{
             content:data,
-            status:status
+            status:status,
+            path:path
         },
         async: false,
     }).responseJSON;
-    return part;
+    return path;
 }
 
 function createExam(data) {

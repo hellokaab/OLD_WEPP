@@ -77,7 +77,7 @@ Route::get('/addExam{id}', 'ExamController@create');
 
 Route::get('/createTextFile', 'ExamController@createTextFile');
 
-Route::post('/uploadFile', 'ExamController@uploadFile');
+Route::post('/uploadFile/{path}', 'ExamController@uploadFile');
 
 Route::get('/createExam', 'ExamController@store');
 

@@ -316,7 +316,7 @@ app.controller('editExamCtrl', ['$scope', '$window', function ($scope, $window) 
                 color: '#3bafda'
             });
 
-            createContentFile(escapeHtml($('#exam_content').Editor("getText")), function (content_part) {
+            createContentFile(escapeHtml($('#exam_content').Editor("getText")), function (content_path) {
                 for(i=0;i<$scope.sharedUser.length;i++){
                     var UID = $scope.sharedUser[i].user_id;
                     var indexOfStevie = $scope.selectTeacher.findIndex(i => i.id == UID);
@@ -325,19 +325,26 @@ app.controller('editExamCtrl', ['$scope', '$window', function ($scope, $window) 
                     }
                 }
 
-                $scope.contentPart = content_part;
+                $scope.contentPart = content_path;
+                var content_path_split = content_path.split('/');
+                var path = "";
+                for(var i=0;i<content_path_split.length-1;i++){
+                    path += content_path_split[i]+"*";
+                }
                 if ($scope.inputMode === 'no_input') {
                     $scope.inputPart = "";
                 } else if ($scope.inputMode === 'key_input') {
-                    $scope.inputPart = createTextFile($scope.input, "input");
+                    $scope.inputPart = createTextFile($scope.input, "input",path);
                 } else {
+                    $window.pathExam = path;
                     $('#inputFileForm').submit();
                     $scope.inputPart = $window.input_part;
                 }
 
                 if ($scope.outputMode === 'key_output') {
-                    $scope.outputPart = createTextFile($scope.output, "output");
+                    $scope.outputPart = createTextFile($scope.output, "output",path);
                 } else {
+                    $window.pathExam = path;
                     $('#outputFileForm').submit();
                     $scope.outputPart = $window.output_part;
                 }
@@ -506,7 +513,10 @@ app.controller('editExamCtrl', ['$scope', '$window', function ($scope, $window) 
     //----------------------------------------------------------------------
     function createContentFile(content, callback) {
         $.post("../public/js/Components/Contentfile.php", {
-            Content: content
+            Content: content,
+            userID : myuser.id,
+            userName : myuser.fname_en+"_"+myuser.lname_en,
+            section_id: $('#ddl_group').val()
         }, function (data) {
             callback(data);
         });
