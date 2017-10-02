@@ -39,6 +39,7 @@ class ExamingController extends Controller
         $examing->examing_pass = $request->examing_pass;
         $examing->examing_name = $request->examing_name;
         $examing->ip_group = $request->ip_group;
+        $examing->allowed_file_type = $request->allowed_file_type;
         $examing->hide_examing = $request->hide_examing;
         $examing->hide_history = $request->hide_history;
         $examing->save();
@@ -59,6 +60,7 @@ class ExamingController extends Controller
         $examing->examing_pass = $request->examing_pass;
         $examing->examing_name = $request->examing_name;
         $examing->ip_group = $request->ip_group;
+        $examing->allowed_file_type = $request->allowed_file_type;
         $examing->hide_examing = $request->hide_examing;
         $examing->hide_history = $request->hide_history;
         $examing->save();

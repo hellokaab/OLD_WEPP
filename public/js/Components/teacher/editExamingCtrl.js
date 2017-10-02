@@ -1,7 +1,5 @@
-/**
- * Created by Pongpan on 27-Jul-17.
- */
 app.controller('editOpenExamingCtrl', ['$scope', '$window', function ($scope, $window) {
+    var allowed_file_type = "";
     $scope.myGroups = $window.myGroup;
     $scope.sections = $window.sections;
     $scope.exams = $window.exams;
@@ -20,6 +18,7 @@ app.controller('editOpenExamingCtrl', ['$scope', '$window', function ($scope, $w
     $scope.allowNetwork = $scope.examing.ip_group;
     $scope.hiddenMode = $scope.examing.hide_examing;
     $scope.historyMode = $scope.examing.hide_history;
+    $scope.fileType = $scope.examing.allowed_file_type.split(",");
 
     $scope.selectExam = [];
     for (i = 0; i < $scope.examExamings.length; i++)
@@ -29,6 +28,10 @@ app.controller('editOpenExamingCtrl', ['$scope', '$window', function ($scope, $w
     for (i = 1; i <= $scope.examing.amount; i++)
         $scope.randomExam.push(i);
     $scope.amountExam = $scope.examing.amount;
+
+    for (i = 0; i < $scope.fileType.length; i++){
+        $('#file_type_'+$scope.fileType[i])[0].checked = true;
+    }
 
     $('#examingBegin').val(dtDBToDtPicker($scope.examing.start_date_time));
     $('#examingEnd').val(dtDBToDtPicker($scope.examing.end_date_time));
@@ -103,7 +106,10 @@ app.controller('editOpenExamingCtrl', ['$scope', '$window', function ($scope, $w
         $('#notice_exam').hide();
         $('#notice_examing_usr_grp').hide();
         $('#notice_examing_name').hide();
-        console.log($scope.openExamName != $scope.examing.examing_name);
+        $('#notice_file_type').hide();
+
+        allowed_file_type = getFileType();
+
         completeExamName = $scope.openExamName.length > 0;
         completeUserGroup = $scope.userGroupId > 0;
         completeNoDuplicate = true;
@@ -119,8 +125,9 @@ app.controller('editOpenExamingCtrl', ['$scope', '$window', function ($scope, $w
 
         completeAllowNetwork = $scope.allowNetwork.length > 0;
         completeIP = $scope.ipMode === '0' ? true : (completeAllowNetwork ? true : false);
+        completeFileType = allowed_file_type.length > 0;
 
-        if (completeExamName && completeUserGroup && completeExam && completeExamingBegin && completeExamingEnd && completeIP && completeNoDuplicate) {
+        if (completeExamName && completeUserGroup && completeExam && completeExamingBegin && completeExamingEnd && completeIP && completeNoDuplicate && completeFileType) {
 
             dateBegin = new Date(dtPickerToDtJs($('#examingBegin').val()));
             dateEnd = new Date(dtPickerToDtJs($('#examingEnd').val()));
@@ -151,6 +158,7 @@ app.controller('editOpenExamingCtrl', ['$scope', '$window', function ($scope, $w
                 end_date_time: dtJsToDtDB(dateEnd),
                 examing_pass: $scope.examingPassword,
                 ip_group: $scope.allowNetwork,
+                allowed_file_type: allowed_file_type,
                 deleteExamExaming:deleteExamExaming,
                 hide_examing : $scope.hiddenMode,
                 hide_history : $scope.historyMode,
@@ -184,6 +192,10 @@ app.controller('editOpenExamingCtrl', ['$scope', '$window', function ($scope, $w
                 $('#notice_examing_name').html('* มีการสอบนี้ในกลุ่มเรียนที่เลือกแล้ว').show();
                 $('[ng-model=openExamName]').focus();
             }
+
+            if (!completeFileType) {
+                $('#notice_file_type').html('* กรุณาระบุไฟล์ที่อนุญาตให้ส่ง').show();
+            }
         }
     };
     //----------------------------------------------------------------------
@@ -211,4 +223,21 @@ app.controller('editOpenExamingCtrl', ['$scope', '$window', function ($scope, $w
     $('#okSuccess').on('click',function () {
         window.location.href = url+'/examingHistory';
     });
+    //----------------------------------------------------------------------
+    function getFileType() {
+        var array_file_type = new Array();
+        $('[id^=file_type_]').each(function () {
+            if ($(this).prop('checked')) {
+                array_file_type.push($(this).attr('value'));
+            }
+        });
+        var file_type = "";
+        for(var i=0;i<array_file_type.length;i++){
+            file_type += array_file_type[i];
+            if(i != array_file_type.length-1){
+                file_type += ",";
+            }
+        }
+        return file_type;
+    }
 }]);

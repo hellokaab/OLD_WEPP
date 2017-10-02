@@ -123,6 +123,28 @@
                             </div>
                         </div>
 
+                        {{--Select File Type--}}
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">ไฟล์ที่อนุญาตให้ส่ง:</label>
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-2 checkbox">
+                                        <input type="checkbox" id="file_type_c" value="c" style="margin-left: 0px">
+                                        <label for="file_type_c">.c</label>
+                                    </div>
+                                    <div class="col-md-2 checkbox">
+                                        <input type="checkbox" id="file_type_cpp" value="cpp" style="margin-left: 0px">
+                                        <label for="file_type_cpp">.cpp</label>
+                                    </div>
+                                    <div class="col-md-2 checkbox">
+                                        <input type="checkbox" id="file_type_java" value="java" style="margin-left: 0px">
+                                        <label for="file_type_java">.java</label>
+                                    </div>
+                                </div>
+                                <div class="notice" id="notice_file_type" style="display: none">กรุณาระบุไฟล์ที่อนุญาตให้ส่ง</div>
+                            </div>
+                        </div>
+
                         <!-- IP -->
                         <div class="form-group">
                             <label class="col-md-2 control-label">จำกัดเฉพาะ IP:</label>
