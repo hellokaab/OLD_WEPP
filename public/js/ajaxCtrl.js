@@ -1074,4 +1074,3 @@ function findExamRandomInViewExam(EXID,UID) {
     }).responseJSON;
     return examRandom;
 }
-

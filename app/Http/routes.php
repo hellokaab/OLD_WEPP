@@ -209,4 +209,8 @@ Route::get('/findExamRandomInViewExam','ExamRandomController@findExamRandomInVie
 
 //--------------------------- ResExamController ---------------------------
 
-Route::post('/uploadExamFile','ResExamController@store');
+Route::post('/uploadExamFile/{EMID}/{EID}/{UID}','ResExamController@store');
+
+//--------------------------- CompileJavaController ---------------------------
+
+Route::get('/sendExamJava','CompileJavaController@sendExamJava');

@@ -2,97 +2,42 @@
 
 namespace App\Http\Controllers;
 
+use App\Users;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
 class ResExamController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function store($EMID,$EID,$UID,Request $request)
     {
-        //
-    }
+        $user = Users::find($UID);
+        $userFolder = $user->stu_id."_".$user->fname_en."_".$user->lname_en;
+        $examingFolder = "Examing_".$EMID;
+        $examFolder = "Exam_".$EID;
+        $path = "../upload/resexam/";
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+//        สร้างโฟลเดอร์ของการสอบ
+        $this->makeFolder($path,$examingFolder);
+//        สร้างโฟลเดอร์ของข้อสอบในการสอบ
+        $this->makeFolder($path.$examingFolder."/",$examFolder);
+//        สร้างโฟลเดอร์ของนักเรียนที่ส่งข้อสอบ
+        $this->makeFolder($path.$examingFolder."/".$examFolder."/",$userFolder);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
         $folderName = date('Ymd-His')."_".rand(1, 9999);
-        $folder = 'upload/resexam/'.$folderName;
+        $folder = $path.$examingFolder."/".$examFolder."/".$userFolder."/".$folderName;
         mkdir($folder, 0777, true);
         $files = $request->file('file_ans');
         foreach ($files as &$file) {
-//            $fileName = $file->getClientOriginalName();
             $file->move($folder,$file->getClientOriginalName());
         }
-//        for($i = 0;$i<$file->getSize();$i++){
-//
-//        }
-//        $file->move($folder);
-        return response()->json($files);
+        return response()->json($folder);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+    function makeFolder($path,$folder) {
+        $dirList = scandir($path);
+        if (!in_array((string) $folder, (array) $dirList)) {
+            mkdir($path.$folder, 0777, true);
+        }
     }
 }
