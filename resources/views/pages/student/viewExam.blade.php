@@ -101,7 +101,7 @@
                                         </i>
                                         <br>
                                         <br>
-                                        <i>* ไม่ควรตั้งชื่อคลาสเป็น Main</i>
+                                        <i ng-show="selectFileType == 'java'">* ไม่ควรตั้งชื่อคลาสเป็น Main</i>
                                     </div>
                                 </div>
                             </div>
@@ -111,36 +111,50 @@
                                 <div class="text-center"><b>การส่งคำตอบ</b></div>
                                 <br>
                                 <div class="col-lg-12">
-                                    <b style="padding-left: 11%;">รูปแบบการส่ง</b>
+                                    <b style="padding-left: 8.5%;">ประเภทไฟล์ที่ส่ง</b>
                                 </div>
                                 <div class="col-lg-12" style="padding-top: 15px">
-                                    <div class="col-md-1"></div>
-                                    <div class="col-md-2">
-                                        <div class="radio">
-                                            <div class="row">
-                                                <div class="form-group">
-                                                    <input type="radio" name="input" id="keyInputChk" value="key_input" ng-model="inputMode" checked>
-                                                    <label for="keyInputChk">พิมพ์โค้ด</label>
+                                    <div class="col-md-3">
+                                        <div class="col-lg-12">
+                                            <select class="form-control" ng-model="selectFileType">
+                                                {{--<option style="display: none"></option>--}}
+                                                <option ng-repeat="ft in allowedFileType" value="<%ft%>">.<%ft%></option>
+                                            </select>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <br>
+                                        <div class="col-lg-12" style="text-align: center;padding-bottom: 10px">
+                                            <b>รูปแบบการส่ง</b>
+                                        </div>
+                                        <div class="col-md-4"></div>
+                                        <div class="col-md-8">
+                                            <div class="radio">
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <input type="radio" name="input" id="keyInputChk" value="key_input" ng-model="inputMode" checked>
+                                                        <label for="keyInputChk">พิมพ์โค้ด</label>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="form-group">
-                                                    <input type="radio" name="input" id="fileInputChk" value="file_input" ng-model="inputMode">
-                                                    <label for="fileInputChk">อัพโหลด File</label>
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <input type="radio" name="input" id="fileInputChk" value="file_input" ng-model="inputMode">
+                                                        <label for="fileInputChk">อัพโหลด File</label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-7">
                                         <div class="row" ng-show="inputMode === 'key_input'">
-                                            <textarea ng-model="input" class="form-control io_textarea" placeholder="ใส่โค้ดคำตอบที่นี่" rows="8"></textarea>
+                                            <textarea ng-model="codeExam" class="form-control io_textarea" placeholder="ใส่โค้ดคำตอบที่นี่" rows="8"></textarea>
                                             <div class="notice" id="notice_exam_key_ans" style="display: none">กรุณาใส่โค้ดโปรแกรม</div>
                                         </div>
 
                                         <form id="AnsFileForm" action="javascript:submitAnsForm();" method="post" enctype = "multipart/form-data">
                                             <div class="form-group" ng-show="inputMode == 'file_input'">
                                                 <div class="col-md-4">
-                                                    <input type="file" id="file_ans" class="inline-form-control" name="file_ans[]" multiple="" accept=".java">
+                                                    <input type="file" id="file_ans" class="inline-form-control" name="file_ans[]" multiple="" accept=".<%selectFileType%>">
                                                     <div class="notice" id="notice_exam_file_ans" style="display: none">กรุณาเลือกไฟล์</div>
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                 </div>
@@ -148,6 +162,45 @@
                                         </form>
                                     </div>
                                 </div>
+                                {{--<div class="col-lg-12">--}}
+                                    {{--<b style="padding-left: 11%;">รูปแบบการส่ง</b>--}}
+                                    {{--<b style="padding-left: 11%;">ประเภทไฟล์ที่ส่ง</b>--}}
+                                {{--</div>--}}
+                                {{--<div class="col-lg-12" style="padding-top: 15px">--}}
+                                    {{--<div class="col-md-1"></div>--}}
+                                    {{--<div class="col-md-2">--}}
+                                        {{--<div class="radio">--}}
+                                            {{--<div class="row">--}}
+                                                {{--<div class="form-group">--}}
+                                                    {{--<input type="radio" name="input" id="keyInputChk" value="key_input" ng-model="inputMode" checked>--}}
+                                                    {{--<label for="keyInputChk">พิมพ์โค้ด</label>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                            {{--<div class="row">--}}
+                                                {{--<div class="form-group">--}}
+                                                    {{--<input type="radio" name="input" id="fileInputChk" value="file_input" ng-model="inputMode">--}}
+                                                    {{--<label for="fileInputChk">อัพโหลด File</label>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="col-md-7">--}}
+                                        {{--<div class="row" ng-show="inputMode === 'key_input'">--}}
+                                            {{--<textarea ng-model="input" class="form-control io_textarea" placeholder="ใส่โค้ดคำตอบที่นี่" rows="8"></textarea>--}}
+                                            {{--<div class="notice" id="notice_exam_key_ans" style="display: none">กรุณาใส่โค้ดโปรแกรม</div>--}}
+                                        {{--</div>--}}
+
+                                        {{--<form id="AnsFileForm" action="javascript:submitAnsForm();" method="post" enctype = "multipart/form-data">--}}
+                                            {{--<div class="form-group" ng-show="inputMode == 'file_input'">--}}
+                                                {{--<div class="col-md-4">--}}
+                                                    {{--<input type="file" id="file_ans" class="inline-form-control" name="file_ans[]" multiple="" accept=".java">--}}
+                                                    {{--<div class="notice" id="notice_exam_file_ans" style="display: none">กรุณาเลือกไฟล์</div>--}}
+                                                    {{--<input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                        {{--</form>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
                             </div>
                         </div>
                         <!-- Model footer -->
@@ -159,12 +212,32 @@
                 </div>
             </div>
         </div>
+
+        <!-- Fail Modal -->
+        <div id="fail_package_modal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="panel panel-danger" style="margin-bottom: 0">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">ข้อผิดพลาด</h3>
+                        </div>
+                        <div style="padding-top: 7%; text-align: center" id="err_message">โค้ดที่ส่งไม่ใช่ Default package กรุณาแก้ไข package ของโค้ด</div>
+                        <br>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-danger" data-dismiss="modal">ตกลง</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 
     <script>
+        var exam_part = "";
         var second = 0;
         var timer;
+        var examID = "";
         $(document).ready(function () {
             $('#view_exam_div').css('display', 'block');
             getNow();
@@ -219,7 +292,7 @@
             var formData = new FormData($('#AnsFileForm')[0]);
             console.log(formData);
             exam_part = $.ajax({
-                url: url+'/uploadExamFile',
+                url: url+'/uploadExamFile/'+examingID+'/'+examID+'/'+myuser.id,
                 type: 'POST',
                 data: formData,
                 async: false,

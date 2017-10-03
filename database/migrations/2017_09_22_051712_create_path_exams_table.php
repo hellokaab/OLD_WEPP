@@ -17,11 +17,11 @@ class CreatePathExamsTable extends Migration
             $table->integer('resexam_id')->unsigned();
             $table->foreign('resexam_id')->references('id')->on('res_exams')->onDelete('cascade');
             $table->text('path');
-            $table->char('status');
-            $table->text('resrun');
+            $table->char('status')->nullable();
+            $table->text('resrun')->nullable();
             $table->dateTime('send_date_time');
-            $table->float('time',6,5);
-            $table->float('memory',6,2);
+            $table->float('time',6,5)->nullable();
+            $table->float('memory',6,2)->nullable();
             $table->string('ip',30);
             $table->timestamps();
         });

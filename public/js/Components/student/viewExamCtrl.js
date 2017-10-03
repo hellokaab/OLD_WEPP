@@ -1,17 +1,23 @@
 app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) {
     $scope.examing = $window.examing;
     $scope.inputMode = 'key_input';
+    $scope.allowedFileType = $scope.examing.allowed_file_type.split(",");
+
+    // $scope.selectFileType = $scope.allowedFileType[0];
     $scope.groupData = findGroupDataByID($scope.examing.group_id);
     if($scope.examing.examing_mode === 'n'){
         $scope.examExaming = findExamExamingInViewExam($scope.examing.id,myuser.id);
     } else {
         $scope.examExaming = findExamRandomInViewExam($scope.examing.id,myuser.id);
     }
-    console.log($scope.examExaming);
+    $(document).ready(function () {
+        $scope.selectFileType = $scope.allowedFileType[0];
+    });
     $('#exam_content').Editor();
     //----------------------------------------------------------------------
     $scope.startExam = function (data) {
-
+        $scope.CurrentIndex = $scope.examExaming.indexOf(data);
+        $scope.examID = data.exam_id;
         $('#detail_exam_modal').modal({backdrop: 'static'});
         $('#detail_exam_part').waitMe({
             effect: 'win8_linear',
@@ -20,8 +26,6 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
         });
         var examData = findExamByID(data.exam_id).responseJSON;
         var keyword = findKeywordByEID(data.exam_id);
-        console.log(examData);
-        console.log(keyword);
         $('#exam_name').html(examData.exam_name);
         $('#exam_time').html(examData.time_limit);
         $('#exam_memory').html(examData.memory_size);
@@ -47,7 +51,69 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
     };
     //----------------------------------------------------------------------
     $scope.okSend = function () {
-        $('#AnsFileForm').submit();
+        var result = "";
+        $('#notice_exam_key_ans').hide();
+        $('#notice_exam_file_ans').hide();
+        if($scope.inputMode === 'key_input'){
+            if($scope.codeExam.length > 0){
+                if($scope.selectFileType === "java"){
+                    data = {
+                        EMID : $scope.examing.id,
+                        EID : $scope.examID,
+                        UID : $window.myuser.id,
+                        code : $scope.codeExam,
+                        mode : "key"
+                    };
+                    result = sendExamJava(data);
+                    console.log(result);
+                }
+            } else {
+                $('#notice_exam_key_ans').html('* กรุณาใส่โค้ดโปรแกรม').show();
+            }
+
+        } else {
+
+            if($("#file_ans")[0].files.length > 0){
+                checkFile = checkFileType($("#file_ans")[0].files);
+                if(checkFile){
+                    $window.examID = $scope.examID;
+                    $('#AnsFileForm').submit();
+                    if($scope.selectFileType === "java"){
+                        data = {
+                            path : $window.exam_part,
+                            EMID : $scope.examing.id,
+                            EID : $scope.examID,
+                            UID : $window.myuser.id,
+                            mode : "file"
+                        }
+                    }
+                }
+            } else {
+                $('#notice_exam_file_ans').html('* กรุณาเลือกไฟล์').show();
+            }
+
+        }
+        // if($scope.selectFileType === "java"){
+        //     if($scope.inputMode === 'key_input'){
+        //         if($scope.codeExam.length > 0){
+        //             data = {
+        //                 code: $scope.codeExam,
+        //                 mode: "key_input"
+        //             }
+        //         } else {
+        //             $('#notice_exam_key_ans').html('* กรุณาใส่โค้ดโปรแกรม').show();
+        //         }
+        //     } else{
+        //         checkFile = checkFileType($("#file_ans")[0].files);
+        //         if(checkFile){
+        //             $window.examID = $scope.examID;
+        //             $('#AnsFileForm').submit();
+        //         }
+        //     }
+        // }
+
+
+
     };
     //----------------------------------------------------------------------
     function decapeHtml(str) {
@@ -58,5 +124,58 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
         str = str.replace(/&#39;/g, "'");
         str = str.replace(/&#x2F;/g, '/');
         return str;
+    }
+    //----------------------------------------------------------------------
+    function getExtension(file) {
+        var parts = file.name.split('.');
+        return parts[parts.length - 1];
+    }
+
+    //----------------------------------------------------------------------
+    function checkFileType(files) {
+        for(i =0;i<files.length;i++){
+            var ext = getExtension(files[i]);
+            if (ext.toLowerCase() === $scope.selectFileType) {
+
+            } else {
+                    return false;
+                }
+        }
+        return true;
+    }
+    //----------------------------------------------------------------------
+    function sendExamJava(data) {
+        var success = true;
+        var sendExamJava = $.ajax({
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Accept: "application/json"
+            },
+            url: url + '/sendExamJava',
+            data:data,
+            async: false,
+            complete: function (xhr) {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        $scope.examExaming[$scope.CurrentIndex].current_status = 'Q';
+                        // $scope.$apply();
+                        $('#detail_exam_modal').modal('hide');
+                    } else if (xhr.status == 209){
+                        $('#detail_exam_modal').modal('hide');
+                        $('#fail_package_modal').modal('show');
+                        success = false;
+                    } else {
+                        success = false;
+                        $('#unsuccess_modal').modal({backdrop: 'static'});
+                    }
+                }
+            }
+        }).responseJSON;
+        result = {
+            RQID :sendExamJava,
+            success : success
+        };
+        return result;
     }
 }]);
