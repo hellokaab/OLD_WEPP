@@ -50,7 +50,7 @@
                                         e.current_status==='5'?'P-----' : '-'
                                     %></td>
                             <td style="width: 20%">
-                                <button class="btn btn-outline-primary btn-sm" ng-click="startExam(e)">
+                                <button ng-show="e.current_status != 'a'" class="btn btn-outline-primary btn-sm" ng-click="startExam(e)">
                                     <i class="fa fa-pencil"></i> ทำข้อสอบ
                                 </button>
                             </td>

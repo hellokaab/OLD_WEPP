@@ -18,7 +18,9 @@ class ExamRandomController extends Controller
 
     public function findExamRandomByUID(Request $request)
     {
-        $examRandom = ExamRandom::where('user_id',$request->user_id)->get();
+        $examRandom = ExamRandom::where('user_id',$request->user_id)
+            ->where('examing_id',$request->examing_id)
+            ->get();
         return response()->json($examRandom);
     }
 
@@ -28,12 +30,17 @@ class ExamRandomController extends Controller
     }
 
     public function findExamRandomInViewExam(Request $request){
-        $examExaming = DB::table('exam_randoms')
-            ->join('exams', 'exam_randoms.exam_id', '=', 'exams.id')
-            ->select('exam_randoms.*', 'exams.*')
-            ->where('examing_id',$request->examing_id)
-            ->where('exam_randoms.user_id',$request->user_id)
-            ->get();
+        $examExaming = DB::select(' SELECT ex.exam_name,a.* 
+                                    FROM exams AS ex INNER JOIN(
+                                        SELECT er.*,re.current_status 
+                                        FROM exam_randoms AS er LEFT JOIN(
+                                            SELECT * 
+                                            FROM res_exams 
+                                            WHERE res_exams.user_id = ? ) AS re
+                                        ON er.examing_id = re.examing_id
+                                        WHERE er.user_id = ?
+                                        AND er.examing_id = ? ) AS a
+                                        ON ex.id = a.exam_id', [$request->user_id,$request->user_id,$request->examing_id]);
         return response()->json($examExaming);
     }
 

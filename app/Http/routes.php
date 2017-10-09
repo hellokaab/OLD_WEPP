@@ -211,6 +211,16 @@ Route::get('/findExamRandomInViewExam','ExamRandomController@findExamRandomInVie
 
 Route::post('/uploadExamFile/{EMID}/{EID}/{UID}','ResExamController@store');
 
+Route::get('/checkQueueEx','ResExamController@checkQueueEx');
+
+Route::get('/deleteFirstQueue','ResExamController@deleteFirstQueue');
+
 //--------------------------- CompileJavaController ---------------------------
 
 Route::get('/sendExamJava','CompileJavaController@sendExamJava');
+
+Route::get('/compileAndRunJava','CompileJavaController@compileAndRunJava');
+
+Route::get('/test','CompileJavaController@test');
+
+
