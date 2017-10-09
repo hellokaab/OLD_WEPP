@@ -375,7 +375,7 @@ app.controller('addExamCtrl', ['$scope', '$window', function ($scope, $window) {
 
     //----------------------------------------------------------------------
     function createContentFile(content, callback) {
-        $.post("../public/js/Components/Contentfile.php", {
+        $.post("../public/js/Components/CreateTextFileEX.php", {
             Content: content,
             userID : myuser.id,
             userName : myuser.fname_en+"_"+myuser.lname_en,
