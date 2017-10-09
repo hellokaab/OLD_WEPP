@@ -14,8 +14,24 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
         $scope.selectFileType = $scope.allowedFileType[0];
     });
     $('#exam_content').Editor();
+
+    // var test = $.ajax({
+    //     contentType: "application/json; charset=utf-8",
+    //     dataType: "json",
+    //     headers: {
+    //         Accept: "application/json"
+    //     },
+    //     url: url + '/test',
+    //     async: false,
+    // }).responseJSON;
+    console.log($scope.examExaming);
+
+    var checked = 0;
+    var count = 0;
     //----------------------------------------------------------------------
     $scope.startExam = function (data) {
+        $scope.codeExam = "";
+        document.getElementById('file_ans').value = "";
         $scope.CurrentIndex = $scope.examExaming.indexOf(data);
         $scope.examID = data.exam_id;
         $('#detail_exam_modal').modal({backdrop: 'static'});
@@ -51,11 +67,19 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
     };
     //----------------------------------------------------------------------
     $scope.okSend = function () {
+        $('#detail_exam_part').waitMe({
+            effect: 'facebook',
+            bg: 'rgba(255,255,255,0.9)',
+            color: '#3bafda'
+        });
+        checked = 0;
         var result = "";
         $('#notice_exam_key_ans').hide();
         $('#notice_exam_file_ans').hide();
         if($scope.inputMode === 'key_input'){
             if($scope.codeExam.length > 0){
+
+                // ถ้าเป็นไฟล์ .java
                 if($scope.selectFileType === "java"){
                     data = {
                         EMID : $scope.examing.id,
@@ -64,8 +88,7 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
                         code : $scope.codeExam,
                         mode : "key"
                     };
-                    result = sendExamJava(data);
-                    console.log(result);
+                    sendExamJava(data);
                 }
             } else {
                 $('#notice_exam_key_ans').html('* กรุณาใส่โค้ดโปรแกรม').show();
@@ -86,6 +109,7 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
                             UID : $window.myuser.id,
                             mode : "file"
                         }
+                        sendExamJava(data);
                     }
                 }
             } else {
@@ -93,24 +117,7 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
             }
 
         }
-        // if($scope.selectFileType === "java"){
-        //     if($scope.inputMode === 'key_input'){
-        //         if($scope.codeExam.length > 0){
-        //             data = {
-        //                 code: $scope.codeExam,
-        //                 mode: "key_input"
-        //             }
-        //         } else {
-        //             $('#notice_exam_key_ans').html('* กรุณาใส่โค้ดโปรแกรม').show();
-        //         }
-        //     } else{
-        //         checkFile = checkFileType($("#file_ans")[0].files);
-        //         if(checkFile){
-        //             $window.examID = $scope.examID;
-        //             $('#AnsFileForm').submit();
-        //         }
-        //     }
-        // }
+
 
 
 
@@ -145,7 +152,7 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
     }
     //----------------------------------------------------------------------
     function sendExamJava(data) {
-        var success = true;
+        // $('#detail_exam_modal').modal('hide');
         var sendExamJava = $.ajax({
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -156,26 +163,102 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
             data:data,
             async: false,
             complete: function (xhr) {
+                    if (xhr.readyState == 4) {
+                        if (xhr.status == 200) {
+                            $scope.examExaming[$scope.CurrentIndex].current_status = 'Q';
+                            // $scope.$apply();
+                            $('#detail_exam_modal').modal('hide');
+                            $('#detail_exam_modal').on('hidden.bs.modal', function(){
+                                checked = 0;
+                                checkOrderEx(xhr.responseJSON);
+                            });
+                        } else if (xhr.status == 209) {
+                            $('#detail_exam_modal').modal('hide');
+                            $('#fail_package_modal').modal('show');
+                        } else {
+                            $('#unsuccess_modal').modal({backdrop: 'static'});
+                        }
+                    }
+            }
+        }).responseJSON;
+        return sendExamJava;
+    }
+    //----------------------------------------------------------------------
+    function checkOrderEx(pathExamID) {
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Accept: "application/json"
+            },
+            url: url + '/checkQueueEx',
+            data:{pathExamID:pathExamID},
+            async: false,
+            complete: function (xhr) {
+                if (xhr.readyState == 4) {
+                    // ถ้าตัวเองคือคนแรก
+                    if (xhr.status == 200) {
+                        $scope.examExaming[$scope.CurrentIndex].current_status = 'P';
+                        $scope.$apply();
+                        checked = 1;
+                        var fileType = xhr.responseJSON;
+                        if(fileType === "java"){
+                            compileAndRunJava(pathExamID);
+                        }
+                    } else { // ถ้าไม่ใช่คนแรก
+                        // รอตรวจนานเกิน 9 วินาที
+                        if (count > 2) {
+                            deleteFirstQueue();
+                        }
+                    }
+                    count++;
+                    if (!checked) {
+                        setTimeout(function () {
+                            checkOrderEx(pathExamID);
+                        }, 3000);
+                    }
+                }
+            }
+        });
+    }
+    //----------------------------------------------------------------------
+    function compileAndRunJava(pathExamID) {
+        var testCompile = $.ajax({
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Accept: "application/json"
+            },
+            url: url + '/compileAndRunJava',
+            data:{
+                mode:"exam",
+                pathExamID:pathExamID,
+                exam_id : $scope.examID
+            },
+            async: false,
+            complete: function (xhr) {
                 if (xhr.readyState == 4) {
                     if (xhr.status == 200) {
-                        $scope.examExaming[$scope.CurrentIndex].current_status = 'Q';
-                        // $scope.$apply();
-                        $('#detail_exam_modal').modal('hide');
-                    } else if (xhr.status == 209){
-                        $('#detail_exam_modal').modal('hide');
-                        $('#fail_package_modal').modal('show');
-                        success = false;
-                    } else {
-                        success = false;
-                        $('#unsuccess_modal').modal({backdrop: 'static'});
+                        $scope.examExaming[$scope.CurrentIndex].current_status = xhr.responseJSON;
+                        $scope.$apply();
+
+                        deleteFirstQueue();
                     }
                 }
             }
         }).responseJSON;
-        result = {
-            RQID :sendExamJava,
-            success : success
-        };
-        return result;
+        console.log(testCompile);
+    }
+    //----------------------------------------------------------------------
+    function deleteFirstQueue() {
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Accept: "application/json"
+            },
+            url: url + '/deleteFirstQueue',
+            async: false,
+        })
     }
 }]);

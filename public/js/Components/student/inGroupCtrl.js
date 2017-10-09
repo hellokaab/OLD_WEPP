@@ -44,6 +44,7 @@ app.controller('inGroupCtrl', ['$scope', '$window', function ($scope, $window) {
         $scope.examing = data;
         $scope.examingPassword = "";
         $('#admit_modal').modal({backdrop: 'static'});
+        $('#examing_password').focus();
         console.log($scope.examing);
     };
     //----------------------------------------------------------------------
@@ -95,7 +96,7 @@ app.controller('inGroupCtrl', ['$scope', '$window', function ($scope, $window) {
     //----------------------------------------------------------------------
     function checkRandomExam(examing) {
         if(examing.examing_mode === 'r'){
-            var randomExam = findExamRandomByUID(myuser.id);
+            var randomExam = findExamRandomByUID(myuser.id,examing.id);
             if(randomExam.length == 0){
                 var examExaming = findExamExamingByExamingID(examing.id);
                 console.log(examExaming);

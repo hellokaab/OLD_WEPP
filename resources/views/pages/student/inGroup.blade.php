@@ -111,7 +111,7 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">รหัสผ่านเข้าสอบ</label>
                                 <div class = "col-md-6">
-                                    <input type="password" class="form-control" ng-model="examingPassword" ng-keyup="$event.keyCode === 13 && enter()" maxlength="8">
+                                    <input id="examing_password" type="password" class="form-control" ng-model="examingPassword" ng-keyup="$event.keyCode === 13 && okAdmitExaming()" maxlength="8">
                                 </div>
                             </div>
                             <!-- un use -->

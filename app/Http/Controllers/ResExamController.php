@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ReadyQueueEx;
 use App\Users;
 use Illuminate\Http\Request;
 
@@ -9,6 +10,15 @@ use App\Http\Requests;
 
 class ResExamController extends Controller
 {
+    public function checkQueueEx(Request $request){
+        $first = ReadyQueueEx::orderBy('id')->first();
+        if($first->path_exam_id == $request->pathExamID){
+            return response()->json($first->file_type, 200);
+        } else {
+            return response()->json(['error' => 'Error msg'], 209);
+        }
+    }
+
     public function store($EMID,$EID,$UID,Request $request)
     {
         $user = Users::find($UID);
@@ -32,6 +42,11 @@ class ResExamController extends Controller
             $file->move($folder,$file->getClientOriginalName());
         }
         return response()->json($folder);
+    }
+
+    public function deleteFirstQueue(){
+        $first = ReadyQueueEx::orderBy('id')->first();
+        $first->delete();
     }
 
     function makeFolder($path,$folder) {

@@ -1035,7 +1035,7 @@ function editWorksheetGroup(data) {
 }
 
 //--------------------------- ExamRandomController ---------------------------
-function findExamRandomByUID(UID) {
+function findExamRandomByUID(UID,EMID) {
     var examRandom = $.ajax({
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -1043,7 +1043,7 @@ function findExamRandomByUID(UID) {
             Accept: "application/json"
         },
         url: url + '/findExamRandomByUID',
-        data:{user_id:UID},
+        data:{user_id:UID,examing_id:EMID},
         async: false,
     }).responseJSON;
     return examRandom;
