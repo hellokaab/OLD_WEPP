@@ -236,9 +236,10 @@ app.controller('copyExamCtrl', ['$scope', '$window', function ($scope, $window) 
                 color: '#3bafda'
             });
 
-            createContentFile(escapeHtml($('#exam_content').Editor("getText")), function (content_path) {
-                $scope.contentPart = content_path;
-                var content_path_split = content_path.split('/');
+            createContentFile(escapeHtml($('#exam_content').Editor("getText")), function (result) {
+                var resultJson = JSON.parse(result);
+                $scope.contentPart = resultJson.content_path;
+                var content_path_split = $scope.contentPath.split('/');
                 var path = "";
                 for(var i=0;i<content_path_split.length-1;i++){
                     path += content_path_split[i]+"*";
@@ -247,7 +248,8 @@ app.controller('copyExamCtrl', ['$scope', '$window', function ($scope, $window) 
                 if ($scope.inputMode === 'no_input') {
                     $scope.inputPart = "";
                 } else if ($scope.inputMode === 'key_input') {
-                    $scope.inputPart = createTextFile($scope.input, "input",path);
+                    // $scope.inputPart = createTextFile($scope.input, "input",path);
+                    $scope.inputPath = resultJson.input_path;
                 } else {
                     $window.pathExam = path;
                     $('#inputFileForm').submit();
@@ -255,11 +257,19 @@ app.controller('copyExamCtrl', ['$scope', '$window', function ($scope, $window) 
                 }
 
                 if ($scope.outputMode === 'key_output') {
-                    $scope.outputPart = createTextFile($scope.output, "output",path);
+                    // $scope.outputPart = createTextFile($scope.output, "output",path);
+                    $scope.outputPath = resultJson.output_path;
                 } else {
                     $window.pathExam = path;
                     $('#outputFileForm').submit();
                     $scope.outputPart = $window.output_part;
+                }
+
+                if($scope.classTestMode == 1){
+                    // $scope.mainPath = createTextFile($scope.main, "main",path);
+                    $scope.mainPath = resultJson.main_path;
+                } else {
+                    $scope.mainPath = "";
                 }
                 getKeyword();
                 data = {
@@ -438,6 +448,9 @@ app.controller('copyExamCtrl', ['$scope', '$window', function ($scope, $window) 
     function createContentFile(content, callback) {
         $.post("../public/js/Components/CreateTextFileEX.php", {
             Content: content,
+            input : $scope.input,
+            output : $scope.output,
+            main: $scope.main,
             userID : myuser.id,
             userName : myuser.fname_en+"_"+myuser.lname_en,
             section_id: $('#ddl_group').val()
