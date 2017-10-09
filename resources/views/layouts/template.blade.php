@@ -31,19 +31,19 @@
             $scope.myUrl = "/WEPP/public";
         });
         var url = "/WEPP/public";
-        {{--var mysession = {--}}
-            {{--personalId : "0425361073012",--}}
-            {{--prename : "นาย",--}}
-            {{--cn : "Pongpan",--}}
-            {{--firstNameThai : "พงศ์พันธ์",--}}
-            {{--sn : "Poonkhuntod",--}}
-            {{--lastNameThai : "ปูนขุนทด",--}}
-            {{--studentId : "",--}}
-            {{--faculty : "คณะวิศวกรรมศาสตร์และสถาปัตยกรรมศาสตร์",--}}
-            {{--program : "สาขาวิชาวิศวกรรมคอมพิวเตอร์",--}}
-            {{--mail : "pongpan.kho@rmuti.ac.th",--}}
-            {{--gidNumber : "2800"--}}
-        {{--};--}}
+        var mysession = {
+            personalId : "0425361073012",
+            prename : "นาย",
+            cn : "Pongpan",
+            firstNameThai : "พงศ์พันธ์",
+            sn : "Poonkhuntod",
+            lastNameThai : "ปูนขุนทด",
+            studentId : "",
+            faculty : "คณะวิศวกรรมศาสตร์และสถาปัตยกรรมศาสตร์",
+            program : "สาขาวิชาวิศวกรรมคอมพิวเตอร์",
+            mail : "pongpan.kho@rmuti.ac.th",
+            gidNumber : "2800"
+        };
 
         {{--var mysession = {--}}
             {{--personalId : "0425361073013",--}}
@@ -87,19 +87,19 @@
             {{--gidNumber : "4500"--}}
         {{--}--}}
 
-        var mysession = {
-            personalId : "1234567890123",
-            prename : "นาย",
-            cn : "Thanakorn",
-            firstNameThai : "ธนกร",
-            sn : "Chuensabai",
-            lastNameThai : "ชื่นสบาย",
-            studentId : "561733022033-2",
-            faculty : "คณะวิศวกรรมศาสตร์และสถาปัตยกรรมศาสตร์",
-            program : "สาขาวิชาวิศวกรรมคอมพิวเตอร์",
-            mail : "pongpan.po@rmuti.ac.th",
-            gidNumber : "4500"
-        }
+        {{--var mysession = {--}}
+            {{--personalId : "1234567890123",--}}
+            {{--prename : "นาย",--}}
+            {{--cn : "Thanakorn",--}}
+            {{--firstNameThai : "ธนกร",--}}
+            {{--sn : "Chuensabai",--}}
+            {{--lastNameThai : "ชื่นสบาย",--}}
+            {{--studentId : "561733022033-2",--}}
+            {{--faculty : "คณะวิศวกรรมศาสตร์และสถาปัตยกรรมศาสตร์",--}}
+            {{--program : "สาขาวิชาวิศวกรรมคอมพิวเตอร์",--}}
+            {{--mail : "pongpan.po@rmuti.ac.th",--}}
+            {{--gidNumber : "4500"--}}
+        {{--}--}}
     </script>
     @yield('checkUser')
     <script>

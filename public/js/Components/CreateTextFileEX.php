@@ -29,4 +29,3 @@ function makeFolder($path,$folder) {
         mkdir($path.$folder, 0777, true);
     }
 }
-
