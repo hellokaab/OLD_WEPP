@@ -1,9 +1,10 @@
 app.controller('myWorksheetCtrl', ['$scope', '$window', function ($scope, $window) {
     $scope.thisUser = $window.myuser;
-    $scope.mySheetGroup = $window.dataSheetGroup ;
-    $scope.selectRow = '5';
-    $scope.queryBy = 'sheetName_group';
-    $scope.sortS = 'sheetName_group';
+    $scope.sheetGroup = $window.sheetGroup ;
+    $scope.mySheet = findSheetByUserID($scope.thisUser.id);
+    $scope.selectRow = '10';
+    $scope.queryBy = 'sheet_group_name';
+    $scope.sortS = 'sheet_group_name';
     $scope.sortC = 'group_admin';
     $scope.sheetGroupId = 0;
 
@@ -46,12 +47,12 @@ app.controller('myWorksheetCtrl', ['$scope', '$window', function ($scope, $windo
     //----------------------------------------------------------------------
     $scope.sort = function(keyname){
         $scope.sortKey = keyname;   //set the sortKey to the param passed
-        if($scope.sortKey === 'sheetName_group'){
+        if($scope.sortKey === 'sheet_group_name'){
             $scope.reverseS = !$scope.reverseS; //if true make it false and vice versa
-            if($scope.sortS === 'sheetName_group'){
-                $scope.sortS = '-sheetName_group';
+            if($scope.sortS === 'sheet_group_name'){
+                $scope.sortS = '-sheet_group_name';
             } else {
-                $scope.sortS = 'sheetName_group';
+                $scope.sortS = 'sheet_group_name';
             }
         } else {
             $scope.reverseC = !$scope.reverseC; //if true make it false and vice versa
@@ -64,7 +65,7 @@ app.controller('myWorksheetCtrl', ['$scope', '$window', function ($scope, $windo
     };
     //----------------------------------------------------------------------
     $scope.deleteWorksheet = function (data) {
-        $scope.MySheetName = data.sheetName_group;
+        $scope.MySheetName = data.sheet_group_name;
         $scope.sheetGroupId = data.id;
         $('#delete_wsg_modal').modal({backdrop: 'static'});
     };
@@ -86,7 +87,7 @@ app.controller('myWorksheetCtrl', ['$scope', '$window', function ($scope, $windo
     //----------------------------------------------------------------------
     $scope.editWorksheet = function (data) {
         $scope.CurrentIndex = $scope.mySheetGroup.indexOf(data);
-        $scope.MySheetName = data.sheetName_group;
+        $scope.MySheetName = data.sheet_group_name;
         $scope.sheetGroupId = data.id;
         $('#notice_edit_worksheetGroup_ewsg').hide();
         $('#edit_worksheet_group_modal').modal({backdrop: 'static'});

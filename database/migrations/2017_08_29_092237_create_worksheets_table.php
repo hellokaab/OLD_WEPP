@@ -19,11 +19,11 @@ class CreateWorksheetsTable extends Migration
             $table->integer('sheet_group_id')->unsigned();
             $table->foreign('sheet_group_id')->references('id')->on('worksheet_groups')->onDelete('cascade');
             $table->string('sheet_name');
-            $table->string('objective');
-            $table->string('theory');
-            $table->string('notation');
+            $table->string('objective')->nullable();
+            $table->string('theory')->nullable();
+            $table->string('notation')->nullable();
             $table->string('sheet_trial');
-            $table->string('sheet_input_file');
+            $table->string('sheet_input_file')->nullable();
             $table->string('sheet_output_file');
             $table->text('main_code')->nullable();
             $table->enum('case_sensitive',['0','1']);
