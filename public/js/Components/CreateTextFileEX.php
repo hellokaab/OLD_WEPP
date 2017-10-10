@@ -47,7 +47,7 @@ if($_POST['main']){
     $main_file = "../upload/exam/".$userFolder.'/'.$sectionFolder.'/'.$examFolder.'/'.$main_file;
 }
 
-echo json_encode(array("content_path" => $content_file, "input_path" => $input_file, "output_path" => $content_file, "main_path" => $main_file));
+echo json_encode(array("content_path" => $content_file, "input_path" => $input_file, "output_path" => $output_file, "main_path" => $main_file));
 
 function makeFolder($path,$folder) {
     $dirList = scandir($path);

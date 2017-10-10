@@ -5,7 +5,7 @@
     <script>
         var sheetGroupId = {{$sheetGroupId}};
     </script>
-    <div ng-controller="addWorksheetCtrl">
+    <div ng-controller="addWorksheetCtrl" style="display: none" id="add_sheet_div">
         <div class="col-lg-12">
             <ol class="breadcrumb">
                 <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
@@ -14,8 +14,8 @@
                 <li class="active">เพิ่มใบงาน</li>
             </ol>
         </div>
-        <div class="col-lg-12">
-            <div class="panel panel-default">
+        <div class="col-lg-12" >
+            <div class="panel panel-default" id="add_sheet_part">
                 <div class="panel-heading">
                     <b style="color: #555">เพิ่มใบงาน</b>
                 </div>
@@ -24,30 +24,30 @@
 
                         {{--sheetName--}}
                         <div class="form-group">
-                            <label class="col-md-2 control-label">ชื่อใบงาน: <b class="danger">*</b></label>
+                            <label class="col-md-2 control-label">ชื่อใบงาน : <b class="danger">*</b></label>
                             <div class="col-md-4">
                                 <input type="text" class="form-control" ng-model="sheetName" maxlength="30" autofocus/>
-                                <div class="notice" id="notice_exam_name" style="display: none">กรุณาระบุชื่อใบงาน</div>
+                                <div class="notice" id="notice_sheet_name" style="display: none">กรุณาระบุชื่อใบงาน</div>
                             </div>
                         </div>
 
                         {{--sheet_group--}}
                         <div class="form-group">
-                            <label class="col-md-2 control-label">กลุ่มใบงาน: </label>
+                            <label class="col-md-2 control-label">กลุ่มใบงาน : <b class="danger">*</b></label>
                             <div class="col-md-4">
                                 <select class="form-control" id="sheet_group">
                                     <option style="display: none"></option>
-                                    <option ng-repeat="s in mySheetGroup" value="<%s.id%>"><%s.sheetName_group%></option>
+                                    <option ng-repeat="s in mySheetGroup" value="<%s.id%>"><%s.sheet_group_name%></option>
                                 </select>
                             </div>
                         </div>
 
                         {{--Objective--}}
                         <div class="form-group">
-                            <label class="col-md-2 control-label">วัตถุประสงค์: <b class="danger">*</b></label>
+                            <label class="col-md-2 control-label">วัตถุประสงค์ : </label>
                             <div class="col-md-9">
-                                <textarea class="form-control" id="sheet_objective" placeholder="ใส่จุดประสงค์ที่นี้" rows="5"></textarea>
-                                <div class="notice" id="notice_sheet_content" style="display: none">
+                                <textarea class="form-control" id="sheet_objective" placeholder="ใส่จุดประสงค์ที่นี้" rows="5" ng-model="objective"></textarea>
+                                <div class="notice" id="notice_sheet_objective" style="display: none">
                                     กรุณาระบุวัตถุประสงค์ของใบงาน
                                 </div>
                             </div>
@@ -55,21 +55,21 @@
 
                         {{--Theory--}}
                         <div class="form-group">
-                            <label class="col-md-2 control-label">ทฤษฎีที่เกี่ยวข้อง: <b class="danger">*</b></label>
+                            <label class="col-md-2 control-label">ทฤษฎีที่เกี่ยวข้อง : </label>
                             <div class="col-md-9">
-                                <textarea class="form-control" id="sheet_theory" placeholder="ใส่ทฤษฏีที่นี่" rows="5" ></textarea>
+                                <textarea class="form-control" id="sheet_theory" placeholder="ใส่ทฤษฏีที่นี่" rows="5" ng-model="theory"></textarea>
                                 <div class="notice" id="notice_sheet_theory" style="display: none">
                                     กรุณาระบุทฤษฎีที่เกี่ยวข้อง
                                 </div>
                             </div>
                         </div>
 
-                        {{--Testing--}}
+                        {{--Trial--}}
                         <div class="form-group">
-                            <label class="col-md-2 control-label">การทดลอง: <b class="danger">*</b></label>
+                            <label class="col-md-2 control-label">การทดลอง : <b class="danger">*</b></label>
                             <div class="col-md-9">
-                                <textarea class="form-control" id="sheet_testing"></textarea>
-                                <div class="notice" id="notice_sheet_testing" style="display: none">
+                                <textarea class="form-control" id="sheet_trial"></textarea>
+                                <div class="notice" id="notice_sheet_trial" style="display: none">
                                     กรุณาระบุการทดลอง
                                 </div>
                             </div>
@@ -77,7 +77,7 @@
 
                         {{--Input--}}
                         <div class="form-group">
-                            <label class="col-md-2 control-label">Input:</label>
+                            <label class="col-md-2 control-label">Input : </label>
                             <div class="col-md-9">
                                 <div class="radio">
                                     <div class="col-md-4">
@@ -128,7 +128,7 @@
 
                         {{--<!-- Output -->--}}
                         <div class="form-group">
-                            <label class="col-md-2 control-label">Output: <b class="danger">*</b></label>
+                            <label class="col-md-2 control-label">Output : <b class="danger">*</b></label>
                             <div class="col-md-9">
                                 <div class="radio">
                                     <div class="col-md-4">
@@ -170,28 +170,69 @@
                             </div>
                         </form>
 
+                        {{--<!-- Main code -->--}}
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Class test:</label>
+                            <div class="col-md-9">
+                                <div class="radio">
+                                    <div class="col-md-2">
+                                        <input type="radio" name="classMode" id="has_main" value="1"
+                                               ng-model="classTestMode" ng-click="changeClassTestMode()">
+                                        <label for="has_main">ใช่</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="radio" name="classMode" id="no_main" value="0"
+                                               ng-model="classTestMode" ng-click="changeClassTestMode()">
+                                        <label for="no_main">ไม่ใช่</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-show="classTestMode == 1">
+                            <label class="col-md-2 control-label"></label>
+                            <div class="col-md-9">
+                                <textarea class="form-control io_textarea" ng-model="main" rows="10"
+                                          placeholder="ใส่โค้ดเมธอด main ที่นี่"></textarea>
+                                <div class="notice" id="notice_sheet_main_input" style="display: none">กรุณาระบุข้อมูล
+                                    Method main ของข้อสอบ
+                                </div>
+                            </div>
+                        </div>
+
+                        {{--<!-- Case sensitivity -->--}}
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Case sensitivity: </label>
+                            <div class="col-md-9">
+                                <div class="radio">
+                                    <div class="col-md-2">
+                                        <input type="radio" name="caseSensitive" id="case_sensitive" value="1"
+                                               ng-model="casesensitive">
+                                        <label for="case_sensitive">ใช่</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="radio" name="caseSensitive" id="case_insensitive" value="0"
+                                               ng-model="casesensitive">
+                                        <label for="case_insensitive">ไม่ใช่</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         {{--sheet score--}}
                         <div class="form-group">
                             <label class="col-md-2 control-label">คะแนนการทดลอง:</label>
-                            <div class="col-md-2">
-                                <input type="text" class="form-control" ng-model="sheetScore" maxlength="30" autofocus/>
+                            <div class="col-md-3">
+                                <input id="sheet_score" type="text" class="form-control" ng-model="sheetScore"  ng-keyup="checkFullScore()" maxlength="6" autofocus/>
                                 <div class="notice" id="notice_sheet_score" style="display: none">กรุณาระบุคะแนนการทดลอง</div>
                             </div>
+                            {{--Notation--}}
                             <label class="col-md-1 control-label">หมายเหตุ: </label>
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                                 <input type="text" class="form-control" ng-model="sheetNotation" maxlength="30" autofocus/>
                                 <div class="notice" id="notice_sheet_notation" style="display: none">กรุณาระบุหมายเหตุ</div>
                             </div>
                         </div>
-
-                        {{--Notation--}}
-                        {{--<div class="form-group">--}}
-                            {{--<label class="col-md-2 control-label">หมายเหตุ: </label>--}}
-                            {{--<div class="col-md-4">--}}
-                                {{--<input type="text" class="form-control" ng-model="sheetNotation" maxlength="30" autofocus/>--}}
-                                {{--<div class="notice" id="notice_sheet_notation" style="display: none">กรุณาระบุหมายเหตุ</div>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
 
                         {{--<!--Submit part -->--}}
                         <br>
@@ -211,4 +252,61 @@
             </div>
         </div>
     </div>
+    <script>
+        var pathSheet = "";
+        var input_part = "";
+        var output_part = "";
+        var $numberNoDot = $("#sheet_score");
+
+        $(document).ready(function () {
+            $('#add_sheet_div').css('display', 'block');
+        });
+
+        function submitInputForm() {
+            var formData = new FormData($('#inputFileForm')[0]);
+            input_part = $.ajax({
+                url: url+'/uploadFileSh/'+pathSheet,
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false
+            }).responseJSON;
+            return false;
+
+        }
+
+        function submitOutputForm() {
+            var formData = new FormData($('#outputFileForm')[0]);
+            output_part = $.ajax({
+                url: url+'/uploadFileSh/'+pathSheet,
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false
+            }).responseJSON;
+            return false;
+        }
+
+        $numberNoDot.keydown(function (e) {
+            // Allow: backspace, delete, tab, escape, enter and .
+            if ($.inArray(e.keyCode, [8, 9, 27, 13]) !== -1 ||
+                // Allow: Ctrl+A, Command+A
+                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                // Allow: home, end, left, right, down, up
+                (e.keyCode >= 35 && e.keyCode <= 40)) {
+                // let it happen, don't do anything
+
+                return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+
+        });
+    </script>
 @endsection

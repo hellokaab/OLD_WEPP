@@ -199,6 +199,14 @@ Route::get('/edit/groupSheet','WorkSheetController@editSheetGroup');
 
 Route::get('/addWorksheet{id}', 'WorkSheetController@addWorksheet');
 
+Route::get('/findSheetByName', 'WorkSheetController@findSheetByName');
+
+Route::get('/createWorksheet', 'WorkSheetController@createWorksheet');
+
+Route::post('/uploadFileSh/{path}', 'WorkSheetController@uploadFileSh');
+
+Route::get('/findSheetByUserID', 'WorkSheetController@findSheetByUserID');
+
 //--------------------------- ExamRandomController ---------------------------
 
 Route::get('/findExamRandomByUID','ExamRandomController@findExamRandomByUID');

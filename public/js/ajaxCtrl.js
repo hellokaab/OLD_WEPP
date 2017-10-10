@@ -1034,6 +1034,83 @@ function editWorksheetGroup(data) {
     });
 }
 
+function findSheetByName(data,sheet_group_id,user_id) {
+    var checked = false;
+    var test = $.ajax ({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/findSheetByName',
+        data: {
+            sheet_name :data,
+            user_id :user_id,
+            sheet_group_id:sheet_group_id
+        },
+        async: false,
+        complete: function (xhr) {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    checked = true;
+                }
+            }
+        }
+    }).responseJSON;
+    return checked;
+}
+
+function createWorksheet(data) {
+    var createSheetSuccess = false;
+    var sheet = $.ajax ({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/createWorksheet',
+        data: data,
+        async: false,
+        complete: function (xhr) {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    createSheetSuccess = true;
+                } else {
+                    $('#add_sheet_part').waitMe('hide');
+                    $('#unsuccess_modal').modal({backdrop: 'static'});
+                }
+
+            }
+        }
+    }).responseJSON;
+    if (createSheetSuccess) {
+    //     for (i = 0; i < data.keyword.length; i++) {
+    //         createKeyword(sheet.id, data.keyword[i]);
+    //     }
+    //     createSharedExam(sheet.id,data.user_id);
+    //     for (i = 0; i < data.shared.length; i++) {
+    //         createSharedExam(sheet.id, data.shared[i].id);
+    //     }
+        $('#add_sheet_part').waitMe('hide');
+        $('#success_modal').modal({backdrop: 'static'});
+    }
+
+}
+
+function findSheetByUserID(UID) {
+    var sheets = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/findSheetByUserID',
+        data:{user_id:UID},
+        async: false,
+    }).responseJSON;
+    return sheets;
+}
+
 //--------------------------- ExamRandomController ---------------------------
 function findExamRandomByUID(UID,EMID) {
     var examRandom = $.ajax({
