@@ -86,7 +86,7 @@ app.controller('myWorksheetCtrl', ['$scope', '$window', function ($scope, $windo
     });
     //----------------------------------------------------------------------
     $scope.editWorksheet = function (data) {
-        $scope.CurrentIndex = $scope.mySheetGroup.indexOf(data);
+        $scope.CurrentIndex = $scope.sheetGroup.indexOf(data);
         $scope.MySheetName = data.sheet_group_name;
         $scope.sheetGroupId = data.id;
         $('#notice_edit_worksheetGroup_ewsg').hide();
@@ -96,7 +96,7 @@ app.controller('myWorksheetCtrl', ['$scope', '$window', function ($scope, $windo
         }, 200);
     };
     //----------------------------------------------------------------------
-    $scope.okEditExamGroup = function () {
+    $scope.okEditSheetGroup = function () {
         if ($scope.MySheetName.length > 0) {
             var data = {
                 id : $scope.sheetGroupId,
@@ -115,7 +115,7 @@ app.controller('myWorksheetCtrl', ['$scope', '$window', function ($scope, $windo
     };
     //----------------------------------------------------------------------
     $scope.enterOkEdit = function() {
-        $scope.okEditExamGroup();
+        $scope.okEditSheetGroup();
     };
     $scope.addWorksheet = function () {
         window.location.href = url+"/addWorksheet"+$scope.sheetGroupId;

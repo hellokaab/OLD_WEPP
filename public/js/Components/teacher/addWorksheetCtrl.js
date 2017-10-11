@@ -4,6 +4,7 @@ app.controller('addWorksheetCtrl', ['$scope', '$window', function ($scope, $wind
     // $('#sheet_theory').Editor();
     $('#sheet_trial').Editor();
 
+    var quiz = new Array();
     $scope.inputMode = 'no_input';
     $scope.outputMode = 'key_output';
     $scope.sheetName = '';
@@ -49,6 +50,12 @@ app.controller('addWorksheetCtrl', ['$scope', '$window', function ($scope, $wind
         $('#notice_sheet_notation').hide();
         $('#notice_sheet_theory').hide();
         $('#notice_sheet_objective').hide();
+        $('[id^=notice_sheet_quiz_]').each(function () {
+            $(this).hide();
+        });
+        $('[id^=notice_quiz_score_]').each(function () {
+            $(this).hide();
+        });
 
         $scope.completeSheetName = $scope.sheetName.length > 0;
         if ($scope.completeSheetName) {
@@ -63,6 +70,8 @@ app.controller('addWorksheetCtrl', ['$scope', '$window', function ($scope, $wind
         $scope.completeClassTest = $scope.classTestMode === '0' ? true :
             $scope.classTestMode === '1' ? ($scope.main === '' ? false : true) : false;
         $scope.completeScore = $scope.sheetScore.length > 0;
+        $scope.completeQuiz = checkQuiz();
+
 
         if ($scope.completeSheetName
             && $scope.completeNoDuplicate
@@ -71,6 +80,7 @@ app.controller('addWorksheetCtrl', ['$scope', '$window', function ($scope, $wind
             && $scope.completeOutputMode
             && $scope.completeClassTest
             && $scope.completeScoreNumeric
+            && $scope.completeQuiz
             && $scope.completeScore){
 
             $('#add_sheet_part').waitMe({
@@ -115,6 +125,7 @@ app.controller('addWorksheetCtrl', ['$scope', '$window', function ($scope, $wind
                 $scope.objectivePath = resultJson.objective_path;
                 $scope.theoryPath = resultJson.theory_path;
 
+                getQuiz();
                 data = {
                     user_id: $window.myuser.id,
                     sheet_group_id: $('#sheet_group').val(),
@@ -128,7 +139,9 @@ app.controller('addWorksheetCtrl', ['$scope', '$window', function ($scope, $wind
                     full_score: $scope.sheetScore,
                     main_code: $scope.mainPath,
                     case_sensitive: $scope.casesensitive,
+                    quiz : quiz
                 };
+                console.log(data);
                 createWorksheet(data);
             });
 
@@ -254,5 +267,43 @@ app.controller('addWorksheetCtrl', ['$scope', '$window', function ($scope, $wind
             $('#notice_sheet_score').html('* กรุณาระบุเฉพาะจำนวนเต็มบวกเท่านั้น').show();
         }
     };
+    //----------------------------------------------------------------------
+    function getQuiz() {
+        quiz = new Array();
+        $('[id^=quiz_part_]').each(function () {
+            if(!(($(this).children().children().children()[0].value).trim().length === 0
+                && ($(this).children().children().children()[2].value).trim().length === 0
+                && ($(this).children().children().children()[3].value).trim().length === 0))
+            {
+                data = {
+                    quiz : ($(this).children().children().children()[0].value).trim(),
+                    answer : ($(this).children().children().children()[2].value).trim(),
+                    score : ($(this).children().children().children()[3].value).trim()
+                }
+                quiz.push(data);
+            }
+        });
+    }
+    //----------------------------------------------------------------------
+    function checkQuiz() {
+        var checked = true;
+        $('[id^=quiz_part_]').each(function () {
+            thisID = ($(this)[0].id).split('_')[2];
+            if(!(($(this).children().children().children()[0].value).trim().length === 0
+                && ($(this).children().children().children()[2].value).trim().length === 0
+                && ($(this).children().children().children()[3].value).trim().length === 0))
+            {
+                if (($(this).children().children().children()[0].value).trim().length === 0){
+                    $('#notice_sheet_quiz_'+thisID).html('* กรุณาระบุคำถาม').show();
+                    checked = false
+                }
+                if(($(this).children().children().children()[3].value).trim().length === 0){
+                    $('#notice_quiz_score_'+thisID).html('* กรุณาระบุคำถาม').show();
+                    checked = false
+                }
+            }
+        });
+        return checked;
+    }
 
 }]);
