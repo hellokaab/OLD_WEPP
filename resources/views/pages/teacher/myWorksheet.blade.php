@@ -96,7 +96,7 @@
         </div>
 
         <div id="listWorksheet" style="display: none" class="col-lg-7">
-            <div class="panel panel-default" ng-repeat="s in sheetGroup" ng-hide="sheetGroupId != <%s.sheet_group_id%>">
+            <div class="panel panel-default" ng-repeat="s in sheetGroup" ng-hide="sheetGroupId != <%s.id%>">
                 <div class="panel-heading" style="height: 51px">
                     <label style="color: #555;padding-top: 5px"><%s.sheet_group_name%></label>
                     <button class="btn btn-sm btn-outline-success" ng-hide="<%s.user_id%> != thisUser.id"
