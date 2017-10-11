@@ -207,6 +207,8 @@ Route::post('/uploadFileSh/{path}', 'WorkSheetController@uploadFileSh');
 
 Route::get('/findSheetByUserID', 'WorkSheetController@findSheetByUserID');
 
+Route::get('/createQuiz', 'WorkSheetController@createQuiz');
+
 //--------------------------- ExamRandomController ---------------------------
 
 Route::get('/findExamRandomByUID','ExamRandomController@findExamRandomByUID');

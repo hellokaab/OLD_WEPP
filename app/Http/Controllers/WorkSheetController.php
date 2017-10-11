@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 //use App\Worksheet;
+use App\Quiz;
 use App\Worksheet;
 use App\WorksheetGroup;
 use Illuminate\Http\Request;
@@ -139,6 +140,15 @@ class WorkSheetController extends Controller
             ->get();
 
         return response()->json($sheet);
+    }
+
+    public function createQuiz(Request $request){
+        $quiz = new Quiz;
+        $quiz->sheet_id = $request->sheet_id;
+        $quiz->quiz_data = $request->quiz_data;
+        $quiz->quiz_ans = $request->quiz_ans;
+        $quiz->quiz_score = $request->quiz_score;
+        $quiz->save();
     }
 }
 

@@ -24,7 +24,7 @@
 
                         {{--sheetName--}}
                         <div class="form-group">
-                            <label class="col-md-2 control-label">ชื่อใบงาน : <b class="danger">*</b></label>
+                            <label class="col-md-2 control-label">ชื่อใบงาน <b class="danger">*</b></label>
                             <div class="col-md-4">
                                 <input type="text" class="form-control" ng-model="sheetName" maxlength="30" autofocus/>
                                 <div class="notice" id="notice_sheet_name" style="display: none">กรุณาระบุชื่อใบงาน</div>
@@ -33,7 +33,7 @@
 
                         {{--sheet_group--}}
                         <div class="form-group">
-                            <label class="col-md-2 control-label">กลุ่มใบงาน : <b class="danger">*</b></label>
+                            <label class="col-md-2 control-label">กลุ่มใบงาน <b class="danger">*</b></label>
                             <div class="col-md-4">
                                 <select class="form-control" id="sheet_group">
                                     <option style="display: none"></option>
@@ -44,7 +44,7 @@
 
                         {{--Objective--}}
                         <div class="form-group">
-                            <label class="col-md-2 control-label">วัตถุประสงค์ : </label>
+                            <label class="col-md-2 control-label">วัตถุประสงค์ </label>
                             <div class="col-md-9">
                                 <textarea class="form-control" id="sheet_objective" placeholder="ใส่จุดประสงค์ที่นี้" rows="5" ng-model="objective"></textarea>
                                 <div class="notice" id="notice_sheet_objective" style="display: none">
@@ -55,7 +55,7 @@
 
                         {{--Theory--}}
                         <div class="form-group">
-                            <label class="col-md-2 control-label">ทฤษฎีที่เกี่ยวข้อง : </label>
+                            <label class="col-md-2 control-label">ทฤษฎีที่เกี่ยวข้อง </label>
                             <div class="col-md-9">
                                 <textarea class="form-control" id="sheet_theory" placeholder="ใส่ทฤษฏีที่นี่" rows="5" ng-model="theory"></textarea>
                                 <div class="notice" id="notice_sheet_theory" style="display: none">
@@ -66,7 +66,7 @@
 
                         {{--Trial--}}
                         <div class="form-group">
-                            <label class="col-md-2 control-label">การทดลอง : <b class="danger">*</b></label>
+                            <label class="col-md-2 control-label">การทดลอง <b class="danger">*</b></label>
                             <div class="col-md-9">
                                 <textarea class="form-control" id="sheet_trial"></textarea>
                                 <div class="notice" id="notice_sheet_trial" style="display: none">
@@ -77,7 +77,7 @@
 
                         {{--Input--}}
                         <div class="form-group">
-                            <label class="col-md-2 control-label">Input : </label>
+                            <label class="col-md-2 control-label">Input </label>
                             <div class="col-md-9">
                                 <div class="radio">
                                     <div class="col-md-4">
@@ -128,7 +128,7 @@
 
                         {{--<!-- Output -->--}}
                         <div class="form-group">
-                            <label class="col-md-2 control-label">Output : <b class="danger">*</b></label>
+                            <label class="col-md-2 control-label">Output <b class="danger">*</b></label>
                             <div class="col-md-9">
                                 <div class="radio">
                                     <div class="col-md-4">
@@ -172,7 +172,7 @@
 
                         {{--<!-- Main code -->--}}
                         <div class="form-group">
-                            <label class="col-md-2 control-label">Class test:</label>
+                            <label class="col-md-2 control-label">Class test </label>
                             <div class="col-md-9">
                                 <div class="radio">
                                     <div class="col-md-2">
@@ -202,7 +202,7 @@
 
                         {{--<!-- Case sensitivity -->--}}
                         <div class="form-group">
-                            <label class="col-md-2 control-label">Case sensitivity: </label>
+                            <label class="col-md-2 control-label">Case sensitivity </label>
                             <div class="col-md-9">
                                 <div class="radio">
                                     <div class="col-md-2">
@@ -221,16 +221,66 @@
 
                         {{--sheet score--}}
                         <div class="form-group">
-                            <label class="col-md-2 control-label">คะแนนการทดลอง:</label>
+                            <label class="col-md-2 control-label">คะแนนการทดลอง </label>
                             <div class="col-md-3">
                                 <input id="sheet_score" type="text" class="form-control" ng-model="sheetScore"  ng-keyup="checkFullScore()" maxlength="6" autofocus/>
                                 <div class="notice" id="notice_sheet_score" style="display: none">กรุณาระบุคะแนนการทดลอง</div>
                             </div>
                             {{--Notation--}}
-                            <label class="col-md-1 control-label">หมายเหตุ: </label>
+                            <label class="col-md-1 control-label">หมายเหตุ </label>
                             <div class="col-md-5">
                                 <input type="text" class="form-control" ng-model="sheetNotation" maxlength="30" autofocus/>
                                 <div class="notice" id="notice_sheet_notation" style="display: none">กรุณาระบุหมายเหตุ</div>
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12" style="text-align: left">
+                                    <label class="col-md-4 control-label text-left" style="font-size: 18px">คำถามท้ายการทดลอง</label>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="form-group">
+                            <div id="question_part">
+                                <div class="form-group has-feedback" style="padding-left: 15px;padding-right: 15px">
+                                    <div id="quiz_part_1" style="padding-left: 15px;padding-right: 15px">
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">คำถาม </label>
+                                            <div class="col-md-9">
+                                                <textarea class="form-control io_textarea has-feedback" id="sheet_quiz_1" rows="3"
+                                                          placeholder="ใส่คำถามที่นี่"></textarea>
+                                                <div class="notice" id="notice_sheet_quiz_1" style="display: none">กรุณาระบุคำถาม</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">คำตอบ </label>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control has-feedback" id="sheet_answer_1"
+                                                       maxlength="200" placeholder="ใส่คำตอบ"/>
+                                            </div>
+                                            <label class="col-md-1 control-label">คะแนน </label>
+                                            <div class="col-md-2">
+                                                <input type="text" class="form-control has-feedback" id="quiz_score_1"
+                                                       maxlength="6" placeholder="ใส่คะแนน"/>
+                                                <div class="notice" id="notice_quiz_score_1" style="display: none">กรุณาระบุคะแนน</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" style="padding-left: 15px;padding-right: 15px">
+                                <div class="col-lg-offset-2 col-lg-8">
+                                    <button id="add_question" class="btn btn-outline-success btn-sm">
+                                        <i class="fa fa-plus"></i> เพิ่มคำถามท้ายการทดลอง
+                                    </button>
+                                    {{--<button id="add_question" class="btn btn-outline-danger btn-sm">--}}
+                                        {{--<i class="fa fa-plus"></i> ลบคำถามท้ายการทดลอง--}}
+                                    {{--</button>--}}
+                                </div>
                             </div>
                         </div>
 
@@ -246,7 +296,6 @@
                                 <a class="btn btn-outline-danger btn-block" ng-click="goBack()">ยกเลิก</a>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -261,6 +310,62 @@
         $(document).ready(function () {
             $('#add_sheet_div').css('display', 'block');
         });
+
+        _quiz_id = 1;
+//        $('#question_part').on('input', function () {
+//            question = $(this).children().children().children().children().children().val();
+//            if (question.length > 0) {
+//                $('#add_question').show();
+//            } else {
+//                $('#add_question').hide();
+//            }
+//        });
+
+        $('#add_question').click(function () {
+            addFieldQuestion();
+        });
+
+
+        function addFieldQuestion() {
+            count = 1;
+            $('[id^=quiz_part_]').each(function () {
+                if ($(this).children().children().children()[0].value.length === 0
+                    && $(this).children().children().children()[2].value.length === 0
+                    && $(this).children().children().children()[3].value.length === 0)
+                    $(this).parent().remove();
+                else
+                    count++;
+            });
+
+            _quiz_id++;
+            $('#question_part').append(
+                '<div class="form-group has-feedback" style="padding-left: 15px;padding-right: 15px">' +
+                    '<div id="quiz_part_'+_quiz_id+'" style="padding-left: 15px;padding-right: 15px">' +
+                        '<div class="form-group">'+
+                            '<label class="col-md-2 control-label">คำถาม </label>'+
+                            '<div class="col-md-9">'+
+                                '<textarea class="form-control io_textarea has-feedback" id="sheet_quiz_'+_quiz_id+'" rows="3" placeholder="ใส่คำถามที่นี่"></textarea>'+
+                                '<div class="notice" id="notice_sheet_quiz_'+_quiz_id+'" style="display: none">กรุณาระบุคำถาม</div>'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="form-group">'+
+                            '<label class="col-md-2 control-label">คำตอบ </label>'+
+                            '<div class="col-md-6">'+
+                                '<input type="text" class="form-control has-feedback" id="sheet_answer_'+_quiz_id+'" maxlength="200" placeholder="ใส่คำตอบ"/>'+
+                            '</div>'+
+                            '<label class="col-md-1 control-label">คะแนน </label>'+
+                            '<div class="col-md-2">'+
+                                '<input type="text" class="form-control has-feedback" id="quiz_score_'+_quiz_id+'" maxlength="200" placeholder="ใส่คะแนน"/>'+
+                                '<div class="notice" id="notice_quiz_score_'+_quiz_id+'" style="display: none">กรุณาระบุคะแนน</div>'+
+                            '</div>'+
+                        '</div>'+
+                    '</div>'+
+                '</div>'
+            );
+//            $('#add_question').hide();
+            $('#sheet_quiz_' + _quiz_id).focus();
+
+        }
 
         function submitInputForm() {
             var formData = new FormData($('#inputFileForm')[0]);

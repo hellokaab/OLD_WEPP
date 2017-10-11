@@ -1084,9 +1084,9 @@ function createWorksheet(data) {
         }
     }).responseJSON;
     if (createSheetSuccess) {
-    //     for (i = 0; i < data.keyword.length; i++) {
-    //         createKeyword(sheet.id, data.keyword[i]);
-    //     }
+        for (i = 0; i < data.quiz.length; i++) {
+            createQuiz(sheet.id, data.quiz[i]);
+        }
     //     createSharedExam(sheet.id,data.user_id);
     //     for (i = 0; i < data.shared.length; i++) {
     //         createSharedExam(sheet.id, data.shared[i].id);
@@ -1109,6 +1109,25 @@ function findSheetByUserID(UID) {
         async: false,
     }).responseJSON;
     return sheets;
+}
+
+function createQuiz(sheetID,quiz) {
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/createQuiz',
+        data:{
+            sheet_id:sheetID,
+            quiz_data:quiz.quiz,
+            quiz_ans:quiz.answer,
+            quiz_score:quiz.score,
+        },
+        async: false,
+    });
+
 }
 
 //--------------------------- ExamRandomController ---------------------------
