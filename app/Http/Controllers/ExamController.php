@@ -131,8 +131,8 @@ class ExamController extends Controller
         $exam->case_sensitive = $request->case_sensitive;
         $exam->save();
 
-        $exam = Exam::where('user_id',$request->user_id)
-            ->where('exam_name',$request->exam_name)->first();
+//        $exam = Exam::where('user_id',$request->user_id)
+//            ->where('exam_name',$request->exam_name)->first();
 
         return response()->json($exam);
 
