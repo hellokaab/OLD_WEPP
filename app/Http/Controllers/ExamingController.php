@@ -44,8 +44,8 @@ class ExamingController extends Controller
         $examing->hide_history = $request->hide_history;
         $examing->save();
 
-        $examing = Examing::where('user_id',$request->user_id)
-            ->where('examing_name',$request->examing_name)->first();
+//        $examing = Examing::where('user_id',$request->user_id)
+//            ->where('examing_name',$request->examing_name)->first();
 
         return response()->json($examing);
     }

@@ -679,10 +679,9 @@ class CompileJavaController extends Controller
         }
     }
 
-    public function test()
+    public function test(Request $request)
     {
-       $path = "../upload/resexam/";
-        return response()->json(explode("/",$path)[2] == "resexam");
+        return response()->json($request->mode);
     }
 
 }

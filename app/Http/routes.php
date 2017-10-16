@@ -227,10 +227,10 @@ Route::get('/deleteFirstQueue','ResExamController@deleteFirstQueue');
 
 //--------------------------- CompileJavaController ---------------------------
 
-Route::get('/sendExamJava','CompileJavaController@sendExamJava');
+Route::post('/sendExamJava','CompileJavaController@sendExamJava');
 
 Route::get('/compileAndRunJava','CompileJavaController@compileAndRunJava');
 
-Route::get('/test','CompileJavaController@test');
+Route::post('/test','CompileJavaController@test');
 
 

@@ -15,19 +15,26 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
     });
     $('#exam_content').Editor();
 
+    // data = {
+    //     UID : $window.myuser.id,
+    //     mode : "key"
+    // };
     // var test = $.ajax({
+    //     type: 'post',
     //     contentType: "application/json; charset=utf-8",
     //     dataType: "json",
     //     headers: {
     //         Accept: "application/json"
     //     },
     //     url: url + '/test',
+    //     data: JSON.stringify(data),
     //     async: false,
     // }).responseJSON;
-    console.log($scope.examExaming);
+    // console.log(test);
 
     var checked = 0;
     var count = 0;
+    var pathExamID = 0;
     //----------------------------------------------------------------------
     $scope.startExam = function (data) {
         $scope.codeExam = "";
@@ -108,9 +115,12 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
                             EID : $scope.examID,
                             UID : $window.myuser.id,
                             mode : "file"
-                        }
+                        };
                         sendExamJava(data);
                     }
+                } else {
+                    $('#detail_exam_part').waitMe('hide');
+                    $('#fail_package_modal').modal('show');
                 }
             } else {
                 $('#notice_exam_file_ans').html('* กรุณาเลือกไฟล์').show();
@@ -154,24 +164,22 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
     function sendExamJava(data) {
         // $('#detail_exam_modal').modal('hide');
         var sendExamJava = $.ajax({
+            type: 'POST',
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             headers: {
                 Accept: "application/json"
             },
             url: url + '/sendExamJava',
-            data:data,
+            data:JSON.stringify(data),
             async: false,
             complete: function (xhr) {
                     if (xhr.readyState == 4) {
                         if (xhr.status == 200) {
                             $scope.examExaming[$scope.CurrentIndex].current_status = 'Q';
                             // $scope.$apply();
+                            pathExamID = xhr.responseJSON;
                             $('#detail_exam_modal').modal('hide');
-                            $('#detail_exam_modal').on('hidden.bs.modal', function(){
-                                checked = 0;
-                                checkOrderEx(xhr.responseJSON);
-                            });
                         } else if (xhr.status == 209) {
                             $('#detail_exam_modal').modal('hide');
                             $('#fail_package_modal').modal('show');
@@ -209,6 +217,7 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
                         // รอตรวจนานเกิน 9 วินาที
                         if (count > 2) {
                             deleteFirstQueue();
+                            count = 0;
                         }
                     }
                     count++;
@@ -261,4 +270,10 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
             async: false,
         })
     }
+    //----------------------------------------------------------------------
+    $('#detail_exam_modal').on('hidden.bs.modal', function(){
+        console.log("Hello");
+        checked = 0;
+        checkOrderEx(pathExamID);
+    });
 }]);
