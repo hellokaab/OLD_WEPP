@@ -27,6 +27,7 @@ app.controller('copyExamCtrl', ['$scope', '$window', function ($scope, $window) 
 
     // Exam input
     $scope.inputMode = 'no_input';
+    $scope.input = '';
     if ($scope.examData.exam_inputfile) {
         $scope.inputMode = 'key_input';
         $scope.input = fileData.input;
@@ -38,6 +39,7 @@ app.controller('copyExamCtrl', ['$scope', '$window', function ($scope, $window) 
 
     // Exam main code
     $scope.classTestMode = '0';
+    $scope.main = '';
     if ($scope.examData.main_code) {
         $scope.classTestMode = '1';
         $scope.main = fileData.main;

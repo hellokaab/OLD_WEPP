@@ -181,7 +181,6 @@ app.controller('addExamCtrl', ['$scope', '$window', function ($scope, $window) {
                 color: '#3bafda'
             });
 
-
             createContentFile(escapeHtml($('#exam_content').Editor("getText")), function (result) {
                 var resultJson = JSON.parse(result);
                 $scope.contentPath = resultJson.content_path;
