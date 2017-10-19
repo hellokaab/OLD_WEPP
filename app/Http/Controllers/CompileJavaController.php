@@ -128,7 +128,7 @@ class CompileJavaController extends Controller
             } else {
                 return response()->json(['error' => 'Error msg'], 209);
             }
-        } catch( Exception $e ){
+        } catch(\Exception $e ){
             if($completeInsRes){
                 $delResExam = ResExam::find($resExamID);
                 $delResExam->delete();
@@ -262,12 +262,6 @@ class CompileJavaController extends Controller
 
                     // รันโค้ดที่ส่ง
                     $lines_run = $this->run_code($folder_ans, $file, $input_file);
-
-                    // ตรวจสอบคำตอบ
-                    $checker = $this->check_correct_ans_ex($lines_run, $request->exam_id);
-
-                    // เครียร์ไฟล์ขยะ (*.class, *.bat)
-                    $this->clearFolderAns($folder_ans);
 
                     // ตรวจสอบคำตอบ
                     $checker = "";

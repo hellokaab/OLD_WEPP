@@ -233,4 +233,9 @@ Route::get('/compileAndRunJava','CompileJavaController@compileAndRunJava');
 
 Route::post('/test','CompileJavaController@test');
 
+//--------------------------- CompileCController ---------------------------
+
+Route::post('/sendExamC','CompileCController@sendExamC');
+
+Route::get('/compileAndRunC','CompileCController@compileAndRunC');
 

@@ -213,8 +213,8 @@
             </div>
         </div>
 
-        <!-- Fail Package Modal -->
-        <div id="fail_package_modal" class="modal fade" role="dialog">
+        <!-- Fail Modal -->
+        <div id="fail_modal" class="modal fade" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="panel panel-danger" style="margin-bottom: 0">
@@ -222,24 +222,6 @@
                             <h3 class="panel-title">ข้อผิดพลาด</h3>
                         </div>
                         <div style="padding-top: 7%; text-align: center" id="err_message">โค้ดที่ส่งไม่ใช่ Default package กรุณาแก้ไข package ของโค้ด</div>
-                        <br>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-danger" data-dismiss="modal">ตกลง</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Fail File Modal -->
-        <div id="fail_file_modal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="panel panel-danger" style="margin-bottom: 0">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">ข้อผิดพลาด</h3>
-                        </div>
-                        <div style="padding-top: 7%; text-align: center" id="err_message">ประเภทของไฟล์ที่คุณส่ง ไม่ตรงกับประเภทไฟล์ที่ระบุ</div>
                         <br>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-danger" data-dismiss="modal">ตกลง</button>

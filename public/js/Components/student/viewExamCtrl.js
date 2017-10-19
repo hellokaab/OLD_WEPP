@@ -15,6 +15,8 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
     });
     $('#exam_content').Editor();
 
+    // $('#err_message').html('* กรุณาระบุข้อมูลการหักคะแนนให้ครบถ้วนและถูกต้อง');
+    // $('#fail_package_modal').modal('show');
     // data = {
     //     UID : $window.myuser.id,
     //     mode : "key"
@@ -85,16 +87,19 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
         $('#notice_exam_file_ans').hide();
         if($scope.inputMode === 'key_input'){
             if($scope.codeExam.length > 0){
-
+                data = {
+                    EMID : $scope.examing.id,
+                    EID : $scope.examID,
+                    UID : $window.myuser.id,
+                    code : $scope.codeExam,
+                    mode : "key"
+                };
+                // ถ้าเป็นไฟล์ .c
+                if($scope.selectFileType === "c"){
+                        sendExamC(data);
+                }
                 // ถ้าเป็นไฟล์ .java
-                if($scope.selectFileType === "java"){
-                    data = {
-                        EMID : $scope.examing.id,
-                        EID : $scope.examID,
-                        UID : $window.myuser.id,
-                        code : $scope.codeExam,
-                        mode : "key"
-                    };
+                else if($scope.selectFileType === "java"){
                     sendExamJava(data);
                 }
             } else {
@@ -108,19 +113,34 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
                 if(checkFile){
                     $window.examID = $scope.examID;
                     $('#AnsFileForm').submit();
-                    if($scope.selectFileType === "java"){
-                        data = {
-                            path : $window.exam_part,
-                            EMID : $scope.examing.id,
-                            EID : $scope.examID,
-                            UID : $window.myuser.id,
-                            mode : "file"
-                        };
+
+                    data = {
+                        path : $window.exam_part,
+                        EMID : $scope.examing.id,
+                        EID : $scope.examID,
+                        UID : $window.myuser.id,
+                        mode : "file"
+                    };
+                    // ถ้าเป็นไฟล์ .c
+                    if($scope.selectFileType === "c"){
+                        if(($("#file_ans")[0].files).length > 1){
+                            $('#detail_exam_part').waitMe('hide');
+                            $('#detail_exam_modal').modal('hide');
+                            $('#err_message').html('ไม่อนุญาตให้ส่งไฟล์ .c มากกว่า 1 ไฟล์');
+                            $('#fail_modal').modal('show');
+                        } else {
+                            sendExamC(data);
+                        }
+                    }
+
+                    // ถ้าเป็นไฟล์ .java
+                    else if($scope.selectFileType === "java"){
                         sendExamJava(data);
                     }
                 } else {
                     $('#detail_exam_part').waitMe('hide');
-                    $('#fail_package_modal').modal('show');
+                    $('#err_message').html('ประเภทของไฟล์ที่คุณส่ง ไม่ตรงกับประเภทไฟล์ที่ระบุ');
+                    $('#fail_modal').modal('show');
                 }
             } else {
                 $('#notice_exam_file_ans').html('* กรุณาเลือกไฟล์').show();
@@ -182,14 +202,49 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
                             $('#detail_exam_modal').modal('hide');
                         } else if (xhr.status == 209) {
                             $('#detail_exam_modal').modal('hide');
-                            $('#fail_package_modal').modal('show');
+                            $('#err_message').html('โค้ดที่ส่งไม่ใช่ Default package กรุณาแก้ไข package ของโค้ด');
+                            $('#fail_modal').modal('show');
                         } else {
+                            $('#detail_exam_modal').modal('hide');
                             $('#unsuccess_modal').modal({backdrop: 'static'});
                         }
                     }
             }
         }).responseJSON;
         return sendExamJava;
+    }
+    //----------------------------------------------------------------------
+    function sendExamC(data) {
+        var sendExamC = $.ajax({
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Accept: "application/json"
+            },
+            url: url + '/sendExamC',
+            data:JSON.stringify(data),
+            async: false,
+            complete: function (xhr) {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        $scope.examExaming[$scope.CurrentIndex].current_status = 'Q';
+                        // $scope.$apply();
+                        pathExamID = xhr.responseJSON;
+                        $('#detail_exam_modal').modal('hide');
+                    } else if (xhr.status == 209) {
+                        $('#detail_exam_modal').modal('hide');
+                        $('#err_message').html('โค้ดที่ส่งห้ามมี comment');
+                        $('#fail_modal').modal('show');
+                    } else {
+                        $('#detail_exam_modal').modal('hide');
+                        $('#unsuccess_modal').modal({backdrop: 'static'});
+                    }
+                }
+            }
+        }).responseJSON;
+        console.log(sendExamC);
+        return sendExamC;
     }
     //----------------------------------------------------------------------
     function checkOrderEx(pathExamID) {
@@ -210,6 +265,9 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
                         $scope.$apply();
                         checked = 1;
                         var fileType = xhr.responseJSON;
+                        if(fileType === "c"){
+                            compileAndRunC(pathExamID);
+                        }
                         if(fileType === "java"){
                             compileAndRunJava(pathExamID);
                         }
@@ -259,6 +317,34 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
         console.log(testCompile);
     }
     //----------------------------------------------------------------------
+    function compileAndRunC(pathExamID) {
+        var testCompile = $.ajax({
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Accept: "application/json"
+            },
+            url: url + '/compileAndRunC',
+            data:{
+                mode:"exam",
+                pathExamID:pathExamID,
+                exam_id : $scope.examID
+            },
+            async: false,
+            complete: function (xhr) {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        $scope.examExaming[$scope.CurrentIndex].current_status = xhr.responseJSON;
+                        $scope.$apply();
+
+                        deleteFirstQueue();
+                    }
+                }
+            }
+        }).responseJSON;
+        console.log(testCompile);
+    }
+    //----------------------------------------------------------------------
     function deleteFirstQueue() {
         $.ajax({
             contentType: "application/json; charset=utf-8",
@@ -272,7 +358,6 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
     }
     //----------------------------------------------------------------------
     $('#detail_exam_modal').on('hidden.bs.modal', function(){
-        console.log("Hello");
         checked = 0;
         checkOrderEx(pathExamID);
     });
