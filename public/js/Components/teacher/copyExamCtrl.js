@@ -240,7 +240,7 @@ app.controller('copyExamCtrl', ['$scope', '$window', function ($scope, $window) 
 
             createContentFile(escapeHtml($('#exam_content').Editor("getText")), function (result) {
                 var resultJson = JSON.parse(result);
-                $scope.contentPart = resultJson.content_path;
+                $scope.contentPath = resultJson.content_path;
                 var content_path_split = $scope.contentPath.split('/');
                 var path = "";
                 for(var i=0;i<content_path_split.length-1;i++){
@@ -248,14 +248,14 @@ app.controller('copyExamCtrl', ['$scope', '$window', function ($scope, $window) 
                 }
                 console.log(path);
                 if ($scope.inputMode === 'no_input') {
-                    $scope.inputPart = "";
+                    $scope.inputPath = "";
                 } else if ($scope.inputMode === 'key_input') {
                     // $scope.inputPart = createTextFile($scope.input, "input",path);
                     $scope.inputPath = resultJson.input_path;
                 } else {
                     $window.pathExam = path;
                     $('#inputFileForm').submit();
-                    $scope.inputPart = $window.input_part;
+                    $scope.inputPath = $window.input_part;
                 }
 
                 if ($scope.outputMode === 'key_output') {
@@ -264,7 +264,7 @@ app.controller('copyExamCtrl', ['$scope', '$window', function ($scope, $window) 
                 } else {
                     $window.pathExam = path;
                     $('#outputFileForm').submit();
-                    $scope.outputPart = $window.output_part;
+                    $scope.outputPath = $window.output_part;
                 }
 
                 if($scope.classTestMode == 1){
@@ -278,9 +278,9 @@ app.controller('copyExamCtrl', ['$scope', '$window', function ($scope, $window) 
                     user_id: $window.myuser.id,
                     section_id: $('#ddl_group').val(),
                     exam_name: $scope.examName,
-                    exam_data: $scope.contentPart,
-                    exam_inputfile: $scope.inputPart,
-                    exam_outputfile: $scope.outputPart,
+                    exam_data: $scope.contentPath,
+                    exam_inputfile: $scope.inputPath,
+                    exam_outputfile: $scope.outputPath,
                     memory_size: $scope.memLimit,
                     time_limit: $scope.timeLimit,
                     full_score: $scope.fullScore,
@@ -289,7 +289,7 @@ app.controller('copyExamCtrl', ['$scope', '$window', function ($scope, $window) 
                     cut_comerror: $scope.cutComplieError,
                     cut_overmemory: $scope.cutOverMem,
                     cut_overtime: $scope.cutOverTime,
-                    main_code: $scope.main,
+                    main_code: $scope.mainPath,
                     case_sensitive: $scope.classTestMode,
                     keyword: newKeywords,
                 };
