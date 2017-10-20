@@ -10,13 +10,12 @@ use App\Users;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
 
-class CompileCController extends Controller
+class CompileCppController extends Controller
 {
     //
-    public function sendExamC(Request $request){
+    public function sendExamCpp(Request $request){
         $no_comment = true;
         $folder_ans = "";
         $resExamID = "";
@@ -45,22 +44,21 @@ class CompileCController extends Controller
 
                 // ตั้งชื่อว่า resexam
                 $file_name = "resexam";
-                $file_ans = "$file_name.c";
+                $file_ans = "$file_name.cpp";
 
                 // เขียนไฟล์
                 $handle = fopen("$folder_ans/$file_ans", 'w') or die('Cannot open file:  ' . $file_ans);
                 fwrite($handle, $code);
                 fclose($handle);
             }
-//            return response()->json($no_comment);
         } else {
             // แต่ถ้าส่งไฟล์โค้ดมา
             $folder_ans = $request->path;
             $files = scandir($folder_ans);
             foreach ($files as $f) {
-                // ลูปเช็คทุกไฟล์ที่มีนามสกุล .c
+                // ลูปเช็คทุกไฟล์ที่มีนามสกุล .cpp
                 $file_ans = $f;
-                if (strpos($f, '.c') && $no_comment) {
+                if (strpos($f, '.cpp') && $no_comment) {
                     $handle = fopen("$folder_ans/$f", "r");
                     $code_in_file = fread($handle, filesize("$folder_ans/$f"));
                     fclose($handle);
@@ -119,14 +117,13 @@ class CompileCController extends Controller
                 // บันทึกลงฐานข้อมูล ready_queue_exes
                 $readyQueue = new ReadyQueueEx;
                 $readyQueue->path_exam_id = $pathExamID;
-                $readyQueue->file_type = "c";
+                $readyQueue->file_type = "cpp";
                 $readyQueue->save();
                 return response()->json($pathExamID);
-
             } else {
                 return response()->json(['error' => 'Error msg'], 209);
             }
-        }catch( \Exception $e ){
+        } catch( \Exception $e ){
             if($completeInsRes){
                 $delResExam = ResExam::find($resExamID);
                 $delResExam->delete();
@@ -142,7 +139,7 @@ class CompileCController extends Controller
         }
     }
 
-    public function compileAndRunC(Request $request){
+    public function compileAndRunCpp(Request $request){
         $status = "";
         $folder_ans = "";
         // คิวรี่ ที่อยู่ของไฟล์ที่ส่ง
@@ -161,9 +158,9 @@ class CompileCController extends Controller
         // เพิ่มโค้ดส่วนของการเช็คเวลา เช็คเมมโมรี่
         $code_add_checker = $this->add_check_code($code_in_file,$request->exam_id);
 
-        // เก็บไว้ในไฟล์ชื่อ ex.c
+        // เก็บไว้ในไฟล์ชื่อ ex.cpp
         $file = 'ex';
-        $handle = fopen("$folder_ans/$file.c", 'w') or die('Cannot open file:  ' . $file);
+        $handle = fopen("$folder_ans/$file.cpp", 'w') or die('Cannot open file:  ' . $file);
         fwrite($handle, $code_add_checker);
 
         // คอมไพล์โค้ดที่ส่ง
@@ -192,7 +189,7 @@ class CompileCController extends Controller
             if($request->mode == "exam") {
                 $checker = $this->check_correct_ans_ex($lines_run, $request->exam_id,$folder_ans);
             }
-//
+
             // เครียร์ไฟล์ขยะ (*.exe, *.bat)
             $this->clearFolderAns($folder_ans);
 
@@ -200,8 +197,6 @@ class CompileCController extends Controller
             if($request->mode == "exam"){
                 $status = $this->update_resexam($request->pathExamID,$request->exam_id,$checker);
             }
-
-//            return response()->json(array('resrun'=>$lines_run,'resrun_length'=>strlen($lines_run),'teaOutput'=>$output,'teaOutput_length'=>strlen($output)));
         } else {
             // ไม่พบไฟล์ weep_ex.exe
             // อัพเดตสถานะการส่ง เป็น complie error
@@ -211,6 +206,65 @@ class CompileCController extends Controller
             }
         }
         return response()->json($status);
+    }
+
+    function compile_code($folder_code) {
+
+        exec("Taskkill /IM wepp_ex.exe /F");
+
+        // ค้าหาพาร์ทของไฟล์ที่จะคอมไฟล์
+        $dir = getcwd();
+        $dir_split = explode("\\",$dir);
+        $dir_code = "";
+        for($i = 0;$i<sizeof($dir_split)-1;$i++){
+            $dir_code = $dir_code.$dir_split[$i]."\\";
+        }
+        $dir_split = explode("/",$folder_code);
+        for($i = 1;$i<sizeof($dir_split);$i++){
+            $dir_code = $dir_code.$dir_split[$i]."\\";
+        }
+        $cmd = "cd $dir_code";
+
+        // สร้างไฟล์ .bat สำหรับการคอมไพล์
+        $file_bat = 'complie.bat';
+        $openfile = fopen("$folder_code/$file_bat", 'w');
+        fwrite($openfile, $cmd . " \n g++ ex.cpp -o wepp_ex");
+        fclose($openfile);
+
+        exec($dir_code.$file_bat);
+    }
+
+    function run_code($input,$folder_ans){
+        $resoutput = "";
+        $descriptorspec = array(
+            0 => array("pipe", "r"), // stdin is a pipe that the child will read from
+            1 => array("pipe", "w"), // stdout is a pipe that the child will write to
+            2 => array("file", "ex.txt", "a") // stderr is a file to write to
+        );
+
+        $dir = getcwd();
+        $dir_split = explode("\\",$dir);
+        $dir_code = "";
+        for($i = 0;$i<sizeof($dir_split)-1;$i++){
+            $dir_code = $dir_code.$dir_split[$i]."\\";
+        }
+        $dir_split = explode("/",$folder_ans);
+        for($i = 1;$i<sizeof($dir_split);$i++){
+            $dir_code = $dir_code.$dir_split[$i]."\\";
+        }
+        $cwd = $dir_code;
+        $process = proc_open('wepp_ex.exe', $descriptorspec, $pipes, $cwd);
+        if (is_resource($process)) {
+            fwrite($pipes[0], substr($input, 1, strlen($input)));
+            fclose($pipes[0]);
+            $resoutput = stream_get_contents($pipes[1]);
+            fclose($pipes[1]);
+            $return_value = proc_close($process);
+        }
+
+        unlink('ex.txt');
+
+        return $resoutput;
     }
 
     function update_resexam($path_exam_id, $exam_id, $checker) {
@@ -351,6 +405,15 @@ class CompileCController extends Controller
         }
     }
 
+    function arr_to_code($res_run) {
+        $str = '';
+        for ($i = 0; $i < count($res_run) - 1; $i++) {
+            $str .= ($res_run[$i] . PHP_EOL);
+        }
+        $str .= $res_run[$i];
+        return $str;
+    }
+
     function check_comment($code){
         if(strpos($code,'//')){
             return false;
@@ -388,21 +451,12 @@ class CompileCController extends Controller
         }
     }
 
-    function arr_to_code($res_run) {
-        $str = '';
-        for ($i = 0; $i < count($res_run) - 1; $i++) {
-            $str .= ($res_run[$i] . PHP_EOL);
-        }
-        $str .= $res_run[$i];
-        return $str;
-    }
-
     function clearFolderAns($folder_ans) {
         $files = scandir($folder_ans);
 
-        // ลูปลบไฟล์ที่นามสกุลไม่ใช่ .c
+        // ลูปลบไฟล์ที่นามสกุลไม่ใช่ .cpp
         foreach ($files as $f) {
-            if (!strpos($f, '.c')) {
+            if (!strpos($f, '.cpp')) {
                 @unlink("$folder_ans/$f");
             }
         }
@@ -504,65 +558,6 @@ class CompileCController extends Controller
         }
 
         return $resmodifile;
-    }
-
-    function compile_code($folder_code) {
-
-        exec("Taskkill /IM wepp_ex.exe /F");
-
-        // ค้าหาพาร์ทของไฟล์ที่จะคอมไฟล์
-        $dir = getcwd();
-        $dir_split = explode("\\",$dir);
-        $dir_code = "";
-        for($i = 0;$i<sizeof($dir_split)-1;$i++){
-            $dir_code = $dir_code.$dir_split[$i]."\\";
-        }
-        $dir_split = explode("/",$folder_code);
-        for($i = 1;$i<sizeof($dir_split);$i++){
-            $dir_code = $dir_code.$dir_split[$i]."\\";
-        }
-        $cmd = "cd $dir_code";
-
-        // สร้างไฟล์ .bat สำหรับการคอมไพล์
-        $file_bat = 'complie.bat';
-        $openfile = fopen("$folder_code/$file_bat", 'w');
-        fwrite($openfile, $cmd . " \n gcc ex.c -o wepp_ex");
-        fclose($openfile);
-
-        exec($dir_code.$file_bat);
-    }
-
-    function run_code($input,$folder_ans){
-        $resoutput = "";
-        $descriptorspec = array(
-            0 => array("pipe", "r"), // stdin is a pipe that the child will read from
-            1 => array("pipe", "w"), // stdout is a pipe that the child will write to
-            2 => array("file", "ex.txt", "a") // stderr is a file to write to
-        );
-
-        $dir = getcwd();
-        $dir_split = explode("\\",$dir);
-        $dir_code = "";
-        for($i = 0;$i<sizeof($dir_split)-1;$i++){
-            $dir_code = $dir_code.$dir_split[$i]."\\";
-        }
-        $dir_split = explode("/",$folder_ans);
-        for($i = 1;$i<sizeof($dir_split);$i++){
-            $dir_code = $dir_code.$dir_split[$i]."\\";
-        }
-        $cwd = $dir_code;
-        $process = proc_open('wepp_ex.exe', $descriptorspec, $pipes, $cwd);
-        if (is_resource($process)) {
-            fwrite($pipes[0], substr($input, 1, strlen($input)));
-            fclose($pipes[0]);
-            $resoutput = stream_get_contents($pipes[1]);
-            fclose($pipes[1]);
-            $return_value = proc_close($process);
-        }
-
-        unlink('ex.txt');
-
-        return $resoutput;
     }
 
     function makeFolder($path,$folder) {
