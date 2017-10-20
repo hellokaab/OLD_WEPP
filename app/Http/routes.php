@@ -239,3 +239,9 @@ Route::post('/sendExamC','CompileCController@sendExamC');
 
 Route::get('/compileAndRunC','CompileCController@compileAndRunC');
 
+//--------------------------- CompileCppController ---------------------------
+
+Route::post('/sendExamCpp','CompileCppController@sendExamCpp');
+
+Route::get('/compileAndRunCpp','CompileCppController@compileAndRunCpp');
+
