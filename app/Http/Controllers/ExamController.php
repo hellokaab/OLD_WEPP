@@ -254,4 +254,11 @@ class ExamController extends Controller
         }
         rmdir($path);
     }
+
+    public function detailExam($id){
+        $data = array(
+            'examId' => $id
+        );
+        return view('pages/teacher/detailExam',$data);
+    }
 }

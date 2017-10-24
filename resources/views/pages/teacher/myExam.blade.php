@@ -52,7 +52,7 @@
                     <table class="table table-hover">
                         <thead>
                         <tr>
-                            <th ng-click="sort('section_name')" style="cursor:pointer">กลุ่มข้อสอบ  <i class="fa" ng-show="sortKey=='section_name'" ng-class="{'fa-chevron-up':reverseS,'fa-chevron-down':!reverseS}"></i></th>
+                            <th ng-click="sort('section_name')" style="cursor:pointer">กลุ่มข้อสอบ  <i class="fa" ng-show="sortKey=='section_name'" ng-class="{'fa-caret-up':reverseS,'fa-caret-down':!reverseS}"></i></th>
                             <th>ผู้สร้างกลุ่มข้อสอบ</th>
                             <th></th>
                         </tr>

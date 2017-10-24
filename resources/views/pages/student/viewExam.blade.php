@@ -60,6 +60,13 @@
                 </div>
             </div>
         </div>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-offset-5 col-md-2">
+                <button ng-click="viewScore(examing)" class="btn btn-block btn-outline-purple"><i class="fa fa-trophy" aria-hidden="true"></i> Score board</button>
+            </div>
+        </div>
 
         <!-- Detail Exam Modal -->
         <div class="modal fade" id="detail_exam_modal" role="dialog">
@@ -162,51 +169,54 @@
                                         </form>
                                     </div>
                                 </div>
-                                {{--<div class="col-lg-12">--}}
-                                    {{--<b style="padding-left: 11%;">รูปแบบการส่ง</b>--}}
-                                    {{--<b style="padding-left: 11%;">ประเภทไฟล์ที่ส่ง</b>--}}
-                                {{--</div>--}}
-                                {{--<div class="col-lg-12" style="padding-top: 15px">--}}
-                                    {{--<div class="col-md-1"></div>--}}
-                                    {{--<div class="col-md-2">--}}
-                                        {{--<div class="radio">--}}
-                                            {{--<div class="row">--}}
-                                                {{--<div class="form-group">--}}
-                                                    {{--<input type="radio" name="input" id="keyInputChk" value="key_input" ng-model="inputMode" checked>--}}
-                                                    {{--<label for="keyInputChk">พิมพ์โค้ด</label>--}}
-                                                {{--</div>--}}
-                                            {{--</div>--}}
-                                            {{--<div class="row">--}}
-                                                {{--<div class="form-group">--}}
-                                                    {{--<input type="radio" name="input" id="fileInputChk" value="file_input" ng-model="inputMode">--}}
-                                                    {{--<label for="fileInputChk">อัพโหลด File</label>--}}
-                                                {{--</div>--}}
-                                            {{--</div>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="col-md-7">--}}
-                                        {{--<div class="row" ng-show="inputMode === 'key_input'">--}}
-                                            {{--<textarea ng-model="input" class="form-control io_textarea" placeholder="ใส่โค้ดคำตอบที่นี่" rows="8"></textarea>--}}
-                                            {{--<div class="notice" id="notice_exam_key_ans" style="display: none">กรุณาใส่โค้ดโปรแกรม</div>--}}
-                                        {{--</div>--}}
-
-                                        {{--<form id="AnsFileForm" action="javascript:submitAnsForm();" method="post" enctype = "multipart/form-data">--}}
-                                            {{--<div class="form-group" ng-show="inputMode == 'file_input'">--}}
-                                                {{--<div class="col-md-4">--}}
-                                                    {{--<input type="file" id="file_ans" class="inline-form-control" name="file_ans[]" multiple="" accept=".java">--}}
-                                                    {{--<div class="notice" id="notice_exam_file_ans" style="display: none">กรุณาเลือกไฟล์</div>--}}
-                                                    {{--<input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
-                                                {{--</div>--}}
-                                            {{--</div>--}}
-                                        {{--</form>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
                             </div>
                         </div>
                         <!-- Model footer -->
                         <div class="modal-footer">
                             <button ng-click="okSend()" type="button" class="btn btn-outline-primary">ส่งตรวจ</button>
                             <button type="button" class="btn btn-outline-default" data-dismiss="modal">ยกเลิก</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Score Board Modal -->
+        <div class="modal fade" id="score_modal" role="dialog">
+            <div class="modal-dialog" style="width: 95%">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="panel panel-purple" id="score_part" style="margin-bottom: 0">
+                        <!-- Panel header -->
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Score board</h3>
+                        </div>
+                        <!-- Form -->
+                        <div class="text-center">
+                            <h3 id="examing_title"><%examing.examing_name%></h3>
+                        </div>
+                        <br>
+                        <div style="margin-right: 3%; margin-left: 3%;">
+                            <table class="table table-hover table-striped">
+                                <thead id="score_board_hd"></thead>
+                                <tbody id="score_board_tb"></tbody>
+                            </table>
+                        </div>
+                        <br>
+                        <!-- Model footer -->
+                        <div class="modal-footer">
+                            <div class="text-left hidden-print hidden-xs hidden-sm" style="margin-left: 2%">
+                                <b>หมายเหตุ:</b>
+                                <i>
+                                    <x class="accpet">Accept</x> /
+                                    <x class="imperfect">Imperfect</x> /
+                                    <x class="wrong_ans">Wrong answer</x> /
+                                    <x class="complie_err">Compile error</x> /
+                                    <x class="over_time">Over runtime</x> /
+                                    <x class="over_mem">Over memory</x>
+                                </i>
+                            </div>
+                            <button type="button" class="btn btn-outline-purple" data-dismiss="modal">ปิด</button>
                         </div>
                     </div>
                 </div>

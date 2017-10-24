@@ -1170,3 +1170,33 @@ function findExamRandomInViewExam(EXID,UID) {
     }).responseJSON;
     return examRandom;
 }
+
+//--------------------------- ResExamController ---------------------------
+
+function findExamInScoreboard(EXID) {
+    var examScoreboard = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/findExamInScoreboard',
+        data:{examing_id:EXID},
+        async: false,
+    }).responseJSON;
+    return examScoreboard;
+}
+
+function dataInScoreboard(data) {
+    var scoreBoard = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/dataInScoreboard',
+        data:data,
+        async: false,
+    }).responseJSON;
+    return scoreBoard;
+}
