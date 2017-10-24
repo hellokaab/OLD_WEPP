@@ -97,6 +97,8 @@ Route::get('/myExam', 'ExamController@myExam');
 
 Route::get('/readExamContent', 'ExamController@readExamContent');
 
+Route::get('/detailExam{id}', 'ExamController@detailExam');
+
 //--------------------------- ShareExamController ---------------------------
 
 Route::get('/createSharedExam', 'ShareExamController@store');
@@ -224,6 +226,10 @@ Route::post('/uploadExamFile/{EMID}/{EID}/{UID}','ResExamController@store');
 Route::get('/checkQueueEx','ResExamController@checkQueueEx');
 
 Route::get('/deleteFirstQueue','ResExamController@deleteFirstQueue');
+
+Route::get('/findExamInScoreboard','ResExamController@examInScoreboard');
+
+Route::get('/dataInScoreboard','ResExamController@dataInScoreboard');
 
 //--------------------------- CompileJavaController ---------------------------
 
