@@ -814,3 +814,32 @@ footer a:hover {
     /*color: #fff;*/
     background-color: #D770AD;
 }
+
+pre {
+    white-space: pre-wrap;
+    word-break: normal;
+}
+
+mycode {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    padding: 2px 4px;
+    font-size: 90%;
+    color: #c7254e;
+    background-color: #f9f2f4;
+    border-radius: 4px;
+    white-space: pre-wrap;
+    overflow: auto;
+    line-height: 1.42857143;
+    margin: 0 0 10px;
+    word-break: normal;
+    word-wrap: break-word;
+    display: block;
+}
+
+.hljs-right {
+    color: #98c379;
+}
+
+.hljs-wrong {
+    color: #e06c75;
+}

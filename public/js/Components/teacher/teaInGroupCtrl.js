@@ -414,7 +414,6 @@ app.controller('teaInGroupCtrl', ['$scope', '$window', function ($scope, $window
             num = 0;
 
             examInScoreboard.forEach(function(exam) {
-                console.log(exam);
                 head += '<th class="hidden-print hidden-xs hidden-sm" style="text-align: center"><a href="#" onclick="return viewDetailExam('+exam.exam_id+')">' + exam.exam_name + '</a></th>';
                 num++;
             });
@@ -459,4 +458,9 @@ app.controller('teaInGroupCtrl', ['$scope', '$window', function ($scope, $window
             $('#score_board_tb').children().remove();
         }
     };
+    //----------------------------------------------------------------------
+    $scope.viewPoint = function (data) {
+        window.open(url+'/pointBoard'+data.id, '_blank');
+        window.focus();
+    }
 }]);

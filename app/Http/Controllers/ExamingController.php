@@ -182,6 +182,14 @@ class ExamingController extends Controller
         return view('pages/teacher/editExaming',$data);
     }
 
+    public function pointBoard($id)
+    {
+        $data = array(
+            'examingID' => $id
+        );
+        return view('pages/teacher/pointBoard',$data);
+    }
+
     public function viewExam($id)
     {
         $data = array(

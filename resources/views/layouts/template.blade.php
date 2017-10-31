@@ -15,6 +15,7 @@
     <link href="LineControl-Editor/editor.css " rel="stylesheet" type="text/css">
     <link href="dateTimePicker/DateTimePicker.min.css " rel="stylesheet" type="text/css">
     <link href="css/myCustom.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="highlight/styles/atom-one-dark.css">
     <script src="js/jquery-3.2.1.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/side_nav.js"></script>
@@ -26,25 +27,27 @@
     <script src="LineControl-Editor/editor.js"></script>
     <script src="dateTimePicker/DateTimePicker.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
     {{--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>--}}
     <script>
         app.controller("urlCtrl", function($scope) {
             $scope.myUrl = "/WEPP/public";
         });
         var url = "/WEPP/public";
-        {{--var mysession = {--}}
-            {{--personalId : "0425361073012",--}}
-            {{--prename : "นาย",--}}
-            {{--cn : "Pongpan",--}}
-            {{--firstNameThai : "พงศ์พันธ์",--}}
-            {{--sn : "Poonkhuntod",--}}
-            {{--lastNameThai : "ปูนขุนทด",--}}
-            {{--studentId : "",--}}
-            {{--faculty : "คณะวิศวกรรมศาสตร์และสถาปัตยกรรมศาสตร์",--}}
-            {{--program : "สาขาวิชาวิศวกรรมคอมพิวเตอร์",--}}
-            {{--mail : "pongpan.kho@rmuti.ac.th",--}}
-            {{--gidNumber : "2800"--}}
-        {{--};--}}
+        var mysession = {
+            personalId : "0425361073012",
+            prename : "นาย",
+            cn : "Pongpan",
+            firstNameThai : "พงศ์พันธ์",
+            sn : "Poonkhuntod",
+            lastNameThai : "ปูนขุนทด",
+            studentId : "",
+            faculty : "คณะวิศวกรรมศาสตร์และสถาปัตยกรรมศาสตร์",
+            program : "สาขาวิชาวิศวกรรมคอมพิวเตอร์",
+            mail : "pongpan.kho@rmuti.ac.th",
+            gidNumber : "2800"
+        };
 
         {{--var mysession = {--}}
             {{--personalId : "0425361073013",--}}
@@ -74,19 +77,19 @@
             {{--gidNumber : "2800"--}}
         {{--}--}}
 
-        var mysession = {
-            personalId : "1103701635240",
-            prename : "นาย",
-            cn : "Pongpan",
-            firstNameThai : "พงศ์พันธ์",
-            sn : "Poonkhunthod",
-            lastNameThai : "ปูนขุนทด",
-            studentId : "561733022010-0",
-            faculty : "คณะวิศวกรรมศาสตร์และสถาปัตยกรรมศาสตร์",
-            program : "สาขาวิชาวิศวกรรมคอมพิวเตอร์",
-            mail : "pongpan.po@rmuti.ac.th",
-            gidNumber : "4500"
-        }
+        {{--var mysession = {--}}
+            {{--personalId : "1103701635240",--}}
+            {{--prename : "นาย",--}}
+            {{--cn : "Pongpan",--}}
+            {{--firstNameThai : "พงศ์พันธ์",--}}
+            {{--sn : "Poonkhunthod",--}}
+            {{--lastNameThai : "ปูนขุนทด",--}}
+            {{--studentId : "561733022010-0",--}}
+            {{--faculty : "คณะวิศวกรรมศาสตร์และสถาปัตยกรรมศาสตร์",--}}
+            {{--program : "สาขาวิชาวิศวกรรมคอมพิวเตอร์",--}}
+            {{--mail : "pongpan.po@rmuti.ac.th",--}}
+            {{--gidNumber : "4500"--}}
+        {{--}--}}
 
         {{--var mysession = {--}}
             {{--personalId : "1234567890123",--}}

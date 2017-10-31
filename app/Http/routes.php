@@ -159,6 +159,8 @@ Route::get('/checkIP', 'ExamingController@checkIP');
 
 Route::get('/viewExam{id}', 'ExamingController@viewExam');
 
+Route::get('/pointBoard{id}', 'ExamingController@pointBoard');
+
 //--------------------------- ExamExamingController ---------------------------
 
 Route::get('/createExamExaming', 'ExamExamingController@store');
@@ -231,6 +233,8 @@ Route::get('/findExamInScoreboard','ResExamController@examInScoreboard');
 
 Route::get('/dataInScoreboard','ResExamController@dataInScoreboard');
 
+Route::get('/editScore','ResExamController@editScore');
+
 //--------------------------- CompileJavaController ---------------------------
 
 Route::post('/sendExamJava','CompileJavaController@sendExamJava');
@@ -251,3 +255,8 @@ Route::post('/sendExamCpp','CompileCppController@sendExamCpp');
 
 Route::get('/compileAndRunCpp','CompileCppController@compileAndRunCpp');
 
+//--------------------------- PathExamController ---------------------------
+
+Route::get('/findPathExamByResExamID','PathExamController@findPathExamByResExamID');
+
+Route::get('/getCode','PathExamController@getCode');

@@ -110,6 +110,10 @@
                                     <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
                                 </button>
                                 &nbsp;&nbsp;
+                                <button class="btn btn-sm btn-outline-primary" title="สรุปผลคะแนน" style="cursor:pointer" ng-click="viewPoint(e)">
+                                    <i class="fa fa-bar-chart fa-lg" aria-hidden="true"></i>
+                                </button>
+                                &nbsp;&nbsp;
                                 <button class="btn btn-sm btn-outline-danger" title="ลบ" style="cursor:pointer" ng-click="deleteExaming(e)">
                                     <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
                                 </button>
@@ -453,114 +457,6 @@
                                 </i>
                             </div>
                             <button type="button" class="btn btn-outline-purple" data-dismiss="modal">ปิด</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Detail Exam Modal -->
-        <div class="modal fade" id="detail_exam_modal" role="dialog">
-            <div class="modal-dialog" style="width: 98%; padding-right: 12px">
-                <div class="modal-content">
-                    <div class="panel panel-primary" style="margin-bottom: 0">
-                        <div class="panel-heading">
-                            <h3 class="panel-title" style="color: #fff">รายละเอียดข้อสอบ</h3>
-                        </div>
-                        <div class="panel-body">
-
-                            <h4 class="text-center" id="examName"></h4>
-                            <br>
-                            <div class="col-md-3"><b>Time limit:</b> <span id="examTimeLimit"></span> Seconds</div>
-                            <div class="col-md-3"><b>Memory limit:</b> <span id="examMemLimit"></span> KB</div>
-                            <div class="col-md-12">
-                                <br>
-                                <b>โจทย์:</b>
-                                <div id="exam_content"></div>
-                            </div>
-
-
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <br>
-                                        <b>อินพุท:</b>
-                                        <div id="input_part">
-                                            <textarea class="form-control code_textarea" style="background-color: #fff"
-                                                      id="examInput" rows="10" disabled></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <br>
-                                        <b>เอาท์พุท:</b>
-                                        <div id="output_part">
-                                            <textarea class="form-control code_textarea" style="background-color: #fff"
-                                                      id="examOutput" rows="10" disabled></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <b>เกณฑ์การให้คะแนน:</b>
-                                                <div class="list-group">
-                                                    <a class="list-group-item">
-                                                        <span class="badge badge-default" id="fullScore">100</span>
-                                                        - คะแนนเต็ม
-                                                    </a>
-                                                    <a class="list-group-item">
-                                                        <span class="badge badge-default" id="imperfect">50</span>
-                                                        - คำตอบถูกต้องบางส่วน (% ของคะแนนเต็ม)
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <b>เกณฑ์การหักคะแนน:</b>
-                                                <div class="list-group">
-                                                    <a class="list-group-item">
-                                                        <span class="badge badge-default" id="cutWrongAnswer">10</span>
-                                                        - คำตอบผิดพลาด
-                                                    </a>
-                                                    <a class="list-group-item">
-                                                        <span class="badge badge-default" id="cutComplieError">10</span>
-                                                        - รูปแบบโค้ดไม่ถูกต้อง
-                                                    </a>
-                                                    <a class="list-group-item">
-                                                        <span class="badge badge-default" id="cutOverMem">10</span>
-                                                        - หน่วยความจำเกิน
-                                                    </a>
-                                                    <a class="list-group-item">
-                                                        <span class="badge badge-default" id="cutOverTime">10</span>
-                                                        - เวลาประมวณผลเกิน
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <br>
-                                        <b>คีย์เวิร์ด:</b>
-                                        <br>
-                                        <br>
-                                        <ul id="list_keyword">
-                                            <li ng-repeat="k in keywords"><%k.keyword_data%></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-warning" ng-click="editExam()" ng-show="createrID == thisUser.id">แก้ไข</button>
-                            <button type="button" class="btn btn-outline-danger" data-dismiss="modal">ยกเลิก</button>
                         </div>
                     </div>
                 </div>

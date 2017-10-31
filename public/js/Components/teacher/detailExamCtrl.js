@@ -1,6 +1,6 @@
 app.controller('detailExamCtrl', ['$scope', '$window', function ($scope, $window) {
     $('#exam_content').Editor();
-    $scope.exam = findExamByID($window.examID).responseJSON;
+    $scope.exam = findExamByID($window.examID);
     $('#examName').html($scope.exam.exam_name);
     $('#examTimeLimit').html($scope.exam.time_limit);
     $('#examMemLimit').html($scope.exam.memory_size);
