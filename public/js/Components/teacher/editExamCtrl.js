@@ -1,7 +1,7 @@
 app.controller('editExamCtrl', ['$scope', '$window', function ($scope, $window) {
     // $scope.groups = $window.group_list;
     var newKeywords = new Array();
-    $scope.examData = findExamByID(window.examId).responseJSON;
+    $scope.examData = findExamByID(window.examId);
     $scope.groupId = $scope.examData.section_id;
     $scope.keywords = window.keywords;
     $scope.thisUser = $window.myuser;

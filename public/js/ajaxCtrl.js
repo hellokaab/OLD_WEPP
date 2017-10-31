@@ -433,7 +433,7 @@ function findExamByID(data) {
         },
         url: url + '/findExamByID/'+data,
         async: false,
-    });
+    }).responseJSON;
     return exam;
 }
 
@@ -1199,4 +1199,50 @@ function dataInScoreboard(data) {
         async: false,
     }).responseJSON;
     return scoreBoard;
+}
+
+function editScore(REID,score){
+    var editScore = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/editScore',
+        data:{
+            resexam_id:REID,
+            score : score
+        },
+        async: false,
+    }).responseJSON;
+    return editScore;
+}
+
+//--------------------------- PathExamController ---------------------------
+function findPathExamByResExamID(REID) {
+    var examScoreboard = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/findPathExamByResExamID',
+        data:{resexam_id:REID},
+        async: false,
+    }).responseJSON;
+    return examScoreboard;
+}
+
+function getCode(path) {
+    var code = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/getCode',
+        data:{path:path},
+        async: false,
+    }).responseJSON;
+    return code;
 }

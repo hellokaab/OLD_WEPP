@@ -52,7 +52,7 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
             bg: 'rgba(255,255,255,0.9)',
             color: '#3bafda'
         });
-        var examData = findExamByID(data.exam_id).responseJSON;
+        var examData = findExamByID(data.exam_id);
         var keyword = findKeywordByEID(data.exam_id);
         $('#exam_name').html(examData.exam_name);
         $('#exam_time').html(examData.time_limit);

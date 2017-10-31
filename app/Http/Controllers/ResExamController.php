@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ExamExaming;
 use App\ReadyQueueEx;
+use App\ResExam;
 use App\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -54,7 +55,7 @@ class ResExamController extends Controller
     public function examInScoreboard(Request $request){
         $examInScoreboard = DB::table('exam_examings')
             ->join('exams', 'exam_examings.exam_id', '=', 'exams.id')
-            ->select('exam_examings.*', 'exams.exam_name')
+            ->select('exam_examings.*', 'exams.exam_name','exams.full_score')
             ->where('exam_examings.examing_id',$request->examing_id)
             ->orderBy('exam_examings.exam_id','ASC')
             ->get();
@@ -99,5 +100,11 @@ class ResExamController extends Controller
         if (!in_array((string) $folder, (array) $dirList)) {
             mkdir($path.$folder, 0777, true);
         }
+    }
+
+    public function editScore(Request $request){
+        $resexam = ResExam::find($request->resexam_id);
+        $resexam->score = $request->score;
+        $resexam->save();
     }
 }

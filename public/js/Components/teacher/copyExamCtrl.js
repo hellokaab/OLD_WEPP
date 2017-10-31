@@ -1,7 +1,7 @@
 app.controller('copyExamCtrl', ['$scope', '$window', function ($scope, $window) {
     // $scope.groups = $window.group_list;
     var newKeywords = new Array();
-    $scope.examData = findExamByID(window.examId).responseJSON;
+    $scope.examData = findExamByID(window.examId);
     $scope.groupId = "0";
     $scope.keywords = window.keywords;
     $scope.thisUser = $window.myuser;

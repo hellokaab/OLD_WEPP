@@ -2,85 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\PathExam;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
 class PathExamController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    public function findPathExamByResExamID(Request $request){
+        $pathExam = PathExam::where('resexam_id',$request->resexam_id)->get();
+        return response()->json($pathExam);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    public function getCode(Request $request){
+        $folder_ans = $request->path;
+        $code = array();
+        //ค้นหาไฟล์ในโฟลเดอร์ข้อสอบที่ส่ง
+        $files = scandir($folder_ans);
+        foreach ($files as $f) {
+            // ลูปหาไฟล์นามสกุล.java ที่ไม่ใช่ Main.java
+            if (strpos($f, '.java') && $f != 'Main.java') {
+                $handle = fopen("$folder_ans/$f", "r");
+                $codeInFile = fread($handle, filesize("$folder_ans/$f"));
+                array_push($code, $codeInFile);
+                fclose($handle);
+            }
+        }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return response()->json($code);
     }
 }
