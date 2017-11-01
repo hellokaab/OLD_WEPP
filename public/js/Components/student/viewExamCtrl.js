@@ -34,6 +34,8 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
     //     async: false,
     // }).responseJSON;
     // console.log(test);
+    console.log(new Date());
+    console.log(dtJsToDtDB(new Date()));
 
     var checked = 0;
     var count = 0;
@@ -96,7 +98,8 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
                     EID : $scope.examID,
                     UID : $window.myuser.id,
                     code : $scope.codeExam,
-                    mode : "key"
+                    mode : "key",
+                    send_date_time : dtJsToDtDB(new Date())
                 };
                 // ถ้าเป็นไฟล์ .c
                 if($scope.selectFileType === "c"){
@@ -129,7 +132,8 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
                         EMID : $scope.examing.id,
                         EID : $scope.examID,
                         UID : $window.myuser.id,
-                        mode : "file"
+                        mode : "file",
+                        send_date_time : dtJsToDtDB(new Date())
                     };
                     // ถ้าเป็นไฟล์ .c
                     if($scope.selectFileType === "c"){
@@ -434,6 +438,14 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
             url: url + '/deleteFirstQueue',
             async: false,
         })
+    }
+    //----------------------------------------------------------------------
+    function dtJsToDtDB(date) {
+        date = date.toLocaleString();
+        dt = date.split(' ');
+        d = dt[0].split('/');
+        r = (d[2] - 543) + '-' + d[1] + '-' + d[0] + ' ' + dt[1];
+        return r;
     }
     //----------------------------------------------------------------------
     $('#detail_exam_modal').on('hidden.bs.modal', function(){

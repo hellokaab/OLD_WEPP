@@ -260,3 +260,5 @@ Route::get('/compileAndRunCpp','CompileCppController@compileAndRunCpp');
 Route::get('/findPathExamByResExamID','PathExamController@findPathExamByResExamID');
 
 Route::get('/getCode','PathExamController@getCode');
+
+Route::get('/readFileResRun','PathExamController@readFileResRun');

@@ -14,11 +14,8 @@ app.controller('pointBoardCtrl', ['$scope', '$window', function ($scope, $window
     $scope.tab = 'a';
     //----------------------------------------------------------------------
     $scope.viewResExamHistory = function (data) {
-        console.log(data);
-
         $scope.resexam = data;
         $scope.pathExam = findPathExamByResExamID(data.id);
-        console.log($scope.pathExam);
 
         $('#resExam_modal').modal({backdrop: 'static'});
         var user = findUserByID(data.user_id);
@@ -36,9 +33,8 @@ app.controller('pointBoardCtrl', ['$scope', '$window', function ($scope, $window
         $scope.pathExam.forEach(function(pathRes) {
             pathRes.code = getCode(pathRes.path);
             pathRes.teaOutput = (readFile(exam).responseJSON).output;
+            pathRes.readResrun = readFileResRun(pathRes.resrun);
         });
-
-        console.log($scope.pathExam);
     };
     //----------------------------------------------------------------------
     $scope.viewExam = function () {
@@ -98,9 +94,10 @@ app.controller('pointBoardCtrl', ['$scope', '$window', function ($scope, $window
             (data.code).forEach(function(codes) {
                 code+=codes;
             });
-            $('#code_' + data.id).html(code);
-            $('#resrun_' + data.id).html(data.resrun);
-            $('#tea_output_' + data.id).html(data.teaOutput);
+            $('#code_' + data.id).html(escapeHtml(code));
+            $('#tea_output_' + data.id).html('<span class="hljs-right">'+data.teaOutput+'</span>');
+            $('#resrun_' + data.id).html(changColor(data.readResrun,data.teaOutput));
+            console.log(changColor(data.readResrun,data.teaOutput));
 
             $('mycode').each(function(i, block) {
                 hljs.highlightBlock(block);
@@ -112,5 +109,68 @@ app.controller('pointBoardCtrl', ['$scope', '$window', function ($scope, $window
             $('#detail_' + data.id).hide();
         }
     };
+    //----------------------------------------------------------------------
+    $scope.checkTab = function (data) {
+        if($scope.tab === data.status){
+            return true;
+        } else {
+            if($scope.tab === 'i' && (data.status === '5' || data.status === '6' || data.status === '7' || data.status === '8' || data.status === '9')){
+                return true;
+            }
+        }
+        return false;
+    };
+    //----------------------------------------------------------------------
+    var entityMap = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': '&quot;',
+        "'": '&#39;',
+        "/": '&#x2F;'
+    };
+
+    function escapeHtml(string) {
+        return String(string).replace(/[&<>"'\/]/g, function (s) {
+            return entityMap[s];
+        });
+    }
+    //----------------------------------------------------------------------
+    function changColor(resrun,teaOuput) {
+        str='';
+        insertMyCut = false;
+        strAfterChange='';
+        try{
+            for(i=0;i<resrun.length || i<teaOuput.length;i++){
+                if(teaOuput[i] === resrun[i]){
+                    str+=resrun[i];
+                    if(insertMyCut){
+                        str+="myCut"+resrun[i];
+                        insertMyCut = false;
+                    }
+                }else {
+                    if(insertMyCut){
+                        str+=resrun[i];
+                    } else {
+                        str+="myCut"+resrun[i];
+                        insertMyCut = true;
+                    }
+                }
+            }
+            if(insertMyCut){
+                str+="myCut";
+            }
+        }catch(err) {}
+
+        arrayStr = str.split('myCut');
+        for(i=0;i<arrayStr.length;i++){
+            if(i%2===0){
+                strAfterChange += '<span class="hljs-right">'+arrayStr[i]+'</span>';
+            } else {
+                strAfterChange += '<span class="hljs-wrong">'+arrayStr[i]+'</span>';
+            }
+        }
+        return strAfterChange;
+    }
 }]);
 
