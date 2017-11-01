@@ -27,8 +27,30 @@ class PathExamController extends Controller
                 array_push($code, $codeInFile);
                 fclose($handle);
             }
+
+            else if (strpos($f, '.c') && $f != 'ex.c' && $f != 'ex.cpp') {
+                $handle = fopen("$folder_ans/$f", "r");
+                $codeInFile = fread($handle, filesize("$folder_ans/$f"));
+                array_push($code, $codeInFile);
+                fclose($handle);
+            }
+
+//            else if (strpos($f, '.cpp') && $f != 'ex.cpp') {
+//                $handle = fopen("$folder_ans/$f", "r");
+//                $codeInFile = fread($handle, filesize("$folder_ans/$f"));
+//                array_push($code, $codeInFile);
+//                fclose($handle);
+//            }
         }
 
         return response()->json($code);
+    }
+
+    public function readFileResRun(Request $request){
+        $file_resrun = $request->path;
+        $handle = fopen("$file_resrun", "r");
+        $resrun = trim(fread($handle, filesize("$file_resrun")));
+        fclose($handle);
+        return response()->json($resrun);
     }
 }

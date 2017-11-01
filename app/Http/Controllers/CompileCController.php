@@ -110,7 +110,7 @@ class CompileCController extends Controller
                 $pathExam->resexam_id = $resExamID;
                 $pathExam->path = $folder_ans;
                 $pathExam->status = "q";
-                $pathExam->send_date_time = date("Y-m-d H:i:s");
+                $pathExam->send_date_time = $request->send_date_time;
                 $pathExam->ip = $_SERVER['REMOTE_ADDR'];
                 $pathExam->save();
                 $insertedId = $pathExam->id;
@@ -198,7 +198,7 @@ class CompileCController extends Controller
 
             // อัพเดตสถานะการส่ง เป็นสถานะที่เช็คได้
             if($request->mode == "exam"){
-                $status = $this->update_resexam($request->pathExamID,$request->exam_id,$checker);
+                $status = $this->update_resexam($request->pathExamID,$request->exam_id,$checker,$folder_ans);
             }
 
 //            return response()->json(array('resrun'=>$lines_run,'resrun_length'=>strlen($lines_run),'teaOutput'=>$output,'teaOutput_length'=>strlen($output)));
@@ -207,13 +207,18 @@ class CompileCController extends Controller
             // อัพเดตสถานะการส่ง เป็น complie error
             if($request->mode == "exam"){
                 $checker = array("status" => "c", "res_run" => null, "time" => null, "mem" => null);
-                $status = $this->update_resexam($request->pathExamID,$request->exam_id,$checker);
+                $status = $this->update_resexam($request->pathExamID,$request->exam_id,$checker,$folder_ans);
             }
         }
         return response()->json($status);
     }
 
-    function update_resexam($path_exam_id, $exam_id, $checker) {
+    function update_resexam($path_exam_id, $exam_id, $checker,$folder_ans) {
+
+        // เขียนไฟล์ผลการรันลงในโฟลเดอร์
+        $handle = fopen("$folder_ans/resrun.txt", 'w') or die('Cannot open file:  resrun.txt');
+        fwrite($handle, $checker["res_run"]);
+        fclose($handle);
 
         $exam = Exam::find($exam_id);
 
@@ -221,7 +226,7 @@ class CompileCController extends Controller
         // อัพเดทข้อมูลใน table path_exam
         $pathExam = PathExam::find($path_exam_id);
         $resExamID = $pathExam->resexam_id;
-        $pathExam->resrun = $checker["res_run"];
+        $pathExam->resrun = "$folder_ans/resrun.txt";
         $pathExam->status = $checker["status"];
         $pathExam->time = $checker["time"];
         $pathExam->memory = $checker["mem"];
@@ -313,27 +318,30 @@ class CompileCController extends Controller
         } else {
             // อ่านไฟล์ output ของ Teacher
             $file_output = $exam->exam_outputfile;
-            $output_teacher = file($file_output);
+//            $output_teacher = file($file_output);
+            $handle = fopen("$file_output", "r");
+            $output_teacher = trim(fread($handle, filesize("$file_output")));
+            fclose($handle);
 
             // คิดคำตอบเหมือน output กี่เปอร์เซ็นต์
             $percent_equal = $this->check_percentage_ans($output_teacher, $run['res_run'], $exam->case_sensitive);
 
             if ($percent_equal == 100) {
-                return array("status" => "a", "res_run" => $this->arr_to_code($run['res_run']), "time" => $run['time'], "mem" => $run['mem']);
+                return array("status" => "a", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
             } else if ($percent_equal > 89) {
-                return array("status" => "9", "res_run" => $this->arr_to_code($run['res_run']), "time" => $run['time'], "mem" => $run['mem']);
+                return array("status" => "9", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
             } else if ($percent_equal > 79) {
-                return array("status" => "8", "res_run" => $this->arr_to_code($run['res_run']), "time" => $run['time'], "mem" => $run['mem']);
+                return array("status" => "8", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
             } else if ($percent_equal > 69) {
-                return array("status" => "7", "res_run" => $this->arr_to_code($run['res_run']), "time" => $run['time'], "mem" => $run['mem']);
+                return array("status" => "7", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
             } else if ($percent_equal > 59) {
-                return array("status" => "6", "res_run" => $this->arr_to_code($run['res_run']), "time" => $run['time'], "mem" => $run['mem']);
+                return array("status" => "6", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
             } else if ($percent_equal > 49) {
-                return array("status" => "5", "res_run" => $this->arr_to_code($run['res_run']), "time" => $run['time'], "mem" => $run['mem']);
+                return array("status" => "5", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
             }
 
             // ถ้าน้อยกว่า 50% ถือว่า wrong answer
-            return array("status" => "w", "res_run" => $this->arr_to_code($run['res_run']), "time" => $run['time'], "mem" => $run['mem']);
+            return array("status" => "w", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
         }
     }
 
@@ -344,10 +352,10 @@ class CompileCController extends Controller
         if(strlen($outputmodi[0])> 1283276){
             return "OverTime";
         } else {
-            $res_run = explode("\n", $outputmodi[0]);
-//            $res_run = $outputmodi[0];
+//            $res_run = explode("\n", $outputmodi[0]);
+            $res_run = $outputmodi[0];
             $time = $outputmodi[1];
-            return array('res_run' => $res_run, 'mem' => $mem, 'time' => $time);
+            return array('res_run' => trim($res_run), 'mem' => $mem, 'time' => $time);
         }
     }
 
@@ -363,28 +371,49 @@ class CompileCController extends Controller
 
     function check_percentage_ans($output_teacher, $output_run, $is_case_sensitive) {
 
-        // เช็คจำนวนแถว output ที่รันได้ไม่เกิน output ตรวจสอบใช่ไหม
-        if (count($output_run) <= count($output_teacher)) {
-            $count_check = 0;
-            for ($i = 0; $i < count($output_run); $i++) { // เช็คว่าคำตอบทั้ง 2 ไฟล์ ตรงกันหรือไม่
+//        // เช็คจำนวนแถว output ที่รันได้ไม่เกิน output ตรวจสอบใช่ไหม
+//        if (count($output_run) <= count($output_teacher)) {
+//            $count_check = 0;
+//            for ($i = 0; $i < count($output_run); $i++) { // เช็คว่าคำตอบทั้ง 2 ไฟล์ ตรงกันหรือไม่
+//                // ในกรณีไม่คิด Case sensitive
+//                if (!$is_case_sensitive) {
+//                    $output_run[$i] = strtolower($output_run[$i]);
+//                    $output_teacher[$i] = strtolower($output_teacher[$i]);
+//                }
+//                if (trim($output_run[$i]) == trim($output_teacher[$i])) {
+//                    $count_check++;
+//                }
+//            }
+//
+//            if ($count_check == count($output_teacher)) {
+//                return 100;
+//            } else {
+//                return $count_check * 100 / count($output_teacher);
+//            }
+//        } else {
+//            // output ที่รันได้ มีจำนวนมากกว่า output ตรวจสอบ
+//            return 0;
+//        }
+        $count_check = 0;
+        for ($i = 0; ($i < strlen($output_run) || $i < strlen($output_teacher)); $i++ ){
+            try {
                 // ในกรณีไม่คิด Case sensitive
                 if (!$is_case_sensitive) {
                     $output_run[$i] = strtolower($output_run[$i]);
                     $output_teacher[$i] = strtolower($output_teacher[$i]);
                 }
-                if (trim($output_run[$i]) == trim($output_teacher[$i])) {
-                    $count_check++;
+                if (($output_teacher[$i]) && ($output_run[$i])) {
+                    if ($output_teacher[$i] == $output_run[$i]) {
+                        $count_check++;
+                    }
                 }
-            }
+            } catch(\Exception $e ){}
+        }
 
-            if ($count_check == count($output_teacher)) {
-                return 100;
-            } else {
-                return $count_check * 100 / count($output_teacher);
-            }
+        if (strlen($output_run) > strlen($output_teacher)) {
+            return $count_check * 100 / strlen($output_run);
         } else {
-            // output ที่รันได้ มีจำนวนมากกว่า output ตรวจสอบ
-            return 0;
+            return $count_check * 100 / strlen($output_teacher);
         }
     }
 

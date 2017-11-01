@@ -62,10 +62,10 @@
                             <thead>
                                 <tr>
                                     <th style="width: 20%">ชื่อการสอบ</th>
-                                    <th style="width: 20%">โหมดการสอบ</th>
+                                    <th style="width: 15%">โหมดการสอบ</th>
                                     <th style="width: 20%;text-align: center">เริ่มต้น</th>
                                     <th style="width: 20%;text-align: center">สิ้นสุด</th>
-                                    <th style="width: 20%"></th>
+                                    <th style="width: 25%"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -79,7 +79,15 @@
                                         <button class="btn btn-sm btn-outline-warning" title="แก้ไข" style="cursor:pointer" ng-click="editExaming(e)">
                                             <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
                                         </button>
-                                        &nbsp;&nbsp;
+                                        &nbsp;
+                                        <button class="btn btn-sm btn-outline-purple" title="score board" style="cursor:pointer" ng-click="viewScore(e)">
+                                            <i class="fa fa-trophy fa-lg" aria-hidden="true"></i>
+                                        </button>
+                                        &nbsp;
+                                        <button class="btn btn-sm btn-outline-primary" title="สรุปผลคะแนน" style="cursor:pointer" ng-click="viewPoint(e)">
+                                            <i class="fa fa-bar-chart fa-lg" aria-hidden="true"></i>
+                                        </button>
+                                        &nbsp;
                                         <button class="btn btn-sm btn-outline-danger" title="ลบ" style="cursor:pointer" ng-click="deleteExaming(e)">
                                             <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
                                         </button>
@@ -112,6 +120,48 @@
                 </div>
             </div>
         </div>
+
+        <!-- Score Board Modal -->
+        <div class="modal fade" id="score_modal" role="dialog">
+            <div class="modal-dialog" style="width: 95%">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="panel panel-purple" id="score_part" style="margin-bottom: 0">
+                        <!-- Panel header -->
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Score board</h3>
+                        </div>
+                        <!-- Form -->
+                        <div class="text-center">
+                            <h3 id="examing_title"><%examing.examing_name%></h3>
+                        </div>
+                        <br>
+                        <div style="margin-right: 3%; margin-left: 3%;">
+                            <table class="table table-hover table-striped">
+                                <thead id="score_board_hd"></thead>
+                                <tbody id="score_board_tb"></tbody>
+                            </table>
+                        </div>
+                        <br>
+                        <!-- Model footer -->
+                        <div class="modal-footer">
+                            <div class="text-left hidden-print hidden-xs hidden-sm" style="margin-left: 2%">
+                                <b>หมายเหตุ:</b>
+                                <i>
+                                    <x class="accpet">Accept</x> /
+                                    <x class="imperfect">Imperfect</x> /
+                                    <x class="wrong_ans">Wrong answer</x> /
+                                    <x class="complie_err">Compile error</x> /
+                                    <x class="over_time">Over runtime</x> /
+                                    <x class="over_mem">Over memory</x>
+                                </i>
+                            </div>
+                            <button type="button" class="btn btn-outline-purple" data-dismiss="modal">ปิด</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <script>
         $(document).ready(function () {
@@ -123,5 +173,10 @@
             $('#demo').attr('class', 'collapse in');
             $('#side_historyExaming').attr('class', 'active');
         });
+
+        function viewDetailExam(exam_id) {
+            window.open(url+'/detailExam' + exam_id, '', 'scrollbars=1, width=1000, height=600');
+            return false;
+        }
     </script>
 @endsection

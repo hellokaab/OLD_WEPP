@@ -1246,3 +1246,17 @@ function getCode(path) {
     }).responseJSON;
     return code;
 }
+
+function readFileResRun(path) {
+    var resrun = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/readFileResRun',
+        data: {path:path},
+        async: false,
+    }).responseJSON;
+    return resrun;
+}

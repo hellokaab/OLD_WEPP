@@ -142,7 +142,7 @@
                                         <div class="tab-content">
                                             <div id="res_history" class="tab-pane fade in active">
                                                 <br>
-                                                <div class="col-md-12" ng-repeat="p in pathExam" ng-show="tab == p.status || (p.status != 'a' && p.status != 'w' && p.status != 'c' && p.status != 't' && p.status != 'm')">
+                                                <div class="col-md-12" ng-repeat="p in pathExam" ng-show="checkTab(p)">
                                                     <div class="row" id="res_list_<%p.id%>" style="margin-bottom: 10px">
                                                         <div class="col-md-3"><b>ส่งครั้งที่: </b> <%$index + 1%> </div>
                                                         <div class="col-md-3"><b>สถานะ: </b> <%(p.status === 'q') ? 'ค้างคิวตรวจ' :
@@ -172,7 +172,7 @@
                                                             <div class="row">
                                                                 <div class="col-md-6"><b>โค้ดที่ส่ง: </b>
                                                                         {{--tag mycode สร้างขึ้นมาเอง อยู่ในไฟล์ myCustom.css--}}
-                                                                        <mycode id="code_<%p.id%>" class="pre-scrollable" style="height: 510px;"></mycode>
+                                                                        <mycode id="code_<%p.id%>" class="pre-scrollable" style="height: 510px;max-height: 510px;"></mycode>
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <div class="row">
