@@ -3,10 +3,9 @@
 @section('content')
     <script src="js/Components/teacher/myWorksheetCtrl.js"></script>
     <script>
-        var sheetGroup = dataSheetGroup(myuser).responseJSON;
+        var sheetGroup = findMySheetGroup(myuser).responseJSON;
     </script>
-    <div ng-controller="myWorksheetCtrl" style="display: none"
-         id="worksheet_div">  {{--style="display: none" id="worksheet_div"--}}
+    <div ng-controller="myWorksheetCtrl" style="display: none" id="worksheet_div">
         <div class="col-lg-12">
             <ol class="breadcrumb">
                 <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
@@ -47,14 +46,15 @@
                         </div>
                     </div>
                     <br>
-                    <table class="table table-striped">
+                    <table class="table table-hover table-striped">
                         <thead>
                         <tr>
                             <th ng-click="sort('sheet_group_name')" style="cursor:pointer;width: 40%">
                                 กลุ่มใบงาน <i class="fa" ng-show="sortKey=='sheet_group_name'"
-                                              ng-class="{'fa-chevron-up':reverseS,'fa-chevron-down':!reverseS}"></i>
+                                              ng-class="{'fa-caret-up':reverseS,'fa-caret-down':!reverseS}"></i>
                             </th>
                             <th>ผู้สร้างกลุ่มใบงาน</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -167,9 +167,9 @@
                 </div>
             </div>
         </div>
-    {{--end--}}
 
-    <!-- Delete WorksheetGroup Modal -->
+
+        <!-- Delete WorksheetGroup Modal -->
         <div class="modal fade" id="delete_wsg_modal" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -183,6 +183,9 @@
                                 <div class="form-group">
                                     <input type="text" class="form-control" ng-model="MySheetName" disabled/>
                                 </div>
+                            </div>
+                            <div class="col-md-12" style="text-align: center">(ข้อมูลใบงานทั้งหมดที่อยู่ในกลุ่มใบงานนี้
+                                จะถูกลบไปด้วย)
                             </div>
                             <!-- un use -->
                             <div class="form-group"></div>
@@ -221,7 +224,7 @@
                             <div class="form-group"></div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-warning" ng-click="okEditExamGroup()">บันทึก
+                            <button type="button" class="btn btn-outline-warning" ng-click="okEditSheetGroup()">บันทึก
                             </button>
                             <button type="button" class="btn btn-outline-default" data-dismiss="modal">ยกเลิก</button>
                         </div>

@@ -195,7 +195,7 @@ Route::get('/shareWorksheet','WorkSheetController@shareWorksheet');
 
 Route::get('/addMyWorksheetGroup','WorkSheetController@addMyWorksheetGroup');
 
-Route::get('/dataSheetGroup','WorkSheetController@dataSheetGroup');
+Route::get('/findMySheetGroup','WorkSheetController@findMySheetGroup');
 
 Route::get('/delete/groupSheet','WorkSheetController@destroy');
 
@@ -212,6 +212,8 @@ Route::post('/uploadFileSh/{path}', 'WorkSheetController@uploadFileSh');
 Route::get('/findSheetByUserID', 'WorkSheetController@findSheetByUserID');
 
 Route::get('/createQuiz', 'WorkSheetController@createQuiz');
+
+Route::get('/createSharedWorksheet', 'WorkSheetController@createSharedWorksheet');
 
 //--------------------------- ExamRandomController ---------------------------
 

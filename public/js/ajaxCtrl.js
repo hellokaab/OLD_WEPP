@@ -964,14 +964,14 @@ function addMyWorksheetGroup(data) {
     });
 }
 
-function dataSheetGroup(data) {
+function findMySheetGroup(data) {
     var dataSheet = $.ajax({
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         headers: {
             Accept: "application/json"
         },
-        url: url + '/dataSheetGroup',
+        url: url + '/findMySheetGroup',
         data: data,
         async: false,
     });
@@ -1128,6 +1128,19 @@ function createQuiz(sheetID,quiz) {
         async: false,
     });
 
+}
+
+function createSharedWorksheet(sheetID,userID) {
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/createSharedWorksheet',
+        data:{sheet_id:sheetID,user_id:userID},
+        async: false,
+    });
 }
 
 //--------------------------- ExamRandomController ---------------------------

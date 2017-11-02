@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 //use App\Worksheet;
 use App\Quiz;
+use App\ShareWorksheet;
 use App\Worksheet;
 use App\WorksheetGroup;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
+use DirectoryIterator;
 
 class WorkSheetController extends Controller
 {
@@ -34,7 +36,7 @@ class WorkSheetController extends Controller
             return response()->json(['error' => 'Error msg'], 209);
         }
     }
-    public function dataSheetGroup(Request $request) //Request $request->id
+    public function findMySheetGroup(Request $request) //Request $request->id
     {
         $dataSheetGroup = DB::table('worksheet_groups')
             ->join('users', 'worksheet_groups.user_id', '=', 'users.id')
@@ -70,7 +72,6 @@ class WorkSheetController extends Controller
             } else {
                 return response()->json(['error' => 'Error msg'], 209);
             }
-
         }
     }
     public function addWorksheet($id)
@@ -149,6 +150,28 @@ class WorkSheetController extends Controller
         $quiz->quiz_ans = $request->quiz_ans;
         $quiz->quiz_score = $request->quiz_score;
         $quiz->save();
+    }
+
+    public function createSharedWorksheet(Request $request){
+        $shared = new ShareWorksheet;
+        $shared->sheet_id = $request->sheet_id;
+        $shared->user_id = $request->user_id;
+        $shared->save();
+    }
+
+    public function rrmdir($path) {
+        // Open the source directory to read in files
+        try {
+            $i = new DirectoryIterator($path);
+            foreach ($i as $f) {
+                if ($f->isFile()) {
+                    unlink($f->getRealPath());
+                } else if (!$f->isDot() && $f->isDir()) {
+                    $this->rrmdir($f->getRealPath());
+                }
+            }
+            rmdir($path);
+        } catch(\Exception $e ){}
     }
 }
 

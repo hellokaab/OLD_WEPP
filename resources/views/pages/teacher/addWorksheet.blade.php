@@ -218,6 +218,64 @@
                                 </div>
                             </div>
                         </div>
+                        <br>
+
+                        {{--Share--}}
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">แบ่งปันถึง:</label>
+                            <div class="col-md-9">
+                                <h5 ng-repeat="st in selectTeacher"><%st.fullname%></h5>
+                                <button class="btn btn-outline-info btn-sm" ng-click="addUserShare()">
+                                    <i class="fa fa-plus"></i> เลือกผู้ที่ต้องการแบ่งปัน
+                                </button>
+                            </div>
+                        </div>
+
+                        {{--Select User To Share Exam--}}
+                        <div class="modal fade" id="add_user_to_share_modal" role="dialog">
+                            <div class="modal-dialog" style="width: 75%;padding-left: 17px">
+                                <div class="modal-content">
+                                    <div class="panel panel-info" id="add_user_share_part" style="margin-bottom: 0">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title" style="color: #555">เลือกบุคคลที่ต้องการแบ่งปัน</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <b>รายชื่อผู้สอนในระบบ</b>
+                                            <br>
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width: 5%"><input type="checkbox" id="select_all"></th>
+                                                        <th style="width: 25%">ชื่อ - นามสกุล</th>
+                                                        <th style="width: 40%">คณะ</th>
+                                                        <th style="width: 30%">สาขาวิชา</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="t in teacher" ng-if="t.id != thisUser.id" ng-show="teacher.length > 1">
+                                                        <td><input type="checkbox" id="tea_<%t.id%>"> </td>
+                                                        <td ng-click="ticExam(t.id)"><%t.fullname%></td>
+                                                        <td ng-click="ticExam(t.id)"><%t.faculty%></td>
+                                                        <td ng-click="ticExam(t.id)"><%t.department%></td>
+                                                    </tr>
+                                                    <tr ng-hide="teacher.length > 1">
+                                                        <td></td>
+                                                        <td>ไม่พบข้อมูล</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-outline-success" ng-click="okAddTeacher()">ตกลง</button>
+                                            <button type="button" class="btn btn-outline-danger" data-dismiss="modal">ยกเลิก</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
 
                         {{--sheet score--}}
                         <div class="form-group">
