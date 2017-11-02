@@ -45,7 +45,6 @@
                                     </select>
                                 </div>
                                 <label class="col-md-2 col-xs-2 control-label" style="margin-top: 14px">แถว</label>
-
                         </div>
                     </div>
                     <br>
@@ -213,6 +212,9 @@
                                 <div class="form-group">
                                     <input type="text" class="form-control" ng-model="examGroupName" disabled/>
                                 </div>
+                            </div>
+                            <div class="col-md-12" style="text-align: center">(ข้อมูลข้อสอบทั้งหมดที่อยู่ในกลุ่มข้อสอบนี้
+                                จะถูกลบไปด้วย)
                             </div>
                             <!-- un use -->
                             <div class="form-group"></div>

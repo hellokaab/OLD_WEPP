@@ -72,15 +72,16 @@ app.controller('myWorksheetCtrl', ['$scope', '$window', function ($scope, $windo
     //----------------------------------------------------------------------
     $scope.okDeleteWorksheetGroup = function () {
         var dataWorksheetGroup = {
-            id : $scope.sheetGroupId,
+            id : $scope.sheetGroupId
         };
-        $('#delete_wsg_modal').waitMe({
+        $('#delete_WorksheetGroup_part').waitMe({
             effect: 'win8_linear',
             bg: 'rgba(255,255,255,0.9)',
             color: '#3bafda'
         });
         deleteWorksheetGroup(dataWorksheetGroup);
     };
+    //----------------------------------------------------------------------
     $('#okSuccess').on('click',function () {
         window.location.href = url+'/myWorksheet';
     });

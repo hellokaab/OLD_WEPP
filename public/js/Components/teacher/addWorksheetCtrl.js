@@ -1,5 +1,7 @@
 app.controller('addWorksheetCtrl', ['$scope', '$window', function ($scope, $window) {
-    $scope.mySheetGroup = dataSheetGroup(myuser).responseJSON;
+    $scope.mySheetGroup = findMySheetGroup(myuser).responseJSON;
+    $scope.teacher = findTeacher();
+    $scope.thisUser = $window.myuser;
     // $('#sheet_objective').Editor();
     // $('#sheet_theory').Editor();
     $('#sheet_trial').Editor();
@@ -18,6 +20,7 @@ app.controller('addWorksheetCtrl', ['$scope', '$window', function ($scope, $wind
     $scope.objective = '';
     $scope.theory = '';
     $scope.sheetNotation = '';
+    $scope.selectTeacher = [];
 
     $(document).ready(function () {
         $('#sheet_group').val($window.sheetGroupId);
@@ -141,7 +144,12 @@ app.controller('addWorksheetCtrl', ['$scope', '$window', function ($scope, $wind
                     case_sensitive: $scope.casesensitive,
                     quiz : quiz
                 };
-                console.log(data);
+                if($scope.selectTeacher.length>0){
+                    data.shared = $scope.selectTeacher;
+                } else {
+                    var share = new Array();
+                    data.shared = share;
+                }
                 createWorksheet(data);
             });
 
@@ -298,12 +306,52 @@ app.controller('addWorksheetCtrl', ['$scope', '$window', function ($scope, $wind
                     checked = false
                 }
                 if(($(this).children().children().children()[3].value).trim().length === 0){
-                    $('#notice_quiz_score_'+thisID).html('* กรุณาระบุคำถาม').show();
+                    $('#notice_quiz_score_'+thisID).html('* กรุณาระบุคะแนนคำถาม').show();
                     checked = false
                 }
             }
         });
         return checked;
     }
-
+    //----------------------------------------------------------------------
+    $scope.addUserShare = function () {
+        $('#add_user_to_share_modal').modal({backdrop: 'static'});
+    };
+    //----------------------------------------------------------------------
+    $scope.okAddTeacher = function () {
+        $('#add_user_share_part').waitMe({
+            effect: 'facebook',
+            bg: 'rgba(255,255,255,0.9)',
+            color: '#3bafda'
+        });
+        $scope.selectTeacher = [];
+        $('[id^=tea_]').each(function () {
+            if ($(this).prop('checked')) {
+                var indexOfStevie = $scope.teacher.findIndex(i => i.id == $(this).attr('id').substr(4));
+                $scope.selectTeacher.push($scope.teacher[indexOfStevie]);
+            }
+        });
+        $('#add_user_share_part').waitMe('hide');
+        $('#add_user_to_share_modal').modal('hide');
+    };
+    //----------------------------------------------------------------------
+    $scope.ticExam = function (id) {
+        if($('#tea_'+id)[0].checked){
+            $('#tea_'+id)[0].checked = false;
+        } else {
+            $('#tea_'+id)[0].checked = true;
+        }
+    };
+    //----------------------------------------------------------------------
+    $('#select_all').on('change',function () {
+        if($('#select_all')[0].checked){
+            $('[id^=tea_]').each(function () {
+                $(this)[0].checked = true;
+            });
+        } else {
+            $('[id^=tea_]').each(function () {
+                $(this)[0].checked = false;
+            });
+        }
+    })
 }]);
