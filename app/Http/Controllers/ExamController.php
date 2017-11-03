@@ -244,15 +244,17 @@ class ExamController extends Controller
 
     public function rrmdir($path) {
         // Open the source directory to read in files
-        $i = new DirectoryIterator($path);
-        foreach ($i as $f) {
-            if ($f->isFile()) {
-                unlink($f->getRealPath());
-            } else if (!$f->isDot() && $f->isDir()) {
-                $this->rrmdir($f->getRealPath());
+        try {
+            $i = new DirectoryIterator($path);
+            foreach ($i as $f) {
+                if ($f->isFile()) {
+                    unlink($f->getRealPath());
+                } else if (!$f->isDot() && $f->isDir()) {
+                    $this->rrmdir($f->getRealPath());
+                }
             }
-        }
-        rmdir($path);
+            rmdir($path);
+        } catch(\Exception $e ){}
     }
 
     public function detailExam($id){

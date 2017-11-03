@@ -1087,14 +1087,79 @@ function createWorksheet(data) {
         for (i = 0; i < data.quiz.length; i++) {
             createQuiz(sheet.id, data.quiz[i]);
         }
-    //     createSharedExam(sheet.id,data.user_id);
-    //     for (i = 0; i < data.shared.length; i++) {
-    //         createSharedExam(sheet.id, data.shared[i].id);
-    //     }
+        createSharedWorksheet(sheet.id,data.user_id);
+        for (i = 0; i < data.shared.length; i++) {
+            createSharedWorksheet(sheet.id, data.shared[i].id);
+        }
         $('#add_sheet_part').waitMe('hide');
         $('#success_modal').modal({backdrop: 'static'});
     }
 
+}
+
+function updateWorksheet(data) {
+    var createSheetSuccess = false;
+    var sheet = $.ajax ({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/updateWorksheet',
+        data: data,
+        async: false,
+        complete: function (xhr) {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    createSheetSuccess = true;
+                } else {
+                    $('#add_sheet_part').waitMe('hide');
+                    $('#unsuccess_modal').modal({backdrop: 'static'});
+                }
+
+            }
+        }
+    }).responseJSON;
+    if (createSheetSuccess) {
+        for (i = 0; i < data.quiz.length; i++) {
+            createQuiz(sheet.id, data.quiz[i]);
+        }
+        for (i =0; i < data.deleteShared.length;i++){
+            deleteUserSharedSheet(data.id,data.deleteShared[i]);
+        }
+        for (i = 0; i < data.shared.length; i++) {
+            updateSharedSheet(sheet.id, data.shared[i].id);
+        }
+        $('#add_sheet_part').waitMe('hide');
+        $('#success_modal').modal({backdrop: 'static'});
+    }
+
+}
+
+function deleteUserSharedSheet(SHID,UID) {
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/deleteUserSharedSheet',
+        data:{sheet_id:SHID,user_id:UID},
+        async: false,
+    });
+}
+
+function updateSharedSheet(SHID,userID) {
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/updateSharedSheet',
+        data:{sheet_id:SHID,user_id:userID},
+        async: false,
+    });
 }
 
 function findSheetByUserID(UID) {
@@ -1141,6 +1206,61 @@ function createSharedWorksheet(sheetID,userID) {
         data:{sheet_id:sheetID,user_id:userID},
         async: false,
     });
+}
+
+function findWorksheetByID(data) {
+    var worksheet = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/findWorksheetByID'+data,
+        async: false,
+    }).responseJSON;
+    return worksheet;
+}
+
+function readFileSh(data) {
+    var test = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/readFileSh',
+        data: data,
+        async: false,
+    }).responseJSON;
+    return test;
+}
+
+function findSheetSharedUserNotMe(SHID,MyID) {
+    var shared = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findSheetSharedUserNotMe',
+        data:{sheet_id:SHID,my_id:MyID},
+        async: false,
+    }).responseJSON;
+    return shared;
+}
+
+function findQuizBySHID(SHID) {
+    var quiz = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findQuizBySHID',
+        data:{sheet_id:SHID},
+        async: false,
+    }).responseJSON;
+    return quiz;
 }
 
 //--------------------------- ExamRandomController ---------------------------

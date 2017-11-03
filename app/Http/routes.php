@@ -207,6 +207,8 @@ Route::get('/findSheetByName', 'WorkSheetController@findSheetByName');
 
 Route::get('/createWorksheet', 'WorkSheetController@createWorksheet');
 
+Route::get('/updateWorksheet', 'WorkSheetController@updateWorksheet');
+
 Route::post('/uploadFileSh/{path}', 'WorkSheetController@uploadFileSh');
 
 Route::get('/findSheetByUserID', 'WorkSheetController@findSheetByUserID');
@@ -214,6 +216,20 @@ Route::get('/findSheetByUserID', 'WorkSheetController@findSheetByUserID');
 Route::get('/createQuiz', 'WorkSheetController@createQuiz');
 
 Route::get('/createSharedWorksheet', 'WorkSheetController@createSharedWorksheet');
+
+Route::get('/editWorksheet{id}', 'WorkSheetController@editWorksheet');
+
+Route::get('/findWorksheetByID{id}', 'WorkSheetController@findWorksheetByID');
+
+Route::get('/readFileSh', 'WorkSheetController@readFileSh');
+
+Route::get('/findSheetSharedUserNotMe', 'WorkSheetController@findSheetSharedUserNotMe');
+
+Route::get('/findQuizBySHID', 'WorkSheetController@findQuizBySHID');
+
+Route::get('/deleteUserSharedSheet', 'WorkSheetController@deleteUserSharedSheet');
+
+Route::get('/updateSharedWorksheet', 'WorkSheetController@updateSharedWorksheet');
 
 //--------------------------- ExamRandomController ---------------------------
 
