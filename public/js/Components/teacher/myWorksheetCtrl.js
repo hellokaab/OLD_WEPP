@@ -121,4 +121,8 @@ app.controller('myWorksheetCtrl', ['$scope', '$window', function ($scope, $windo
     $scope.addWorksheet = function () {
         window.location.href = url+"/addWorksheet"+$scope.sheetGroupId;
     };
+    //----------------------------------------------------------------------
+    $scope.gotoEditWorksheet = function (data) {
+        window.location.href = url+"/editWorksheet"+data.id;
+    };
 }]);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 //use App\Worksheet;
 use App\Quiz;
 use App\ShareWorksheet;
+use App\Users;
 use App\Worksheet;
 use App\WorksheetGroup;
 use Illuminate\Http\Request;
@@ -22,6 +23,7 @@ class WorkSheetController extends Controller
     {
         return view('pages/teacher/shareWorksheet');
     }
+
     public function addMyWorksheetGroup(Request $request)
     {
         $findWorksheetName = WorksheetGroup::where('sheet_group_name', $request->sheet_name)
@@ -50,8 +52,12 @@ class WorkSheetController extends Controller
     public function destroy(Request $request)
     {
         $worksheet = WorksheetGroup::find($request->id);
+        $user = Users::find($worksheet->user_id);
+        $userFolder = $user->id."_".$user->fname_en."_".$user->lname_en;
+        $sectionFolder = "SheetGroup_".$worksheet->id;
+        $this->rrmdir("../upload/worksheet/".$userFolder."/".$sectionFolder);
         $worksheet->delete();
-        //
+
     }
 
     public function editSheetGroup(Request $request)
@@ -80,6 +86,14 @@ class WorkSheetController extends Controller
             'sheetGroupId' => $id
         );
         return view('pages/teacher/addWorksheet', $data);
+    }
+
+    public function editWorksheet($id)
+    {
+        $data = array(
+            'sheetID' => $id
+        );
+        return view('pages/teacher/editWorksheet',$data);
     }
 
     public function findSheetByName(Request $request)
@@ -157,6 +171,111 @@ class WorkSheetController extends Controller
         $shared->sheet_id = $request->sheet_id;
         $shared->user_id = $request->user_id;
         $shared->save();
+    }
+
+    public function findWorksheetByID($id){
+        $sheet = Worksheet::find($id);
+        return response()->json($sheet);
+    }
+
+    public function readFileSh(Request $request)
+    {
+        $objectiveFile = fopen("$request->objective", "r") or die("Unable to open file!");
+        $objective = fread($objectiveFile,filesize("$request->objective"));
+        fclose($objectiveFile);
+
+        $theoryFile = fopen("$request->theory", "r") or die("Unable to open file!");
+        $theory = fread($theoryFile,filesize("$request->theory"));
+        fclose($theoryFile);
+
+        $trialFile = fopen("$request->sheet_trial", "r") or die("Unable to open file!");
+        $trial = fread($trialFile,filesize("$request->sheet_trial"));
+        fclose($trialFile);
+
+        if($request->sheet_input_file != NULL){
+            $inputFile = fopen("$request->sheet_input_file", "r") or die("Unable to open file!");
+            $input = fread($inputFile,filesize("$request->sheet_input_file"));
+            fclose($inputFile);
+        }else {
+            $input = "";
+        }
+
+        $outputFile = fopen("$request->sheet_output_file", "r") or die("Unable to open file!");
+        $output = fread($outputFile,filesize("$request->sheet_output_file"));
+        fclose($outputFile);
+
+        if($request->main_code != NULL){
+            $mainCodeFile = fopen("$request->main_code", "r") or die("Unable to open file!");
+            $main_code = fread($mainCodeFile,filesize("$request->main_code"));
+        } else {
+            $main_code = "";
+        }
+
+        $data = array(
+            'objective' => $objective,
+            'theory' => $theory,
+            'trial' => $trial,
+            'input' => $input,
+            'output' => $output,
+            'main' => $main_code
+        );
+        return response()->json($data);
+    }
+
+    public function findSheetSharedUserNotMe(Request $request){
+        $shared = DB::table('share_worksheets')
+            ->where('sheet_id',$request->exam_id)
+            ->where('user_id', '!=',$request->my_id)
+            ->get();
+        return response()->json($shared);
+    }
+
+    public function findQuizBySHID(Request $request){
+        $quiz = Quiz::where('sheet_id',$request->sheet_id)->get();
+        return response()->json($quiz);
+    }
+
+    public function updateWorksheet(Request $request){
+        $folderPath = "";
+        $sheet = Worksheet::find($request->id);
+        $getpath = explode("/",$sheet->sheet_trial);
+        for($i=0;$i<sizeof($getpath)-1;$i++){
+            $folderPath = $folderPath.$getpath[$i]."/";
+        }
+        $this->rrmdir($folderPath);
+        $sheet->sheet_group_id = $request->sheet_group_id;
+        $sheet->sheet_name = $request->sheet_name;
+        $sheet->objective = $request->objective;
+        $sheet->theory = $request->theory;
+        $sheet->notation = $request->notation;
+        $sheet->sheet_trial = $request->sheet_trial;
+        $sheet->sheet_input_file = $request->sheet_input_file;
+        $sheet->sheet_output_file = $request->sheet_output_file;
+        $sheet->main_code = $request->main_code;
+        $sheet->case_sensitive = $request->case_sensitive;
+        $sheet->full_score = $request->full_score;
+        $sheet->save();
+    }
+
+    public function deleteUserSharedSheet(Request $request){
+        $selectShared = DB::table('share_worksheets')
+            ->where('sheet_id',$request->sheet_id)
+            ->where('user_id',$request->user_id)
+            ->first();
+        $delShared = ShareWorksheet::find($selectShared->id);
+        $delShared->delete();
+    }
+
+    public function updateSharedWorksheet(Request $request){
+        $shared = ShareWorksheet::where('sheet_id',$request->sheet_id)
+            ->where('user_id',$request->user_id)
+            ->first();
+        if ($shared === NULL) {
+            $newShared = new ShareWorksheet;
+            $newShared->exam_id = $request->exam_id;
+            $newShared->user_id = $request->user_id;
+            $newShared->save();
+        }
     }
 
     public function rrmdir($path) {

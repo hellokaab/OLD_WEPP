@@ -120,7 +120,7 @@
                                     <i class="fa fa-tasks fa-lg" aria-hidden="true"></i>
                                 </button>
                                 &nbsp;
-                                <button class="btn btn-outline-warning btn-sm" title="แก้ไขใบงาน" style="cursor:pointer">
+                                <button class="btn btn-outline-warning btn-sm" title="แก้ไขใบงาน" style="cursor:pointer" ng-click="gotoEditWorksheet(sh)">
                                     <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
                                 </button>
                                 &nbsp;
