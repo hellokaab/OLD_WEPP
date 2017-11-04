@@ -1122,13 +1122,13 @@ function updateWorksheet(data) {
     }).responseJSON;
     if (createSheetSuccess) {
         for (i = 0; i < data.quiz.length; i++) {
-            createQuiz(sheet.id, data.quiz[i]);
+            createQuiz(data.id, data.quiz[i]);
         }
         for (i =0; i < data.deleteShared.length;i++){
             deleteUserSharedSheet(data.id,data.deleteShared[i]);
         }
         for (i = 0; i < data.shared.length; i++) {
-            updateSharedSheet(sheet.id, data.shared[i].id);
+            updateSharedSheet(data.id, data.shared[i].id);
         }
         $('#add_sheet_part').waitMe('hide');
         $('#success_modal').modal({backdrop: 'static'});

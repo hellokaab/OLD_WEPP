@@ -63,6 +63,8 @@ app.controller('editWorksheetCtrl', ['$scope', '$window', function ($scope, $win
 
     // Sheet notation
     $scope.sheetNotation = $scope.worksheetData.notation;
+
+    $scope.completeScoreNumeric = true;
     //----------------------------------------------------------------------
     $scope.changeInputMode = function () {
         $scope.input = '';
@@ -113,7 +115,7 @@ app.controller('editWorksheetCtrl', ['$scope', '$window', function ($scope, $win
             $scope.outputMode === 'file_output' ? ($('[name=sheet_file_output]').val() === '' ? false : checkTxtFile($('[name=sheet_file_output]').val())) : false;
         $scope.completeClassTest = $scope.classTestMode === '0' ? true :
             $scope.classTestMode === '1' ? ($scope.main === '' ? false : true) : false;
-        $scope.completeScore = $scope.sheetScore.length > 0;
+        $scope.completeScore = $scope.sheetScore.toString().length > 0;
         $scope.completeQuiz = checkQuiz();
 
         if ($scope.completeSheetName
@@ -124,7 +126,8 @@ app.controller('editWorksheetCtrl', ['$scope', '$window', function ($scope, $win
             && $scope.completeClassTest
             && $scope.completeScoreNumeric
             && $scope.completeQuiz
-            && $scope.completeScore){
+            && $scope.completeScore
+        ){
 
             $('#add_sheet_part').waitMe({
                 effect: 'facebook',
@@ -175,7 +178,7 @@ app.controller('editWorksheetCtrl', ['$scope', '$window', function ($scope, $win
                         sharedUserToDelete.push(UID)
                     }
                 }
-
+                console.log($scope.selectTeacher);
                 getQuiz();
                 data = {
                     id: $scope.worksheetData.id,
@@ -278,7 +281,7 @@ app.controller('editWorksheetCtrl', ['$scope', '$window', function ($scope, $win
         $('#notice_sheet_score').hide();
 
         $scope.completeScoreNumeric = false;
-        if ($.isNumeric($scope.sheetScore) && $scope.sheetScore.indexOf('.') < 0 && $scope.sheetScore > 0) {
+        if ($.isNumeric($scope.sheetScore) && ($scope.sheetScore.toString()).indexOf('.') < 0 && $scope.sheetScore > 0) {
             $scope.completeScoreNumeric = true;
         } else {
             $('#notice_sheet_score').html('* กรุณาระบุเฉพาะจำนวนเต็มบวกเท่านั้น').show();
@@ -406,11 +409,114 @@ app.controller('editWorksheetCtrl', ['$scope', '$window', function ($scope, $win
                 if(($(this).children().children().children()[3].value).trim().length === 0){
                     $('#notice_quiz_score_'+thisID).html('* กรุณาระบุคะแนนคำถาม').show();
                     checked = false
+                }else if(!$.isNumeric($(this).children().children().children()[3].value)){
+                    $('#notice_quiz_score_'+thisID).html('* กรุณาระบุคะแนนให้ถูกต้อง').show();
+                    checked = false
                 }
             }
         });
         return checked;
     }
+    //----------------------------------------------------------------------
+    $scope.editQuiz = function (data) {
+        $scope.quiz = data.quiz_data;
+        $scope.answer = data.quiz_ans;
+        $scope.quizScore = data.quiz_score;
+        $scope.quizID = data.id;
+
+        $('#notice_quiz').hide();
+        $('#notice_quiz_score').hide();
+        $('#edit_quiz_modal').modal({backdrop: 'static'});
+
+    };
+    //----------------------------------------------------------------------
+    $scope.okEditQuiz = function () {
+        var checkQuiz = true;
+        var checkQuizScore = true;
+        if(!$scope.quiz.length > 0){
+            checkQuiz = false;
+            $('#notice_quiz').html('* กรุณาระบุคำถาม').show();
+        }
+        if($scope.quizScore.toString().length > 0){
+            if(!$.isNumeric($scope.quizScore)){
+                checkQuizScore = false;
+                $('#notice_quiz_score').html('* กรุณาระบุคะแนนให้ถูกต้อง').show();
+            }
+        }else {
+            checkQuizScore = false;
+            $('#notice_quiz_score').html('* กรุณาระบุคะแนน').show();
+        }
+
+        if(checkQuiz && checkQuizScore){
+            $('#edit_quiz_part').waitMe({
+                effect: 'facebook',
+                bg: 'rgba(255,255,255,0.9)',
+                color: '#3bafda'
+            });
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                headers: {
+                    Accept: "application/json"
+                },
+                url: url + '/updateQuiz',
+                data: {
+                    id: $scope.quizID,
+                    quiz_data: $scope.quiz,
+                    quiz_ans: $scope.answer,
+                    quiz_score: $scope.quizScore
+                },
+                async: false,
+                complete: function (xhr) {
+                    if (xhr.readyState == 4) {
+                        $('#edit_quiz_part').waitMe('hide');
+                        if (xhr.status == 200) {
+                            $scope.quizzes = findQuizBySHID($scope.worksheetData.id);
+                            $('#edit_quiz_modal').modal('hide');
+                        } else {
+                            alert("ผิดพลาด");
+                        }
+                    }
+                }
+            });
+        }
+    };
+    //----------------------------------------------------------------------
+    $scope.deleteQuiz = function (data) {
+        $scope.quizID = data.id;
+        $('#delete_quiz_modal').modal({backdrop: 'static'});
+    };
+    //----------------------------------------------------------------------
+    $scope.okDeleteQuiz = function () {
+        $('#delete_quiz_part').waitMe({
+            effect: 'facebook',
+            bg: 'rgba(255,255,255,0.9)',
+            color: '#3bafda'
+        });
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Accept: "application/json"
+            },
+            url: url + '/deleteQuiz',
+            data: {
+                id: $scope.quizID,
+            },
+            async: false,
+            complete: function (xhr) {
+                if (xhr.readyState == 4) {
+                    $('#delete_quiz_part').waitMe('hide');
+                    if (xhr.status == 200) {
+                        $scope.quizzes = findQuizBySHID($scope.worksheetData.id);
+                        $('#delete_quiz_modal').modal('hide');
+                    } else {
+                        alert("ผิดพลาด");
+                    }
+                }
+            }
+        });
+    };
     //----------------------------------------------------------------------
 
 }]);

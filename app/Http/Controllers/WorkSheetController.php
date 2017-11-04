@@ -266,16 +266,29 @@ class WorkSheetController extends Controller
         $delShared->delete();
     }
 
-    public function updateSharedWorksheet(Request $request){
+    public function updateSharedSheet(Request $request){
         $shared = ShareWorksheet::where('sheet_id',$request->sheet_id)
             ->where('user_id',$request->user_id)
             ->first();
         if ($shared === NULL) {
             $newShared = new ShareWorksheet;
-            $newShared->exam_id = $request->exam_id;
+            $newShared->sheet_id = $request->sheet_id;
             $newShared->user_id = $request->user_id;
             $newShared->save();
         }
+    }
+
+    public function updateQuiz(Request $request){
+        $quiz = Quiz::find($request->id);
+        $quiz->quiz_data = $request->quiz_data;
+        $quiz->quiz_ans = $request->quiz_ans;
+        $quiz->quiz_score = $request->quiz_score;
+        $quiz->save();
+    }
+
+    public function deleteQuiz(Request $request){
+        $quiz = Quiz::find($request->id);
+        $quiz->delete();
     }
 
     public function rrmdir($path) {

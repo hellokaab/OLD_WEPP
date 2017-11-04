@@ -229,7 +229,11 @@ Route::get('/findQuizBySHID', 'WorkSheetController@findQuizBySHID');
 
 Route::get('/deleteUserSharedSheet', 'WorkSheetController@deleteUserSharedSheet');
 
-Route::get('/updateSharedWorksheet', 'WorkSheetController@updateSharedWorksheet');
+Route::get('/updateSharedSheet', 'WorkSheetController@updateSharedSheet');
+
+Route::get('/updateQuiz', 'WorkSheetController@updateQuiz');
+
+Route::get('/deleteQuiz', 'WorkSheetController@deleteQuiz');
 
 //--------------------------- ExamRandomController ---------------------------
 
