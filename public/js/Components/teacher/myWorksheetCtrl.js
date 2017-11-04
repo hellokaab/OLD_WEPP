@@ -13,6 +13,7 @@ app.controller('myWorksheetCtrl', ['$scope', '$window', function ($scope, $windo
         $scope.sheetGroupId = data.id;
         $('#listWorksheet').removeAttr('style');
     };
+    $('#sheet_trial').Editor();
     //----------------------------------------------------------------------
     $scope.addMyWorksheetGroup = function () {
         $scope.MySheetName = '';
@@ -86,7 +87,7 @@ app.controller('myWorksheetCtrl', ['$scope', '$window', function ($scope, $windo
         window.location.href = url+'/myWorksheet';
     });
     //----------------------------------------------------------------------
-    $scope.editWorksheet = function (data) {
+    $scope.editWorksheetGroup = function (data) {
         $scope.CurrentIndex = $scope.sheetGroup.indexOf(data);
         $scope.MySheetName = data.sheet_group_name;
         $scope.sheetGroupId = data.id;
@@ -122,7 +123,87 @@ app.controller('myWorksheetCtrl', ['$scope', '$window', function ($scope, $windo
         window.location.href = url+"/addWorksheet"+$scope.sheetGroupId;
     };
     //----------------------------------------------------------------------
+    $scope.editWorksheet = function () {
+        window.location.href = url+"/editWorksheet"+$scope.sheetId;
+    };
+    //----------------------------------------------------------------------
     $scope.gotoEditWorksheet = function (data) {
         window.location.href = url+"/editWorksheet"+data.id;
     };
+    //----------------------------------------------------------------------
+    $scope.deleteWorksheet = function (data) {
+        $scope.sheetName = data.sheet_name;
+        $scope.sheetId = data.id;
+        $('#delete_sheet_modal').modal({backdrop: 'static'});
+    };
+    //----------------------------------------------------------------------
+    $scope.okDelete = function () {
+        $('#edit_sheet_part').waitMe({
+            effect: 'facebook',
+            bg: 'rgba(255,255,255,0.9)',
+            color: '#3bafda'
+        });
+        deleteWorksheet($scope.sheetId);
+    };
+    //----------------------------------------------------------------------
+    $scope.detailWorksheet = function (data) {
+        $scope.sheetId = data.id;
+        $('#sheetName').html(data.sheet_name);
+        $('#fullScore').html(data.full_score);
+        $('#notation').html(data.notation);
+        $scope.quizzes = findQuizBySHID(data.id);
+        $('#detail_sheet_modal').modal({backdrop: 'static'});
+
+        $('#objective_part').waitMe({
+            effect: 'facebook',
+            bg: 'rgba(255,255,255,0.9)',
+            color: '#3bafda'
+        });
+        $('#theory_part').waitMe({
+            effect: 'facebook',
+            bg: 'rgba(255,255,255,0.9)',
+            color: '#3bafda'
+        });
+        $('.Editor-editor').waitMe({
+            effect: 'facebook',
+            bg: 'rgba(255,255,255,0.9)',
+            color: '#3bafda'
+        });
+        $('#input_part').waitMe({
+            effect: 'facebook',
+            bg: 'rgba(255,255,255,0.9)',
+            color: '#3bafda'
+        });
+        $('#output_part').waitMe({
+            effect: 'facebook',
+            bg: 'rgba(255,255,255,0.9)',
+            color: '#3bafda'
+        });
+
+        var fileDataSh = readFileSh(data);
+        $('#objective').html(fileDataSh.objective);
+        $('#theory').html(fileDataSh.theory);
+        $('#sheet_trial').Editor('setText', decapeHtml(fileDataSh.trial));
+        $('.Editor-editor').attr('contenteditable', false);
+        $('[id^=menuBarDiv]').hide();
+        $('[id^=statusbar]').hide();
+        $('#sheetInput').html(fileDataSh.input);
+        $('#sheetOutput').html(fileDataSh.output);
+
+        $('#objective_part').waitMe('hide');
+        $('#theory_part').waitMe('hide');
+        $('.Editor-editor').waitMe('hide');
+        $('#input_part').waitMe('hide');
+        $('#output_part').waitMe('hide');
+    };
+    //----------------------------------------------------------------------
+    function decapeHtml(str) {
+        str = str.replace(/&amp;/g, '&');
+        str = str.replace(/&lt;/g, '<');
+        str = str.replace(/&gt;/g, '>');
+        str = str.replace(/&quot;/g, '"');
+        str = str.replace(/&#39;/g, "'");
+        str = str.replace(/&#x2F;/g, '/');
+        return str;
+    }
 }]);

@@ -235,6 +235,12 @@ Route::get('/updateQuiz', 'WorkSheetController@updateQuiz');
 
 Route::get('/deleteQuiz', 'WorkSheetController@deleteQuiz');
 
+Route::get('/deleteWorksheet{id}', 'WorkSheetController@deleteWorksheet');
+
+Route::get('/findSheetGroupSharedNotMe', 'WorkSheetController@findSheetGroupSharedNotMe');
+
+Route::get('/findSheetSharedToMe', 'WorkSheetController@findSheetSharedToMe');
+
 //--------------------------- ExamRandomController ---------------------------
 
 Route::get('/findExamRandomByUID','ExamRandomController@findExamRandomByUID');

@@ -12,8 +12,6 @@ app.controller('editWorksheetCtrl', ['$scope', '$window', function ($scope, $win
     var sharedUserToDelete = new Array();
     setOldSharedUser();
     $('#sheet_trial').Editor();
-    console.log($scope.worksheetData);
-    console.log($scope.quizzes);
 
     // Sheet name
     $scope.sheetName = $scope.worksheetData.sheet_name;
