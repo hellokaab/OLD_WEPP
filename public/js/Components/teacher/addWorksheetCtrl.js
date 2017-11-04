@@ -308,6 +308,9 @@ app.controller('addWorksheetCtrl', ['$scope', '$window', function ($scope, $wind
                 if(($(this).children().children().children()[3].value).trim().length === 0){
                     $('#notice_quiz_score_'+thisID).html('* กรุณาระบุคะแนนคำถาม').show();
                     checked = false
+                }else if(!$.isNumeric($(this).children().children().children()[3].value)){
+                    $('#notice_quiz_score_'+thisID).html('* กรุณาระบุคะแนนให้ถูกต้อง').show();
+                    checked = false
                 }
             }
         });

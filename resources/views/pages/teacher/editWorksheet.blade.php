@@ -312,10 +312,10 @@
                                                           placeholder="ใส่คำถามที่นี่" disabled><%q.quiz_data%></textarea>
                                             </div>
                                             <div class="col-md-1" style="padding-left: 0px">
-                                                <button class="btn btn-outline-warning btn-block" data-toggle="modal">
+                                                <button class="btn btn-outline-warning btn-block" data-toggle="modal" ng-click="editQuiz(q)">
                                                     <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true" title="แก้ไข"></i>
                                                 </button>
-                                                <button class="btn btn-outline-danger btn-block" data-toggle="modal">
+                                                <button class="btn btn-outline-danger btn-block" data-toggle="modal" ng-click="deleteQuiz(q)">
                                                     <i class="fa fa-trash fa-lg" aria-hidden="true" title="ลบ"></i>
                                                 </button>
                                             </div>
@@ -374,12 +374,71 @@
                                 <div class="col-md-3"></div>
                                 <div class="col-md-3">
                                     <input type="button" class="btn btn-outline-success btn-block" ng-click="editWorksheet()"
-                                           value="เพิ่มใบงาน"/>
+                                           value="บันทึกใบงาน"/>
                                 </div>
                                 <div class="col-md-3">
                                     <a class="btn btn-outline-danger btn-block" ng-click="goBack()">ยกเลิก</a>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Quiz Modal -->
+        <div class="modal fade" id="edit_quiz_modal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="panel panel-warning" id="edit_quiz_part" style="margin-bottom: 0">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">แก้ไขคำถามท้ายการทดลอง</h3>
+                        </div>
+                        <div class="form-horizontal" role="form" style="padding-top: 7%">
+                            <div class="form-group" style="padding-left: 3%;padding-right: 3%">
+                                <label class="col-md-2 control-label">คำถาม</label>
+                                <div class="col-md-9">
+                                    <textarea class="form-control io_textarea" ng-model="quiz" rows="3"
+                                              placeholder="ใส่คำถามที่นี่"></textarea>
+                                    <div class="notice" id="notice_quiz" style="display: none">กรุณาระบุคำถาม</div>
+                                </div>
+                            </div>
+                            <div class="form-group" style="padding-left: 3%;padding-right: 3%">
+                                <label class="col-md-2 control-label">คำตอบ </label>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" ng-model="answer"
+                                           maxlength="200" placeholder="ใส่คำตอบ"/>
+                                </div>
+                                <label class="col-md-1 control-label">คะแนน </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" ng-model="quizScore"
+                                           maxlength="6" placeholder="ใส่คะแนน"/>
+                                    <div class="notice" id="notice_quiz_score" style="display: none">กรุณาระบุคะแนน</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-warning" ng-click="okEditQuiz()">บันทึก</button>
+                            <button type="button" class="btn btn-outline-default" data-dismiss="modal">ยกเลิก</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Quiz Modal -->
+        <div class="modal fade" id="delete_quiz_modal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="panel panel-danger" id="delete_quiz_part" style="margin-bottom: 0">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">ยืนยันการทำรายการ</h3>
+                        </div>
+                        <div style="padding-top: 7%; text-align: center">คุณต้องการลบคำถามท้ายการทดลองนี้หรือไม่</div>
+                        <br>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-danger" ng-click="okDeleteQuiz()">ตกลง</button>
+                            <button type="button" class="btn btn-outline-default" data-dismiss="modal">ยกเลิก</button>
                         </div>
                     </div>
                 </div>

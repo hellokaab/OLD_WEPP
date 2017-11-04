@@ -108,7 +108,7 @@ app.controller('editExamCtrl', ['$scope', '$window', function ($scope, $window) 
         $('#notice_exam_limit').hide();
 
         $scope.completeMemLimit = false;
-        if ($.isNumeric($scope.memLimit) && $scope.memLimit.indexOf('.') < 0 && $scope.memLimit > 0) {
+        if ($.isNumeric($scope.memLimit) && $scope.memLimit.toString().indexOf('.') < 0 && $scope.memLimit > 0) {
             $scope.completeMemLimit = true;
         } else {
             $('#notice_exam_limit').html('* กรุณาระบุเฉพาะจำนวนเต็มบวกเท่านั้น').show();
@@ -131,7 +131,7 @@ app.controller('editExamCtrl', ['$scope', '$window', function ($scope, $window) 
         $('#notice_exam_score').hide();
 
         $scope.completeFullScore = false;
-        if ($.isNumeric($scope.fullScore) && $scope.fullScore.indexOf('.') < 0 && $scope.fullScore > 0) {
+        if ($.isNumeric($scope.fullScore) && $scope.fullScore.toString().indexOf('.') < 0 && $scope.fullScore > 0) {
             $scope.completeFullScore = true;
         } else {
             $('#notice_exam_score').html('* กรุณาระบุเฉพาะจำนวนเต็มบวกเท่านั้น').show();
@@ -142,7 +142,7 @@ app.controller('editExamCtrl', ['$scope', '$window', function ($scope, $window) 
         $('#notice_exam_score').hide();
 
         $scope.completeImperfectScore = false;
-        if ($.isNumeric($scope.imperfectScore) && $scope.imperfectScore.indexOf('.') < 0 && $scope.imperfectScore >= 0) {
+        if ($.isNumeric($scope.imperfectScore) && $scope.imperfectScore.toString().indexOf('.') < 0 && $scope.imperfectScore >= 0) {
             $scope.completeImperfectScore = true;
         } else {
             $('#notice_exam_score').html('* กรุณาระบุเฉพาะจำนวนเต็มบวกเท่านั้น').show();
