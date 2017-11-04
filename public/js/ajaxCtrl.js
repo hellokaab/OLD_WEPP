@@ -1263,6 +1263,59 @@ function findQuizBySHID(SHID) {
     return quiz;
 }
 
+function deleteWorksheet(data) {
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/deleteWorksheet'+data,
+        async: false,
+        complete: function (xhr) {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    $('#delete_sheet_part').waitMe('hide');
+                    $('#delete_sheet_modal').modal('hide');
+                    $('#success_modal').modal({backdrop: 'static'});
+                } else {
+                    $('#delete_sheet_part').waitMe('hide');
+                    $('#delete_sheet_modal').modal('hide');
+                    $('#success_modal').modal({backdrop: 'static'});
+                }
+            }
+        }
+    });
+}
+
+function findSheetGroupSharedNotMe(MyID) {
+    var sheetGroupSharedNotMe = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findSheetGroupSharedNotMe',
+        data:{my_id:MyID},
+        async: false,
+    }).responseJSON;
+    return sheetGroupSharedNotMe
+}
+
+function findSheetSharedToMe(MyID) {
+    var sheetSharedToMe = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findSheetSharedToMe',
+        data:{my_id:MyID},
+        async: false,
+    }).responseJSON;
+    return sheetSharedToMe
+}
+
 //--------------------------- ExamRandomController ---------------------------
 function findExamRandomByUID(UID,EMID) {
     var examRandom = $.ajax({

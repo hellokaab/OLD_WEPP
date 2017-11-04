@@ -28,7 +28,7 @@
                                        style="margin-top: 14px;padding-right: 0px">ค้นหา</label>
                                 <div class="col-md-4 col-xs-10" style="padding-right: 0px;padding-top: 7px">
                                     <input type="text" id="txt_search" class="form-control" ng-model="query"
-                                           placeholder="ชื่อกลุ่มข้อสอบ">
+                                           placeholder="ชื่อกลุ่มใบงาน">
                                 </div>
                             </div>
                         </div>
@@ -66,7 +66,7 @@
                             <td ng-hide="s.user_id == thisUser.id"></td>
                             <td ng-show="s.user_id == thisUser.id" style="text-align: center">
                                 <button class="btn btn-outline-warning" title="แก้ไขกลุ่มใบงาน"
-                                        style="cursor:pointer" ng-click="editWorksheet(s)">
+                                        style="cursor:pointer" ng-click="editWorksheetGroup(s)">
                                     <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
                                 </button>
                                 &nbsp;&nbsp;
@@ -114,9 +114,9 @@
                         </thead>
                         <tbody>
                         <tr ng-repeat="sh in mySheet" ng-if="sh.sheet_group_id === s.id">
-                            <td><a href=""><%sh.sheet_name%></a></td>
+                            <td><a href="" ng-click="detailWorksheet(sh)"><%sh.sheet_name%></a></td>
                             <td  style="text-align: center;width: 30%" >
-                                <button class="btn btn-outline-primary btn-sm" title="รายละเอียด" style="cursor:pointer">
+                                <button class="btn btn-outline-primary btn-sm" title="รายละเอียด" style="cursor:pointer" ng-click="detailWorksheet(sh)">
                                     <i class="fa fa-tasks fa-lg" aria-hidden="true"></i>
                                 </button>
                                 &nbsp;
@@ -124,7 +124,7 @@
                                     <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
                                 </button>
                                 &nbsp;
-                                <button class="btn btn-outline-danger btn-sm" title="ลบใบงาน" style="cursor:pointer">
+                                <button class="btn btn-outline-danger btn-sm" title="ลบใบงาน" style="cursor:pointer" ng-click="deleteWorksheet(sh)">
                                     <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
                                 </button>
                             </td>
@@ -227,6 +227,151 @@
                             <button type="button" class="btn btn-outline-warning" ng-click="okEditSheetGroup()">บันทึก
                             </button>
                             <button type="button" class="btn btn-outline-default" data-dismiss="modal">ยกเลิก</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Worksheet Modal -->
+        <div class="modal fade" id="delete_sheet_modal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="panel panel-danger" id="delete_sheet_part" style="margin-bottom: 0">
+                        <div class="panel-heading">
+                            <h3 class="panel-title" style="color: #fff">ยืนยันการทำรายการ</h3>
+                        </div>
+                        <!-- Form -->
+                        <div style="padding-top: 7%; text-align: center">คุณต้องการลบใบงานนี้หรือไม่</div>
+                        <br>
+                        <input style="margin-left: 10%; width: 80%" type="text" class="form-control text-center"
+                               ng-model="Name" disabled/>
+                        <div style="padding-top: 3%; text-align: center">(ข้อมูลใบงาน,คำถามท้ายการทดลอง,ไฟล์ input,ไฟล์ output
+                            จะถูกลบไปด้วย)
+                        </div>
+                        <br>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-danger" ng-click="okDelete()">ตกลง</button>
+                            <button type="button" class="btn btn-outline-default" data-dismiss="modal">ยกเลิก</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detail Worksheet Modal -->
+        <div class="modal fade" id="detail_sheet_modal" role="dialog">
+            <div class="modal-dialog" style="width: 98%; padding-right: 12px">
+                <div class="modal-content">
+                    <div class="panel panel-primary" style="margin-bottom: 0">
+                        <div class="panel-heading">
+                            <h3 class="panel-title" style="color: #fff">รายละเอียดใบงาน</h3>
+                        </div>
+                        <div class="panel-body">
+                            <h4 class="text-center" id="sheetName"></h4>
+                            <br>
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <br>
+                                        <b>วัตถุประสงค์:</b>
+                                        <div id="objective_part">
+                                            <textarea class="form-control code_textarea" style="background-color: #fff"
+                                                      id="objective" rows="5" disabled></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <br>
+                                        <b>ทฤษฎีที่เกี่ยวข้อง:</b>
+                                        <div id="theory_part">
+                                            <textarea class="form-control code_textarea" style="background-color: #fff"
+                                                      id="theory" rows="5" disabled></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <br>
+                                <b>การทดลอง:</b>
+                                <div id="sheet_trial"></div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <br>
+                                        <b>อินพุท:</b>
+                                        <div id="input_part">
+                                            <textarea class="form-control code_textarea" style="background-color: #fff"
+                                                      id="sheetInput" rows="10" disabled></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <br>
+                                        <b>เอาท์พุท:</b>
+                                        <div id="output_part">
+                                            <textarea class="form-control code_textarea" style="background-color: #fff"
+                                                      id="sheetOutput" rows="10" disabled></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                            <div class="col-md-6">
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="list-group">
+                                            <a class="list-group-item">
+                                                <span class="badge badge-default" id="fullScore">100</span>
+                                                คะแนนเต็มของใบงาน
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-12"><b>หมายเหตุ : </b></div>
+                                    <div class="col-md-6"><span id="notation"></span></div>
+                                </div>
+                            </div>
+                                </div>
+                            </div>
+                            <br>
+                            <h4 style="padding-left: 15px">คำถามท้ายการทดลอง</h4>
+                            <div class="col-md-6" ng-repeat="q in quizzes" style="margin-top: 20px">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <b>คำถามข้อที่ <%$index+1%>:</b>
+                                        <div>
+                                            <textarea class="form-control code_textarea" style="background-color: #fff"
+                                                      id="quiz_1" rows="3" disabled><%q.quiz_data%></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <b>คำตอบ :</b>
+                                        <div>
+                                            <input type="text" class="form-control" style="background-color: #fff"
+                                                      id="answer_1" value="<%q.quiz_ans%>" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <b>คะแนน :</b>
+                                        <div>
+                                            <input type="text" class="form-control" style="background-color: #fff"
+                                                   id="score_1" value="<%q.quiz_score%>" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-warning" ng-click="editWorksheet()">แก้ไข</button>
+                            <button type="button" class="btn btn-outline-danger" data-dismiss="modal">ยกเลิก</button>
                         </div>
                     </div>
                 </div>

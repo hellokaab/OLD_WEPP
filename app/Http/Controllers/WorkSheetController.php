@@ -224,7 +224,7 @@ class WorkSheetController extends Controller
 
     public function findSheetSharedUserNotMe(Request $request){
         $shared = DB::table('share_worksheets')
-            ->where('sheet_id',$request->exam_id)
+            ->where('sheet_id',$request->sheet_id)
             ->where('user_id', '!=',$request->my_id)
             ->get();
         return response()->json($shared);
@@ -289,6 +289,42 @@ class WorkSheetController extends Controller
     public function deleteQuiz(Request $request){
         $quiz = Quiz::find($request->id);
         $quiz->delete();
+    }
+
+    public function deleteWorksheet($id){
+        $sheet = Worksheet::find($id);
+        $folderPath = "";
+        $getpath = explode("/",$sheet->sheet_trial);
+        for($i=0;$i<sizeof($getpath)-1;$i++){
+            $folderPath = $folderPath.$getpath[$i]."/";
+        }
+        $this->rrmdir($folderPath);
+        $sheet->delete();
+    }
+
+    public function findSheetGroupSharedNotMe(Request $request){
+        $worksheet_groups = DB::table('share_worksheets')
+            ->join('worksheets', 'share_worksheets.sheet_id', '=', 'worksheets.id')
+            ->join('worksheet_groups', 'worksheets.sheet_group_id', '=', 'worksheet_groups.id')
+            ->join('users', 'worksheet_groups.user_id', '=', 'users.id')
+            ->select('worksheet_groups.*', DB::raw('CONCAT("อ.",users.fname_th," ", users.lname_th) AS creater'))
+            ->where('share_worksheets.user_id',$request->my_id)
+            ->where('worksheet_groups.user_id','!=',$request->my_id)
+            ->groupBy('worksheet_groups.id')
+            ->orderBy('creater', 'asc')
+            ->orderBy('worksheet_groups.sheet_group_name', 'asc')
+            ->get();
+        return response()->json($worksheet_groups);
+    }
+
+    public function findSheetSharedToMe(Request $request){
+        $sheet = DB::table('share_worksheets')
+            ->join('worksheets', 'share_worksheets.sheet_id', '=', 'worksheets.id')
+            ->select('worksheets.*')
+            ->where('share_worksheets.user_id',$request->my_id)
+            ->orderBy('worksheets.sheet_name', 'asc')
+            ->get();
+        return response()->json($sheet);
     }
 
     public function rrmdir($path) {

@@ -65,7 +65,6 @@
                         <tbody>
                         <tr ng-show="sectionSharedToMe.length > 0" dir-paginate="g in sectionSharedToMe|orderBy:[sortC,sortS]|filter:query|itemsPerPage:selectRow">
                             <td><a href="#divExamList" ng-click="changeGroup(g)"><%g.section_name%></a></td>
-                            {{--<td style="width: 40%;"><%g.prefix+g.fname_th+" "+g.lname_th%></td>--}}
                             <td style="width: 40%;"><%g.creater%></td>
                             <td ng-hide="g.user_id == thisUser.id"></td>
                         </tr>
