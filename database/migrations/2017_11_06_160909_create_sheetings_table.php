@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateJoinGroupsTable extends Migration
+class CreateSheetingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,17 +12,17 @@ class CreateJoinGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('join_groups', function (Blueprint $table) {
+        Schema::create('sheetings', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('group_id')->unsigned();
             $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
-            $table->char('status');
-            $table->enum('view_sheet',['0','1']);
-            $table->enum('edit_sheet',['0','1']);
-            $table->enum('view_exam',['0','1']);
-            $table->enum('edit_exam',['0','1']);
+            $table->dateTime('start_date_time');
+            $table->dateTime('end_date_time');
+            $table->string('sheeting_name');
+            $table->string('allowed_file_type');
+            $table->enum('send_late',['0','1']);
             $table->timestamps();
         });
     }
@@ -34,6 +34,6 @@ class CreateJoinGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('join_groups');
+        Schema::drop('sheetings');
     }
 }
