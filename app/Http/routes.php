@@ -292,3 +292,15 @@ Route::get('/findPathExamByResExamID','PathExamController@findPathExamByResExamI
 Route::get('/getCode','PathExamController@getCode');
 
 Route::get('/readFileResRun','PathExamController@readFileResRun');
+
+//--------------------------- SheetingController ---------------------------
+
+Route::get('/openWorksheet','SheetingController@openWorksheet');
+
+Route::get('/findSheetGroupSharedToMe','SheetingController@findSheetGroupSharedToMe');
+
+Route::get('/findSheetingByNameAndGroup','SheetingController@findSheetingByNameAndGroup');
+
+Route::get('/createSheeting','SheetingController@createSheeting');
+
+Route::get('/createSheetSheeting','SheetingController@createSheetSheeting');

@@ -163,7 +163,6 @@ app.controller('openExamCtrl', ['$scope', '$window', function ($scope, $window) 
 
             if (!completeFileType) {
                 $('#notice_file_type').html('* กรุณาระบุไฟล์ที่อนุญาตให้ส่ง').show();
-                // $('[ng-model=gatewayIp]').focus();
             }
         }
     };

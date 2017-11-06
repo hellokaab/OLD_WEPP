@@ -1,1 +1,0 @@
-ให้สร้าง คลาสที่ชื่อว่า&amp;nbsp;PrintHelloWorld โดยภายในคลาส มี method ชื่อว่า print&amp;nbsp;&lt;div&gt;เมื่อเรียกใช้ method print() ให้พิมพ์คำว่า &quot;Hello World&quot;&lt;&#x2F;div&gt;

@@ -89,7 +89,7 @@
             <div class="collapse" id="demo2">
                 <ul class="list-unstyled main-menu" id="_menu2" z="user-managed=">
                     <li6 role="presentation">
-                        <a href="#">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;สั่งใบงาน</a>
+                        <a id="side_openSheeting" href="<%myUrl%>/openWorksheet">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;สั่งใบงาน</a>
                         <a href="#">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ประวัติการสั่งใบงาน</a>
                     </li6>
                 </ul>

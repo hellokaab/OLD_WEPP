@@ -1288,6 +1288,20 @@ function deleteWorksheet(data) {
     });
 }
 
+function findSheetGroupSharedToMe(MyID) {
+    var sheetGroupSharedToMe = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findSheetGroupSharedToMe',
+        data:{my_id:MyID},
+        async: false,
+    }).responseJSON;
+    return sheetGroupSharedToMe
+}
+
 function findSheetGroupSharedNotMe(MyID) {
     var sheetGroupSharedNotMe = $.ajax({
         contentType: "application/json; charset=utf-8",
@@ -1445,4 +1459,74 @@ function readFileResRun(path) {
         async: false,
     }).responseJSON;
     return resrun;
+}
+
+//--------------------------- SheetingController ---------------------------
+
+function findSheetingByNameAndGroup(name,GID) {
+    var checked = false;
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findSheetingByNameAndGroup',
+        data:{sheeting_name:name,sheet_group_id:GID},
+        async: false,
+        complete: function (xhr) {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    checked = true;
+                }
+            }
+        }
+    });
+    return checked;
+}
+
+function createSheeting(data) {
+    var createSheetingSuccess = false;
+    var sheeting = $.ajax ({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/createSheeting',
+        data: data,
+        async: false,
+        complete: function (xhr) {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    createSheetingSuccess = true;
+                } else {
+                    $('#open_worksheet_part').waitMe('hide');
+                    $('#unsuccess_modal').modal({backdrop: 'static'});
+                }
+
+            }
+        }
+    }).responseJSON;
+    if (createSheetingSuccess) {
+        for(i=0;i<data.sheet.length;i++){
+            createSheetSheeting(parseInt(data.sheet[i]),sheeting.id);
+        }
+        $('#open_worksheet_part').waitMe('hide');
+        $('#success_modal').modal({backdrop: 'static'});
+    }
+
+}
+
+function createSheetSheeting(sheetID,sheetingID) {
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/createSheetSheeting',
+        data:{sheet_id:sheetID,sheeting_id:sheetingID},
+        async: false,
+    });
 }
