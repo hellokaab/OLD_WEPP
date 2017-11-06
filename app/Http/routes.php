@@ -219,6 +219,8 @@ Route::get('/createSharedWorksheet', 'WorkSheetController@createSharedWorksheet'
 
 Route::get('/editWorksheet{id}', 'WorkSheetController@editWorksheet');
 
+Route::get('/copyWorksheet{id}', 'WorkSheetController@copyWorksheet');
+
 Route::get('/findWorksheetByID{id}', 'WorkSheetController@findWorksheetByID');
 
 Route::get('/readFileSh', 'WorkSheetController@readFileSh');
