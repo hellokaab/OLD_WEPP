@@ -1,25 +1,23 @@
 @extends('layouts.template')
 
 @section('content')
-    <script src="js/Components/teacher/editWorksheetCtrl.js"></script>
+    <script src="js/Components/teacher/copyWorksheetCtrl.js"></script>
     <script>
         var sheetID = {{$sheetID}};
-        var quizzes = findQuizBySHID(sheetID);
-//        var countOldQuiz = quizzes.length;
     </script>
-    <div ng-controller="editWorksheetCtrl" style="display: none" id="edit_sheet_div">
+    <div ng-controller="copyWorksheetCtrl" style="display: none" id="copy_sheet_div">
         <div class="col-lg-12">
             <ol class="breadcrumb">
                 <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
                 <li>คลังใบงาน</li>
-                <li><a href="<%myUrl%>/myExam">กลุ่มใบงานของฉัน</a></li>
-                <li class="active">แก้ไขใบงาน</li>
+                <li><a href="<%myUrl%>/shareWorksheet">กลุ่มใบงานที่แบ่งกันกับฉัน</a></li>
+                <li class="active">คัดลอกใบงาน</li>
             </ol>
         </div>
         <div class="col-lg-12" >
-            <div class="panel panel-default" id="edit_sheet_part">
+            <div class="panel panel-default" id="copy_sheet_part">
                 <div class="panel-heading">
-                    <b style="color: #555">แก้ไขใบงาน</b>
+                    <b style="color: #555">คัดลอกใบงาน</b>
                 </div>
                 <div class="panel-body">
                     <div class="form-horizontal" role="form">
@@ -37,9 +35,10 @@
                             <label class="col-md-2 control-label">กลุ่มใบงาน <b class="danger">*</b></label>
                             <div class="col-md-4">
                                 <select class="form-control" id="sheet_group">
-                                    <option style="display: none"></option>
+                                    <option style="display: none" value="0">กรุณาเลือก</option>
                                     <option ng-repeat="s in mySheetGroup" value="<%s.id%>"><%s.sheet_group_name%></option>
                                 </select>
+                                <div class="notice" id="notice_sheet_group" style="display: none">กรุณาเลือกกลุ่มใบงาน</div>
                             </div>
                         </div>
 
@@ -307,29 +306,23 @@
                                     <div id="oldQuiz_part_<%q.id%>" style="padding-left: 15px;padding-right: 15px">
                                         <div class="form-group">
                                             <label class="col-md-2 control-label">คำถาม </label>
-                                            <div class="col-md-8">
+                                            <div class="col-md-9">
                                                 <textarea class="form-control io_textarea has-feedback" id="old_sheet_quiz_<%q.id%>" rows="3"
-                                                          placeholder="ใส่คำถามที่นี่" disabled><%q.quiz_data%></textarea>
-                                            </div>
-                                            <div class="col-md-1" style="padding-left: 0px">
-                                                <button class="btn btn-outline-warning btn-block" data-toggle="modal" ng-click="editQuiz(q)">
-                                                    <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true" title="แก้ไข"></i>
-                                                </button>
-                                                <button class="btn btn-outline-danger btn-block" data-toggle="modal" ng-click="deleteQuiz(q)">
-                                                    <i class="fa fa-trash fa-lg" aria-hidden="true" title="ลบ"></i>
-                                                </button>
+                                                          placeholder="ใส่คำถามที่นี่" ><%q.quiz_data%></textarea>
+                                                <div class="notice" id="notice_old_sheet_quiz_<%q.id%>" style="display: none">กรุณาระบุคำถาม</div>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-md-2 control-label">คำตอบ </label>
-                                            <div class="col-md-5">
+                                            <div class="col-md-6">
                                                 <input type="text" class="form-control has-feedback" id="old_sheet_answer_<%q.id%>"
-                                                       maxlength="200" value="<%q.quiz_ans%>" disabled/>
+                                                       maxlength="200" placeholder="ใส่คำตอบ" value="<%q.quiz_ans%>"/>
                                             </div>
                                             <label class="col-md-1 control-label">คะแนน </label>
                                             <div class="col-md-2">
                                                 <input type="text" class="form-control has-feedback" id="old_quiz_score_<%q.id%>"
-                                                       maxlength="6" value="<%q.quiz_score%>" disabled/>
+                                                       maxlength="6" placeholder="ใส่คะแนน" value="<%q.quiz_score%>" />
+                                                <div class="notice" id="notice_old_quiz_score_<%q.id%>" style="display: none">กรุณาระบุคะแนน</div>
                                             </div>
                                         </div>
                                     </div>
@@ -373,72 +366,13 @@
                             <div class="form-group">
                                 <div class="col-md-3"></div>
                                 <div class="col-md-3">
-                                    <input type="button" class="btn btn-outline-success btn-block" ng-click="editWorksheet()"
+                                    <input type="button" class="btn btn-outline-success btn-block" ng-click="copyWorksheet()"
                                            value="บันทึกใบงาน"/>
                                 </div>
                                 <div class="col-md-3">
                                     <a class="btn btn-outline-danger btn-block" ng-click="goBack()">ยกเลิก</a>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Edit Quiz Modal -->
-        <div class="modal fade" id="edit_quiz_modal" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="panel panel-warning" id="edit_quiz_part" style="margin-bottom: 0">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">แก้ไขคำถามท้ายการทดลอง</h3>
-                        </div>
-                        <div class="form-horizontal" role="form" style="padding-top: 7%">
-                            <div class="form-group" style="padding-left: 3%;padding-right: 3%">
-                                <label class="col-md-2 control-label">คำถาม</label>
-                                <div class="col-md-9">
-                                    <textarea class="form-control io_textarea" ng-model="quiz" rows="3"
-                                              placeholder="ใส่คำถามที่นี่"></textarea>
-                                    <div class="notice" id="notice_quiz" style="display: none">กรุณาระบุคำถาม</div>
-                                </div>
-                            </div>
-                            <div class="form-group" style="padding-left: 3%;padding-right: 3%">
-                                <label class="col-md-2 control-label">คำตอบ </label>
-                                <div class="col-md-5">
-                                    <input type="text" class="form-control" ng-model="answer"
-                                           maxlength="200" placeholder="ใส่คำตอบ"/>
-                                </div>
-                                <label class="col-md-1 control-label">คะแนน </label>
-                                <div class="col-md-3">
-                                    <input type="text" class="form-control" ng-model="quizScore"
-                                           maxlength="6" placeholder="ใส่คะแนน"/>
-                                    <div class="notice" id="notice_quiz_score" style="display: none">กรุณาระบุคะแนน</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-warning" ng-click="okEditQuiz()">บันทึก</button>
-                            <button type="button" class="btn btn-outline-default" data-dismiss="modal">ยกเลิก</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Delete Quiz Modal -->
-        <div class="modal fade" id="delete_quiz_modal" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="panel panel-danger" id="delete_quiz_part" style="margin-bottom: 0">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">ยืนยันการทำรายการ</h3>
-                        </div>
-                        <div style="padding-top: 7%; text-align: center">คุณต้องการลบคำถามท้ายการทดลองนี้หรือไม่</div>
-                        <br>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-danger" ng-click="okDeleteQuiz()">ตกลง</button>
-                            <button type="button" class="btn btn-outline-default" data-dismiss="modal">ยกเลิก</button>
                         </div>
                     </div>
                 </div>
@@ -452,7 +386,7 @@
         var $numberNoDot = $("#sheet_score");
 
         $(document).ready(function () {
-            $('#edit_sheet_div').css('display', 'block');
+            $('#copy_sheet_div').css('display', 'block');
         });
 
         _quiz_id = 1;
@@ -460,8 +394,15 @@
             addFieldQuestion();
         });
 
-
         function addFieldQuestion() {
+
+            $('[id^=oldQuiz_part_]').each(function () {
+                if ($(this).children().children().children()[0].value.length === 0
+                    && $(this).children().children().children()[2].value.length === 0
+                    && $(this).children().children().children()[3].value.length === 0)
+                    $(this).parent().remove();
+            });
+
             $('[id^=quiz_part_]').each(function () {
                 if ($(this).children().children().children()[0].value.length === 0
                     && $(this).children().children().children()[2].value.length === 0

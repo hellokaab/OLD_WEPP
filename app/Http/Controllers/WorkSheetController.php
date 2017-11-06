@@ -96,6 +96,14 @@ class WorkSheetController extends Controller
         return view('pages/teacher/editWorksheet',$data);
     }
 
+    public function copyWorksheet($id)
+    {
+        $data = array(
+            'sheetID' => $id
+        );
+        return view('pages/teacher/copyWorksheet',$data);
+    }
+
     public function findSheetByName(Request $request)
     {
         $findSheet = Worksheet::where('sheet_name',$request->sheet_name)

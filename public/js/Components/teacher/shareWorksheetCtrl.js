@@ -95,4 +95,8 @@ app.controller('shareWorksheetCtrl', ['$scope', '$window', function ($scope, $wi
         return str;
     }
     //----------------------------------------------------------------------
+    $scope.copyWorksheet = function (data) {
+        window.location.href = url+"/copyWorksheet"+data.id;
+    };
+    //----------------------------------------------------------------------
 }]);

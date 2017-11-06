@@ -6,9 +6,7 @@ app.controller('copyExamCtrl', ['$scope', '$window', function ($scope, $window) 
     $scope.keywords = window.keywords;
     $scope.thisUser = $window.myuser;
     $scope.teacher = findTeacher();
-    $scope.sharedUser = findSharedUserNotMe($scope.examData.id,$scope.thisUser.id);
     $scope.selectTeacher = [];
-    // console.log($scope.sharedUser);
 
     $scope.mySection = findMySection(myuser).responseJSON;
     $('#exam_content').Editor();
