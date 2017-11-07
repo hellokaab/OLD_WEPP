@@ -15,6 +15,10 @@ class SheetingController extends Controller
         return view('pages/teacher/openWorksheet');
     }
 
+    public function sheetingHistory(){
+        return view('pages/teacher/openWorksheetHistory');
+    }
+
     public function findSheetGroupSharedToMe(Request $request){
         $section = DB::table('share_worksheets')
             ->join('worksheets', 'share_worksheets.sheet_id', '=', 'worksheets.id')
@@ -55,10 +59,75 @@ class SheetingController extends Controller
         return response()->json($sheeting);
     }
 
+    public function updateSheeting(Request $request){
+        $sheeting = Sheeting::find($request->id);
+        $sheeting->group_id = $request->group_id;
+        $sheeting->sheeting_name = $request->sheeting_name;
+        $sheeting->start_date_time = $request->start_date_time;
+        $sheeting->end_date_time = $request->end_date_time;
+        $sheeting->allowed_file_type = $request->allowed_file_type;
+        $sheeting->send_late = $request->send_late;
+        $sheeting->save();
+
+        return response()->json($sheeting);
+    }
+
     public function createSheetSheeting(Request $request){
         $sheetSheeting = new SheetSheeting;
         $sheetSheeting->sheet_id = $request->sheet_id;
         $sheetSheeting->sheeting_id = $request->sheeting_id;
         $sheetSheeting->save();
+    }
+
+    public function deleteSheetSheeting(Request $request){
+        $sheetSheeting = DB::table('sheet_sheetings')
+            ->where('sheet_id', $request->sheet_id)
+            ->where('sheeting_id', $request->sheeting_id)
+            ->first();
+        $delEEM = SheetSheeting::find($sheetSheeting->id);
+        $delEEM->delete();
+    }
+
+    public function updateSheetSheeting(Request $request)
+    {
+        $sheetSheeting = SheetSheeting::where('sheet_id', $request->sheet_id)
+            ->where('sheeting_id', $request->sheeting_id)->first();
+        if ($sheetSheeting === NULL) {
+            $newSST = new SheetSheeting;
+            $newSST->sheet_id = $request->sheet_id;
+            $newSST->sheeting_id = $request->sheeting_id;
+            $newSST->save();
+        }
+    }
+
+    public function findSheetingByUserID(Request $request){
+        $sheeting = Sheeting::where('user_id',$request->user_id)
+            ->orderBy('start_date_time','ASC')
+            ->orderBy('end_date_time','ASC')
+            ->orderBy('sheeting_name','ASC')
+            ->get();
+        return response()->json($sheeting);
+    }
+
+    public function editOpenSheet($id){
+        $data = array(
+            'sheetingID' => $id
+        );
+        return view('pages/teacher/editSheeting',$data);
+    }
+
+    public function findSheetSheetingBySheetingID(Request $request){
+        $sheetSheeting = SheetSheeting::where('sheeting_id',$request->sheeting_id)->get();
+        return response()->json($sheetSheeting);
+    }
+
+    public function findSheetingByID(Request $request){
+        $sheeting = Sheeting::find($request->id);
+        return response()->json($sheeting);
+    }
+
+    public function deleteSheeting(Request $request){
+        $sheeting = Sheeting::find($request->id);
+        $sheeting->delete();
     }
 }

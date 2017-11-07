@@ -304,3 +304,21 @@ Route::get('/findSheetingByNameAndGroup','SheetingController@findSheetingByNameA
 Route::get('/createSheeting','SheetingController@createSheeting');
 
 Route::get('/createSheetSheeting','SheetingController@createSheetSheeting');
+
+Route::get('/sheetingHistory','SheetingController@sheetingHistory');
+
+Route::get('/findSheetingByUserID','SheetingController@findSheetingByUserID');
+
+Route::get('/editOpenSheet{id}','SheetingController@editOpenSheet');
+
+Route::get('/findSheetSheetingBySheetingID','SheetingController@findSheetSheetingBySheetingID');
+
+Route::get('/findSheetingByID','SheetingController@findSheetingByID');
+
+Route::get('/updateSheeting','SheetingController@updateSheeting');
+
+Route::get('/deleteSheetSheeting','SheetingController@deleteSheetSheeting');
+
+Route::get('/updateSheetSheeting','SheetingController@updateSheetSheeting');
+
+Route::get('/deleteSheeting','SheetingController@deleteSheeting');

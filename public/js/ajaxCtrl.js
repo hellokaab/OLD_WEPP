@@ -705,11 +705,10 @@ function deleteExaming(EMID) {
             if (xhr.readyState == 4) {
                 if (xhr.status == 200) {
                     $('#deleteExamingPart').waitMe('hide');
-                    alert("ลบสำเร็จ");
-                    location.reload();
+                    $('#success_modal').modal({backdrop: 'static'});
                 }  else {
                     $('#deleteExamingPart').waitMe('hide');
-                    alert("ผิดพลาด");
+                    $('#unsuccess_modal').modal({backdrop: 'static'});
                 }
             }
         }
@@ -1528,5 +1527,133 @@ function createSheetSheeting(sheetID,sheetingID) {
         url:url + '/createSheetSheeting',
         data:{sheet_id:sheetID,sheeting_id:sheetingID},
         async: false,
+    });
+}
+
+function findSheetingByUserID(UID) {
+    var sheeting = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findSheetingByUserID',
+        data:{user_id:UID},
+        async: false,
+    }).responseJSON;
+    return sheeting;
+}
+
+function findSheetSheetingBySheetingID(STID) {
+    var sheetSheeting =  $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findSheetSheetingBySheetingID',
+        data:{sheeting_id:STID},
+        async: false,
+    }).responseJSON;
+    return sheetSheeting
+}
+
+function findSheetingByID(STID) {
+    var sheeting =  $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findSheetingByID',
+        data:{id:STID},
+        async: false,
+    }).responseJSON;
+    return sheeting
+}
+
+function updateSheeting(data) {
+    var updateSheetingSuccess = false;
+    $.ajax ({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/updateSheeting',
+        data: data,
+        async: false,
+        complete: function (xhr) {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    updateSheetingSuccess = true;
+                } else {
+                    $('#edit_sheeting_part').waitMe('hide');
+                    $('#unsuccess_modal').modal({backdrop: 'static'});
+                }
+
+            }
+        }
+    });
+    if (updateSheetingSuccess) {
+        for(i=0;i<data.deleteSheetSheeting.length;i++){
+            deleteSheetSheeting(data.deleteSheetSheeting[i],data.id) ;
+        }
+        for(i=0;i<data.sheet.length;i++){
+            updateSheetSheeting(data.sheet[i],data.id);
+        }
+        $('#edit_sheeting_part').waitMe('hide');
+        $('#success_modal').modal({backdrop: 'static'});
+    }
+
+}
+
+function deleteSheetSheeting(sheetID,sheetingID) {
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/deleteSheetSheeting',
+        data:{sheet_id:sheetID,sheeting_id:sheetingID},
+        async: false,
+    });
+}
+
+function updateSheetSheeting(sheetID,sheetingID) {
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/updateSheetSheeting',
+        data:{sheet_id:sheetID,sheeting_id:sheetingID},
+        async: false,
+    });
+}
+
+function deleteSheeting(STID) {
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/deleteSheeting',
+        data:{id:STID},
+        async: false,
+        complete: function (xhr) {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    $('#delete_sheeting_part').waitMe('hide');
+                    $('#success_modal').modal({backdrop: 'static'});
+                }  else {
+                    $('#delete_sheeting_part').waitMe('hide');
+                    $('#unsuccess_modal').modal({backdrop: 'static'});
+                }
+            }
+        }
     });
 }

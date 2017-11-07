@@ -40,6 +40,10 @@ app.controller('openExamHistoryCtrl', ['$scope', '$window', function ($scope, $w
         return r.substring(0, 16);
     }
     //----------------------------------------------------------------------
+    $('#okSuccess').on('click',function () {
+        location.reload();
+    });
+    //----------------------------------------------------------------------
     $scope.viewScore = function (data) {
         $('#score_modal').modal({backdrop: 'static'});
 

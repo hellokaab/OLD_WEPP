@@ -1,17 +1,34 @@
-app.controller('openWorksheetCtrl', ['$scope', '$window', function ($scope, $window) {
+app.controller('editOpenSheetingCtrl', ['$scope', '$window', function ($scope, $window) {
     var allowed_file_type = "";
     $scope.myGroups = $window.myGroup;
     $scope.sheetGroups = $window.sheetGroups;
     $scope.sheets = $window.sheets;
     $scope.thisUser = $window.myuser;
-    console.log($scope.sheets);
+    $scope.sheeting = findSheetingByID($window.sheetingID);
+    $scope.sheetSheeting = $window.sheet_sheeting;
 
-    // Set Default
-    $scope.openWorksheetName = '';
-    $scope.userGroupId = '0';
-    $scope.sendLateMode = '0';
+    // Initial values of this sheeting
+    $scope.openWorksheetName = $scope.sheeting.sheeting_name;
+    $scope.userGroupId = $scope.sheeting.group_id;
+    $scope.sendLateMode = $scope.sheeting.send_late;
+    $scope.fileType = $scope.sheeting.allowed_file_type.split(",");
 
     $scope.selectSheet = [];
+    for (i = 0; i < $scope.sheetSheeting.length; i++)
+        $scope.selectSheet.push($scope.sheetSheeting[i].sheet_id);
+
+    for (i = 0; i < $scope.fileType.length; i++){
+        $('#file_type_'+$scope.fileType[i])[0].checked = true;
+    }
+
+    $('#sheetingBegin').val(dtDBToDtPicker($scope.sheeting.start_date_time));
+    $('#sheetingEnd').val(dtDBToDtPicker($scope.sheeting.end_date_time));
+
+    $(document).ready(function () {
+        $('[ng-model=userGroupId]').val($scope.userGroupId);
+    });
+
+    var deleteSheetSheeting = new Array();
     //----------------------------------------------------------------------
     $scope.ticSheet = function () {
         $scope.selectSheet = [];
@@ -47,7 +64,7 @@ app.controller('openWorksheetCtrl', ['$scope', '$window', function ($scope, $win
         }
     };
     //----------------------------------------------------------------------
-    $scope.openSheet = function () {
+    $scope.editOpenSheet = function () {
         $('#notice_sheeting_name').hide();
         $('#notice_sheeting_usr_grp').hide();
         $('#notice_sheeting_begin').hide();
@@ -73,19 +90,27 @@ app.controller('openWorksheetCtrl', ['$scope', '$window', function ($scope, $win
             && completeSheet
             && completeSheetingBegin
             && completeSheetingEnd
-            && completeFileType){
+            && completeFileType) {
 
             dateBegin = new Date(dtPickerToDtJs($('#sheetingBegin').val()));
             dateEnd = new Date(dtPickerToDtJs($('#sheetingEnd').val()));
 
-            $('#open_worksheet_part').waitMe({
+            $('#edit_sheeting_part').waitMe({
                 effect: 'facebook',
                 bg: 'rgba(255,255,255,0.9)',
                 color: '#3bafda'
             });
 
+            for(i=0;i<$scope.sheetSheeting.length;i++){
+                var SHID = $scope.sheetSheeting[i].sheet_id;
+                var indexOfStevie = $scope.selectSheet.indexOf(SHID);
+                if(indexOfStevie == -1){
+                    deleteSheetSheeting.push(SHID)
+                }
+            }
+
             data = {
-                user_id: $window.myuser.id,
+                id: $scope.sheeting.id,
                 sheeting_name: $scope.openWorksheetName,
                 group_id: $scope.userGroupId,
                 sheet: $scope.selectSheet,
@@ -93,8 +118,9 @@ app.controller('openWorksheetCtrl', ['$scope', '$window', function ($scope, $win
                 end_date_time: dtJsToDtDB(dateEnd),
                 allowed_file_type: allowed_file_type,
                 send_late : $scope.sendLateMode,
+                deleteSheetSheeting:deleteSheetSheeting,
             };
-            createSheeting(data);
+            updateSheeting(data);
 
         } else {
             if (!completeFileType) {
@@ -138,6 +164,13 @@ app.controller('openWorksheetCtrl', ['$scope', '$window', function ($scope, $win
         d = dt[0].split('/');
         r = (d[2] - 543) + '-' + d[1] + '-' + d[0] + ' ' + dt[1];
         return r;
+    }
+
+    function dtDBToDtPicker(date) {
+        dt = date.split(' ');
+        d = dt[0].split('-');
+        r = (d[2]) + '-' + d[1] + '-' + d[0] + ' ' + dt[1];
+        return r.substring(0, 16);
     }
     //----------------------------------------------------------------------
     $scope.goBack = function () {
