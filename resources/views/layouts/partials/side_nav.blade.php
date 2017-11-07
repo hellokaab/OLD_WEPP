@@ -83,14 +83,14 @@
             </div>
             <li6 ng-show="thisUser.user_type === 't'">
                 <a data-target="#demo2" data-toggle="collapse" role="presentation" id="side_sheeting" href="" class="collapsed">
-                    <i class="fa2 fa-cogs fa-lg" aria-hidden="true" style="color: #6435c9"></i>&nbsp;&nbsp;จัดการการสั่งใบงาน<i id="sheeting_chevron" class="fa2 fa-chevron-left" style="padding-left: 70px"></i>
+                    <i class="fa2 fa-cogs fa-lg" aria-hidden="true" style="color: #6435c9"></i>&nbsp;&nbsp;จัดการการสั่งงาน<i id="sheeting_chevron" class="fa2 fa-chevron-left" style="padding-left: 85px"></i>
                 </a>
             </li6>
             <div class="collapse" id="demo2">
                 <ul class="list-unstyled main-menu" id="_menu2" z="user-managed=">
                     <li6 role="presentation">
-                        <a id="side_openSheeting" href="<%myUrl%>/openWorksheet">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;สั่งใบงาน</a>
-                        <a href="#">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ประวัติการสั่งใบงาน</a>
+                        <a id="side_openSheeting" href="<%myUrl%>/openWorksheet">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;สั่งงาน</a>
+                        <a id="side_historySheeting" href="<%myUrl%>/sheetingHistory">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ประวัติการสั่งงาน</a>
                     </li6>
                 </ul>
             </div>

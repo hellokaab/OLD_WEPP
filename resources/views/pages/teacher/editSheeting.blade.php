@@ -1,23 +1,26 @@
 @extends('layouts.template')
 @section('content')
-    <script src="js/Components/teacher/openWorksheetCtrl.js"></script>
+    <script src="js/Components/teacher/editSheetingCtrl.js"></script>
     <script>
+        var sheetingID = {{$sheetingID}};
         var myGroup = findMyGroup(myuser).responseJSON;
         var sheetGroups = findSheetGroupSharedToMe(myuser.id);
         var sheets = findSheetSharedToMe(myuser.id);
+        var sheet_sheeting = findSheetSheetingBySheetingID(sheetingID);
     </script>
-    <div ng-controller="openWorksheetCtrl" style="display: none" id="open_worksheet_div">
+    <div ng-controller="editOpenSheetingCtrl" style="display: none" id="edit_open_sheet_div">
         <div class="col-lg-12">
             <ol class="breadcrumb">
                 <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
                 <li>จัดการการสั่งงาน</li>
-                <li class="active">สั่งงาน</li>
+                <li><a href="<%myUrl%>/examingHistory">ประวัติการสั่งงาน</a></li>
+                <li class="active">แก้ไขการสั่งงาน</li>
             </ol>
         </div>
         <div class="col-lg-12">
-            <div class="panel panel-default" id="open_worksheet_part">
+            <div class="panel panel-default" id="edit_sheeting_part">
                 <div class="panel-heading">
-                    <b style="color: #555">ตั้งค่าการสั่งงาน</b>
+                    <b style="color: #555">แก้ไขการสั่งงาน</b>
                 </div>
                 <div class="panel-body">
                     <div class="form-horizontal" role="form">
@@ -127,7 +130,7 @@
                         <div class = "form-group">
                             <div class="col-md-3"></div>
                             <div class="col-md-3">
-                                <input type="button" class="btn btn-outline-success btn-block" value="สั่งงาน" ng-click="openSheet()"/>
+                                <input type="button" class="btn btn-outline-success btn-block" value="บันทึกการสั่งงาน" ng-click="editOpenSheet()"/>
                             </div>
                             <div class="col-md-3">
                                 <a class="btn btn-outline-danger btn-block" ng-click="goBack()">ยกเลิก</a>
@@ -141,15 +144,22 @@
     </div>
     <script>
         $(document).ready(function () {
-            $('#open_worksheet_div').css('display','block');
-            $("#side_sheeting").removeAttr('class');
-            $('#side_sheeting').attr('class', 'active');
-            $("#sheeting_chevron").removeAttr('class');
-            $("#sheeting_chevron").attr('class','fa2 fa-chevron-down');
-            $('#demo2').attr('class', 'collapse in');
-            $('#side_openSheeting').attr('class', 'active');
-            $('[ng-model=userGroupId]').val(0);
             setDataTimePart();
+            // จัดการติกใบงานที่เลือกไว้
+            $('[id^=sheet_]').each(function () {
+                sheetID = $(this).attr('id').substr(6);
+                $(sheet_sheeting).each(function (k, v) {
+                    if (parseInt(sheetID) === v.sheet_id) {
+                        $('#sheet_' + sheetID).attr('checked', 'checked');
+                        $('#sheet_' + sheetID).parent().parent().children('div').show();
+                        $('#sheet_' + sheetID).parent().parent().children().children('.fa-plus-square').addClass('fa-minus-square');
+                        $('#sheet_' + sheetID).parent().parent().children().children('.fa-plus-square').removeClass('fa-plus-square');
+                    }
+                });
+
+            });
+
+            $('#edit_open_sheet_div').css('display','block');
         });
 
         function setDataTimePart() {
