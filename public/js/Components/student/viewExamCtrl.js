@@ -435,7 +435,7 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
             headers: {
                 Accept: "application/json"
             },
-            url: url + '/deleteFirstQueue',
+            url: url + '/deleteFirstQueueEx',
             async: false,
         })
     }

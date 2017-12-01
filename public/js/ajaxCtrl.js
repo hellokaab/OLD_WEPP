@@ -1329,6 +1329,20 @@ function findSheetSharedToMe(MyID) {
     return sheetSharedToMe
 }
 
+function readSheetTrial(data) {
+    var test = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/readSheetTrial',
+        data: data,
+        async: false,
+    }).responseJSON;
+    return test;
+}
+
 //--------------------------- ExamRandomController ---------------------------
 function findExamRandomByUID(UID,EMID) {
     var examRandom = $.ajax({
@@ -1656,4 +1670,32 @@ function deleteSheeting(STID) {
             }
         }
     });
+}
+
+function findSheetingByGroupID(GID) {
+    var sheeting = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findSheetingByGroupID',
+        data:{group_id:GID},
+        async: false
+    }).responseJSON;
+    return sheeting;
+}
+
+function findSheetSheetingInViewSheet(STID,UID) {
+    var sheetSheeting =  $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findSheetSheetingInViewSheet',
+        data:{sheeting_id:STID,user_id:UID},
+        async: false,
+    }).responseJSON;
+    return sheetSheeting
 }

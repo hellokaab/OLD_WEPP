@@ -188,13 +188,21 @@ class WorkSheetController extends Controller
 
     public function readFileSh(Request $request)
     {
-        $objectiveFile = fopen("$request->objective", "r") or die("Unable to open file!");
-        $objective = fread($objectiveFile,filesize("$request->objective"));
-        fclose($objectiveFile);
+        if($request->objective != NULL){
+            $objectiveFile = fopen("$request->objective", "r") or die("Unable to open file!");
+            $objective = fread($objectiveFile,filesize("$request->objective"));
+            fclose($objectiveFile);
+        }else {
+            $objective = "";
+        }
 
-        $theoryFile = fopen("$request->theory", "r") or die("Unable to open file!");
-        $theory = fread($theoryFile,filesize("$request->theory"));
-        fclose($theoryFile);
+        if($request->theory != NULL){
+            $theoryFile = fopen("$request->theory", "r") or die("Unable to open file!");
+            $theory = fread($theoryFile,filesize("$request->theory"));
+            fclose($theoryFile);
+        }else {
+            $theory = "";
+        }
 
         $trialFile = fopen("$request->sheet_trial", "r") or die("Unable to open file!");
         $trial = fread($trialFile,filesize("$request->sheet_trial"));
@@ -333,6 +341,13 @@ class WorkSheetController extends Controller
             ->orderBy('worksheets.sheet_name', 'asc')
             ->get();
         return response()->json($sheet);
+    }
+
+    public function readSheetTrial(Request $request)
+    {
+        $contentFile = fopen("$request->sheet_trial", "r") or die("Unable to open file!");
+        $content = fread($contentFile,filesize("$request->sheet_trial"));
+        return response()->json($content);
     }
 
     public function rrmdir($path) {

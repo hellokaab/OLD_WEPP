@@ -116,6 +116,13 @@ class SheetingController extends Controller
         return view('pages/teacher/editSheeting',$data);
     }
 
+    public function viewSheet($id){
+        $data = array(
+            'sheetingID' => $id
+        );
+        return view('pages/student/viewSheet',$data);
+    }
+
     public function findSheetSheetingBySheetingID(Request $request){
         $sheetSheeting = SheetSheeting::where('sheeting_id',$request->sheeting_id)->get();
         return response()->json($sheetSheeting);
@@ -129,5 +136,29 @@ class SheetingController extends Controller
     public function deleteSheeting(Request $request){
         $sheeting = Sheeting::find($request->id);
         $sheeting->delete();
+    }
+
+    public function findSheetingByGroupID(Request $request){
+        $sheeting = Sheeting::where('group_id',$request->group_id)
+            ->orderBy('start_date_time','ASC')
+            ->orderBy('end_date_time','ASC')
+            ->get();
+        return response()->json($sheeting);
+    }
+
+    public function findSheetSheetingInViewSheet(Request $request)
+    {
+        $sheetSheeting = DB::select('SELECT w.sheet_name,a.* 
+                                    FROM worksheets AS w 
+                                    INNER JOIN (
+	                                    SELECT st.*,re.current_status 
+	                                    FROM sheet_sheetings AS st LEFT JOIN(
+                                            SELECT * 
+		                                    FROM res_sheets
+		                                    WHERE res_sheets.user_id = ? ) AS re
+	                                    ON st.sheet_id = re.sheet_id 
+	                                    WHERE st.sheeting_id = ?) AS a
+                                    ON w.id = a.sheet_id', [$request->user_id,$request->sheeting_id]);
+        return response()->json($sheetSheeting);
     }
 }

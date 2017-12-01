@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Exam;
 use App\PathExam;
+use App\PathSheet;
 use App\ReadyQueueEx;
+use App\ReadyQueueSh;
 use App\ResExam;
+use App\ResSheet;
 use App\Users;
+use App\Worksheet;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -32,6 +36,8 @@ class CompileJavaController extends Controller
                 $examingFolder = "Examing_" . $request->EMID;
                 $examFolder = "Exam_" . $request->EID;
                 $path = "../upload/resexam/";
+//                สร้างโฟลเดอร์เก็บข้อสอบที่ส่ง
+                $this->makeFolder("../upload/","resexam");
 //                สร้างโฟลเดอร์ของการสอบ
                 $this->makeFolder($path, $examingFolder);
 //                สร้างโฟลเดอร์ของข้อสอบในการสอบ
@@ -145,6 +151,129 @@ class CompileJavaController extends Controller
         }
     }
 
+    public function sendSheetJava(Request $request){
+        $default_package = TRUE;
+        $folder_ans = "";
+        $resSheetID = "";
+        $completeInsRes = false;
+//        ถ้าพิมพ์โค้ดส่ง
+        if($request->mode === "key") {
+            $code = $request->code;
+//            ตรวจสอบว่าเป็น default package หรือเปล่า
+            $default_package = $this->is_default_package($code);
+            if ($default_package) {
+//                สร้างโฟลเดอร์เก็บไฟล์ที่ส่ง
+                $user = Users::find($request->UID);
+                $userFolder = $user->stu_id . "_" . $user->fname_en . "_" . $user->lname_en;
+                $sheetingFolder = "Sheeting_" . $request->STID;
+                $sheetFolder = "Sheet_" . $request->SID;
+                $path = "../upload/resworksheet/";
+//                สร้างโฟลเดอร์เก็บข้อสอบที่ส่ง
+                $this->makeFolder("../upload/","resworksheet");
+//                สร้างโฟลเดอร์ของการสอบ
+                $this->makeFolder($path, $sheetingFolder);
+//                สร้างโฟลเดอร์ของข้อสอบในการสอบ
+                $this->makeFolder($path . $sheetingFolder . "/", $sheetFolder);
+//                สร้างโฟลเดอร์ของนักเรียนที่ส่งข้อสอบ
+                $this->makeFolder($path . $sheetingFolder . "/" . $sheetFolder . "/", $userFolder);
+                $folderName = date('Ymd-His') . "_" . rand(1, 9999);
+                $folder_ans = $path . $sheetingFolder . "/" . $sheetFolder . "/" . $userFolder . "/" . $folderName;
+                mkdir($folder_ans, 0777, true);
+
+//                สร้างไฟล์เก็บโค้ดที่ส่งมา
+                $code = stripslashes($code);
+
+//                ตั้งชื่อไฟล์ให้เหมือนชื่อคลาส
+                $file_name = $this->get_class_name($code);
+                $file_ans = "$file_name.java";
+
+//                เขียนไฟล์
+                $handle = fopen("$folder_ans/$file_ans", 'w') or die('Cannot open file:  ' . $file_ans);
+                fwrite($handle, $code);
+                fclose($handle);
+            }
+        } else {
+//            แต่ถ้าส่งไฟล์โค้ดมา
+            $folder_ans = $request->path;
+            $files = scandir($folder_ans);
+            foreach ($files as $f) {
+//                 ลูปเช็ค package ทุกไฟล์ที่มีนามสกุล .java
+                if (strpos($f, '.java') && $default_package) {
+                    $handle = fopen("$folder_ans/$f", "r");
+                    $code_in_file = fread($handle, filesize("$folder_ans/$f"));
+                    fclose($handle);
+                    $default_package = $this->is_default_package($code_in_file);
+                }
+            }
+
+            if(!$default_package){
+//                 ลบไฟล์ที่ถูกส่งมา
+                $files = scandir($folder_ans);
+                foreach ($files as $f) {
+                    @unlink("$folder_ans/$f");
+                }
+                rmdir($folder_ans);
+            }
+        }
+
+        try{
+            if ($default_package) {
+//            บันทึกลงฐานข้อมูล ตาราง res_sheets
+                $resSheet = ResSheet::where('sheeting_id',$request->STID)
+                    ->where('sheet_id',$request->SID)
+                    ->where('user_id',$request->UID)
+                    ->first();
+                if($resSheet === NULL){
+                    $resSheet = new ResSheet;
+                    $resSheet->sheeting_id = $request->STID;
+                    $resSheet->sheet_id = $request->SID;
+                    $resSheet->user_id = $request->UID;
+                    $resSheet->current_status = "q";
+                    $resSheet->save();
+                    $insertedId = $resSheet->id;
+                    $resSheetID = $insertedId;
+                } else {
+                    $resSheetID = $resSheet->id;
+                }
+                $completeInsRes = true;
+
+//            บันทึกลงฐานข้อมูล ตาราง path_sheets
+                $pathSheet = new PathSheet;
+                $pathSheet->ressheet_id = $resSheetID;
+                $pathSheet->path = $folder_ans;
+                $pathSheet->status = "q";
+                $pathSheet->send_date_time = $request->send_date_time;
+                $pathSheet->save();
+                $insertedId = $pathSheet->id;
+                $pathSheetID = $insertedId;
+
+//            บันทึกลงฐานข้อมูล ready_queue_shes
+                $readyQueue = new ReadyQueueSh;
+                $readyQueue->path_sheet_id = $pathSheetID;
+                $readyQueue->file_type = "java";
+                $readyQueue->save();
+                return response()->json($pathSheetID);
+
+            } else {
+                return response()->json(['error' => 'Error msg'], 209);
+            }
+        } catch(\Exception $e ){
+            if($completeInsRes){
+                $delResExam = ResSheet::find($resSheetID);
+                $delResExam->delete();
+            }
+
+//            ลบไฟล์ที่ส่งมา
+            $files = scandir($folder_ans);
+            foreach ($files as $f) {
+                @unlink("$folder_ans/$f");
+            }
+            rmdir($folder_ans);
+
+            return response()->json(['error' => 'Error msg'], 210);
+        }
+    }
+
     public function compileAndRunJava(Request $request){
         $status = "";
         $folder_ans = "";
@@ -152,6 +281,9 @@ class CompileJavaController extends Controller
         if($request->mode == "exam"){
             $pathExam = PathExam::find($request->pathExamID);
             $folder_ans = $pathExam->path;
+        } else if($request->mode == "sheet"){
+            $pathSheet = PathSheet::find($request->pathSheetID);
+            $folder_ans = $pathSheet->path;
         }
 
 
@@ -197,6 +329,9 @@ class CompileJavaController extends Controller
                 if($request->mode == "exam") {
                     $exam = Exam::find($request->exam_id);
                     $input_file = $exam->exam_inputfile;
+                } else if ($request->mode == "sheet"){
+                    $sheet = Worksheet::find($request->sheet_id);
+                    $input_file = $sheet->sheet_input_file;
                 }
 
                 // รันโค้ดที่ส่ง
@@ -206,6 +341,8 @@ class CompileJavaController extends Controller
                 $checker = "";
                 if($request->mode == "exam") {
                     $checker = $this->check_correct_ans_ex($lines_run, $request->exam_id);
+                } else if($request->mode == "sheet") {
+                    $checker = $this->check_correct_ans_sh($lines_run, $request->sheet_id);
                 }
 
                 // เครียร์ไฟล์ขยะ (*.class, *.bat)
@@ -214,6 +351,8 @@ class CompileJavaController extends Controller
                 // อัพเดตสถานะการส่ง เป็นสถานะที่เช็คได้
                 if($request->mode == "exam"){
                     $status = $this->update_resexam($request->pathExamID,$request->exam_id,$checker,$folder_ans);
+                } else if($request->mode == "sheet") {
+                    $status = $this->update_resworksheet($request->pathSheetID,$request->sheet_id,$checker,$folder_ans);
                 }
             } else {
                 // ไม่พบไฟล์ Main.class
@@ -221,6 +360,9 @@ class CompileJavaController extends Controller
                 if($request->mode == "exam"){
                     $checker = array("status" => "c", "res_run" => null, "time" => null, "mem" => null);
                     $status = $this->update_resexam($request->pathExamID,$request->exam_id,$checker,$folder_ans);
+                } else if($request->mode == "sheet") {
+                    $checker = array("status" => "c", "res_run" => null, "time" => null, "mem" => null);
+                    $status = $this->update_resworksheet($request->pathSheetID,$request->sheet_id,$checker,$folder_ans);
                 }
             }
         } else {
@@ -505,6 +647,42 @@ class CompileJavaController extends Controller
         }
     }
 
+    function check_correct_ans_sh($lines_run, $sheet_id) {
+        $sheet = Worksheet::find($sheet_id);
+        $run = $this->prepare_result($lines_run);
+
+        if ($run == 'OverTime') {
+            return array("status" => "t", "res_run" => 'Over time', "time" => 0, "mem" => 0);
+        } else {
+            // อ่านไฟล์ output ของ Teacher
+            $file_output = $sheet->sheet_output_file;
+//            $output_teacher = file($file_output);
+            $handle = fopen("$file_output", "r");
+            $output_teacher = trim(fread($handle, filesize("$file_output")));
+            fclose($handle);
+
+            // คิดคำตอบเหมือน output กี่เปอร์เซ็นต์
+            $percent_equal = $this->check_percentage_ans($output_teacher, $run['res_run'], $sheet->case_sensitive);
+
+            if ($percent_equal == 100) {
+                return array("status" => "a", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
+            } else if ($percent_equal > 89) {
+                return array("status" => "9", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
+            } else if ($percent_equal > 79) {
+                return array("status" => "8", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
+            } else if ($percent_equal > 69) {
+                return array("status" => "7", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
+            } else if ($percent_equal > 59) {
+                return array("status" => "6", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
+            } else if ($percent_equal > 49) {
+                return array("status" => "5", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
+            }
+
+            // ถ้าน้อยกว่า 50% ถือว่า wrong answer
+            return array("status" => "w", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
+        }
+    }
+
     function prepare_result($lines_run) {
         $iMem = $iTime = $iOverTime = -1;
         $res_run = '';
@@ -700,6 +878,73 @@ class CompileJavaController extends Controller
         }
         $resExam->score = $score - $cutScore > 0 ? $score - $cutScore : 0;
         $resExam->save();
+        return $checker['status'];
+    }
+
+    function update_resworksheet($path_sheet_id, $sheet_id, $checker,$folder_ans) {
+        // เขียนไฟล์ผลการรันลงในโฟลเดอร์
+        $handle = fopen("$folder_ans/resrun.txt", 'w') or die('Cannot open file:  resrun.txt');
+        fwrite($handle, $checker["res_run"]);
+        fclose($handle);
+
+        $sheet = Worksheet::find($sheet_id);
+
+        $resSheetID = "";
+        // อัพเดทข้อมูลใน table path_sheets
+        $pathSheet = PathSheet::find($path_sheet_id);
+        $resSheetID = $pathSheet->ressheet_id;
+        $pathSheet->resrun = "$folder_ans/resrun.txt";
+        $pathSheet->status = $checker["status"];
+        $pathSheet->save();
+
+        // ค้นคำตอบที่มีเปอร์เซ็นถูกต้องเยอะที่สุด จากที่เคยส่ง
+        $statusImp = DB::select('SELECT status 
+                                  FROM (SELECT * FROM path_sheets WHERE path_sheets.ressheet_id = ?) AS s 
+                                  WHERE s.status = "9" 
+                                  OR s.status = "8" 
+                                  OR s.status = "7" 
+                                  OR s.status = "6" 
+                                  OR s.status = "5" 
+                                  GROUP BY s.status',[$resSheetID]);
+        $maxPercent = 0;
+        if($statusImp){
+            foreach($statusImp as $status){
+                if($status->status == 9) {
+                    if($maxPercent < 9) $maxPercent = 9;
+                } else if ($status->status == 8){
+                    if($maxPercent < 8) $maxPercent = 8;
+                } else if ($status->status == 7){
+                    if($maxPercent < 7) $maxPercent = 7;
+                } else if ($status->status == 6){
+                    if($maxPercent < 6) $maxPercent = 6;
+                } else if ($status->status == 5){
+                    if($maxPercent < 5) $maxPercent = 5;
+                }
+            }
+        }
+
+        $cutScore = 0;
+        // ค้นหาการส่งข้อสอบ
+        $resSheet = ResSheet::find($resSheetID);
+        $resSheet->current_status = $checker["status"];
+
+        // ถ้าสถานะเป็น ผ่าน หรือ ถูกต้องบางส่วน
+        $score = 0;
+        if ($checker['status'] == 'a' || is_numeric($checker['status'])) {
+            if($checker['status'] == 'a'){
+                $score = $sheet->full_score;
+            } else {
+                if($checker['status'] > $maxPercent){
+                    $score = $sheet->full_score * $checker['status'] / 10;
+                } else {
+                    $score = $sheet->full_score * $maxPercent / 10;
+                }
+            }
+        } else {
+            $score = $sheet->full_score * $maxPercent / 10;
+        }
+        $resSheet->score = $score;
+        $resSheet->save();
         return $checker['status'];
     }
 

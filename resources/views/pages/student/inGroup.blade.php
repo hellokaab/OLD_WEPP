@@ -70,6 +70,50 @@
                             <td style="text-align: center"><%e.end_date_time%></td>
                             <td></td>
                         </tr>
+                        <tr ng-hide="examingEnding.length > 0">
+                            <td>ไม่พบข้อมูล</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                    <br>
+                    <div class="col-lg-12" style="padding: 0px">
+                        <label style="text-decoration:underline;font-size: 18px;padding-top: 5px">ใบงาน</label>
+                    </div>
+                    <table class="table table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th style="width: 20%">ชื่อใบงาน</th>
+                            <th style="width: 20%;text-align: center">เริ่มต้น</th>
+                            <th style="width: 20%;text-align: center">สิ้นสุด</th>
+                            <th style="width: 20%;text-align: center">ส่งเกินเวลา</th>
+                            <th style="width: 20%;text-align: center"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="st in sheeting" >
+                            <td><%st.sheeting_name%></td>
+                            <td style="text-align: center"><%st.start_date_time%></td>
+                            <td style="text-align: center"><%st.end_date_time%></td>
+                            <td ng-show="st.send_late === '0'" style="text-align: center">ไม่อนุญาต</td>
+                            <td ng-show="st.send_late === '1'" style="text-align: center">อนุญาต</td>
+                            <td style="text-align: center">
+                                <button id="btn_sheeting_<%st.id%>" class="btn btn-sm btn-outline-success"
+                                        ng-click="admitSheeting(st)" ng-show="checkInTime(st) || checkSendLate(st)">
+                                    <i class="fa fa-sign-in fa-lg" aria-hidden="true"></i> เข้าทำใบงาน
+                                </button>
+                            </td>
+                        </tr>
+                        <tr ng-hide="sheeting.length > 0">
+                            <td>ไม่พอข้อมูล</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>

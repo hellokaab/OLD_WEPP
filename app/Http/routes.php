@@ -243,6 +243,8 @@ Route::get('/findSheetGroupSharedNotMe', 'WorkSheetController@findSheetGroupShar
 
 Route::get('/findSheetSharedToMe', 'WorkSheetController@findSheetSharedToMe');
 
+Route::get('/readSheetTrial', 'WorkSheetController@readSheetTrial');
+
 //--------------------------- ExamRandomController ---------------------------
 
 Route::get('/findExamRandomByUID','ExamRandomController@findExamRandomByUID');
@@ -253,11 +255,11 @@ Route::get('/findExamRandomInViewExam','ExamRandomController@findExamRandomInVie
 
 //--------------------------- ResExamController ---------------------------
 
-Route::post('/uploadExamFile/{EMID}/{EID}/{UID}','ResExamController@store');
+Route::post('/uploadExamFile/{EMID}/{EID}/{UID}','ResExamController@uploadExamFile');
 
 Route::get('/checkQueueEx','ResExamController@checkQueueEx');
 
-Route::get('/deleteFirstQueue','ResExamController@deleteFirstQueue');
+Route::get('/deleteFirstQueueEx','ResExamController@deleteFirstQueueEx');
 
 Route::get('/findExamInScoreboard','ResExamController@examInScoreboard');
 
@@ -265,9 +267,19 @@ Route::get('/dataInScoreboard','ResExamController@dataInScoreboard');
 
 Route::get('/editScore','ResExamController@editScore');
 
+//--------------------------- ResSheetController ---------------------------
+
+Route::post('/uploadSheetFile/{STID}/{SID}/{UID}','ResSheetController@uploadSheetFile');
+
+Route::get('/checkQueueSh','ResSheetController@checkQueueSh');
+
+Route::get('/deleteFirstQueueSh','ResSheetController@deleteFirstQueueSh');
+
 //--------------------------- CompileJavaController ---------------------------
 
 Route::post('/sendExamJava','CompileJavaController@sendExamJava');
+
+Route::post('/sendSheetJava','CompileJavaController@sendSheetJava');
 
 Route::get('/compileAndRunJava','CompileJavaController@compileAndRunJava');
 
@@ -322,3 +334,9 @@ Route::get('/deleteSheetSheeting','SheetingController@deleteSheetSheeting');
 Route::get('/updateSheetSheeting','SheetingController@updateSheetSheeting');
 
 Route::get('/deleteSheeting','SheetingController@deleteSheeting');
+
+Route::get('/findSheetingByGroupID','SheetingController@findSheetingByGroupID');
+
+Route::get('/viewSheet{id}','SheetingController@viewSheet');
+
+Route::get('/findSheetSheetingInViewSheet','SheetingController@findSheetSheetingInViewSheet');

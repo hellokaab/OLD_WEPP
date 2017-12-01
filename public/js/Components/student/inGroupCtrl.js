@@ -3,6 +3,7 @@ app.controller('inGroupCtrl', ['$scope', '$window', function ($scope, $window) {
     $scope.selectRow = "10";
     $scope.examingComing = findSTDExamingItsComing($scope.groupData.id);
     $scope.examingEnding = findExamingItsEnding($scope.groupData.id);
+    $scope.sheeting = findSheetingByGroupID($scope.groupData.id);
 
     // เปลี่ยนเวลาแบบ Database เป็นเวลาแบบ Data Time Picker
     for (i = 0; i < $scope.examingComing.length; i++) {
@@ -12,6 +13,10 @@ app.controller('inGroupCtrl', ['$scope', '$window', function ($scope, $window) {
     for (i = 0; i < $scope.examingEnding.length; i++) {
         $scope.examingEnding[i].start_date_time = dtDBToDtPicker($scope.examingEnding[i].start_date_time);
         $scope.examingEnding[i].end_date_time = dtDBToDtPicker($scope.examingEnding[i].end_date_time);
+    }
+    for (i = 0; i < $scope.sheeting.length; i++) {
+        $scope.sheeting[i].start_date_time = dtDBToDtPicker($scope.sheeting[i].start_date_time);
+        $scope.sheeting[i].end_date_time = dtDBToDtPicker($scope.sheeting[i].end_date_time);
     }
 
     $(document).ready(function () {
@@ -46,6 +51,10 @@ app.controller('inGroupCtrl', ['$scope', '$window', function ($scope, $window) {
         $('#admit_modal').modal({backdrop: 'static'});
         $('#examing_password').focus();
         console.log($scope.examing);
+    };
+    //----------------------------------------------------------------------
+    $scope.admitSheeting = function (data) {
+        window.location.href = url+'/viewSheet'+data.id;
     };
     //----------------------------------------------------------------------
     $scope.okAdmitExaming = function () {
@@ -90,8 +99,14 @@ app.controller('inGroupCtrl', ['$scope', '$window', function ($scope, $window) {
         dt = date.split(' ');
         d = dt[0].split('-');
         r = (d[2]) + '-' + d[1] + '-' + d[0] + 'T' + dt[1] + ':00Z';
-        console.log(r);
         return r;
+    }
+
+    function dtDBToDtJs(date) {
+        dt = date.split(' ');
+        d = dt[0].split('-');
+        jsDt = d[1] + '/' + d[2] + '/' + d[0] + ' ' + dt[1];
+        return jsDt;
     }
     //----------------------------------------------------------------------
     function checkRandomExam(examing) {
@@ -114,7 +129,6 @@ app.controller('inGroupCtrl', ['$scope', '$window', function ($scope, $window) {
                     }while(duplicate);
                     randoms.push(randomNum);
                 }
-                console.log(randoms);
                 for(i = 0 ; i < randoms.length ; i++){
                     var num = randoms[i];
                     data = {
@@ -128,4 +142,28 @@ app.controller('inGroupCtrl', ['$scope', '$window', function ($scope, $window) {
             }
         }
     }
+    //----------------------------------------------------------------------
+    $scope.checkInTime = function (data) {
+        var inTime = false;
+        now = new Date();
+        startTime = dtPickerToDtJS(data.start_date_time);
+        startTime = new Date(startTime);
+        startTime = new Date(startTime.valueOf()+ startTime.getTimezoneOffset() * 60000);
+        endTime = dtPickerToDtJS(data.end_date_time);
+        endTime = new Date(endTime);
+        endTime = new Date(endTime.valueOf()+ endTime.getTimezoneOffset() * 60000);
+
+        if(now >= startTime && now <= endTime){
+            inTime = true;
+        }
+        return inTime;
+    };
+    //----------------------------------------------------------------------
+    $scope.checkSendLate = function (data) {
+        var sendLate = false;
+        if(data.send_late ==='1'){
+            sendLate = true;
+        }
+        return sendLate;
+    };
 }]);

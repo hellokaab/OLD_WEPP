@@ -8,6 +8,8 @@ $sectionFolder = "Section_".$_POST['section_id'];
 $content = $_POST['Content'];
 $path = "../../../upload/exam/";
 
+// สร้างโฟลเดอร์เก็บข้อสอบ
+makeFolder("../../../upload/","exam");
 //สร้างโฟลเดอร์ของอาจารย์เพื่อเก็บข้อสอบ
 makeFolder($path,$userFolder);
 //สร้างโฟลเดอร์กลุ่มข้อสอบ
