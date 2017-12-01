@@ -8,6 +8,8 @@ $sheetGroupFolder = "SheetGroup_".$_POST['sheet_group_id'];
 $trial = $_POST['trial'];
 $path = "../../../upload/worksheet/";
 
+// สร้างโฟลเดอร์เพื่อเก็บใบงาน
+makeFolder("../../../upload/","worksheet");
 //สร้างโฟลเดอร์ของอาจารย์เพื่อเก็บใบงาน
 makeFolder($path,$userFolder);
 //สร้างโฟลเดอร์กลุ่มใบงาน

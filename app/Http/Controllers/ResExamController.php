@@ -22,7 +22,7 @@ class ResExamController extends Controller
         }
     }
 
-    public function store($EMID,$EID,$UID,Request $request)
+    public function uploadExamFile($EMID,$EID,$UID,Request $request)
     {
         $user = Users::find($UID);
         $userFolder = $user->stu_id."_".$user->fname_en."_".$user->lname_en;
@@ -30,6 +30,8 @@ class ResExamController extends Controller
         $examFolder = "Exam_".$EID;
         $path = "../upload/resexam/";
 
+//        สร้างโฟลเดอร์เก็บข้อสอบที่ส่ง
+        $this->makeFolder("../upload/","resexam");
 //        สร้างโฟลเดอร์ของการสอบ
         $this->makeFolder($path,$examingFolder);
 //        สร้างโฟลเดอร์ของข้อสอบในการสอบ
@@ -47,7 +49,7 @@ class ResExamController extends Controller
         return response()->json($folder);
     }
 
-    public function deleteFirstQueue(){
+    public function deleteFirstQueueEx(){
         $first = ReadyQueueEx::orderBy('id')->first();
         $first->delete();
     }
