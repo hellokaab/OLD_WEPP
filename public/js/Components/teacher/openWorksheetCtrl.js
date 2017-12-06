@@ -10,6 +10,7 @@ app.controller('openWorksheetCtrl', ['$scope', '$window', function ($scope, $win
     $scope.openWorksheetName = '';
     $scope.userGroupId = '0';
     $scope.sendLateMode = '0';
+    $scope.hiddenMode = '0';
 
     $scope.selectSheet = [];
     //----------------------------------------------------------------------
@@ -93,6 +94,7 @@ app.controller('openWorksheetCtrl', ['$scope', '$window', function ($scope, $win
                 end_date_time: dtJsToDtDB(dateEnd),
                 allowed_file_type: allowed_file_type,
                 send_late : $scope.sendLateMode,
+                hide_sheeting : $scope.hiddenMode,
             };
             createSheeting(data);
 

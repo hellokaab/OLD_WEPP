@@ -12,6 +12,7 @@ app.controller('editOpenSheetingCtrl', ['$scope', '$window', function ($scope, $
     $scope.userGroupId = $scope.sheeting.group_id;
     $scope.sendLateMode = $scope.sheeting.send_late;
     $scope.fileType = $scope.sheeting.allowed_file_type.split(",");
+    $scope.hiddenMode = $scope.sheeting.hide_sheeting;
 
     $scope.selectSheet = [];
     for (i = 0; i < $scope.sheetSheeting.length; i++)
@@ -118,6 +119,7 @@ app.controller('editOpenSheetingCtrl', ['$scope', '$window', function ($scope, $
                 end_date_time: dtJsToDtDB(dateEnd),
                 allowed_file_type: allowed_file_type,
                 send_late : $scope.sendLateMode,
+                hide_sheeting : $scope.hiddenMode,
                 deleteSheetSheeting:deleteSheetSheeting,
             };
             updateSheeting(data);

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Quiz;
+use App\ResQuiz;
+use App\ResSheet;
 use App\Sheeting;
 use App\SheetSheeting;
 use Illuminate\Http\Request;
@@ -54,6 +57,7 @@ class SheetingController extends Controller
         $sheeting->end_date_time = $request->end_date_time;
         $sheeting->allowed_file_type = $request->allowed_file_type;
         $sheeting->send_late = $request->send_late;
+        $sheeting->hide_sheeting = $request->hide_sheeting;
         $sheeting->save();
 
         return response()->json($sheeting);
@@ -67,6 +71,7 @@ class SheetingController extends Controller
         $sheeting->end_date_time = $request->end_date_time;
         $sheeting->allowed_file_type = $request->allowed_file_type;
         $sheeting->send_late = $request->send_late;
+        $sheeting->hide_sheeting = $request->hide_sheeting;
         $sheeting->save();
 
         return response()->json($sheeting);
@@ -140,6 +145,7 @@ class SheetingController extends Controller
 
     public function findSheetingByGroupID(Request $request){
         $sheeting = Sheeting::where('group_id',$request->group_id)
+            ->where('hide_sheeting','1')
             ->orderBy('start_date_time','ASC')
             ->orderBy('end_date_time','ASC')
             ->get();
@@ -160,5 +166,72 @@ class SheetingController extends Controller
 	                                    WHERE st.sheeting_id = ?) AS a
                                     ON w.id = a.sheet_id', [$request->user_id,$request->sheeting_id]);
         return response()->json($sheetSheeting);
+    }
+
+    public function findOldCodeInResSheet(Request $request){
+        $code = array();
+        $resSheet = ResSheet::where('user_id',$request->user_id)
+            ->where('sheet_id',$request->sheet_id)
+            ->where('sheeting_id',$request->sheeting_id)
+            ->first();
+        if ($resSheet === NULL) {
+            array_push($code, 'ไม่พบโค้ดโปรแกรมที่เคยส่ง');
+            $data = array(
+                'resSheetID' => 0,
+                'code' => $code
+            );
+            return response()->json($data);
+        }else{
+            $folder_ans = $resSheet->path;
+            //ค้นหาไฟล์ในโฟลเดอร์ข้อสอบที่ส่ง
+            $files = scandir($folder_ans);
+            foreach ($files as $f) {
+                // ลูปหาไฟล์นามสกุล.java ที่ไม่ใช่ Main.java
+                if (strpos($f, '.java') && $f != 'Main.java') {
+                    $handle = fopen("$folder_ans/$f", "r");
+                    $codeInFile = fread($handle, filesize("$folder_ans/$f"));
+                    array_push($code, $codeInFile);
+                    fclose($handle);
+                }
+            }
+
+            $data = array(
+                'resSheetID' => $resSheet->id,
+                'code' => $code
+            );
+            return response()->json($data);
+        }
+
+    }
+
+    public function sendQuiz(Request $request){
+        $score = 0;
+        $quiz = Quiz::find($request->quiz_id);
+        if($quiz->quiz_ans === $request->quiz_ans){
+            $score = $quiz->quiz_score;
+        }
+
+        $resQuiz = ResQuiz::where('ressheet_id',$request->ressheet_id)
+            ->where('quiz_id',$request->quiz_id)
+            ->first();
+        if ($resQuiz === NULL) {
+            $resQuiz = new ResQuiz;
+            $resQuiz->ressheet_id = $request->ressheet_id;
+            $resQuiz->quiz_id = $request->quiz_id;
+            $resQuiz->quiz_ans = $request->quiz_ans;
+            $resQuiz->score = $score;
+            $resQuiz->save();
+        } else {
+            if($resQuiz->quiz_ans != $request->quiz_ans){
+                $resQuiz->quiz_ans = $request->quiz_ans;
+                $resQuiz->score = $score;
+                $resQuiz->save();
+            }
+        }
+    }
+
+    public function findResQuizByRSID(Request $request){
+        $resQuiz = ResQuiz::where('ressheet_id',$request->ressheet_id)->get();
+        return response()->json($resQuiz);
     }
 }

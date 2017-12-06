@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 //use App\Worksheet;
 use App\Quiz;
+use App\ResSheet;
 use App\ShareWorksheet;
 use App\Users;
 use App\Worksheet;
@@ -348,6 +349,11 @@ class WorkSheetController extends Controller
         $contentFile = fopen("$request->sheet_trial", "r") or die("Unable to open file!");
         $content = fread($contentFile,filesize("$request->sheet_trial"));
         return response()->json($content);
+    }
+
+    public function findQuizBySID(Request $request){
+        $quiz = Quiz::where('sheet_id',$request->sheet_id)->get();
+        return response()->json($quiz);
     }
 
     public function rrmdir($path) {

@@ -17,7 +17,7 @@ public class Main { static TimerThread timeThr = new TimerThread();
                                 runtime.gc();
                                 long mem = runtime.totalMemory() - runtime.freeMemory();
                                
-		System.out.println("Hello Worl");
+		System.out.println("Hello World");
 	 long memNow = runtime.totalMemory() - runtime.freeMemory() - mem;
                                 System.out.println("UsedMem:" + memNow/1024.0);
                                 long time = System.currentTimeMillis() - start;

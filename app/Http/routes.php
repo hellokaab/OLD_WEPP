@@ -245,6 +245,8 @@ Route::get('/findSheetSharedToMe', 'WorkSheetController@findSheetSharedToMe');
 
 Route::get('/readSheetTrial', 'WorkSheetController@readSheetTrial');
 
+Route::get('/findQuizBySID','WorkSheetController@findQuizBySID');
+
 //--------------------------- ExamRandomController ---------------------------
 
 Route::get('/findExamRandomByUID','ExamRandomController@findExamRandomByUID');
@@ -340,3 +342,9 @@ Route::get('/findSheetingByGroupID','SheetingController@findSheetingByGroupID');
 Route::get('/viewSheet{id}','SheetingController@viewSheet');
 
 Route::get('/findSheetSheetingInViewSheet','SheetingController@findSheetSheetingInViewSheet');
+
+Route::get('/findOldCodeInResSheet','SheetingController@findOldCodeInResSheet');
+
+Route::get('/sendQuiz','SheetingController@sendQuiz');
+
+Route::get('/findResQuizByRSID','SheetingController@findResQuizByRSID');
