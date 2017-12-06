@@ -111,11 +111,28 @@
                                 <div class="radio">
                                     <div class="col-md-2">
                                         <input type="radio" name="send_late" id="allow" value="1" ng-model="sendLateMode">
-                                        <label for="hide_ex">อนุญาต</label>
+                                        <label for="allow">อนุญาต</label>
                                     </div>
                                     <div class="col-md-4">
                                         <input type="radio" name="send_late" id="not_allow" value="0" ng-model="sendLateMode">
-                                        <label for="show_ex">ไม่อนุญาต</label>
+                                        <label for="not_allow">ไม่อนุญาต</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{--Hide Sheeting--}}
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">แสดงในกลุ่มเรียน:</label>
+                            <div class="col-md-8">
+                                <div class="radio">
+                                    <div class="col-md-2">
+                                        <input type="radio" name="hide_sheeting" id="hide_sh" value="0" ng-model="hiddenMode">
+                                        <label for="hide_sh">ซ่อน</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="radio" name="hide_sheeting" id="show_sh" value="1" ng-model="hiddenMode">
+                                        <label for="show_sh">แสดง</label>
                                     </div>
                                 </div>
                             </div>

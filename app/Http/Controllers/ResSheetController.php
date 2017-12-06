@@ -12,7 +12,7 @@ class ResSheetController extends Controller
 {
     public function checkQueueSh(Request $request){
         $first = ReadyQueueSh::orderBy('id')->first();
-        if($first->path_sheet_id == $request->pathSheetID){
+        if($first->ressheet_id == $request->pathSheetID){
             return response()->json($first->file_type, 200);
         } else {
             return response()->json(['error' => 'Error msg'], 209);

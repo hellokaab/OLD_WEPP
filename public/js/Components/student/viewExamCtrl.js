@@ -81,7 +81,6 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
     };
     //----------------------------------------------------------------------
     $scope.okSend = function () {
-        send = true;
         $('#detail_exam_part').waitMe({
             effect: 'facebook',
             bg: 'rgba(255,255,255,0.9)',
@@ -93,6 +92,7 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
         $('#notice_exam_file_ans').hide();
         if($scope.inputMode === 'key_input'){
             if($scope.codeExam.length > 0){
+                send = true;
                 data = {
                     EMID : $scope.examing.id,
                     EID : $scope.examID,
@@ -124,6 +124,7 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
             if($("#file_ans")[0].files.length > 0){
                 checkFile = checkFileType($("#file_ans")[0].files);
                 if(checkFile){
+                    send = true;
                     $window.examID = $scope.examID;
                     $('#AnsFileForm').submit();
 

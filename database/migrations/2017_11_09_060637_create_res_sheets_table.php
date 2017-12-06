@@ -22,6 +22,10 @@ class CreateResSheetsTable extends Migration
             $table->foreign('sheet_id')->references('id')->on('worksheets')->onDelete('cascade');
             $table->float('score',6,2)->nullable();
             $table->char('current_status')->nullable();
+            $table->enum('send_late',['0','1']);
+            $table->text('path');
+            $table->text('resrun')->nullable();
+            $table->dateTime('send_date_time');
             $table->timestamps();
         });
     }

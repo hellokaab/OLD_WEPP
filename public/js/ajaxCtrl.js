@@ -1699,3 +1699,45 @@ function findSheetSheetingInViewSheet(STID,UID) {
     }).responseJSON;
     return sheetSheeting
 }
+
+function findOldCodeInResSheet(STID,SID,UID) {
+    var resSheet =  $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findOldCodeInResSheet',
+        data:{sheeting_id:STID,sheet_id:SID,user_id:UID},
+        async: false,
+    }).responseJSON;
+    return resSheet
+}
+
+function findQuizBySID(SID) {
+    var quiz =  $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findQuizBySID',
+        data:{sheet_id:SID},
+        async: false,
+    }).responseJSON;
+    return quiz;
+}
+
+function findResQuizByRSID(RSID) {
+    var resQuiz =  $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findResQuizByRSID',
+        data:{ressheet_id:RSID},
+        async: false,
+    }).responseJSON;
+    return resQuiz;
+}

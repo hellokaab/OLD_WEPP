@@ -22,6 +22,7 @@ class CreateSheetingsTable extends Migration
             $table->dateTime('end_date_time');
             $table->string('sheeting_name');
             $table->string('allowed_file_type');
+            $table->enum('hide_sheeting',['0','1']);
             $table->enum('send_late',['0','1']);
             $table->timestamps();
         });

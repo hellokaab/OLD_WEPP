@@ -12,6 +12,7 @@ use App\ResSheet;
 use App\Users;
 use App\Worksheet;
 use Illuminate\Http\Request;
+use DirectoryIterator;
 
 use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
@@ -229,30 +230,40 @@ class CompileJavaController extends Controller
                     $resSheet->sheet_id = $request->SID;
                     $resSheet->user_id = $request->UID;
                     $resSheet->current_status = "q";
+                    $resSheet->send_late = $request->send_late;
+                    $resSheet->path = $folder_ans;
+                    $resSheet->send_date_time = $request->send_date_time;
                     $resSheet->save();
                     $insertedId = $resSheet->id;
                     $resSheetID = $insertedId;
                 } else {
+                    $this->rrmdir($resSheet->path);
                     $resSheetID = $resSheet->id;
+                    $resSheet->current_status = "q";
+                    $resSheet->send_late = $request->send_late;
+                    $resSheet->path = $folder_ans;
+                    $resSheet->send_date_time = $request->send_date_time;
+                    $resSheet->save();
                 }
                 $completeInsRes = true;
 
 //            บันทึกลงฐานข้อมูล ตาราง path_sheets
-                $pathSheet = new PathSheet;
-                $pathSheet->ressheet_id = $resSheetID;
-                $pathSheet->path = $folder_ans;
-                $pathSheet->status = "q";
-                $pathSheet->send_date_time = $request->send_date_time;
-                $pathSheet->save();
-                $insertedId = $pathSheet->id;
-                $pathSheetID = $insertedId;
+//                $pathSheet = new PathSheet;
+//                $pathSheet->ressheet_id = $resSheetID;
+//                $pathSheet->path = $folder_ans;
+//                $pathSheet->status = "q";
+//                $pathSheet->send_date_time = $request->send_date_time;
+//                $pathSheet->save();
+//                $insertedId = $pathSheet->id;
+//                $pathSheetID = $insertedId;
 
 //            บันทึกลงฐานข้อมูล ready_queue_shes
                 $readyQueue = new ReadyQueueSh;
-                $readyQueue->path_sheet_id = $pathSheetID;
+//                $readyQueue->path_sheet_id = $pathSheetID;
+                $readyQueue->ressheet_id = $resSheetID;
                 $readyQueue->file_type = "java";
                 $readyQueue->save();
-                return response()->json($pathSheetID);
+                return response()->json($resSheetID);
 
             } else {
                 return response()->json(['error' => 'Error msg'], 209);
@@ -282,8 +293,9 @@ class CompileJavaController extends Controller
             $pathExam = PathExam::find($request->pathExamID);
             $folder_ans = $pathExam->path;
         } else if($request->mode == "sheet"){
-            $pathSheet = PathSheet::find($request->pathSheetID);
-            $folder_ans = $pathSheet->path;
+//            $pathSheet = PathSheet::find($request->pathSheetID);
+            $resSheet = ResSheet::find($request->pathSheetID);
+            $folder_ans = $resSheet->path;
         }
 
 
@@ -889,13 +901,14 @@ class CompileJavaController extends Controller
 
         $sheet = Worksheet::find($sheet_id);
 
-        $resSheetID = "";
-        // อัพเดทข้อมูลใน table path_sheets
-        $pathSheet = PathSheet::find($path_sheet_id);
-        $resSheetID = $pathSheet->ressheet_id;
-        $pathSheet->resrun = "$folder_ans/resrun.txt";
-        $pathSheet->status = $checker["status"];
-        $pathSheet->save();
+        $resSheetID = $path_sheet_id;
+//        $resSheetID = "";
+//        // อัพเดทข้อมูลใน table path_sheets
+//        $pathSheet = PathSheet::find($path_sheet_id);
+//        $resSheetID = $pathSheet->ressheet_id;
+//        $pathSheet->resrun = "$folder_ans/resrun.txt";
+//        $pathSheet->status = $checker["status"];
+//        $pathSheet->save();
 
         // ค้นคำตอบที่มีเปอร์เซ็นถูกต้องเยอะที่สุด จากที่เคยส่ง
         $statusImp = DB::select('SELECT status 
@@ -927,6 +940,7 @@ class CompileJavaController extends Controller
         // ค้นหาการส่งข้อสอบ
         $resSheet = ResSheet::find($resSheetID);
         $resSheet->current_status = $checker["status"];
+        $resSheet->resrun = "$folder_ans/resrun.txt";
 
         // ถ้าสถานะเป็น ผ่าน หรือ ถูกต้องบางส่วน
         $score = 0;
@@ -953,6 +967,21 @@ class CompileJavaController extends Controller
         if (!in_array((string) $folder, (array) $dirList)) {
             mkdir($path.$folder, 0777, true);
         }
+    }
+
+    public function rrmdir($path) {
+        // Open the source directory to read in files
+        try {
+            $i = new DirectoryIterator($path);
+            foreach ($i as $f) {
+                if ($f->isFile()) {
+                    unlink($f->getRealPath());
+                } else if (!$f->isDot() && $f->isDir()) {
+                    $this->rrmdir($f->getRealPath());
+                }
+            }
+            rmdir($path);
+        } catch(\Exception $e ){}
     }
 
     public function test(Request $request)
