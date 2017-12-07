@@ -381,11 +381,14 @@ class CompileJavaController extends Controller
             // ถ้าไม่พบเมธอด main() ในโค้ดที่ส่ง
             // ตรวจสอบว่า เป็นข้อสอบเขียนคลาส หรือไม่
             $file_main = "";
-            $exam = "";
             if($request->mode == "exam") {
                 $exam = Exam::find($request->exam_id);
+                $file_main = $exam->main_code;
+            } else if($request->mode == "sheet") {
+                $sheet = Worksheet::find($request->sheet_id);
+                $file_main = $sheet->main_code;
             }
-            $file_main = $exam->main_code;
+
 
             if ($file_main) {
                 // อ่านโค้ดในไฟล์
@@ -411,8 +414,15 @@ class CompileJavaController extends Controller
 
                 // ตรวจสอบการคอมไพล์(มีไฟล์ Main.class ไหม)
                 if (file_exists("$folder_ans/Main.class")) {
+                    $input_file = "";
                     // คิวรี่ ไฟล์อินพุทของข้อสอบ
-                    $input_file = $exam->exam_inputfile;
+                    if($request->mode == "exam") {
+                        $exam = Exam::find($request->exam_id);
+                        $input_file = $exam->exam_inputfile;
+                    } else if ($request->mode == "sheet"){
+                        $sheet = Worksheet::find($request->sheet_id);
+                        $input_file = $sheet->sheet_input_file;
+                    }
 
                     // รันโค้ดที่ส่ง
                     $lines_run = $this->run_code($folder_ans, $file, $input_file);
@@ -421,6 +431,8 @@ class CompileJavaController extends Controller
                     $checker = "";
                     if($request->mode == "exam") {
                         $checker = $this->check_correct_ans_ex($lines_run, $request->exam_id);
+                    } else if($request->mode == "sheet") {
+                        $checker = $this->check_correct_ans_sh($lines_run, $request->sheet_id);
                     }
 
                     // เครียร์ไฟล์ขยะ (*.class, *.bat)
@@ -429,6 +441,8 @@ class CompileJavaController extends Controller
                     // อัพเดตสถานะการส่ง เป็นสถานะที่เช็คได้
                     if($request->mode == "exam"){
                         $status = $this->update_resexam($request->pathExamID,$request->exam_id,$checker,$folder_ans);
+                    } else if($request->mode == "sheet") {
+                        $status = $this->update_resworksheet($request->pathSheetID,$request->sheet_id,$checker,$folder_ans);
                     }
                 } else {
                     // ไม่พบไฟล์ Main.class
@@ -436,6 +450,9 @@ class CompileJavaController extends Controller
                     if($request->mode == "exam"){
                         $checker = array("status" => "c", "res_run" => null, "time" => null, "mem" => null);
                         $status = $this->update_resexam($request->pathExamID,$request->exam_id,$checker,$folder_ans);
+                    } else if($request->mode == "sheet") {
+                        $checker = array("status" => "c", "res_run" => null, "time" => null, "mem" => null);
+                        $status = $this->update_resworksheet($request->pathSheetID,$request->sheet_id,$checker,$folder_ans);
                     }
                 }
             } else{
@@ -443,6 +460,9 @@ class CompileJavaController extends Controller
                 if($request->mode == "exam"){
                     $checker = array("status" => "c", "res_run" => null, "time" => null, "mem" => null);
                     $status = $this->update_resexam($request->pathExamID,$request->exam_id,$checker,$folder_ans);
+                } else if($request->mode == "sheet") {
+                    $checker = array("status" => "c", "res_run" => null, "time" => null, "mem" => null);
+                    $status = $this->update_resworksheet($request->pathSheetID,$request->sheet_id,$checker,$folder_ans);
                 }
             }
         }

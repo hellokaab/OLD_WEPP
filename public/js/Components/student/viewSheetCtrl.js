@@ -20,6 +20,7 @@ app.controller('viewSheetCtrl', ['$scope', '$window', function ($scope, $window)
     //----------------------------------------------------------------------
     $scope.startSheet = function (data) {
         $scope.tab = "s";
+        $scope.inputMode = 'key_input';
         $('#notice_sheet_key_ans').hide();
         $('#notice_sheet_file_ans').hide();
         $('#li_s').attr('class','active');
@@ -51,42 +52,6 @@ app.controller('viewSheetCtrl', ['$scope', '$window', function ($scope, $window)
             $('#fileInputChk').attr('disabled','disabled');
             $('[ng-model=codeSheet]').attr('disabled','disabled');
         }
-        // var sheetData = findWorksheetByID(data.sheet_id);
-        // $('#sheet_name').html(sheetData.sheet_name);
-        // var readFile = readFileSh(sheetData);
-        // // var sheetTrial = readSheetTrial(sheetData);
-        // var listObjective = new Array();
-        // if(readFile.objective != ""){
-        //     listObjective = readFile.objective.split("\n");
-        // }
-        // $scope.objective = listObjective;
-        //
-        // var listTheory = new Array();
-        // if(readFile.theory != ""){
-        //     listTheory = readFile.theory.split("\n");
-        // }
-        // $scope.theory = listTheory;
-        //
-        // var sheetTrial = readFile.trial;
-        // $('#sheet_trial').Editor('setText', decapeHtml(sheetTrial));
-        // $('.Editor-editor').attr('contenteditable', false);
-        // $('[id^=menuBarDiv]').hide();
-        // $('[id^=statusbar]').hide();
-        //
-        // //ค้นหาข้อมูลใบงานที่เก่าที่ส่ง
-        // var resSheet = findOldCodeInResSheet(data.sheeting_id,data.sheet_id,myuser.id);
-        // $scope.resSheetID = resSheet.resSheetID;
-        // var code = "";
-        // (resSheet.code).forEach(function(codes) {
-        //     code+=codes;
-        // });
-        // $('#old_code').html(escapeHtml(code));
-        // $('mycode').each(function(i, block) {
-        //     hljs.highlightBlock(block);
-        // });
-        //
-        // $scope.resQuiz = findResQuizByRSID($scope.resSheetID);
-        // $('#detail_sheet_part').waitMe('hide');
     };
     //----------------------------------------------------------------------
     $scope.okSend = function () {
@@ -104,8 +69,18 @@ app.controller('viewSheetCtrl', ['$scope', '$window', function ($scope, $window)
                     send_date_time : dtJsToDtDB(new Date()),
                     send_late : checkSendLate()
                 };
+                // ถ้าเป็นไฟล์ .c
+                if($scope.selectFileType === "c"){
+                    sendSheetC(data);
+                }
+
+                // ถ้าเป็นไฟล์ .cpp
+                else if($scope.selectFileType === "cpp"){
+                    sendSheetCpp(data);
+                }
+
                 // ถ้าเป็นไฟล์ .java
-                if($scope.selectFileType === "java"){
+                else if($scope.selectFileType === "java"){
                     sendSheetJava(data);
                 }
                 sendQuiz();
@@ -134,6 +109,28 @@ app.controller('viewSheetCtrl', ['$scope', '$window', function ($scope, $window)
                         send_date_time : dtJsToDtDB(new Date()),
                         send_late : checkSendLate()
                     };
+
+                    // ถ้าเป็นไฟล์ .c
+                    if($scope.selectFileType === "c"){
+                        if(($("#file_ans")[0].files).length > 1){
+                            $('#detail_sheet_part').waitMe('hide');
+                            $('#err_message').html('ไม่อนุญาตให้ส่งไฟล์ .c มากกว่า 1 ไฟล์');
+                            $('#fail_modal').modal('show');
+                        } else {
+                            sendSheetC(data);
+                        }
+                    }
+
+                    // ถ้าเป็นไฟล์ .cpp
+                    else if($scope.selectFileType === "cpp"){
+                        if(($("#file_ans")[0].files).length > 1){
+                            $('#detail_sheet_part').waitMe('hide');
+                            $('#err_message').html('ไม่อนุญาตให้ส่งไฟล์ .cpp มากกว่า 1 ไฟล์');
+                            $('#fail_modal').modal('show');
+                        } else {
+                            sendSheetCpp(data);
+                        }
+                    }
 
                     // ถ้าเป็นไฟล์ .java
                     if($scope.selectFileType === "java"){
@@ -225,6 +222,71 @@ app.controller('viewSheetCtrl', ['$scope', '$window', function ($scope, $window)
         }).responseJSON;
     }
     //----------------------------------------------------------------------
+    function sendSheetC(data) {
+        var sendSheetC = $.ajax({
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Accept: "application/json"
+            },
+            url: url + '/sendSheetC',
+            data:JSON.stringify(data),
+            async: false,
+            complete: function (xhr) {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        $scope.sheetSheeting[$scope.CurrentIndex].current_status = 'Q';
+                        // $scope.$apply();
+                        $scope.resSheetID = xhr.responseJSON;
+                        $('#detail_sheet_modal').modal('hide');
+                    } else if (xhr.status == 209) {
+                        $('#detail_sheet_modal').modal('hide');
+                        $('#err_message').html('โค้ดที่ส่งห้ามมี comment');
+                        $('#fail_modal').modal('show');
+                    } else {
+                        $('#detail_sheet_modal').modal('hide');
+                        $('#unsuccess_modal').modal({backdrop: 'static'});
+                    }
+                }
+            }
+        }).responseJSON;
+        console.log(sendSheetC);
+        return sendSheetC;
+    }
+    //----------------------------------------------------------------------
+    function sendSheetCpp(data) {
+        var sendSheetCpp = $.ajax({
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Accept: "application/json"
+            },
+            url: url + '/cppSendSheet',
+            data:JSON.stringify(data),
+            async: false,
+            complete: function (xhr) {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        $scope.sheetSheeting[$scope.CurrentIndex].current_status = 'Q';
+                        // $scope.$apply();
+                        $scope.resSheetID = xhr.responseJSON;
+                        $('#detail_sheet_modal').modal('hide');
+                    } else if (xhr.status == 209) {
+                        $('#detail_sheet_modal').modal('hide');
+                        $('#err_message').html('โค้ดที่ส่งห้ามมี comment');
+                        $('#fail_modal').modal('show');
+                    } else {
+                        $('#detail_sheet_modal').modal('hide');
+                        $('#unsuccess_modal').modal({backdrop: 'static'});
+                    }
+                }
+            }
+        }).responseJSON;
+        return sendSheetCpp;
+    }
+    //----------------------------------------------------------------------
     function dtJsToDtDB(date) {
         date = date.toLocaleString();
         dt = date.split(' ');
@@ -309,13 +371,13 @@ app.controller('viewSheetCtrl', ['$scope', '$window', function ($scope, $window)
                         $scope.$apply();
                         checked = 1;
                         var fileType = xhr.responseJSON;
-                        // if(fileType === "c"){
-                        //     compileAndRunC(pathSheetID);
-                        // }
-                        // else if(fileType === "cpp"){
-                        //     compileAndRunCpp(pathSheetID);
-                        // }
-                        if(fileType === "java"){
+                        if(fileType === "c"){
+                            compileAndRunC(pathSheetID);
+                        }
+                        else if(fileType === "cpp"){
+                            compileAndRunCpp(pathSheetID);
+                        }
+                        else if(fileType === "java"){
                             compileAndRunJava(pathSheetID);
                         }
                     } else { // ถ้าไม่ใช่คนแรก
@@ -344,6 +406,60 @@ app.controller('viewSheetCtrl', ['$scope', '$window', function ($scope, $window)
                 Accept: "application/json"
             },
             url: url + '/compileAndRunJava',
+            data:{
+                mode:"sheet",
+                pathSheetID:pathSheetID,
+                sheet_id : $scope.sheetID
+            },
+            async: false,
+            complete: function (xhr) {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        $scope.sheetSheeting[$scope.CurrentIndex].current_status = xhr.responseJSON;
+                        $scope.$apply();
+                        deleteFirstQueue();
+                    }
+                }
+            }
+        }).responseJSON;
+        console.log(testCompile);
+    }
+    //----------------------------------------------------------------------
+    function compileAndRunC(pathSheetID) {
+        var testCompile = $.ajax({
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Accept: "application/json"
+            },
+            url: url + '/compileAndRunC',
+            data:{
+                mode:"sheet",
+                pathSheetID:pathSheetID,
+                sheet_id : $scope.sheetID
+            },
+            async: false,
+            complete: function (xhr) {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        $scope.sheetSheeting[$scope.CurrentIndex].current_status = xhr.responseJSON;
+                        $scope.$apply();
+                        deleteFirstQueue();
+                    }
+                }
+            }
+        }).responseJSON;
+        console.log(testCompile);
+    }
+    //----------------------------------------------------------------------
+    function compileAndRunCpp(pathSheetID) {
+        var testCompile = $.ajax({
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Accept: "application/json"
+            },
+            url: url + '/cppCompileAndRun',
             data:{
                 mode:"sheet",
                 pathSheetID:pathSheetID,

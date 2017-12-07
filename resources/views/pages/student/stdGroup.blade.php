@@ -88,7 +88,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <input type="password" class="form-control" ng-model="joinPass"
-                                           maxlength="8"
+                                           maxlength="8" ng-keyup="$event.keyCode === 13 && okJoinGroup()"
                                            placeholder="อย่างน้อย 4 ตัวอักษร"/>
                                     <div class="notice" id="notice_pass_grp" style="display: none">
                                         รหัสผ่านไม่ถูกต้อง
