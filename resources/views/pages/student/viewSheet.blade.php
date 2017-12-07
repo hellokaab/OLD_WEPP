@@ -192,7 +192,7 @@
                             </div>
                             <br>
                             <br>
-                            <div class="row">
+                            <div class="row" ng-show="quiz.length > 0">
                                 <div class="text-center"><b>คำถามท้ายการทดลอง</b></div>
                                 <br>
                                 <div class="form-horizontal" role="form" ng-repeat="q in quiz">

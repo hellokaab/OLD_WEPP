@@ -293,11 +293,15 @@ Route::post('/sendExamC','CompileCController@sendExamC');
 
 Route::get('/compileAndRunC','CompileCController@compileAndRunC');
 
+Route::post('/sendSheetC','CompileCController@sendSheetC');
+
 //--------------------------- CompileCppController ---------------------------
 
-Route::post('/sendExamCpp','CompileCppController@sendExamCpp');
+Route::post('/cppSendExam','CompileCppController@sendExamCpp');
 
-Route::get('/compileAndRunCpp','CompileCppController@compileAndRunCpp');
+Route::get('/cppCompileAndRun','CompileCppController@compileAndRunCpp');
+
+Route::post('/cppSendSheet','CompileCppController@sendSheetCpp');
 
 //--------------------------- PathExamController ---------------------------
 

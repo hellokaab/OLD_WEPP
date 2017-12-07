@@ -193,6 +193,13 @@ class SheetingController extends Controller
                     array_push($code, $codeInFile);
                     fclose($handle);
                 }
+
+                else if (strpos($f, '.c') && $f != 'ex.c' && $f != 'ex.cpp') {
+                    $handle = fopen("$folder_ans/$f", "r");
+                    $codeInFile = fread($handle, filesize("$folder_ans/$f"));
+                    array_push($code, $codeInFile);
+                    fclose($handle);
+                }
             }
 
             $data = array(

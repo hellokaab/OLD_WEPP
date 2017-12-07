@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Exam;
 use App\PathExam;
 use App\ReadyQueueEx;
+use App\ReadyQueueSh;
 use App\ResExam;
+use App\ResSheet;
 use App\Users;
+use App\Worksheet;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -33,6 +36,8 @@ class CompileCController extends Controller
                 $examingFolder = "Examing_" . $request->EMID;
                 $examFolder = "Exam_" . $request->EID;
                 $path = "../upload/resexam/";
+                // สร้างโฟลเดอร์เก็บข้อสอบที่ส่ง
+                $this->makeFolder("../upload/","resexam");
                 // สร้างโฟลเดอร์ของการสอบ
                 $this->makeFolder($path, $examingFolder);
                 // สร้างโฟลเดอร์ของข้อสอบในการสอบ
@@ -142,13 +147,139 @@ class CompileCController extends Controller
         }
     }
 
+    public function sendSheetC(Request $request){
+        $no_comment = true;
+        $folder_ans = "";
+        $resSheetID = "";
+        $completeInsRes = false;
+        // ถ้าพิมพ์โค้ดส่ง
+        if($request->mode === "key") {
+            $code = $request->code;
+            // ตรวจสอบว่ามี comment หรือไม่
+            $no_comment = $this->check_comment($code);
+            if ($no_comment) {
+//                สร้างโฟลเดอร์เก็บไฟล์ที่ส่ง
+                $user = Users::find($request->UID);
+                $userFolder = $user->stu_id . "_" . $user->fname_en . "_" . $user->lname_en;
+                $sheetingFolder = "Sheeting_" . $request->STID;
+                $sheetFolder = "Sheet_" . $request->SID;
+                $path = "../upload/resworksheet/";
+//                สร้างโฟลเดอร์เก็บข้อสอบที่ส่ง
+                $this->makeFolder("../upload/","resworksheet");
+//                สร้างโฟลเดอร์ของการสอบ
+                $this->makeFolder($path, $sheetingFolder);
+//                สร้างโฟลเดอร์ของข้อสอบในการสอบ
+                $this->makeFolder($path . $sheetingFolder . "/", $sheetFolder);
+//                สร้างโฟลเดอร์ของนักเรียนที่ส่งข้อสอบ
+                $this->makeFolder($path . $sheetingFolder . "/" . $sheetFolder . "/", $userFolder);
+                $folderName = date('Ymd-His') . "_" . rand(1, 9999);
+                $folder_ans = $path . $sheetingFolder . "/" . $sheetFolder . "/" . $userFolder . "/" . $folderName;
+                mkdir($folder_ans, 0777, true);
+
+                // ตั้งชื่อว่า ressheet
+                $file_name = "ressheet";
+                $file_ans = "$file_name.c";
+
+                // เขียนไฟล์
+                $handle = fopen("$folder_ans/$file_ans", 'w') or die('Cannot open file:  ' . $file_ans);
+                fwrite($handle, $code);
+                fclose($handle);
+            }
+        } else {
+            // แต่ถ้าส่งไฟล์โค้ดมา
+            $folder_ans = $request->path;
+            $files = scandir($folder_ans);
+            foreach ($files as $f) {
+                // ลูปเช็คทุกไฟล์ที่มีนามสกุล .c
+                $file_ans = $f;
+                if (strpos($f, '.c') && $no_comment) {
+                    $handle = fopen("$folder_ans/$f", "r");
+                    $code_in_file = fread($handle, filesize("$folder_ans/$f"));
+                    fclose($handle);
+                    $no_comment = $this->check_comment($code_in_file);
+                }
+
+                if(!$no_comment){
+                    // ลบไฟล์ที่ถูกส่งมา
+                    $files = scandir($folder_ans);
+                    foreach ($files as $f) {
+                        @unlink("$folder_ans/$f");
+                    }
+                    rmdir($folder_ans);
+                }
+            }
+        }
+
+        try{
+            if ($no_comment) {
+                // บันทึกลงฐานข้อมูล ตาราง res_sheets
+                $resSheet = ResSheet::where('sheeting_id',$request->STID)
+                    ->where('sheet_id',$request->SID)
+                    ->where('user_id',$request->UID)
+                    ->first();
+                if($resSheet === NULL){
+                    $resSheet = new ResSheet;
+                    $resSheet->sheeting_id = $request->STID;
+                    $resSheet->sheet_id = $request->SID;
+                    $resSheet->user_id = $request->UID;
+                    $resSheet->current_status = "q";
+                    $resSheet->send_late = $request->send_late;
+                    $resSheet->path = $folder_ans;
+                    $resSheet->send_date_time = $request->send_date_time;
+                    $resSheet->save();
+                    $insertedId = $resSheet->id;
+                    $resSheetID = $insertedId;
+                } else {
+                    $this->rrmdir($resSheet->path);
+                    $resSheetID = $resSheet->id;
+                    $resSheet->current_status = "q";
+                    $resSheet->send_late = $request->send_late;
+                    $resSheet->path = $folder_ans;
+                    $resSheet->send_date_time = $request->send_date_time;
+                    $resSheet->save();
+                }
+                $completeInsRes = true;
+
+
+                // บันทึกลงฐานข้อมูล ready_queue_shes
+                $readyQueue = new ReadyQueueSh;
+//                $readyQueue->path_sheet_id = $pathSheetID;
+                $readyQueue->ressheet_id = $resSheetID;
+                $readyQueue->file_type = "c";
+                $readyQueue->save();
+                return response()->json($resSheetID);
+
+            } else {
+                return response()->json(['error' => 'Error msg'], 209);
+            }
+        }catch( \Exception $e ){
+            if($completeInsRes){
+                $delResExam = ResSheet::find($resSheetID);
+                $delResExam->delete();
+            }
+
+            // ลบไฟล์ที่ส่งมา
+            $files = scandir($folder_ans);
+            foreach ($files as $f) {
+                @unlink("$folder_ans/$f");
+            }
+            rmdir($folder_ans);
+            return response()->json(['error' => 'Error msg'], 210);
+        }
+    }
+
     public function compileAndRunC(Request $request){
         $status = "";
         $folder_ans = "";
+        $code_add_checker = "";
         // คิวรี่ ที่อยู่ของไฟล์ที่ส่ง
         if($request->mode == "exam"){
             $pathExam = PathExam::find($request->pathExamID);
             $folder_ans = $pathExam->path;
+        } else if($request->mode == "sheet"){
+//            $pathSheet = PathSheet::find($request->pathSheetID);
+            $resSheet = ResSheet::find($request->pathSheetID);
+            $folder_ans = $resSheet->path;
         }
 
         // ดึงข้อมูลโค้ดจากไฟล์ที่ส่ง
@@ -159,7 +290,11 @@ class CompileCController extends Controller
         fclose($handle);
 
         // เพิ่มโค้ดส่วนของการเช็คเวลา เช็คเมมโมรี่
-        $code_add_checker = $this->add_check_code($code_in_file,$request->exam_id);
+        if($request->mode == "exam") {
+            $code_add_checker = $this->add_check_code($code_in_file, $request->exam_id,$request->mode);
+        } else if($request->mode == "sheet"){
+            $code_add_checker = $this->add_check_code($code_in_file, $request->sheet_id,$request->mode);
+        }
 
         // เก็บไว้ในไฟล์ชื่อ ex.c
         $file = 'ex';
@@ -173,16 +308,30 @@ class CompileCController extends Controller
         if (file_exists("$folder_ans/wepp_ex.exe")) {
             // คิวรี่ input,output ของข้อสอบ
             $input = "";
-            $exam = Exam::find($request->exam_id);
-            if(strlen ($exam->exam_inputfile)>0){
-                $handle = fopen($exam->exam_inputfile, "r");
-                $input = fread($handle, filesize($exam->exam_inputfile));
+            $output = "";
+            if($request->mode == "exam") {
+                $exam = Exam::find($request->exam_id);
+                if (strlen($exam->exam_inputfile) > 0) {
+                    $handle = fopen($exam->exam_inputfile, "r");
+                    $input = fread($handle, filesize($exam->exam_inputfile));
+                    fclose($handle);
+                }
+
+                $handle = fopen($exam->exam_outputfile, "r");
+                $output = fread($handle, filesize($exam->exam_outputfile));
+                fclose($handle);
+            } else if($request->mode == "sheet"){
+                $sheet = Worksheet::find($request->sheet_id);
+                if (strlen($sheet->sheet_input_file) > 0) {
+                    $handle = fopen($sheet->sheet_input_file, "r");
+                    $input = fread($handle, filesize($sheet->sheet_input_file));
+                    fclose($handle);
+                }
+
+                $handle = fopen($sheet->sheet_output_file, "r");
+                $output = fread($handle, filesize($sheet->sheet_output_file));
                 fclose($handle);
             }
-
-            $handle = fopen($exam->exam_outputfile, "r");
-            $output = fread($handle, filesize($exam->exam_outputfile));
-            fclose($handle);
 
             // รันโค้ดที่ส่ง
             $lines_run = $this->run_code($input,$folder_ans);
@@ -191,6 +340,8 @@ class CompileCController extends Controller
             $checker = "";
             if($request->mode == "exam") {
                 $checker = $this->check_correct_ans_ex($lines_run, $request->exam_id,$folder_ans);
+            } else if($request->mode == "sheet") {
+                $checker = $this->check_correct_ans_sh($lines_run, $request->sheet_id,$folder_ans);
             }
 //
             // เครียร์ไฟล์ขยะ (*.exe, *.bat)
@@ -199,6 +350,8 @@ class CompileCController extends Controller
             // อัพเดตสถานะการส่ง เป็นสถานะที่เช็คได้
             if($request->mode == "exam"){
                 $status = $this->update_resexam($request->pathExamID,$request->exam_id,$checker,$folder_ans);
+            } else if($request->mode == "sheet") {
+                $status = $this->update_resworksheet($request->pathSheetID,$request->sheet_id,$checker,$folder_ans);
             }
 
 //            return response()->json(array('resrun'=>$lines_run,'resrun_length'=>strlen($lines_run),'teaOutput'=>$output,'teaOutput_length'=>strlen($output)));
@@ -208,6 +361,9 @@ class CompileCController extends Controller
             if($request->mode == "exam"){
                 $checker = array("status" => "c", "res_run" => null, "time" => null, "mem" => null);
                 $status = $this->update_resexam($request->pathExamID,$request->exam_id,$checker,$folder_ans);
+            } else if($request->mode == "sheet") {
+                $checker = array("status" => "c", "res_run" => null, "time" => null, "mem" => null);
+                $status = $this->update_resworksheet($request->pathSheetID,$request->sheet_id,$checker,$folder_ans);
             }
         }
         return response()->json($status);
@@ -304,6 +460,68 @@ class CompileCController extends Controller
         return $checker['status'];
     }
 
+    function update_resworksheet($path_sheet_id, $sheet_id, $checker,$folder_ans) {
+        // เขียนไฟล์ผลการรันลงในโฟลเดอร์
+        $handle = fopen("$folder_ans/resrun.txt", 'w') or die('Cannot open file:  resrun.txt');
+        fwrite($handle, $checker["res_run"]);
+        fclose($handle);
+
+        $sheet = Worksheet::find($sheet_id);
+
+        $resSheetID = $path_sheet_id;
+
+        // ค้นคำตอบที่มีเปอร์เซ็นถูกต้องเยอะที่สุด จากที่เคยส่ง
+        $statusImp = DB::select('SELECT status 
+                                  FROM (SELECT * FROM path_sheets WHERE path_sheets.ressheet_id = ?) AS s 
+                                  WHERE s.status = "9" 
+                                  OR s.status = "8" 
+                                  OR s.status = "7" 
+                                  OR s.status = "6" 
+                                  OR s.status = "5" 
+                                  GROUP BY s.status',[$resSheetID]);
+        $maxPercent = 0;
+        if($statusImp){
+            foreach($statusImp as $status){
+                if($status->status == 9) {
+                    if($maxPercent < 9) $maxPercent = 9;
+                } else if ($status->status == 8){
+                    if($maxPercent < 8) $maxPercent = 8;
+                } else if ($status->status == 7){
+                    if($maxPercent < 7) $maxPercent = 7;
+                } else if ($status->status == 6){
+                    if($maxPercent < 6) $maxPercent = 6;
+                } else if ($status->status == 5){
+                    if($maxPercent < 5) $maxPercent = 5;
+                }
+            }
+        }
+
+        $cutScore = 0;
+        // ค้นหาการส่งข้อสอบ
+        $resSheet = ResSheet::find($resSheetID);
+        $resSheet->current_status = $checker["status"];
+        $resSheet->resrun = "$folder_ans/resrun.txt";
+
+        // ถ้าสถานะเป็น ผ่าน หรือ ถูกต้องบางส่วน
+        $score = 0;
+        if ($checker['status'] == 'a' || is_numeric($checker['status'])) {
+            if($checker['status'] == 'a'){
+                $score = $sheet->full_score;
+            } else {
+                if($checker['status'] > $maxPercent){
+                    $score = $sheet->full_score * $checker['status'] / 10;
+                } else {
+                    $score = $sheet->full_score * $maxPercent / 10;
+                }
+            }
+        } else {
+            $score = $sheet->full_score * $maxPercent / 10;
+        }
+        $resSheet->score = $score;
+        $resSheet->save();
+        return $checker['status'];
+    }
+
     function check_correct_ans_ex($lines_run, $exam_id,$folder_ans){
         $exam = Exam::find($exam_id);
         $run = $this->prepare_result($lines_run,$folder_ans);
@@ -325,6 +543,43 @@ class CompileCController extends Controller
 
             // คิดคำตอบเหมือน output กี่เปอร์เซ็นต์
             $percent_equal = $this->check_percentage_ans($output_teacher, $run['res_run'], $exam->case_sensitive);
+
+            if ($percent_equal == 100) {
+                return array("status" => "a", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
+            } else if ($percent_equal > 89) {
+                return array("status" => "9", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
+            } else if ($percent_equal > 79) {
+                return array("status" => "8", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
+            } else if ($percent_equal > 69) {
+                return array("status" => "7", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
+            } else if ($percent_equal > 59) {
+                return array("status" => "6", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
+            } else if ($percent_equal > 49) {
+                return array("status" => "5", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
+            }
+
+            // ถ้าน้อยกว่า 50% ถือว่า wrong answer
+            return array("status" => "w", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
+        }
+    }
+
+    function check_correct_ans_sh($lines_run, $sheet_id,$folder_ans){
+        $sheet = Worksheet::find($sheet_id);
+        $run = $this->prepare_result($lines_run,$folder_ans);
+
+
+        if ($run == 'OverTime') {
+            return array("status" => "t", "res_run" => 'Over time', "time" => 0, "mem" => 0);
+        } else {
+            // อ่านไฟล์ output ของ Teacher
+            $file_output = $sheet->sheet_output_file;
+//            $output_teacher = file($file_output);
+            $handle = fopen("$file_output", "r");
+            $output_teacher = trim(fread($handle, filesize("$file_output")));
+            fclose($handle);
+
+            // คิดคำตอบเหมือน output กี่เปอร์เซ็นต์
+            $percent_equal = $this->check_percentage_ans($output_teacher, $run['res_run'], $sheet->case_sensitive);
 
             if ($percent_equal == 100) {
                 return array("status" => "a", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
@@ -437,10 +692,15 @@ class CompileCController extends Controller
         }
     }
 
-    function add_check_code($code,$exam_id) {
-        // คิวรี่ runtime ของข้อสอบ
-        $exam = Exam::find($exam_id);
-        $ruutimeIn = $exam->time_limit;
+    function add_check_code($code,$exam_id,$mode) {
+        // กำหนดเวลาในการรันไว้ 5 วินาที
+        $ruutimeIn = 5;
+        // ถ้าเป็นการสอบ
+        if($mode == "exam") {
+            // คิวรี่ runtime ของข้อสอบ
+            $exam = Exam::find($exam_id);
+            $ruutimeIn = $exam->time_limit;
+        }
 
         $resmodifile = '#include <time.h>
     #include <process.h>
@@ -599,6 +859,21 @@ class CompileCController extends Controller
         if (!in_array((string) $folder, (array) $dirList)) {
             mkdir($path.$folder, 0777, true);
         }
+    }
+
+    public function rrmdir($path) {
+        // Open the source directory to read in files
+        try {
+            $i = new DirectoryIterator($path);
+            foreach ($i as $f) {
+                if ($f->isFile()) {
+                    unlink($f->getRealPath());
+                } else if (!$f->isDot() && $f->isDir()) {
+                    $this->rrmdir($f->getRealPath());
+                }
+            }
+            rmdir($path);
+        } catch(\Exception $e ){}
     }
 
     function calculate_memory($folder_ans){

@@ -276,7 +276,7 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
             headers: {
                 Accept: "application/json"
             },
-            url: url + '/sendExamCpp',
+            url: url + '/cppSendExam',
             data:JSON.stringify(data),
             async: false,
             complete: function (xhr) {
@@ -409,7 +409,7 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
             headers: {
                 Accept: "application/json"
             },
-            url: url + '/compileAndRunCpp',
+            url: url + '/cppCompileAndRun',
             data:{
                 mode:"exam",
                 pathExamID:pathExamID,
