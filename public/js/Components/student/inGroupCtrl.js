@@ -3,7 +3,7 @@ app.controller('inGroupCtrl', ['$scope', '$window', function ($scope, $window) {
     $scope.selectRow = "10";
     $scope.examingComing = findSTDExamingItsComing($scope.groupData.id);
     $scope.examingEnding = findExamingItsEnding($scope.groupData.id);
-    $scope.sheeting = findSheetingByGroupID($scope.groupData.id);
+    $scope.sheeting = findSTDSheetingByGroupID($scope.groupData.id);
 
     // เปลี่ยนเวลาแบบ Database เป็นเวลาแบบ Data Time Picker
     for (i = 0; i < $scope.examingComing.length; i++) {

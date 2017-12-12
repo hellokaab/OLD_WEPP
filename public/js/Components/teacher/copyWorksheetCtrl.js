@@ -5,7 +5,7 @@ app.controller('copyWorksheetCtrl', ['$scope', '$window', function ($scope, $win
 
     var newQuizzes = new Array();
     $scope.worksheetData = findWorksheetByID($window.sheetID);
-    $scope.quizzes = findQuizBySHID($scope.worksheetData.id);
+    $scope.quizzes = findQuizBySID($scope.worksheetData.id);
     $scope.selectTeacher = [];
     $('#sheet_trial').Editor();
 

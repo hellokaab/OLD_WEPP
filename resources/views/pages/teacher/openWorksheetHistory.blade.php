@@ -80,6 +80,10 @@
                                             <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
                                         </button>
                                         &nbsp;
+                                        <button class="btn btn-sm btn-outline-primary" title="สรุปผลคะแนน" style="cursor:pointer" ng-click="viewPoint(sh)">
+                                            <i class="fa fa-bar-chart fa-lg" aria-hidden="true"></i>
+                                        </button>
+                                        &nbsp;
                                         <button class="btn btn-sm btn-outline-danger" title="ลบ" style="cursor:pointer" ng-click="deleteSheeting(sh)">
                                             <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
                                         </button>
@@ -96,13 +100,14 @@
         <div class="modal fade" id="delete_modal" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="panel panel-danger" id="delete_sheeting_part" style="margin-bottom: 0">
+                    <div class="panel panel-danger" id="delete_part" style="margin-bottom: 0">
                         <div class="panel-heading">
                             <h3 class="panel-title">ยืนยันการทำรายการ</h3>
                         </div>
                         <div style="padding-top: 7%; text-align: center">คุณต้องการลบประวัติการสั่งงานนี้หรือไม่</div>
                         <br>
                         <input ng-model="sheetingName" value="" style="margin-left: 10%; width: 80%" type="text" class="form-control text-center"  disabled/>
+                        <div style="padding-top: 3%; text-align: center">(ข้อมูลการสั่งงาน, ไฟล์ที่นักศึกษาส่งในการสั่งงานนี้จะถูกลบไปด้วย)</div>
                         <br>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-danger" ng-click="okDeleteSheeting()">ตกลง</button>

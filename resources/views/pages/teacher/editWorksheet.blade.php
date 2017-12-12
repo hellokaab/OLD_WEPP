@@ -4,7 +4,7 @@
     <script src="js/Components/teacher/editWorksheetCtrl.js"></script>
     <script>
         var sheetID = {{$sheetID}};
-        var quizzes = findQuizBySHID(sheetID);
+        var quizzes = findQuizBySID(sheetID);
 //        var countOldQuiz = quizzes.length;
     </script>
     <div ng-controller="editWorksheetCtrl" style="display: none" id="edit_sheet_div">

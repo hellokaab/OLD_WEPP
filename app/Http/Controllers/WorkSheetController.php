@@ -166,6 +166,11 @@ class WorkSheetController extends Controller
         return response()->json($sheet);
     }
 
+    public function findSheetByID(Request $request){
+        $sheet = Worksheet::find($request->id);
+        return response()->json($sheet);
+    }
+
     public function createQuiz(Request $request){
         $quiz = new Quiz;
         $quiz->sheet_id = $request->sheet_id;
@@ -245,11 +250,6 @@ class WorkSheetController extends Controller
             ->where('user_id', '!=',$request->my_id)
             ->get();
         return response()->json($shared);
-    }
-
-    public function findQuizBySHID(Request $request){
-        $quiz = Quiz::where('sheet_id',$request->sheet_id)->get();
-        return response()->json($quiz);
     }
 
     public function updateWorksheet(Request $request){

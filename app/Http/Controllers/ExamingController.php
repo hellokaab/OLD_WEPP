@@ -206,6 +206,23 @@ class ExamingController extends Controller
     public function destroy(Request $request)
     {
         $examing = Examing::find($request->id);
+        $examingFolder = "Examing_".$examing->id;
+        $this->rrmdir("../upload/resexam/".$examingFolder);
         $examing->delete();
+    }
+
+    public function rrmdir($path) {
+        // Open the source directory to read in files
+        try {
+            $i = new DirectoryIterator($path);
+            foreach ($i as $f) {
+                if ($f->isFile()) {
+                    unlink($f->getRealPath());
+                } else if (!$f->isDot() && $f->isDir()) {
+                    $this->rrmdir($f->getRealPath());
+                }
+            }
+            rmdir($path);
+        } catch(\Exception $e ){}
     }
 }

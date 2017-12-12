@@ -41,11 +41,11 @@
                             <td>
                                 <div class="radio inline-form-control">
                                     <div class="col-md-6" style="text-align: center">
-                                        <input type="radio" name="hide_examing_<%e.id%>" id="hide_ex_<%e.id%>" value="0" ng-click="changeToHidden(e)">
+                                        <input type="radio" name="hide_examing_<%e.id%>" id="hide_ex_<%e.id%>" value="0" ng-click="changeHidden(e,'he')">
                                         <label for="hide_ex_<%e.id%>" style="padding-left: 2px">ซ่อน</label>
                                     </div>
                                     <div class="col-md-6" style="text-align: center">
-                                        <input type="radio" name="hide_examing_<%e.id%>" id="show_ex_<%e.id%>" value="1" ng-click="changeToShow(e)">
+                                        <input type="radio" name="hide_examing_<%e.id%>" id="show_ex_<%e.id%>" value="1" ng-click="changeHidden(e,'se')">
                                         <label for="show_ex_<%e.id%>" style="padding-left: 2px">แสดง</label>
                                     </div>
                                 </div>
@@ -59,7 +59,7 @@
                                     <i class="fa fa-trophy fa-lg" aria-hidden="true"></i>
                                 </button>
                                 &nbsp;&nbsp;
-                                <button class="btn btn-sm btn-outline-danger" title="ลบ" style="cursor:pointer" ng-click="deleteExaming(e)">
+                                <button class="btn btn-sm btn-outline-danger" title="ลบ" style="cursor:pointer" ng-click="deleteData(e,'ex')">
                                     <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
                                 </button>
                             </td>
@@ -121,6 +121,57 @@
                         </tr>
                         <tr ng-hide="examingEnding.length > 0">
                             <td>ไม่พบข้อมูล</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                    <br>
+                    <div class="col-lg-12" style="padding: 0px">
+                        <label style="text-decoration:underline;font-size: 18px;padding-top: 5px">ใบงาน</label><button class="btn btn-sm btn-outline-success" href="" ng-click="openSheeting()" style="float: right"><i class="fa fa-plus"> </i> สั่งงาน</button>
+                    </div>
+                    <table class="table table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th style="width: 20%">ชื่อใบงาน</th>
+                            <th style="width: 20%;text-align: center">เริ่มต้น</th>
+                            <th style="width: 20%;text-align: center">สิ้นสุด</th>
+                            <th style="width: 23%;text-align: center">ซ่อน/แสดง</th>
+                            <th style="width: 17%;text-align: center"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="st in sheeting" >
+                            <td><%st.sheeting_name%></td>
+                            <td style="text-align: center"><%st.start_date_time%></td>
+                            <td style="text-align: center"><%st.end_date_time%></td>
+                            <td>
+                                <div class="radio inline-form-control">
+                                    <div class="col-md-6" style="text-align: center">
+                                        <input type="radio" name="hide_sheeting_<%st.id%>" id="hide_sh_<%st.id%>" value="0" ng-click="changeHidden(st,'hs')">
+                                        <label for="hide_sh_<%st.id%>" style="padding-left: 2px">ซ่อน</label>
+                                    </div>
+                                    <div class="col-md-6" style="text-align: center">
+                                        <input type="radio" name="hide_sheeting_<%st.id%>" id="show_sh_<%st.id%>" value="1" ng-click="changeHidden(st,'ss')">
+                                        <label for="show_sh_<%st.id%>" style="padding-left: 2px">แสดง</label>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="text-align: center">
+                                <button class="btn btn-sm btn-outline-warning" title="แก้ไข" style="cursor:pointer" ng-click="editSheeting(st)">
+                                    <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
+                                </button>
+                                &nbsp;&nbsp;
+                                <button class="btn btn-sm btn-outline-danger" title="ลบ" style="cursor:pointer" ng-click="deleteData(st,'sh')">
+                                    <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr ng-hide="sheeting.length > 0">
+                            <td>ไม่พอข้อมูล</td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -234,20 +285,21 @@
             </div>
         </div>
 
-        <!-- Delete Examing Modal -->
+        <!-- Delete Modal -->
         <div class="modal fade" id="delete_modal" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="panel panel-danger" id="deleteExamingPart" style="margin-bottom: 0">
+                    <div class="panel panel-danger" id="delete_part" style="margin-bottom: 0">
                         <div class="panel-heading">
                             <h3 class="panel-title">ยืนยันการทำรายการ</h3>
                         </div>
-                        <div style="padding-top: 7%; text-align: center">คุณต้องการลบการสอบนี้หรือไม่</div>
+                        <div style="padding-top: 7%; text-align: center" id="message_delete">คุณต้องการลบการสอบนี้หรือไม่</div>
                         <br>
-                        <input ng-model="examingName" value="" style="margin-left: 10%; width: 80%" type="text" class="form-control text-center"  disabled/>
+                        <input ng-model="deleteName" value="" style="margin-left: 10%; width: 80%" type="text" class="form-control text-center"  disabled/>
+                        <div style="padding-top: 3%; text-align: center" id="message_delete_2">(ข้อมูลการสอบ, ไฟล์ที่นักศึกษาส่งในการสอบนี้จะถูกลบไปด้วย)</div>
                         <br>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-danger" ng-click="okDeleteExaming()">ตกลง</button>
+                            <button type="button" class="btn btn-outline-danger" ng-click="okDelete()">ตกลง</button>
                             <button type="button" class="btn btn-outline-default" data-dismiss="modal">ยกเลิก</button>
                         </div>
                     </div>
@@ -276,44 +328,22 @@
             </div>
         </div>
 
-        <!-- Hidden Modal -->
-        <div class="modal fade" id="change_hidden_modal" role="dialog">
+        <!-- Confirm Modal -->
+        <div class="modal fade" id="confirm_modal" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="panel panel-info" id="change_hidden_part" style="margin-bottom: 0">
+                    <div class="panel panel-info" id="confirm_part" style="margin-bottom: 0">
                         <div class="panel-heading">
                             <h3 class="panel-title" style="color: #555">ยืนยันการทำรายการ</h3>
                         </div>
-                        <div style="padding-top: 7%; text-align: center">คุณต้องการซ่อนการสอบนี้หรือไม่</div>
+                        <div style="padding-top: 7%; text-align: center" id="message_confirm">คุณต้องการซ่อนการสอบนี้หรือไม่</div>
                         <br>
                         <input style="margin-left: 10%; width: 80%" type="text" class="form-control text-center"
-                               ng-model="examingName" disabled/>
+                               ng-model="confirmName" disabled/>
                         <br>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-info" ng-click="okHidden()">ตกลง</button>
-                            <button type="button" class="btn btn-outline-default" ng-click="cancelHidden()">ยกเลิก</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Show Modal -->
-        <div class="modal fade" id="change_show_modal" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="panel panel-info" id="change_show_part" style="margin-bottom: 0">
-                        <div class="panel-heading">
-                            <h3 class="panel-title" style="color: #555">ยืนยันการทำรายการ</h3>
-                        </div>
-                        <div style="padding-top: 7%; text-align: center">คุณต้องการแสดงการสอบนี้หรือไม่</div>
-                        <br>
-                        <input style="margin-left: 10%; width: 80%" type="text" class="form-control text-center"
-                               ng-model="examingName" disabled/>
-                        <br>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-info" ng-click="okShow()">ตกลง</button>
-                            <button type="button" class="btn btn-outline-default" ng-click="cancelShow()">ยกเลิก</button>
+                            <button type="button" class="btn btn-outline-info" ng-click="okChange()">ตกลง</button>
+                            <button type="button" class="btn btn-outline-default" ng-click="cancelChange()">ยกเลิก</button>
                         </div>
                     </div>
                 </div>

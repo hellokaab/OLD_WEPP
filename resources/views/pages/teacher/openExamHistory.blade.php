@@ -104,13 +104,14 @@
         <div class="modal fade" id="delete_modal" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="panel panel-danger" id="deleteExamingPart" style="margin-bottom: 0">
+                    <div class="panel panel-danger" id="delete_part" style="margin-bottom: 0">
                         <div class="panel-heading">
                             <h3 class="panel-title">ยืนยันการทำรายการ</h3>
                         </div>
                         <div style="padding-top: 7%; text-align: center">คุณต้องการลบประวัติการเปิดสอบนี้หรือไม่</div>
                         <br>
                         <input ng-model="examingName" value="" style="margin-left: 10%; width: 80%" type="text" class="form-control text-center"  disabled/>
+                        <div style="padding-top: 3%; text-align: center">(ข้อมูลการสอบ, ไฟล์ที่นักศึกษาส่งในการสอบนี้จะถูกลบไปด้วย)</div>
                         <br>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-danger" ng-click="okDeleteExaming()">ตกลง</button>

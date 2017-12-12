@@ -213,6 +213,8 @@ Route::post('/uploadFileSh/{path}', 'WorkSheetController@uploadFileSh');
 
 Route::get('/findSheetByUserID', 'WorkSheetController@findSheetByUserID');
 
+Route::get('/findSheetByID', 'WorkSheetController@findSheetByID');
+
 Route::get('/createQuiz', 'WorkSheetController@createQuiz');
 
 Route::get('/createSharedWorksheet', 'WorkSheetController@createSharedWorksheet');
@@ -226,8 +228,6 @@ Route::get('/findWorksheetByID{id}', 'WorkSheetController@findWorksheetByID');
 Route::get('/readFileSh', 'WorkSheetController@readFileSh');
 
 Route::get('/findSheetSharedUserNotMe', 'WorkSheetController@findSheetSharedUserNotMe');
-
-Route::get('/findQuizBySHID', 'WorkSheetController@findQuizBySHID');
 
 Route::get('/deleteUserSharedSheet', 'WorkSheetController@deleteUserSharedSheet');
 
@@ -331,6 +331,8 @@ Route::get('/editOpenSheet{id}','SheetingController@editOpenSheet');
 
 Route::get('/findSheetSheetingBySheetingID','SheetingController@findSheetSheetingBySheetingID');
 
+Route::get('/findSheetSheetingInSheetBoard','SheetingController@findSheetSheetingInSheetBoard');
+
 Route::get('/findSheetingByID','SheetingController@findSheetingByID');
 
 Route::get('/updateSheeting','SheetingController@updateSheeting');
@@ -343,6 +345,8 @@ Route::get('/deleteSheeting','SheetingController@deleteSheeting');
 
 Route::get('/findSheetingByGroupID','SheetingController@findSheetingByGroupID');
 
+Route::get('/findSTDSheetingByGroupID','SheetingController@findSTDSheetingByGroupID');
+
 Route::get('/viewSheet{id}','SheetingController@viewSheet');
 
 Route::get('/findSheetSheetingInViewSheet','SheetingController@findSheetSheetingInViewSheet');
@@ -352,3 +356,17 @@ Route::get('/findOldCodeInResSheet','SheetingController@findOldCodeInResSheet');
 Route::get('/sendQuiz','SheetingController@sendQuiz');
 
 Route::get('/findResQuizByRSID','SheetingController@findResQuizByRSID');
+
+Route::get('/changeHiddenSheeting','SheetingController@changeHiddenSheeting');
+
+Route::get('/sheetBoard{id}','SheetingController@sheetBoard');
+
+Route::get('/dataInSheetBoard','SheetingController@dataInSheetBoard');
+
+Route::get('/findResSheetByID','SheetingController@findResSheetByID');
+
+Route::get('/editTrialScore','SheetingController@editTrialScore');
+
+Route::get('/editQuizScore','SheetingController@editQuizScore');
+
+Route::get('/detailSheet{id}', 'SheetingController@detailSheet');
