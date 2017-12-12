@@ -192,8 +192,7 @@
                                             </div>
                                         </div>
                                     </div>
-
-                         </div>
+                                </div>
                             </div>
                         </div>
                         <!-- Model footer -->
@@ -202,7 +201,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

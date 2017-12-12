@@ -25,7 +25,7 @@ app.controller('openExamHistoryCtrl', ['$scope', '$window', function ($scope, $w
     };
     //----------------------------------------------------------------------
     $scope.okDeleteExaming = function () {
-        $('#deleteExamingPart').waitMe({
+        $('#delete_part').waitMe({
             effect: 'facebook',
             bg: 'rgba(255,255,255,0.9)',
             color: '#3bafda'

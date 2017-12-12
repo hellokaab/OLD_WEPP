@@ -39,7 +39,7 @@ app.controller('shareWorksheetCtrl', ['$scope', '$window', function ($scope, $wi
         $('#sheetName').html(data.sheet_name);
         $('#fullScore').html(data.full_score);
         $('#notation').html(data.notation);
-        $scope.quizzes = findQuizBySHID(data.id);
+        $scope.quizzes = findQuizBySID(data.id);
         $('#detail_sheet_modal').modal({backdrop: 'static'});
 
         $('#objective_part').waitMe({

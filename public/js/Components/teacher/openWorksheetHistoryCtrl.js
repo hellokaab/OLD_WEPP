@@ -22,7 +22,7 @@ app.controller('openWorksheetHistoryCtrl', ['$scope', '$window', function ($scop
     };
     //----------------------------------------------------------------------
     $scope.okDeleteSheeting = function () {
-        $('#delete_sheeting_part').waitMe({
+        $('#delete_part').waitMe({
             effect: 'facebook',
             bg: 'rgba(255,255,255,0.9)',
             color: '#3bafda'
@@ -40,4 +40,9 @@ app.controller('openWorksheetHistoryCtrl', ['$scope', '$window', function ($scop
     $('#okSuccess').on('click',function () {
         location.reload();
     });
+    //----------------------------------------------------------------------
+    $scope.viewPoint = function (data) {
+        window.open(url+'/sheetBoard'+data.id, '_blank');
+        window.focus();
+    }
 }]);

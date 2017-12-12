@@ -7,6 +7,7 @@ app.controller('teaInGroupCtrl', ['$scope', '$window', function ($scope, $window
     console.log($scope.groupData);
     $scope.examingComing = findExamingItsComing($scope.groupData.id);
     $scope.examingEnding = findExamingItsEnding($scope.groupData.id);
+    $scope.sheeting = findSheetingByGroupID($scope.groupData.id);
     $scope.selectRow = "10";
     $scope.memberList = findMemberGroup($scope.groupData.id);
     console.log($scope.memberList);
@@ -19,6 +20,10 @@ app.controller('teaInGroupCtrl', ['$scope', '$window', function ($scope, $window
     for (i = 0; i < $scope.examingEnding.length; i++) {
         $scope.examingEnding[i].start_date_time = dtDBToDtPicker($scope.examingEnding[i].start_date_time);
         $scope.examingEnding[i].end_date_time = dtDBToDtPicker($scope.examingEnding[i].end_date_time);
+    }
+    for (i = 0; i < $scope.sheeting.length; i++) {
+        $scope.sheeting[i].start_date_time = dtDBToDtPicker($scope.sheeting[i].start_date_time);
+        $scope.sheeting[i].end_date_time = dtDBToDtPicker($scope.sheeting[i].end_date_time);
     }
 
     $(document).ready(function () {
@@ -37,20 +42,60 @@ app.controller('teaInGroupCtrl', ['$scope', '$window', function ($scope, $window
                 document.getElementById("show_hi_"+$scope.examingEnding[i].id).checked = true;
             }
         }
+
+        for(i=0;i<$scope.sheeting.length;i++){
+            if($scope.sheeting[i].hide_sheeting === "0"){
+                document.getElementById("hide_sh_"+$scope.sheeting[i].id).checked = true;
+            } else {
+                document.getElementById("show_sh_"+$scope.sheeting[i].id).checked = true;
+            }
+        }
     });
     //----------------------------------------------------------------------
     $scope.editExaming = function (data) {
         window.location.href = url+"/editOpenExam"+data.id;
     };
     //----------------------------------------------------------------------
+    $scope.editSheeting = function (data) {
+        window.location.href = url+"/editOpenSheet"+data.id;
+    };
+    //----------------------------------------------------------------------
     $scope.deleteExaming = function (data) {
-        $scope.examingName = data.examing_name;
+        $scope.deleteName = data.examing_name;
         $scope.examingId = data.id;
         $('#delete_modal').modal({backdrop: 'static'});
     };
     //----------------------------------------------------------------------
+    $scope.deleteData = function (data,mode) {
+        $scope.deleteMode = mode;
+        if($scope.deleteMode === 'ex'){
+            $scope.deleteName = data.examing_name;
+            $('#message_delete').html('คุณต้องการลบการสอบนี้หรือไม่');
+            $('#message_delete_2').html('(ข้อมูลการสอบ, ไฟล์ที่นักศึกษาส่งในการสอบนี้จะถูกลบไปด้วย)');
+        } else if ($scope.deleteMode === 'sh'){
+            $scope.deleteName = data.sheeting_name;
+            $('#message_delete').html('คุณต้องการลบการสั่งงานนี้หรือไม่');
+            $('#message_delete_2').html('(ข้อมูลการสั่งงาน, ไฟล์ที่นักศึกษาส่งในการสั่งงานนี้จะถูกลบไปด้วย)');
+        }
+        $scope.deleteID = data.id;
+        $('#delete_modal').modal({backdrop: 'static'});
+    };
+    //----------------------------------------------------------------------
+    $scope.okDelete = function () {
+        $('#delete_part').waitMe({
+            effect: 'facebook',
+            bg: 'rgba(255,255,255,0.9)',
+            color: '#3bafda'
+        });
+        if ($scope.deleteMode === 'ex'){
+            deleteExaming($scope.deleteID);
+        } else if ($scope.deleteMode === 'sh'){
+            deleteSheeting($scope.deleteID);
+        }
+    };
+    //----------------------------------------------------------------------
     $scope.okDeleteExaming = function () {
-        $('#deleteExamingPart').waitMe({
+        $('#delete_part').waitMe({
             effect: 'facebook',
             bg: 'rgba(255,255,255,0.9)',
             color: '#3bafda'
@@ -62,19 +107,76 @@ app.controller('teaInGroupCtrl', ['$scope', '$window', function ($scope, $window
        window.location.href = url+"/openExam";
     };
     //----------------------------------------------------------------------
-    $scope.changeToHidden = function(data) {
-        $scope.examingName = data.examing_name;
-        $scope.examingID = data.id;
-        $('#change_hidden_modal').modal({backdrop: 'static'});
+    $scope.openSheeting = function() {
+        window.location.href = url+"/openWorksheet";
     };
     //----------------------------------------------------------------------
-    $scope.okHidden = function() {
-        var data = {
-            id        : $scope.examingID,
-            hide_examing: "0",
-        };
+    $scope.changeHidden = function(obj,mode) {
+        console.log(obj);
+        console.log(mode);
+        $scope.changeID = obj.id;
+        $scope.changeMode = mode;
+        // หมายเหตุ
+        // he หมายถึง ซ่อนข้อสอบ
+        // se หมายถึง แสดงข้อสอบ
+        // hs หมายถึง ซ่อนใบงาน
+        // ss หมายถึง แสดงใบงาน
+        if(mode === 'he'){
+            $('#message_confirm').html('คุณต้องการซ่อนการสอบนี้หรือไม่');
+            $scope.confirmName = obj.examing_name;
 
-        $('#change_hidden_part').waitMe({
+        } else if(mode === 'se'){
+            $('#message_confirm').html('คุณต้องการแสดงการสอบนี้หรือไม่');
+            $scope.confirmName = obj.examing_name;
+
+        } else if(mode === 'hs'){
+            $('#message_confirm').html('คุณต้องการซ่อนการสั่งงานนี้หรือไม่');
+            $scope.confirmName = obj.sheeting_name;
+
+        } else if(mode === 'ss'){
+            $('#message_confirm').html('คุณต้องการแสดงการสั่งงานนี้หรือไม่');
+            $scope.confirmName = obj.sheeting_name;
+        }
+        $('#confirm_modal').modal({backdrop: 'static'});
+    };
+    //----------------------------------------------------------------------
+    $scope.okChange = function() {
+        var link = "";
+        // หมายเหตุ
+        // he หมายถึง ซ่อนข้อสอบ
+        // se หมายถึง แสดงข้อสอบ
+        // hs หมายถึง ซ่อนใบงาน
+        // ss หมายถึง แสดงใบงาน
+        if($scope.changeMode === 'he'){
+            var data = {
+                id        : $scope.changeID,
+                hide_examing: "0",
+            };
+            link = '/changeHiddenExaming';
+
+        } else if($scope.changeMode === 'se'){
+            var data = {
+                id        : $scope.changeID,
+                hide_examing: "1",
+            };
+            link = '/changeHiddenExaming';
+
+        } else if($scope.changeMode === 'hs'){
+            var data = {
+                id        : $scope.changeID,
+                hide_sheeting: "0",
+            };
+            link = '/changeHiddenSheeting';
+
+        } else if(mode === 'ss'){
+            var data = {
+                id        : $scope.changeID,
+                hide_sheeting: "1",
+            };
+            link = '/changeHiddenSheeting';
+        }
+
+        $('#confirm_part').waitMe({
             effect: 'facebook',
             bg: 'rgba(255,255,255,0.9)',
             color: '#3bafda'
@@ -86,18 +188,18 @@ app.controller('teaInGroupCtrl', ['$scope', '$window', function ($scope, $window
             headers: {
                 Accept: "application/json"
             },
-            url: url + '/changeHiddenExaming',
+            url: url + link,
             data: data,
             async: false,
             complete: function (xhr) {
                 if (xhr.readyState == 4) {
                     if (xhr.status == 200) {
-                        $('#change_hidden_part').waitMe('hide');
-                        $('#change_hidden_modal').modal('hide');
+                        $('#confirm_part').waitMe('hide');
+                        $('#confirm_modal').modal('hide');
                         $('#success_modal').modal({backdrop: 'static'});
                     } else {
-                        $('#change_hidden_part').waitMe('hide');
-                        $('#change_hidden_modal').modal('hide');
+                        $('#confirm_part').waitMe('hide');
+                        $('#confirm_modal').modal('hide');
                         $('#unsuccess_modal').modal({backdrop: 'static'});
                     }
                 }
@@ -105,57 +207,22 @@ app.controller('teaInGroupCtrl', ['$scope', '$window', function ($scope, $window
         });
     };
     //----------------------------------------------------------------------
-    $scope.cancelHidden = function() {
-        document.getElementById("show_ex_"+$scope.examingID).checked = true;
-        $('#change_hidden_modal').modal('hide');
-    };
-    //----------------------------------------------------------------------
-    $scope.changeToShow = function(data) {
-        $scope.examingName = data.examing_name;
-        $scope.examingID = data.id;
-        $('#change_show_modal').modal({backdrop: 'static'});
-    };
-    //----------------------------------------------------------------------
-    $scope.okShow = function() {
-        var data = {
-            id        : $scope.examingID,
-            hide_examing: "1",
-        };
-
-        $('#change_show_part').waitMe({
-            effect: 'facebook',
-            bg: 'rgba(255,255,255,0.9)',
-            color: '#3bafda'
-        });
-
-        $.ajax ({
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            headers: {
-                Accept: "application/json"
-            },
-            url: url + '/changeHiddenExaming',
-            data: data,
-            async: false,
-            complete: function (xhr) {
-                if (xhr.readyState == 4) {
-                    if (xhr.status == 200) {
-                        $('#change_show_part').waitMe('hide');
-                        $('#change_show_modal').modal('hide');
-                        $('#success_modal').modal({backdrop: 'static'});
-                    } else {
-                        $('#change_show_part').waitMe('hide');
-                        $('#change_show_modal').modal('hide');
-                        $('#unsuccess_modal').modal({backdrop: 'static'});
-                    }
-                }
-            }
-        });
-    };
-    //----------------------------------------------------------------------
-    $scope.cancelShow = function() {
-        document.getElementById("hide_ex_"+$scope.examingID).checked = true;
-        $('#change_show_modal').modal('hide');
+    $scope.cancelChange = function() {
+        // หมายเหตุ
+        // he หมายถึง ซ่อนข้อสอบ
+        // se หมายถึง แสดงข้อสอบ
+        // hs หมายถึง ซ่อนใบงาน
+        // ss หมายถึง แสดงใบงาน
+        if($scope.changeMode === 'he'){
+            document.getElementById("show_ex_"+$scope.changeID).checked = true;
+        } else if($scope.changeMode === 'se'){
+            document.getElementById("hide_ex_"+$scope.changeID).checked = true;
+        } else if($scope.changeMode === 'hs'){
+            document.getElementById("show_sh_"+$scope.changeID).checked = true;
+        } else if($scope.changeMode === 'ss'){
+            document.getElementById("hide_sh_"+$scope.changeID).checked = true;
+        }
+        $('#confirm_modal').modal('hide');
     };
     //----------------------------------------------------------------------
     $scope.changeToAllow = function(data) {
@@ -390,9 +457,9 @@ app.controller('teaInGroupCtrl', ['$scope', '$window', function ($scope, $window
         });
     };
     //----------------------------------------------------------------------
-    // $('#okSuccess').on('click',function () {
-    //     $('#success_modal').modal("hide");
-    // });
+    $('#okSuccess').on('click',function () {
+        location.reload();
+    });
     //----------------------------------------------------------------------
     function dtDBToDtPicker(date) {
         dt = date.split(' ');

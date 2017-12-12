@@ -704,10 +704,10 @@ function deleteExaming(EMID) {
         complete: function (xhr) {
             if (xhr.readyState == 4) {
                 if (xhr.status == 200) {
-                    $('#deleteExamingPart').waitMe('hide');
+                    $('#delete_part').waitMe('hide');
                     $('#success_modal').modal({backdrop: 'static'});
                 }  else {
-                    $('#deleteExamingPart').waitMe('hide');
+                    $('#delete_part').waitMe('hide');
                     $('#unsuccess_modal').modal({backdrop: 'static'});
                 }
             }
@@ -1175,6 +1175,20 @@ function findSheetByUserID(UID) {
     return sheets;
 }
 
+function findSheetByID(ID) {
+    var sheets = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/findSheetByID',
+        data:{id:ID},
+        async: false,
+    }).responseJSON;
+    return sheets;
+}
+
 function createQuiz(sheetID,quiz) {
     $.ajax({
         contentType: "application/json; charset=utf-8",
@@ -1246,20 +1260,6 @@ function findSheetSharedUserNotMe(SHID,MyID) {
         async: false,
     }).responseJSON;
     return shared;
-}
-
-function findQuizBySHID(SHID) {
-    var quiz = $.ajax({
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            Accept: "application/json"
-        },
-        url:url + '/findQuizBySHID',
-        data:{sheet_id:SHID},
-        async: false,
-    }).responseJSON;
-    return quiz;
 }
 
 function deleteWorksheet(data) {
@@ -1572,6 +1572,20 @@ function findSheetSheetingBySheetingID(STID) {
     return sheetSheeting
 }
 
+function findSheetSheetingInSheetBoard(STID) {
+    var sheetSheeting =  $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findSheetSheetingInSheetBoard',
+        data:{sheeting_id:STID},
+        async: false,
+    }).responseJSON;
+    return sheetSheeting
+}
+
 function findSheetingByID(STID) {
     var sheeting =  $.ajax({
         contentType: "application/json; charset=utf-8",
@@ -1661,10 +1675,10 @@ function deleteSheeting(STID) {
         complete: function (xhr) {
             if (xhr.readyState == 4) {
                 if (xhr.status == 200) {
-                    $('#delete_sheeting_part').waitMe('hide');
+                    $('#delete_part').waitMe('hide');
                     $('#success_modal').modal({backdrop: 'static'});
                 }  else {
-                    $('#delete_sheeting_part').waitMe('hide');
+                    $('#delete_part').waitMe('hide');
                     $('#unsuccess_modal').modal({backdrop: 'static'});
                 }
             }
@@ -1680,6 +1694,20 @@ function findSheetingByGroupID(GID) {
             Accept: "application/json"
         },
         url:url + '/findSheetingByGroupID',
+        data:{group_id:GID},
+        async: false
+    }).responseJSON;
+    return sheeting;
+}
+
+function findSTDSheetingByGroupID(GID) {
+    var sheeting = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findSTDSheetingByGroupID',
         data:{group_id:GID},
         async: false
     }).responseJSON;
@@ -1740,4 +1768,72 @@ function findResQuizByRSID(RSID) {
         async: false,
     }).responseJSON;
     return resQuiz;
+}
+
+function dataInSheetBoard(GID,SID,STID) {
+    var data =  $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/dataInSheetBoard',
+        data:{
+            group_id:GID,
+            sheet_id:SID,
+            sheeting_id:STID,
+        },
+        async: false
+    }).responseJSON;
+    return data;
+}
+
+function findResSheetByID(RSID) {
+    var data =  $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findResSheetByID',
+        data:{
+            ressheet_id:RSID,
+        },
+        async: false
+    }).responseJSON;
+    return data;
+}
+
+function editTrialScore(RSID,score){
+    var editTrialScore = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/editTrialScore',
+        data:{
+            ressheet_id:RSID,
+            score : score
+        },
+        async: false,
+    }).responseJSON;
+    return editTrialScore;
+}
+
+function editQuizScore(RQID,score){
+    var editQuizScore = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/editQuizScore',
+        data:{
+            id:RQID,
+            score : score
+        },
+        async: false,
+    }).responseJSON;
+    return editQuizScore;
 }

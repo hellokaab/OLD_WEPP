@@ -469,7 +469,7 @@ app.controller('editWorksheetCtrl', ['$scope', '$window', function ($scope, $win
                     if (xhr.readyState == 4) {
                         $('#edit_quiz_part').waitMe('hide');
                         if (xhr.status == 200) {
-                            $scope.quizzes = findQuizBySHID($scope.worksheetData.id);
+                            $scope.quizzes = findQuizBySID($scope.worksheetData.id);
                             $('#edit_quiz_modal').modal('hide');
                         } else {
                             alert("ผิดพลาด");
@@ -506,7 +506,7 @@ app.controller('editWorksheetCtrl', ['$scope', '$window', function ($scope, $win
                 if (xhr.readyState == 4) {
                     $('#delete_quiz_part').waitMe('hide');
                     if (xhr.status == 200) {
-                        $scope.quizzes = findQuizBySHID($scope.worksheetData.id);
+                        $scope.quizzes = findQuizBySID($scope.worksheetData.id);
                         $('#delete_quiz_modal').modal('hide');
                     } else {
                         alert("ผิดพลาด");

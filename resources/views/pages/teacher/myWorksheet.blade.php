@@ -317,30 +317,30 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                            <div class="col-md-6">
-                                <br>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="list-group">
-                                            <a class="list-group-item">
-                                                <span class="badge badge-default" id="fullScore">100</span>
-                                                คะแนนเต็มของใบงาน
-                                            </a>
+                                    <div class="col-md-6">
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="list-group">
+                                                    <a class="list-group-item">
+                                                        <span class="badge badge-default" id="fullScore">100</span>
+                                                        คะแนนเต็มของใบงาน
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-md-12"><b>หมายเหตุ : </b></div>
+                                            <div class="col-md-6"><span id="notation"></span></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <br>
-                                <div class="row">
-                                    <div class="col-md-12"><b>หมายเหตุ : </b></div>
-                                    <div class="col-md-6"><span id="notation"></span></div>
-                                </div>
-                            </div>
-                                </div>
-                            </div>
                             <br>
-                            <h4 style="padding-left: 15px">คำถามท้ายการทดลอง</h4>
+                            <h4 style="padding-left: 15px" ng-show="quizzes.length > 0">คำถามท้ายการทดลอง</h4>
                             <div class="col-md-6" ng-repeat="q in quizzes" style="margin-top: 20px">
                                 <div class="row">
                                     <div class="col-md-12">
