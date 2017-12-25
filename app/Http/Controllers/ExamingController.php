@@ -190,6 +190,14 @@ class ExamingController extends Controller
         return view('pages/teacher/pointBoard',$data);
     }
 
+    public function assistPointBoard($id)
+    {
+        $data = array(
+            'examingID' => $id
+        );
+        return view('pages/student/assistPointBoard',$data);
+    }
+
     public function viewExam($id)
     {
         $data = array(

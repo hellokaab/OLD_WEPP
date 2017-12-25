@@ -1,6 +1,3 @@
-/**
- * Created by Pongpan on 21-Aug-17.
- */
 app.controller('teaInGroupCtrl', ['$scope', '$window', function ($scope, $window) {
     $scope.groupData = $window.groupData;
     $scope.thisUser = $window.myuser;
@@ -528,6 +525,49 @@ app.controller('teaInGroupCtrl', ['$scope', '$window', function ($scope, $window
     //----------------------------------------------------------------------
     $scope.viewPoint = function (data) {
         window.open(url+'/pointBoard'+data.id, '_blank');
+        window.focus();
+    }
+    //----------------------------------------------------------------------
+    $scope.managePermissions = function (data) {
+        $('#permissions_modal').modal({backdrop: 'static'});
+        $('#permissions_part').waitMe({
+            effect: 'win8_linear',
+            bg: 'rgba(255,255,255,0.9)',
+            color: '#3bafda'
+        });
+        $scope.dataInGroup = data;
+        $scope.manage_name = data.fullName;
+        data.view_exam === '1' ? $("#view_ex")[0].checked = true:$("#view_ex")[0].checked = false
+        data.view_sheet === '1' ? $("#view_sh")[0].checked = true:$("#view_sh")[0].checked = false
+        data.edit_exam === '1' ? $("#edit_ex")[0].checked = true:$("#edit_ex")[0].checked = false
+        data.edit_sheet === '1' ? $("#edit_sh")[0].checked = true:$("#edit_sh")[0].checked = false
+        $('#permissions_part').waitMe('hide');
+    };
+    //----------------------------------------------------------------------
+    $scope.okManage = function () {
+        $('#permissions_part').waitMe({
+            effect: 'win8_linear',
+            bg: 'rgba(255,255,255,0.9)',
+            color: '#3bafda'
+        });
+        data = {
+            id: $scope.dataInGroup.id,
+            view_exam : $("#view_ex")[0].checked == true ? 1 : 0,
+            view_sheet : $("#view_sh")[0].checked == true ? 1 : 0,
+            edit_exam : $("#edit_ex")[0].checked == true ? 1 : 0,
+            edit_sheet : $("#edit_sh")[0].checked == true ? 1 : 0
+        }
+        if($("#view_ex")[0].checked == false && $("#view_sh")[0].checked == false && $("#edit_ex")[0].checked == false && $("#edit_sh")[0].checked == false){
+            data.status = 's';
+        } else {
+            data.status = 'a';
+        }
+        managePermissions(data);
+    }
+    //----------------------------------------------------------------------
+    $scope.viewSheetPoint = function (data) {
+        console.log(data);
+        window.open(url+'/sheetBoard'+data.id, '_blank');
         window.focus();
     }
 }]);

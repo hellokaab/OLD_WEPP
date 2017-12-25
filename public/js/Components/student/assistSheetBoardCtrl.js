@@ -1,8 +1,9 @@
-app.controller('sheetBoardCtrl', ['$scope', '$window', function ($scope, $window) {
+app.controller('assistSheetBoardCtrl', ['$scope', '$window', function ($scope, $window) {
     $scope.sheetingID = $window.sheetingID;
     $scope.sheeting = findSheetingByID($scope.sheetingID);
     $scope.group = findGroupDataByID($scope.sheeting.group_id);
     $scope.sheetSheeting = findSheetSheetingInSheetBoard($scope.sheetingID);
+    $scope.myPermissionsInGroup = findMyPermissionsInGroup(myuser.id,$scope.sheeting.group_id);
 
     $scope.thisSheet = findSheetByID($scope.sheetSheeting[0].sheet_id);
     $scope.quizThisSheet = findQuizBySID($scope.thisSheet.id);
@@ -37,64 +38,75 @@ app.controller('sheetBoardCtrl', ['$scope', '$window', function ($scope, $window
     });
     //----------------------------------------------------------------------
     $scope.viewResSheet = function (data) {
-        // console.log(data);
-        $('#res_sheet_modal').modal({backdrop: 'static'});
-        $('#res_sheet_part').waitMe({
-            effect: 'facebook',
-            bg: 'rgba(255,255,255,0.9)',
-            color: '#3bafda'
-        });
-
-        setTimeout(function () {
-            $("#stdName").html(data.full_name);
-            $("#stdCode").html(data.stu_id);
-
-            $scope.resSheet = findResSheetByID(data.ressheet_id);
-            console.log($scope.resSheet);
-
-            $('#std_score').val($scope.resSheet.score);
-            $scope.currentTrialScore = $scope.resSheet.score;
-
-            var codes = getCode($scope.resSheet.path);
-            var code = "";
-            (codes).forEach(function(codes) {
-                code+=codes;
-            });
-            $('#std_code').html(escapeHtml(code));
-
-            var teaOutput = readFileSh($scope.thisSheet).output;
-            $('#tea_output').html('<span class="hljs-right">'+teaOutput+'</span>');
-
-            var readResrun = readFileResRun($scope.resSheet.resrun);
-            $('#resrun').html(changColor(readResrun,teaOutput));
-
-            $('mycode').each(function(i, block) {
-                hljs.highlightBlock(block);
+        if($scope.myPermissionsInGroup.view_sheet === '1'){
+            $('#res_sheet_modal').modal({backdrop: 'static'});
+            $('#res_sheet_part').waitMe({
+                effect: 'facebook',
+                bg: 'rgba(255,255,255,0.9)',
+                color: '#3bafda'
             });
 
-            $scope.resQuiz = findResQuizByRSID($scope.resSheet.id);
-            ($scope.resQuiz).forEach(function(res) {
-                $('#quizAns_'+res.quiz_id).val(res.quiz_ans);
-                $('#quiz_score_'+res.quiz_id).val(res.score);
-            });
+            setTimeout(function () {
+                $("#stdName").html(data.full_name);
+                $("#stdCode").html(data.stu_id);
 
-            $scope.resSheet.current_status==='a'? $("#status_sheet").css('color','green'): $("#status_sheet").css('color','red');
-            $("#status_sheet").html($scope.resSheet.current_status==='q'?'ค้างคิวตรวจ':
-                $scope.resSheet.current_status==='a'?'ผ่าน':
-                    $scope.resSheet.current_status==='w'?'คำตอบผิด':
-                        $scope.resSheet.current_status==='m'?'ความจำเกินกำหนด':
-                            $scope.resSheet.current_status==='t'?'เวลาเกินกำหนด':
-                                $scope.resSheet.current_status==='c'?'คอมไพล์ไม่ผ่าน':
-                                    $scope.resSheet.current_status==='Q'?'กำลังรอคิวตรวจ...':
-                                        $scope.resSheet.current_status==='P'?'กำลังตรวจ...':
-                                            $scope.resSheet.current_status==='9'?'PPPPP-':
-                                                $scope.resSheet.current_status==='8'?'PPPP--':
-                                                    $scope.resSheet.current_status==='7'?'PPP---':
-                                                        $scope.resSheet.current_status==='6'?'PP----':
-                                                            $scope.resSheet.current_status==='5'?'P-----' : '-');
+                $scope.resSheet = findResSheetByID(data.ressheet_id);
+                console.log($scope.resSheet);
 
-            $('#res_sheet_part').waitMe('hide');
-        }, 200);
+                $('#std_score').val($scope.resSheet.score);
+                $scope.currentTrialScore = $scope.resSheet.score;
+
+                var codes = getCode($scope.resSheet.path);
+                var code = "";
+                (codes).forEach(function(codes) {
+                    code+=codes;
+                });
+                $('#std_code').html(escapeHtml(code));
+
+                var teaOutput = readFileSh($scope.thisSheet).output;
+                $('#tea_output').html('<span class="hljs-right">'+teaOutput+'</span>');
+
+                var readResrun = readFileResRun($scope.resSheet.resrun);
+                $('#resrun').html(changColor(readResrun,teaOutput));
+
+                $('mycode').each(function(i, block) {
+                    hljs.highlightBlock(block);
+                });
+
+                $scope.resQuiz = findResQuizByRSID($scope.resSheet.id);
+                ($scope.resQuiz).forEach(function(res) {
+                    $('#quizAns_'+res.quiz_id).val(res.quiz_ans);
+                    $('#quiz_score_'+res.quiz_id).val(res.score);
+                });
+
+                if($scope.myPermissionsInGroup.edit_sheet === '0'){
+                    $('#btn_edit_trial_score').css('display','none');
+                    $('[id^=edit_quiz_]').each(function () {
+                        $(this).css('display','none');
+                    });
+                }
+
+                $scope.resSheet.current_status==='a'? $("#status_sheet").css('color','green'): $("#status_sheet").css('color','red');
+                $("#status_sheet").html($scope.resSheet.current_status==='q'?'ค้างคิวตรวจ':
+                    $scope.resSheet.current_status==='a'?'ผ่าน':
+                        $scope.resSheet.current_status==='w'?'คำตอบผิด':
+                            $scope.resSheet.current_status==='m'?'ความจำเกินกำหนด':
+                                $scope.resSheet.current_status==='t'?'เวลาเกินกำหนด':
+                                    $scope.resSheet.current_status==='c'?'คอมไพล์ไม่ผ่าน':
+                                        $scope.resSheet.current_status==='Q'?'กำลังรอคิวตรวจ...':
+                                            $scope.resSheet.current_status==='P'?'กำลังตรวจ...':
+                                                $scope.resSheet.current_status==='9'?'PPPPP-':
+                                                    $scope.resSheet.current_status==='8'?'PPPP--':
+                                                        $scope.resSheet.current_status==='7'?'PPP---':
+                                                            $scope.resSheet.current_status==='6'?'PP----':
+                                                                $scope.resSheet.current_status==='5'?'P-----' : '-');
+
+                $('#res_sheet_part').waitMe('hide');
+            }, 200);
+        } else {
+            $('#fail_modal').modal({backdrop: 'static'});
+            $('#err_message').html("คุณไม่ได้รับสิทธิในการเข้าถึงใบงานที่ส่ง");
+        }
     };
     //----------------------------------------------------------------------
     function sumFullScoreQuizInSheet() {

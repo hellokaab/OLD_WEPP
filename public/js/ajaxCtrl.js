@@ -933,6 +933,43 @@ function findMyJoinGroup(UID) {
     return myGroup
 }
 
+function managePermissions(data) {
+    var JG = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/managePermissions',
+        data:data,
+        async: false,
+        complete: function (xhr) {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    location.reload();
+                }  else {
+                    alert("ผิดพลาด");
+                }
+            }
+        }
+    }).responseJSON;
+    return JG;
+};
+
+function findMyPermissionsInGroup(UID,GID) {
+    var myGroup = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url:url + '/findMyPermissionsInGroup',
+        data:{user_id:UID,group_id:GID},
+        async: false,
+    }).responseJSON;
+    return myGroup
+}
+
 //--------------------------- WorkSheetController ---------------------------
 
 function addMyWorksheetGroup(data) {

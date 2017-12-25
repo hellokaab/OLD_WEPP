@@ -30,6 +30,7 @@ class JoinGroupController extends Controller
             ->select('join_groups.*', DB::raw('CONCAT(users.prefix,users.fname_th," ", users.lname_th) AS fullName'),'users.stu_id')
             ->where('join_groups.group_id',$request->group_id)
             ->orderBy('stu_id','ASC')
+            ->orderBy('status','ASC')
             ->get();
         return response()->json($memberList);
     }
@@ -54,6 +55,23 @@ class JoinGroupController extends Controller
             ->orderBy('group_name','ASC')
             ->get();
         return response()->json($myGroup);
+    }
+
+    public function managePermissions(Request $request){
+        $joinGroup = JoinGroup::find($request->id);
+        $joinGroup->view_exam = $request->view_exam;
+        $joinGroup->edit_exam = $request->edit_exam;
+        $joinGroup->view_sheet = $request->view_sheet;
+        $joinGroup->edit_sheet = $request->edit_sheet;
+        $joinGroup->status = $request->status;
+        $joinGroup->save();
+    }
+
+    public function findMyPermissionsInGroup(Request $request){
+        $joinGroup = JoinGroup::where('user_id',$request->user_id)
+            ->where('group_id',$request->group_id)
+            ->first();
+        return response()->json($joinGroup);
     }
 
 

@@ -190,7 +190,7 @@ class SheetingController extends Controller
                                             SELECT * 
 		                                    FROM res_sheets
 		                                    WHERE res_sheets.user_id = ? ) AS re
-	                                    ON st.sheet_id = re.sheet_id 
+	                                    ON (st.sheet_id = re.sheet_id AND st.sheeting_id = re.sheeting_id) 
 	                                    WHERE st.sheeting_id = ?) AS a
                                     ON w.id = a.sheet_id', [$request->user_id,$request->sheeting_id]);
         return response()->json($sheetSheeting);
@@ -276,6 +276,14 @@ class SheetingController extends Controller
             'sheetingID' => $id
         );
         return view('pages/teacher/sheetBoard',$data);
+    }
+
+    public function assistSheetBoard($id)
+    {
+        $data = array(
+            'sheetingID' => $id
+        );
+        return view('pages/student/assistSheetBoard',$data);
     }
 
     public function rrmdir($path) {

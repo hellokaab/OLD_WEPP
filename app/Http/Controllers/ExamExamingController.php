@@ -49,7 +49,7 @@ class ExamExamingController extends Controller
                                             SELECT * 
 		                                    FROM res_exams
 		                                    WHERE res_exams.user_id = ? ) AS re
-	                                    ON ex.exam_id = re.exam_id 
+	                                    ON (ex.examing_id = re.examing_id AND ex.exam_id = re.exam_id) 
 	                                    WHERE ex.examing_id = ?) AS a
                                     ON e.id = a.exam_id', [$request->user_id,$request->examing_id]);
         return response()->json($examExaming);
