@@ -165,6 +165,10 @@
                                     <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
                                 </button>
                                 &nbsp;&nbsp;
+                                <button class="btn btn-sm btn-outline-primary" title="สรุปผลคะแนน" style="cursor:pointer" ng-click="viewSheetPoint(st)">
+                                    <i class="fa fa-bar-chart fa-lg" aria-hidden="true"></i>
+                                </button>
+                                &nbsp;&nbsp;
                                 <button class="btn btn-sm btn-outline-danger" title="ลบ" style="cursor:pointer" ng-click="deleteData(st,'sh')">
                                     <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
                                 </button>
@@ -210,6 +214,7 @@
                         <tr>
                             <th>รหัสนักศึกษา</th>
                             <th>ชื่อ - นามสกุล</th>
+                            <th>สถานะ</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -217,9 +222,15 @@
                         <tr ng-show="memberList.length > 0" dir-paginate="m in memberList|orderBy:stu_id|itemsPerPage:selectRow">
                             <td><%m.stu_id%></td>
                             <td><%m.fullName%></td>
+                            <td ng-show="m.status === 's'">นักศึกษา</td>
+                            <td ng-show="m.status === 'a'">ผู้ช่วยสอน</td>
                             <td style="text-align: center">
                                 <button class="btn btn-sm btn-outline-primary" title="รายละเอียด" style="cursor:pointer" ng-click="showProfile(m)">
                                     <i class="fa fa-address-card fa-lg" aria-hidden="true"></i>
+                                </button>
+                                &nbsp;&nbsp;
+                                <button class="btn btn-sm btn-outline-warning" title="จัดการสิทธิ์" style="cursor:pointer" ng-click="managePermissions(m)">
+                                    <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
                                 </button>
                                 &nbsp;&nbsp;
                                 <button class="btn btn-sm btn-outline-danger" title="ลบ" style="cursor:pointer" ng-click="deleteMember(m)">
@@ -487,6 +498,72 @@
                                 </i>
                             </div>
                             <button type="button" class="btn btn-outline-purple" data-dismiss="modal">ปิด</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Manage Permissions Modal -->
+        <div class="modal fade" id="permissions_modal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="panel panel-warning" id="permissions_part" style="margin-bottom: 0">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">จัดการสิทธิ์</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-horizontal" role="form" style="padding-top: 7%">
+                                <label class="col-md-4 control-label">ชื่อ-นามสกุล</label>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" ng-model="manage_name" disabled/>
+                                    </div>
+                                </div>
+                                {{--<!-- un use -->--}}
+                                {{--<div class="form-group"></div>--}}
+                            </div>
+                            <div class="col-md-offset-1 col-md-10">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                <tr>
+                                    <th style="text-align: center">สิทธิ์การเข้าถึง</th>
+                                    <th style="text-align: center">อนุญาต</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>อนุญาตให้เข้าถึงข้อสอบที่ส่งของนักศึกษาในกลุ่ม</td>
+                                    <td style="text-align: center;vertical-align: middle;">
+                                        <input type="checkbox" id="view_ex">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>อนุญาตให้แก้ไขคะแนนของข้อสอบที่ส่งของนักศึกษาในกลุ่ม</td>
+                                    <td style="text-align: center;vertical-align: middle;">
+                                        <input type="checkbox" id="edit_ex">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>อนุญาตให้เข้าถึงใบงานที่ส่งของนักศึกษาในกลุ่ม</td>
+                                    <td style="text-align: center;vertical-align: middle;">
+                                        <input type="checkbox" id="view_sh">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>อนุญาตให้แก้ไขคะแนนของใบงานที่ส่งของนักศึกษาในกลุ่ม</td>
+                                    <td style="text-align: center;vertical-align: middle;">
+                                        <input type="checkbox" id="edit_sh">
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-warning" ng-click="okManage()">บันทึก</button>
+                            <button type="button" class="btn btn-outline-default" data-dismiss="modal">ปิด</button>
                         </div>
                     </div>
                 </div>

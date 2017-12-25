@@ -35,9 +35,14 @@
                             <td><%e.examing_name%></td>
                             <td style="text-align: center"><%e.start_date_time%></td>
                             <td style="text-align: center"><%e.end_date_time%></td>
-                            <td style="text-align: center">
+                            <td style="text-align: center" ng-show="myPermissionsInGroup.status === 's'">
                                 <button id="btn_examing_<%e.id%>" style="visibility: hidden" class="btn btn-sm btn-outline-success" ng-click="admitExaming(e)">
                                     <i class="fa fa-sign-in fa-lg" aria-hidden="true"></i> เข้าสอบ
+                                </button>
+                            </td>
+                            <td style="text-align: center" ng-show="myPermissionsInGroup.status === 'a'">
+                                <button class="btn btn-sm btn-outline-purple" title="score board" style="cursor:pointer" ng-click="viewScore(e)">
+                                    <i class="fa fa-trophy fa-lg" aria-hidden="true"></i>
                                 </button>
                             </td>
                         </tr>
@@ -68,7 +73,12 @@
                             <td><%e.examing_name%></td>
                             <td style="text-align: center"><%e.start_date_time%></td>
                             <td style="text-align: center"><%e.end_date_time%></td>
-                            <td></td>
+                            <td style="text-align: center" ng-show="myPermissionsInGroup.status === 's'"></td>
+                            <td style="text-align: center" ng-show="myPermissionsInGroup.status === 'a'">
+                                <button class="btn btn-sm btn-outline-primary" title="สรุปผลคะแนน" style="cursor:pointer" ng-click="viewPoint(e)">
+                                    <i class="fa fa-bar-chart fa-lg" aria-hidden="true"></i>
+                                </button>
+                            </td>
                         </tr>
                         <tr ng-hide="examingEnding.length > 0">
                             <td>ไม่พบข้อมูล</td>
@@ -100,10 +110,15 @@
                             <td style="text-align: center"><%st.end_date_time%></td>
                             <td ng-show="st.send_late === '0'" style="text-align: center">ไม่อนุญาต</td>
                             <td ng-show="st.send_late === '1'" style="text-align: center">อนุญาต</td>
-                            <td style="text-align: center">
+                            <td style="text-align: center" ng-show="myPermissionsInGroup.status === 's'">
                                 <button id="btn_sheeting_<%st.id%>" class="btn btn-sm btn-outline-success"
                                         ng-click="admitSheeting(st)" ng-show="checkInTime(st) || checkSendLate(st)">
                                     <i class="fa fa-sign-in fa-lg" aria-hidden="true"></i> เข้าทำใบงาน
+                                </button>
+                            </td>
+                            <td style="text-align: center" ng-show="myPermissionsInGroup.status === 'a'">
+                                <button class="btn btn-sm btn-outline-primary" title="สรุปผลคะแนน" style="cursor:pointer" ng-click="viewSheetPoint(st)">
+                                    <i class="fa fa-bar-chart fa-lg" aria-hidden="true"></i>
                                 </button>
                             </td>
                         </tr>
@@ -209,6 +224,48 @@
                 </div>
             </div>
         </div>
+
+        <!-- Score Board Modal -->
+        <div class="modal fade" id="score_modal" role="dialog">
+            <div class="modal-dialog" style="width: 95%">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="panel panel-purple" id="score_part" style="margin-bottom: 0">
+                        <!-- Panel header -->
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Score board</h3>
+                        </div>
+                        <!-- Form -->
+                        <div class="text-center">
+                            <h3 id="examing_title"><%examing.examing_name%></h3>
+                        </div>
+                        <br>
+                        <div style="margin-right: 3%; margin-left: 3%;">
+                            <table class="table table-hover table-striped">
+                                <thead id="score_board_hd"></thead>
+                                <tbody id="score_board_tb"></tbody>
+                            </table>
+                        </div>
+                        <br>
+                        <!-- Model footer -->
+                        <div class="modal-footer">
+                            <div class="text-left hidden-print hidden-xs hidden-sm" style="margin-left: 2%">
+                                <b>หมายเหตุ:</b>
+                                <i>
+                                    <x class="accpet">Accept</x> /
+                                    <x class="imperfect">Imperfect</x> /
+                                    <x class="wrong_ans">Wrong answer</x> /
+                                    <x class="complie_err">Compile error</x> /
+                                    <x class="over_time">Over runtime</x> /
+                                    <x class="over_mem">Over memory</x>
+                                </i>
+                            </div>
+                            <button type="button" class="btn btn-outline-purple" data-dismiss="modal">ปิด</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <script>
         $(document).ready(function () {
@@ -224,5 +281,10 @@
 //                $(".prev span").text(y);
 //            });
         });
+
+        function viewDetailExam(exam_id) {
+            window.open(url+'/detailExam' + exam_id, '', 'scrollbars=1, width=1000, height=600');
+            return false;
+        }
     </script>
 @endsection

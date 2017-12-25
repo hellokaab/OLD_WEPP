@@ -1,7 +1,8 @@
-app.controller('pointBoardCtrl', ['$scope', '$window', function ($scope, $window) {
+app.controller('assistPointBoardCtrl', ['$scope', '$window', function ($scope, $window) {
     $scope.examingID = $window.examingID;
     $scope.examing = findExamingByID($scope.examingID);
     $scope.group = findGroupDataByID($scope.examing.group_id);
+    $scope.myPermissionsInGroup = findMyPermissionsInGroup(myuser.id,$scope.examing.group_id);
     $scope.examExaming = findExamInScoreboard($scope.examingID);
     $scope.pointBoard = dataInScoreboard($scope.examing);
 
@@ -14,39 +15,48 @@ app.controller('pointBoardCtrl', ['$scope', '$window', function ($scope, $window
     $scope.tab = 'a';
     //----------------------------------------------------------------------
     $scope.viewResExamHistory = function (data) {
-        $scope.resexam = data;
-        $scope.pathExam = findPathExamByResExamID(data.id);
+        if($scope.myPermissionsInGroup.view_exam === '1'){
+            $scope.resexam = data;
+            $scope.pathExam = findPathExamByResExamID(data.id);
 
-        $('#resExam_modal').modal({backdrop: 'static'});
-        $('#resExam_part').waitMe({
-            effect: 'facebook',
-            bg: 'rgba(255,255,255,0.9)',
-            color: '#3bafda'
-        });
-
-        setTimeout(function () {
-
-            var user = findUserByID(data.user_id);
-            var exam = findExamByID(data.exam_id);
-            $scope.examID = exam.id;
-            $scope.resexamID = data.id;
-            // $scope.stdScore = data.score;
-            $("#std_score").val(data.score);
-            $scope.currentScore = data.score;
-            $scope.examFullScore = exam.full_score;
-            $("#stdName").html(user.prefix+user.fname_th+" "+user.lname_th);
-            $("#stdCode").html(user.stu_id);
-            $("#examName").html(exam.exam_name);
-            $("#full_score_exam").html("/ "+exam.full_score);
-
-            $scope.pathExam.forEach(function(pathRes) {
-                pathRes.code = getCode(pathRes.path);
-                pathRes.teaOutput = (readFile(exam).responseJSON).output;
-                pathRes.readResrun = readFileResRun(pathRes.resrun);
+            $('#resExam_modal').modal({backdrop: 'static'});
+            $('#resExam_part').waitMe({
+                effect: 'facebook',
+                bg: 'rgba(255,255,255,0.9)',
+                color: '#3bafda'
             });
 
-            $('#resExam_part').waitMe('hide');
-        }, 420);
+            setTimeout(function () {
+
+                var user = findUserByID(data.user_id);
+                var exam = findExamByID(data.exam_id);
+                $scope.examID = exam.id;
+                $scope.resexamID = data.id;
+                $scope.stdScore = data.score;
+                $("#std_score").val(data.score);
+                $scope.currentScore = data.score;
+                $scope.examFullScore = exam.full_score;
+                $("#stdName").html(user.prefix+user.fname_th+" "+user.lname_th);
+                $("#stdCode").html(user.stu_id);
+                $("#examName").html(exam.exam_name);
+                $("#full_score_exam").html("/ "+exam.full_score);
+                if($scope.myPermissionsInGroup.edit_exam === '0'){
+                    $('#btn_edit_score').css('display','none');
+
+                }
+
+                $scope.pathExam.forEach(function(pathRes) {
+                    pathRes.code = getCode(pathRes.path);
+                    pathRes.teaOutput = (readFile(exam).responseJSON).output;
+                    pathRes.readResrun = readFileResRun(pathRes.resrun);
+                });
+
+                $('#resExam_part').waitMe('hide');
+            }, 420);
+        } else {
+            $('#fail_modal').modal({backdrop: 'static'});
+            $('#err_message').html("คุณไม่ได้รับสิทธิในการเข้าถึงข้อสอบที่ส่ง")
+        }
     };
     //----------------------------------------------------------------------
     $scope.viewExam = function () {
@@ -193,4 +203,5 @@ app.controller('pointBoardCtrl', ['$scope', '$window', function ($scope, $window
         return strAfterChange;
     }
 }]);
+
 

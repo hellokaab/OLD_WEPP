@@ -69,6 +69,7 @@ class ResExamController extends Controller
             ->join('join_groups', 'users.id', '=', 'join_groups.user_id')
             ->select('users.id','users.stu_id', DB::raw('CONCAT(users.prefix,users.fname_th," ",users.lname_th) AS full_name'))
             ->where('join_groups.group_id',$request->group_id)
+            ->where('join_groups.status','s')
             ->orderBy('users.stu_id','ASC')
             ->get();
 

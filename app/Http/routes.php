@@ -161,6 +161,8 @@ Route::get('/viewExam{id}', 'ExamingController@viewExam');
 
 Route::get('/pointBoard{id}', 'ExamingController@pointBoard');
 
+Route::get('/assistPointBoard{id}', 'ExamingController@assistPointBoard');
+
 //--------------------------- ExamExamingController ---------------------------
 
 Route::get('/createExamExaming', 'ExamExamingController@store');
@@ -186,6 +188,10 @@ Route::get('/exitGroup', 'JoinGroupController@exitGroup');
 Route::get('/stdMyGroup', 'JoinGroupController@stdMyGroup');
 
 Route::get('/findMyJoinGroup', 'JoinGroupController@findMyJoinGroup');
+
+Route::get('/managePermissions', 'JoinGroupController@managePermissions');
+
+Route::get('/findMyPermissionsInGroup', 'JoinGroupController@findMyPermissionsInGroup');
 
 //--------------------------- WorkSheetController ---------------------------
 
@@ -360,6 +366,8 @@ Route::get('/findResQuizByRSID','SheetingController@findResQuizByRSID');
 Route::get('/changeHiddenSheeting','SheetingController@changeHiddenSheeting');
 
 Route::get('/sheetBoard{id}','SheetingController@sheetBoard');
+
+Route::get('/assistSheetBoard{id}','SheetingController@assistSheetBoard');
 
 Route::get('/dataInSheetBoard','SheetingController@dataInSheetBoard');
 
