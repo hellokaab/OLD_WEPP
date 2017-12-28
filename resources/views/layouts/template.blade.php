@@ -77,33 +77,33 @@
             {{--gidNumber : "2800"--}}
         {{--}--}}
 
-        var mysession = {
-            personalId : "1103701635240",
-            prename : "นาย",
-            cn : "Pongpan",
-            firstNameThai : "พงศ์พันธ์",
-            sn : "Poonkhunthod",
-            lastNameThai : "ปูนขุนทด",
-            studentId : "561733022010-0",
-            faculty : "คณะวิศวกรรมศาสตร์และสถาปัตยกรรมศาสตร์",
-            program : "สาขาวิชาวิศวกรรมคอมพิวเตอร์",
-            mail : "pongpan.po@rmuti.ac.th",
-            gidNumber : "4500"
-        };
-
         {{--var mysession = {--}}
-            {{--personalId : "1234567890123",--}}
+            {{--personalId : "1103701635240",--}}
             {{--prename : "นาย",--}}
-            {{--cn : "Thanakorn",--}}
-            {{--firstNameThai : "ธนกร",--}}
-            {{--sn : "Chuensabai",--}}
-            {{--lastNameThai : "ชื่นสบาย",--}}
-            {{--studentId : "561733022033-2",--}}
+            {{--cn : "Pongpan",--}}
+            {{--firstNameThai : "พงศ์พันธ์",--}}
+            {{--sn : "Poonkhunthod",--}}
+            {{--lastNameThai : "ปูนขุนทด",--}}
+            {{--studentId : "561733022010-0",--}}
             {{--faculty : "คณะวิศวกรรมศาสตร์และสถาปัตยกรรมศาสตร์",--}}
             {{--program : "สาขาวิชาวิศวกรรมคอมพิวเตอร์",--}}
             {{--mail : "pongpan.po@rmuti.ac.th",--}}
             {{--gidNumber : "4500"--}}
-        {{--}--}}
+        {{--};--}}
+
+        var mysession = {
+            personalId : "1234567890123",
+            prename : "นาย",
+            cn : "Thanakorn",
+            firstNameThai : "ธนกร",
+            sn : "Chuensabai",
+            lastNameThai : "ชื่นสบาย",
+            studentId : "561733022033-2",
+            faculty : "คณะวิศวกรรมศาสตร์และสถาปัตยกรรมศาสตร์",
+            program : "สาขาวิชาวิศวกรรมคอมพิวเตอร์",
+            mail : "pongpan.po@rmuti.ac.th",
+            gidNumber : "4500"
+        }
 
 
     </script>

@@ -1511,6 +1511,20 @@ function readFileResRun(path) {
     return resrun;
 }
 
+function findMySendExamHistory(UID,EMID) {
+    var examScoreboard = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/findMySendExamHistory',
+        data:{user_id:UID,examing_id:EMID},
+        async: false,
+    }).responseJSON;
+    return examScoreboard;
+}
+
 //--------------------------- SheetingController ---------------------------
 
 function findSheetingByNameAndGroup(name,GID) {

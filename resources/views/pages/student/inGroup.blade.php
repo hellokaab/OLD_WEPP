@@ -73,7 +73,11 @@
                             <td><%e.examing_name%></td>
                             <td style="text-align: center"><%e.start_date_time%></td>
                             <td style="text-align: center"><%e.end_date_time%></td>
-                            <td style="text-align: center" ng-show="myPermissionsInGroup.status === 's'"></td>
+                            <td style="text-align: center" ng-show="myPermissionsInGroup.status === 's'">
+                                <button ng-show="e.hide_history ==='0'" class="btn btn-sm btn-outline-primary" title="ประวัติการส่งข้อสอบ" style="cursor:pointer" ng-click="viewHistory(e)">
+                                    <i class="fa fa-clock-o fa-lg" aria-hidden="true"></i> ประวัติการส่งข้อสอบ
+                                </button>
+                            </td>
                             <td style="text-align: center" ng-show="myPermissionsInGroup.status === 'a'">
                                 <button class="btn btn-sm btn-outline-primary" title="สรุปผลคะแนน" style="cursor:pointer" ng-click="viewPoint(e)">
                                     <i class="fa fa-bar-chart fa-lg" aria-hidden="true"></i>
@@ -261,6 +265,70 @@
                                 </i>
                             </div>
                             <button type="button" class="btn btn-outline-purple" data-dismiss="modal">ปิด</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Examing Modal -->
+        <div class="modal fade" id="history_modal" role="dialog">
+            <div class="modal-dialog" style="width: 95%">
+                <div class="modal-content">
+                    <div class="panel panel-primary" id="history_part" style="margin-bottom: 0">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">ประวัติการส่งข้อสอบ</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <h4 class="text-center">ประวัติการส่งข้อสอบ</h4>
+                                <br>
+                            </div>
+                            <div class="col-md-12" ng-repeat="h in sendExamHistory">
+                                <div class="row" id="res_list_<%h.id%>" style="margin-bottom: 10px">
+                                    <div class="col-md-1"><b>ส่งครั้งที่: </b> <%$index + 1%> </div>
+                                    <div class="col-md-3"><b>โจทย์: </b> <%h.exam_name%> </div>
+                                    <div class="col-md-3"><b>สถานะ: </b> <%(h.status === 'q') ? 'ค้างคิวตรวจ' :
+                                        (h.status === 'a') ? 'ผ่าน' :
+                                        (h.status === 'w') ? 'คำตอบผิด' :
+                                        (h.status === 'm') ? 'ความจำเกินกำหนด' :
+                                        (h.status === 't') ? 'เวลาเกินกำหนด' :
+                                        (h.status === 'c') ? 'คอมไพล์ไม่ผ่าน' :
+                                        (h.status === '9') ? 'PPPPP-' :
+                                        (h.status === '8') ? 'PPPP--' :
+                                        (h.status === '7') ? 'PPP---' :
+                                        (h.status === '6') ? 'PP----' :
+                                        (h.status === '5') ? 'P-----' : 'ไม่ทราบสถานะ'%>
+                                    </div>
+                                    <div class="col-md-3"><b>เวลาส่ง: </b> <% h.send_date_time%> </div>
+                                    <div class="col-md-2"><a href="#res_list_<%h.id%>" ng-click="viewCode(h)">รายละเอียด <span class="caret"></span></a></div>
+                                </div>
+                                <div class="row" id="detail_<%h.id%>" style="display: none;">
+                                    <div style="margin-bottom: 10px">
+                                        <div class="col-md-4"></div>
+                                        <div class="col-md-3"><b>เวลาที่ใช้: </b> <% h.time == null  ? '-' : h.time %> วินาที</div>
+                                        <div class="col-md-3"><b>หน่วยความจำที่ใช้: </b> <% h.memory == null ? '-' : h.memory %> KB</div>
+                                        <br>
+                                        <br>
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-6"><b>โค้ดที่ส่ง: </b>
+                                                    {{--tag mycode สร้างขึ้นมาเอง อยู่ในไฟล์ myCustom.css--}}
+                                                    <mycode id="code_<%h.id%>" class="pre-scrollable" style="height: 480px;max-height: 480px;"></mycode>
+                                                </div>
+                                                <div class="col-md-6"><b>ผลการรัน: </b>
+                                                    {{--tag mycode สร้างขึ้นมาเอง อยู่ในไฟล์ myCustom.css--}}
+                                                    <mycode id="resrun_<%h.id%>" class="nohighlight hljs pre-scrollable" style="height: 480px;max-height: 480px;"></mycode>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">ปิด</button>
                         </div>
                     </div>
                 </div>

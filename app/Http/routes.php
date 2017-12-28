@@ -317,6 +317,8 @@ Route::get('/getCode','PathExamController@getCode');
 
 Route::get('/readFileResRun','PathExamController@readFileResRun');
 
+Route::get('/findMySendExamHistory','PathExamController@findMySendExamHistory');
+
 //--------------------------- SheetingController ---------------------------
 
 Route::get('/openWorksheet','SheetingController@openWorksheet');
