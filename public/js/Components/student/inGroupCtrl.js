@@ -2,10 +2,10 @@ app.controller('inGroupCtrl', ['$scope', '$window', function ($scope, $window) {
     $scope.groupData = $window.groupData;
     $scope.selectRow = "10";
     $scope.myPermissionsInGroup = findMyPermissionsInGroup(myuser.id,$scope.groupData.id);
-    console.log($scope.myPermissionsInGroup);
     $scope.examingComing = findSTDExamingItsComing($scope.groupData.id);
     $scope.examingEnding = findExamingItsEnding($scope.groupData.id);
     $scope.sheeting = findSTDSheetingByGroupID($scope.groupData.id);
+    console.log($scope.examingEnding);
 
     // เปลี่ยนเวลาแบบ Database เป็นเวลาแบบ Data Time Picker
     for (i = 0; i < $scope.examingComing.length; i++) {
@@ -32,6 +32,8 @@ app.controller('inGroupCtrl', ['$scope', '$window', function ($scope, $window) {
             }
         }
     });
+
+    $scope.sendExamHistory = [];
     //----------------------------------------------------------------------
     $scope.exitGroup = function () {
         $scope.groupName = $scope.groupData.group_name;
@@ -236,5 +238,62 @@ app.controller('inGroupCtrl', ['$scope', '$window', function ($scope, $window) {
         console.log(data);
         window.open(url+'/assistSheetBoard'+data.id, '_blank');
         window.focus();
+    }
+    //----------------------------------------------------------------------
+    $scope.viewHistory = function (data) {
+        $scope.sendExamHistory = findMySendExamHistory(myuser.id,data.id);
+
+        $('#history_modal').modal({backdrop: 'static'});
+        $('#history_part').waitMe({
+            effect: 'facebook',
+            bg: 'rgba(255,255,255,0.9)',
+            color: '#3bafda'
+        });
+
+        setTimeout(function () {
+            $scope.sendExamHistory.forEach(function(pathRes) {
+                pathRes.code = getCode(pathRes.path);
+                pathRes.readResrun = readFileResRun(pathRes.resrun);
+            });
+
+            $('#history_part').waitMe('hide');
+        }, 420);
+
+    }
+    //----------------------------------------------------------------------
+    $scope.viewCode = function (data) {
+        if ($('#detail_' + data.id).attr('style') === 'display: none;') {
+
+            var code = "";
+            (data.code).forEach(function(codes) {
+                code+=codes;
+            });
+            $('#code_' + data.id).html(escapeHtml(code));
+            $('#resrun_' + data.id).html(data.readResrun);
+
+            $('mycode').each(function(i, block) {
+                hljs.highlightBlock(block);
+            });
+
+            $('#detail_' + data.id).show();
+        }
+        else {
+            $('#detail_' + data.id).hide();
+        }
+    };
+    //----------------------------------------------------------------------
+    var entityMap = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': '&quot;',
+        "'": '&#39;',
+        "/": '&#x2F;'
+    };
+
+    function escapeHtml(string) {
+        return String(string).replace(/[&<>"'\/]/g, function (s) {
+            return entityMap[s];
+        });
     }
 }]);
