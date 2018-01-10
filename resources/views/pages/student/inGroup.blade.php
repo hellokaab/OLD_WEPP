@@ -74,13 +74,17 @@
                             <td style="text-align: center"><%e.start_date_time%></td>
                             <td style="text-align: center"><%e.end_date_time%></td>
                             <td style="text-align: center" ng-show="myPermissionsInGroup.status === 's'">
-                                <button ng-show="e.hide_history ==='0'" class="btn btn-sm btn-outline-primary" title="ประวัติการส่งข้อสอบ" style="cursor:pointer" ng-click="viewHistory(e)">
+                                <button ng-show="e.hide_history ==='0'" class="btn btn-sm btn-outline-purple" title="ประวัติการส่งข้อสอบ" style="cursor:pointer" ng-click="viewHistory(e)">
                                     <i class="fa fa-clock-o fa-lg" aria-hidden="true"></i> ประวัติการส่งข้อสอบ
+                                </button>
+                                &nbsp;
+                                <button class="btn btn-sm btn-outline-primary" title="สรุปผลคะแนน" style="cursor:pointer" ng-click="viewPoint(e)">
+                                    <i class="fa fa-bar-chart fa-lg" aria-hidden="true"></i>
                                 </button>
                             </td>
                             <td style="text-align: center" ng-show="myPermissionsInGroup.status === 'a'">
                                 <button class="btn btn-sm btn-outline-primary" title="สรุปผลคะแนน" style="cursor:pointer" ng-click="viewPoint(e)">
-                                    <i class="fa fa-bar-chart fa-lg" aria-hidden="true"></i>
+                                    <i class="fa fa-bar-chart fa-lg" aria-hidden="true"></i> สรุปผลคะแนน
                                 </button>
                             </td>
                         </tr>
@@ -119,10 +123,14 @@
                                         ng-click="admitSheeting(st)" ng-show="checkInTime(st) || checkSendLate(st)">
                                     <i class="fa fa-sign-in fa-lg" aria-hidden="true"></i> เข้าทำใบงาน
                                 </button>
+                                &nbsp;
+                                <button class="btn btn-sm btn-outline-primary" title="สรุปผลคะแนน" style="cursor:pointer" ng-click="viewSheetPoint(st)">
+                                    <i class="fa fa-bar-chart fa-lg" aria-hidden="true"></i>
+                                </button>
                             </td>
                             <td style="text-align: center" ng-show="myPermissionsInGroup.status === 'a'">
                                 <button class="btn btn-sm btn-outline-primary" title="สรุปผลคะแนน" style="cursor:pointer" ng-click="viewSheetPoint(st)">
-                                    <i class="fa fa-bar-chart fa-lg" aria-hidden="true"></i>
+                                    <i class="fa fa-bar-chart fa-lg" aria-hidden="true"></i> สรุปผลคะแนน
                                 </button>
                             </td>
                         </tr>
@@ -275,7 +283,7 @@
         <div class="modal fade" id="history_modal" role="dialog">
             <div class="modal-dialog" style="width: 95%">
                 <div class="modal-content">
-                    <div class="panel panel-primary" id="history_part" style="margin-bottom: 0">
+                    <div class="panel panel-purple" id="history_part" style="margin-bottom: 0">
                         <div class="panel-heading">
                             <h3 class="panel-title">ประวัติการส่งข้อสอบ</h3>
                         </div>
@@ -328,7 +336,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">ปิด</button>
+                            <button type="button" class="btn btn-outline-purple" data-dismiss="modal">ปิด</button>
                         </div>
                     </div>
                 </div>

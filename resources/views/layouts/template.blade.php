@@ -7,7 +7,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="_token" content="{{ csrf_token() }}"/>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    {{--<link href="css/bootstrap.min.css" rel="stylesheet">--}}
+    <link href="{{ url('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="css/side_nav.css" rel="stylesheet">
     <link href="font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -32,9 +33,9 @@
     {{--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>--}}
     <script>
         app.controller("urlCtrl", function($scope) {
-            $scope.myUrl = "/WEPP/public";
+            $scope.myUrl = '{{ URL::asset('') }}';
         });
-        var url = "/WEPP/public";
+        var url = '{{ URL::asset('') }}';
         {{--var mysession = {--}}
             {{--personalId : "0425361073012",--}}
             {{--prename : "นาย",--}}

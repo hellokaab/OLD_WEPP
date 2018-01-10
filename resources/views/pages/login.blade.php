@@ -1,20 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app = "myApp">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="_token" content="{{ csrf_token() }}"/>
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    {{--<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">--}}
+    <link href="css/side_nav.css" rel="stylesheet">
     <link href="font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-    <link href="css/myCustom.css " rel="stylesheet" type="text/css">
+    <link href="waitMe/waitMe.css " rel="stylesheet" type="text/css">
+    <link href="LineControl-Editor/editor.css " rel="stylesheet" type="text/css">
+    <link href="dateTimePicker/DateTimePicker.min.css " rel="stylesheet" type="text/css">
+    <link href="css/myCustom.css" rel="stylesheet" type="text/css">
     <script src="js/jquery-3.2.1.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/Components/login.js"></script>
+    <script src="js/side_nav.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="app/app.js"></script>
+    <script src="waitMe/waitMe.js"></script>
+    <script src="js/ajaxCtrl.js"></script>
+    <script src="js/dirPagination.js"></script>
+    <script src="LineControl-Editor/editor.js"></script>
+    <script src="dateTimePicker/DateTimePicker.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    {{--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>--}}
+    <script>
+        var url = '{{ URL::asset('/') }}';
+    </script>
+    <script src="js/Components/login.js"></script>
     <style>
 
         .form-signin input[type="text"] {
@@ -70,7 +86,7 @@
     </style>
 
 </head>
-<body id="page-top" class="index">
+<body id="page-top" class="index" ng-controller="loginCtrl">
 <div class="container">
     <div class="row">
         <nav class="navbar navbar-custom">
@@ -96,29 +112,10 @@
                         <li>
                             <a class="page-scroll" href="#services" id="test">ผู้จัดทำ</a>
                         </li>
+                        <li>
+                            <a class="page-scroll" href="#" id="test" ng-click="AdminLogin()">สำหรับผู้ดูแลระบบ</a>
+                        </li>
 
-                    <!-- Change Language Menu -->
-                        {{--<li role="presentation" class="dropdown">--}}
-                            {{--<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button"--}}
-                               {{--aria-haspopup="true" aria-expanded="false"><i class="fa fa-globe fa-lg"--}}
-                                                                             {{--aria-hidden="true"></i> Thailand/ไทย <span--}}
-                                        {{--class="caret"></span>--}}
-                            {{--</a>--}}
-                            {{--<ul class="dropdown-menu" style="padding-top: 15px;padding-bottom: 15px">--}}
-                                {{--<li>--}}
-                                    {{--<a href="#" style="width: 230px"><span>--}}
-                                    {{--<img id="ukFlag" class="img-responsive" src="img/1496140767_United-Kingdom.png"--}}
-                                         {{--style="width: 30px" align="left">--}}
-                                        {{--</span>&nbsp;&nbsp;<span>United Kingdom/English</span></a>--}}
-                                {{--</li>--}}
-                                {{--<li>--}}
-                                    {{--<a href="#"><span>--}}
-                                    {{--<img id="ukFlag" class="img-responsive" src="img/1496140759_Thailand.png"--}}
-                                         {{--style="width: 30px" align="left">--}}
-                                        {{--</span>&nbsp;&nbsp;<span>Thailand/ไทย</span></a>--}}
-                                {{--</li>--}}
-                            {{--</ul>--}}
-                        {{--</li>--}}
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->
@@ -143,9 +140,42 @@
                                 <br>
                             </label>
                             <button href="#" class="btn btn-lg btn-success btn-block" style="margin-bottom: 5%"
-                                    onclick=loginClick()>เข้าสู่ระบบ
+                                    ng-click="loginClick()">เข้าสู่ระบบ
                             </button>
                         </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{--Admin Login--}}
+    <div class="modal fade" id="admin_login_modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="panel panel-success" id="admin_login_part" style="margin-bottom: 0">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" style="color: #fff">เข้าสู่ระบบ(ผู้ดูแล)</h3>
+                    </div>
+                    <div class="form-horizontal" role="form" style="padding-top: 7%">
+                        <label class="col-md-4 control-label">Username</label>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" id="txt_admin_username" class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-md-4 control-label">Password</label>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" id="txt_admin_password" class="form-control"/>
+                            </div>
+                        </div>
+                        <!-- un use -->
+                        <div class="form-group"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-success">ตกลง</button>
+                        <button type="button" class="btn btn-outline-default" data-dismiss="modal">ยกเลิก</button>
                     </div>
                 </div>
             </div>
