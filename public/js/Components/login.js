@@ -1,6 +1,11 @@
-/**
- * Created by Pongpan on 07-Jun-17.
- */
-function loginClick() {
-    window.location.href = "/WEPP/public/index";
-}
+app.controller("loginCtrl", function($scope) {
+
+
+    $scope.loginClick = function() {
+        window.location.href = url + "index";
+    }
+
+    $scope.AdminLogin = function () {
+        $('#admin_login_modal').modal({backdrop: 'static'});
+    }
+});
