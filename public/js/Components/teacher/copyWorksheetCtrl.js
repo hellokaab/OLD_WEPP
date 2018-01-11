@@ -271,7 +271,7 @@ app.controller('copyWorksheetCtrl', ['$scope', '$window', function ($scope, $win
     };
     //----------------------------------------------------------------------
     function createContentFile(trial, callback) {
-        $.post("../public/js/Components/CreateTextFileSH.php", {
+        $.post("js/Components/CreateTextFileSH.php", {
             objective: $scope.objective,
             theory: $scope.theory,
             trial: trial,

@@ -36,7 +36,7 @@
                    วันที่ 10 มิถุนายน 2560
                 </a>
             </li>
-            <li1>
+            <li1 ng-show="thisUser.user_type === 't' || thisUser.user_type === 's' ">
                 <a id="side_index" href="<%myUrl%>/index"><i class="fa2 fa-home fa-lg" aria-hidden="true" style="color: #db2828"></i>&nbsp;&nbsp;หน้าหลัก</a>
             </li1>
             <li2 ng-show="thisUser.user_type === 't'">
@@ -110,6 +110,14 @@
                     </li5>
                 </ul>
             </div>
+
+            <li2 ng-show="thisUser.user_type === 'a'">
+                <a id="side_teaList" href="{{ url('/teaList') }}"><i class="fa2 fa-users fa-lg" aria-hidden="true" style="color: #f2711c"></i>&nbsp;&nbsp;รายชื่ออาจารย์ในระบบ</a>
+            </li2>
+
+            <li3 ng-show="thisUser.user_type === 'a'">
+                <a id="side_stdList" href="{{ url('/stdList') }}"><i class="fa2 fa-users fa-lg" aria-hidden="true" style="color: #fbbd08"></i>&nbsp;&nbsp;รายชื่อนักศึกษาในระบบ</a>
+            </li3>
         </ul>
     </div>
     <!-- /#sidebar-wrapper -->

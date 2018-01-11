@@ -250,7 +250,7 @@ app.controller('addWorksheetCtrl', ['$scope', '$window', function ($scope, $wind
     }
     //----------------------------------------------------------------------
     function createContentFile(trial, callback) {
-        $.post("../public/js/Components/CreateTextFileSH.php", {
+        $.post("js/Components/CreateTextFileSH.php", {
             objective : $scope.objective,
             theory : $scope.theory,
             trial: trial,

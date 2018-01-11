@@ -161,20 +161,23 @@
                         <label class="col-md-4 control-label">Username</label>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="text" id="txt_admin_username" class="form-control"/>
+                                <input type="text" ng-model="adminUsername" id="_username" class="form-control"/>
                             </div>
                         </div>
                         <label class="col-md-4 control-label">Password</label>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="text" id="txt_admin_password" class="form-control"/>
+                                <input type="password" ng-model="adminPassword" class="form-control" ng-keyup="$event.keyCode === 13 && okLogin()"/>
+                                <div class="notice" id="notice_admin_pass" style="display: none">
+                                    รหัสผ่านไม่ถูกต้อง
+                                </div>
                             </div>
                         </div>
                         <!-- un use -->
                         <div class="form-group"></div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-success">ตกลง</button>
+                        <button type="button" class="btn btn-outline-success" ng-click="okLogin()">ตกลง</button>
                         <button type="button" class="btn btn-outline-default" data-dismiss="modal">ยกเลิก</button>
                     </div>
                 </div>
