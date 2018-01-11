@@ -525,7 +525,7 @@ app.controller('editExamCtrl', ['$scope', '$window', function ($scope, $window) 
 
     //----------------------------------------------------------------------
     function createContentFile(content, callback) {
-        $.post("../public/js/Components/CreateTextFileEX.php", {
+        $.post("js/Components/CreateTextFileEX.php", {
             Content: content,
             input : $scope.input,
             output : $scope.output,

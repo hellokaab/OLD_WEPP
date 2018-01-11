@@ -18,6 +18,84 @@ function addUser() {
     return user;
 }
 
+function findAllTeacher() {
+    var teachers = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + 'findAllTeacher',
+        async: false,
+    }).responseJSON;
+    return teachers;
+}
+
+function findAllStudent() {
+    var students = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + 'findAllStudent',
+        async: false,
+    }).responseJSON;
+    return students;
+}
+
+function deleteTeacher(UID) {
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + 'deleteTeacher',
+        data: { user_id : UID},
+        async: false,
+        complete: function (xhr) {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    $('#delete_teacher_part').waitMe('hide');
+                    $('#delete_teacher_modal').modal('hide');
+                    $('#success_modal').modal({backdrop: 'static'});
+                } else {
+                    $('#delete_teacher_part').waitMe('hide');
+                    $('#delete_teacher_modal').modal('hide');
+                    $('#unsuccess_modal').modal({backdrop: 'static'});
+                }
+            }
+        }
+    });
+}
+
+function deleteStudent(UID) {
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + 'deleteStudent',
+        data: { user_id : UID},
+        async: false,
+        complete: function (xhr) {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    $('#delete_student_part').waitMe('hide');
+                    $('#delete_student_modal').modal('hide');
+                    $('#success_modal').modal({backdrop: 'static'});
+                } else {
+                    $('#delete_student_part').waitMe('hide');
+                    $('#delete_student_modal').modal('hide');
+                    $('#unsuccess_modal').modal({backdrop: 'static'});
+                }
+            }
+        }
+    });
+}
+
 function findUserByPersonalID() {
     var user = $.ajax({
         contentType: "application/json; charset=utf-8",

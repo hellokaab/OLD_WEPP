@@ -31,6 +31,22 @@ Route::get('/findTeacher', 'UserController@findTeacher');
 
 Route::get('/findUserByID', 'UserController@findUserByID');
 
+Route::get('/findAdmin', 'UserController@findAdmin');
+
+Route::get('/getAdmin', 'UserController@getAdmin');
+
+Route::get('/teaList', 'UserController@teaList');
+
+Route::get('/stdList', 'UserController@stdList');
+
+Route::get('/findAllTeacher', 'UserController@findAllTeacher');
+
+Route::get('/findAllStudent', 'UserController@findAllStudent');
+
+Route::get('/deleteTeacher', 'UserController@deleteTeacher');
+
+Route::get('/deleteStudent', 'UserController@deleteStudent');
+
 //--------------------------- GroupController ---------------------------
 
 Route::get('/group','GroupController@group' );

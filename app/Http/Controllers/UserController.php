@@ -2,10 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Admin;
+use App\Examing;
+use App\ResExam;
+use App\Section;
+use App\Sheeting;
+use App\WorksheetGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Users;
+use Illuminate\Support\Facades\Session;
 use Psy\Util\Str;
+use DirectoryIterator;
 
 class UserController extends Controller
 {
@@ -151,5 +159,99 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function findAdmin(Request $request)
+    {
+        $admin = Admin::where('username',$request->username)
+            ->where('password',$request->password)
+            ->first();
+        if ($admin === NULL) {
+             return response()->json(['error' => 'Error msg'], 209);
+        }else{
+            Session::set('wepp_admin',$admin);
+        }
+    }
+
+    public function getAdmin()
+    {
+        $admin = Session::get('wepp_admin');
+        return response()->json($admin);
+    }
+
+    public function teaList()
+    {
+//        $data = array(
+//            'admin' => Session::get('wepp_admin')
+//        );
+
+        return view('pages/admin/teaList');
+    }
+
+    public function stdList()
+    {
+        return view('pages/admin/stdList');
+    }
+
+    public function findAllTeacher(){
+        $teacher = Users::where('user_type','t')
+            ->orderBy('fname_th', 'asc')
+            ->orderBy('lname_th', 'asc')
+            ->get();
+        return response()->json($teacher);
+    }
+
+    public function findAllStudent(){
+        $student = Users::where('user_type','s')
+            ->orderBy('stu_id', 'asc')
+            ->get();
+        return response()->json($student);
+    }
+
+    public function deleteTeacher(Request $request){
+        $user = Users::find($request->user_id);
+        $userFolder = $user->id."_".$user->fname_en."_".$user->lname_en;
+        $this->rrmdir("../upload/exam/".$userFolder);
+        $this->rrmdir("../upload/worksheet/".$userFolder);
+
+        $examings = Examing::where('user_id',$request->user_id)->get();
+        foreach ($examings as $examing) {
+            $examingFolder = "Examing_".$examing->id;
+            $this->rrmdir("../upload/resexam/".$examingFolder);
+        }
+
+        $sheetings = Sheeting::where('user_id',$request->user_id)->get();
+        foreach ($sheetings as $sheeting) {
+            $sheetingFolder = "Sheeting_".$sheeting->id;
+            $this->rrmdir("../upload/resworksheet/".$sheetingFolder);
+        }
+        $user->delete();
+    }
+
+    public function deleteStudent(Request $request){
+        $user = Users::find($request->user_id);
+        $userFolder = $user->stu_id."_".$user->fname_en."_".$user->lname_en;
+
+        $result_exams = ResExam::where('user_id',$request->user_id)->get();
+        foreach ($result_exams as $result_exam) {
+            $this->rrmdir("../upload/resexam/Examing_".$result_exam->examing_id
+                ."/Exam_".$result_exam->exam_id."/".$userFolder);
+        }
+        $user->delete();
+    }
+
+    public function rrmdir($path) {
+        // Open the source directory to read in files
+        try {
+            $i = new DirectoryIterator($path);
+            foreach ($i as $f) {
+                if ($f->isFile()) {
+                    unlink($f->getRealPath());
+                } else if (!$f->isDot() && $f->isDir()) {
+                    $this->rrmdir($f->getRealPath());
+                }
+            }
+            rmdir($path);
+        } catch(\Exception $e ){}
     }
 }
