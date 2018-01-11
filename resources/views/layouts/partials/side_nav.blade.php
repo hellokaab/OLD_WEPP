@@ -65,9 +65,23 @@
                     </li3>
                 </ul>
             </div>
+            {{--<li4 ng-show="thisUser.user_type === 't'">--}}
+                {{--<a id="side_group" href="<%myUrl%>/group"><i class="fa2 fa-users fa-lg" aria-hidden="true" style="color: #21ba45"></i>&nbsp;&nbsp;กลุ่มเรียน</a>--}}
+            {{--</li4>--}}
             <li4 ng-show="thisUser.user_type === 't'">
-                <a id="side_group" href="<%myUrl%>/group"><i class="fa2 fa-users fa-lg" aria-hidden="true" style="color: #21ba45"></i>&nbsp;&nbsp;กลุ่มเรียน</a>
+                <a data-target="#demo_group" data-toggle="collapse" role="presentation" id="side_group" href="" class="collapsed">
+                    <i class="fa2 fa-users fa-lg" aria-hidden="true" style="color: #21ba45"></i>&nbsp;&nbsp;กลุ่มเรียน<i id="group_chevron" class="fa2 fa-chevron-left" style="padding-left: 128px"></i>
+                </a>
             </li4>
+            <div class="collapse" id="demo_group">
+                <ul class="list-unstyled main-menu" id="_menu" z="user-managed=">
+                    <li4 role="presentation">
+                        <a id="side_my_group" href="{{ url('/group') }}">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;กลุ่มเรียนของฉัน</a>
+                        <a id="side_all_group" href="{{ url('/stdGroup') }}">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;กลุ่มเรียนทั้งหมด</a>
+                        <a id="side_join_group" href="{{ url('/stdMyGroup') }}">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;กลุ่มเรียนที่ฉันเข้าร่วม</a>
+                    </li4>
+                </ul>
+            </div>
             <li5 ng-show="thisUser.user_type === 't'">
                 <a data-target="#demo" data-toggle="collapse" role="presentation" id="side_examming" href="" class="collapsed">
                     <i class="fa2 fa-cog fa-lg" aria-hidden="true" style="color: #2185d0"></i>&nbsp;&nbsp;จัดการการสอบ<i id="examming_chevron" class="fa2 fa-chevron-left" style="padding-left: 100px"></i>
@@ -163,6 +177,19 @@
             $("#side_sheet_store").removeAttr('class');
             $("#sheet_chevron").removeAttr('class');
             $("#sheet_chevron").attr('class','fa2 fa-chevron-left');
+
+        }
+    });
+
+    $("#side_group").on('click',function () {
+        if($("#side_group")[0].className == "collapsed"){
+            $("#group_chevron").removeAttr('class');
+            $("#group_chevron").attr('class','fa2 fa-chevron-down');
+            $("#side_group").attr('class','active');
+        } else {
+            $("#side_group").removeAttr('class');
+            $("#group_chevron").removeAttr('class');
+            $("#group_chevron").attr('class','fa2 fa-chevron-left');
 
         }
     });

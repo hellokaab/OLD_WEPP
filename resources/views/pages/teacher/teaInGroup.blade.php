@@ -9,7 +9,7 @@
         <div class="col-lg-12">
             <ol class="breadcrumb">
                 <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
-                <li><a href="<%myUrl%>/group">กลุ่มเรียน</a></li>
+                <li><a href="<%myUrl%>/group">กลุ่มเรียนของฉัน</a></li>
                 <li class="active"><%groupData.group_name%></li>
             </ol>
         </div>
@@ -223,7 +223,8 @@
                             <td><%m.stu_id%></td>
                             <td><%m.fullName%></td>
                             <td ng-show="m.status === 's'">นักศึกษา</td>
-                            <td ng-show="m.status === 'a'">ผู้ช่วยสอน</td>
+                            <td ng-show="m.status === 'a'">อาจารย์ผู้ช่วยสอน</td>
+                            <td ng-show="m.status === 'as'">ผู้ช่วยสอน</td>
                             <td style="text-align: center">
                                 <button class="btn btn-sm btn-outline-primary" title="รายละเอียด" style="cursor:pointer" ng-click="showProfile(m)">
                                     <i class="fa fa-address-card fa-lg" aria-hidden="true"></i>
@@ -573,7 +574,12 @@
     <script>
         $(document).ready(function () {
             $('#tea_in_group_div').css('display', 'block');
-            $('#side_group').attr('class','active');
+            $("#side_group").removeAttr('class');
+            $('#side_group').attr('class', 'active');
+            $("#group_chevron").removeAttr('class');
+            $("#group_chevron").attr('class','fa2 fa-chevron-down');
+            $('#demo_group').attr('class', 'collapse in');
+            $('#side_my_group').attr('class', 'active');
 //            $(".nav-tabs a").click(function () {
 //                $(this).tab('show');
 //            });

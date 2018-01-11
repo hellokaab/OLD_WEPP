@@ -1,6 +1,3 @@
-/**
- * Created by Pongpan on 04-Aug-17.
- */
 app.controller('stdGroupCtrl', ['$scope', '$window', function ($scope, $window) {
     $scope.allGroup = $window.allGroup;
     console.log($scope.allGroup);
@@ -38,15 +35,20 @@ app.controller('stdGroupCtrl', ['$scope', '$window', function ($scope, $window) 
     };
     //----------------------------------------------------------------------
     $scope.clickGroup = function (group) {
-        $scope.groupID = group.id;
-        $scope.groupPASS = group.group_pass;
-        $scope.groupName = group.group_name;
-        var checkJoin = checkJoinGroup($scope.thisUser.id,group.id);
-        console.log(checkJoin);
-        if(checkJoin){
-            window.location.href = url+"/inGroup"+$scope.groupID;
+        console.log(group);
+        if($scope.thisUser.id === group.user_id){
+            window.location.href = url+"teaInGroup"+group.id;
         } else {
-            $('#join_group_modal').modal({backdrop: 'static'});
+            $scope.groupID = group.id;
+            $scope.groupPASS = group.group_pass;
+            $scope.groupName = group.group_name;
+            var checkJoin = checkJoinGroup($scope.thisUser.id,group.id);
+            console.log(checkJoin);
+            if(checkJoin){
+                window.location.href = url+"/inGroup"+$scope.groupID;
+            } else {
+                $('#join_group_modal').modal({backdrop: 'static'});
+            }
         }
     }
     //----------------------------------------------------------------------
@@ -58,7 +60,11 @@ app.controller('stdGroupCtrl', ['$scope', '$window', function ($scope, $window) 
                 bg: 'rgba(255,255,255,0.9)',
                 color: '#3bafda'
             });
-            createJoinGroup($scope.thisUser.id,$scope.groupID);
+
+            var status = "";
+            $scope.thisUser.user_type === 't' ? status = "a" : status = "s";
+
+            createJoinGroup($scope.thisUser.id,$scope.groupID,status);
             window.location.href = url+"/inGroup"+$scope.groupID;
         } else {
             $('#notice_pass_grp').html('* รหัสผ่านไม่ถูกต้อง').show();

@@ -10,7 +10,8 @@
             <ol class="breadcrumb">
                 <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
                 <li>กลุ่มเรียน</li>
-                <li><a href="<%myUrl%>/stdMyGroup">กลุ่มเรียนของฉัน</a></li>
+                <li class="active" ng-if="thisUser.user_type ==='s'"><a href="<%myUrl%>/stdMyGroup">กลุ่มเรียนของฉัน</a></li>
+                <li class="active" ng-if="thisUser.user_type ==='t'"><a href="<%myUrl%>/stdMyGroup">กลุ่มเรียนที่ฉันเข้าร่วม</a></li>
                 <li class="active"><%groupData.group_name%> (<%groupData.creater%>)</li>
             </ol>
         </div>
@@ -346,6 +347,22 @@
     <script>
         $(document).ready(function () {
             $('#in_group_div').css('display', 'block');
+            if(myuser.user_type === 's') {
+                $("#side_std_group").removeAttr('class');
+                $('#side_std_group').attr('class', 'active');
+                $("#std_group_chevron").removeAttr('class');
+                $("#std_group_chevron").attr('class', 'fa2 fa-chevron-down');
+                $('#demo_std_group').attr('class', 'collapse in');
+                $('#side_std_myGroup').attr('class', 'active');
+            } else  if(myuser.user_type === 't'){
+                $('#group_div').css('display', 'block');
+                $("#side_group").removeAttr('class');
+                $('#side_group').attr('class', 'active');
+                $("#group_chevron").removeAttr('class');
+                $("#group_chevron").attr('class','fa2 fa-chevron-down');
+                $('#demo_group').attr('class', 'collapse in');
+                $('#side_join_group').attr('class', 'active');
+            }
 
 //            $(".nav-tabs a").click(function () {
 //                $(this).tab('show');

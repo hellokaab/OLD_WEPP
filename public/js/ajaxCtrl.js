@@ -947,7 +947,7 @@ function checkJoinGroup(UID,GID) {
     return checker;
 }
 
-function createJoinGroup(UID,GID) {
+function createJoinGroup(UID,GID,status) {
     $.ajax({
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -955,7 +955,7 @@ function createJoinGroup(UID,GID) {
             Accept: "application/json"
         },
         url:url + '/createJoinGroup',
-        data:{user_id:UID,group_id:GID},
+        data:{user_id:UID,group_id:GID,status:status},
         async: false,
     });
 }
