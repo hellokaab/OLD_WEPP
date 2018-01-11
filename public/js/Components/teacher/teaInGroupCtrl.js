@@ -542,9 +542,11 @@ app.controller('teaInGroupCtrl', ['$scope', '$window', function ($scope, $window
         data.edit_exam === '1' ? $("#edit_ex")[0].checked = true:$("#edit_ex")[0].checked = false
         data.edit_sheet === '1' ? $("#edit_sh")[0].checked = true:$("#edit_sh")[0].checked = false
         $('#permissions_part').waitMe('hide');
+        console.log($scope.dataInGroup);
     };
     //----------------------------------------------------------------------
     $scope.okManage = function () {
+
         $('#permissions_part').waitMe({
             effect: 'win8_linear',
             bg: 'rgba(255,255,255,0.9)',
@@ -557,11 +559,16 @@ app.controller('teaInGroupCtrl', ['$scope', '$window', function ($scope, $window
             edit_exam : $("#edit_ex")[0].checked == true ? 1 : 0,
             edit_sheet : $("#edit_sh")[0].checked == true ? 1 : 0
         }
-        if($("#view_ex")[0].checked == false && $("#view_sh")[0].checked == false && $("#edit_ex")[0].checked == false && $("#edit_sh")[0].checked == false){
-            data.status = 's';
-        } else {
+        if($scope.dataInGroup.status === 'a'){
             data.status = 'a';
+        } else {
+            if($("#view_ex")[0].checked == false && $("#view_sh")[0].checked == false && $("#edit_ex")[0].checked == false && $("#edit_sh")[0].checked == false){
+                data.status = 's';
+            } else {
+                data.status = 'as';
+            }
         }
+
         managePermissions(data);
     }
     //----------------------------------------------------------------------

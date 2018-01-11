@@ -110,21 +110,22 @@
     <script>
         $(document).ready(function () {
             $('#std_group_div').css('display', 'block');
-            $("#side_std_group").removeAttr('class');
-            $('#side_std_group').attr('class', 'active');
-            $("#std_group_chevron").removeAttr('class');
-            $("#std_group_chevron").attr('class','fa2 fa-chevron-down');
-            $('#demo_std_group').attr('class', 'collapse in');
-            $('#side_std_allGroup').attr('class', 'active');
-//            $(".nav-tabs a").click(function () {
-//                $(this).tab('show');
-//            });
-//            $('.nav-tabs a').on('shown.bs.tab', function (event) {
-//                var x = $(event.target).text();         // active tab
-//                var y = $(event.relatedTarget).text();  // previous tab
-//                $(".act span").text(x);
-//                $(".prev span").text(y);
-//            });
+            if(myuser.user_type === 's'){
+                $("#side_std_group").removeAttr('class');
+                $('#side_std_group').attr('class', 'active');
+                $("#std_group_chevron").removeAttr('class');
+                $("#std_group_chevron").attr('class','fa2 fa-chevron-down');
+                $('#demo_std_group').attr('class', 'collapse in');
+                $('#side_std_allGroup').attr('class', 'active');
+            } else if(myuser.user_type === 't'){
+                $('#group_div').css('display', 'block');
+                $("#side_group").removeAttr('class');
+                $('#side_group').attr('class', 'active');
+                $("#group_chevron").removeAttr('class');
+                $("#group_chevron").attr('class','fa2 fa-chevron-down');
+                $('#demo_group').attr('class', 'collapse in');
+                $('#side_all_group').attr('class', 'active');
+            }
         });
     </script>
 @endsection

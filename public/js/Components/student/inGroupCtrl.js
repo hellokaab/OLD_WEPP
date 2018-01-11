@@ -1,5 +1,6 @@
 app.controller('inGroupCtrl', ['$scope', '$window', function ($scope, $window) {
     $scope.groupData = $window.groupData;
+    $scope.thisUser = $window.myuser;
     $scope.selectRow = "10";
     $scope.myPermissionsInGroup = findMyPermissionsInGroup(myuser.id,$scope.groupData.id);
     $scope.examingComing = findSTDExamingItsComing($scope.groupData.id);

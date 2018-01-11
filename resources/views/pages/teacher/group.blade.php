@@ -11,7 +11,8 @@
         <div class="col-lg-12">
             <ol class="breadcrumb">
                 <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
-                <li class="active">กลุ่มเรียน</li>
+                <li>กลุ่มเรียน</li>
+                <li class="active">กลุ่มเรียนของฉัน</li>
             </ol>
         </div>
         <div class="col-lg-12">
@@ -230,7 +231,12 @@
         <script>
             $(document).ready(function () {
                 $('#group_div').css('display', 'block');
-                $('#side_group').attr('class','active');
+                $("#side_group").removeAttr('class');
+                $('#side_group').attr('class', 'active');
+                $("#group_chevron").removeAttr('class');
+                $("#group_chevron").attr('class','fa2 fa-chevron-down');
+                $('#demo_group').attr('class', 'collapse in');
+                $('#side_my_group').attr('class', 'active');
                 $(".nav-tabs a").click(function () {
                     $(this).tab('show');
                 });

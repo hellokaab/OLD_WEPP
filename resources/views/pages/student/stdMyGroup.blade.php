@@ -10,13 +10,15 @@
             <ol class="breadcrumb">
                 <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
                 <li>กลุ่มเรียน</li>
-                <li class="active">กลุ่มเรียนของฉัน</li>
+                <li class="active" ng-if="thisUser.user_type ==='s'">กลุ่มเรียนของฉัน</li>
+                <li class="active" ng-if="thisUser.user_type ==='t'">กลุ่มเรียนที่ฉันเข้าร่วม</li>
             </ol>
         </div>
         <div class="col-lg-12">
             <div class="panel panel-default ">
                 <div class="panel-heading">
-                    <b>กลุ่มเรียนของฉัน</b>
+                    <b ng-if="thisUser.user_type ==='s'">กลุ่มเรียนของฉัน</b>
+                    <b ng-if="thisUser.user_type ==='t'">กลุ่มเรียนที่ฉันเข้าร่วม</b>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -107,22 +109,22 @@
     <script>
         $(document).ready(function () {
             $('#std_my_group_div').css('display', 'block');
-            $('#std_group_div').css('display', 'block');
-            $("#side_std_group").removeAttr('class');
-            $('#side_std_group').attr('class', 'active');
-            $("#std_group_chevron").removeAttr('class');
-            $("#std_group_chevron").attr('class','fa2 fa-chevron-down');
-            $('#demo_std_group').attr('class', 'collapse in');
-            $('#side_std_myGroup').attr('class', 'active');
-//            $(".nav-tabs a").click(function () {
-//                $(this).tab('show');
-//            });
-//            $('.nav-tabs a').on('shown.bs.tab', function (event) {
-//                var x = $(event.target).text();         // active tab
-//                var y = $(event.relatedTarget).text();  // previous tab
-//                $(".act span").text(x);
-//                $(".prev span").text(y);
-//            });
+            if(myuser.user_type === 's') {
+                $("#side_std_group").removeAttr('class');
+                $('#side_std_group').attr('class', 'active');
+                $("#std_group_chevron").removeAttr('class');
+                $("#std_group_chevron").attr('class', 'fa2 fa-chevron-down');
+                $('#demo_std_group').attr('class', 'collapse in');
+                $('#side_std_myGroup').attr('class', 'active');
+            } else  if(myuser.user_type === 't'){
+                $('#group_div').css('display', 'block');
+                $("#side_group").removeAttr('class');
+                $('#side_group').attr('class', 'active');
+                $("#group_chevron").removeAttr('class');
+                $("#group_chevron").attr('class','fa2 fa-chevron-down');
+                $('#demo_group').attr('class', 'collapse in');
+                $('#side_join_group').attr('class', 'active');
+            }
         });
     </script>
 @endsection

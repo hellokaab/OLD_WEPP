@@ -86,7 +86,7 @@ class JoinGroupController extends Controller
         $join = new JoinGroup;
         $join->user_id = $request->user_id;
         $join->group_id = $request->group_id;
-        $join->status = 's';
+        $join->status = $request->status;
         $join->view_sheet = 0;
         $join->edit_sheet = 0;
         $join->view_exam = 0;
