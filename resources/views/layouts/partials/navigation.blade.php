@@ -27,8 +27,54 @@
         }
 
     });
+
+    app.controller("navBarCtrl", function($scope) {
+        $scope.thisUser = myuser;
+        
+        $scope.adminLogOut = function () {
+            $.ajax ({
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                headers: {
+                    Accept: "application/json"
+                },
+                url: url + 'adminLogout',
+                async: false,
+                complete: function (xhr) {
+                    if (xhr.readyState == 4) {
+                        if (xhr.status == 200) {
+                            window.location.href = url;
+                        }else {
+                            alert('ผิดพลาด');
+                        }
+                    }
+                }
+            });
+        }
+
+        $scope.userLogOut = function () {
+            $.ajax ({
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                headers: {
+                    Accept: "application/json"
+                },
+                url: url + 'userLogOut',
+                async: false,
+                complete: function (xhr) {
+                    if (xhr.readyState == 4) {
+                        if (xhr.status == 200) {
+                            window.location.href = url;
+                        }else {
+                            alert('ผิดพลาด');
+                        }
+                    }
+                }
+            });
+        }
+    });
 </script>
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-controller="navBarCtrl">
     {{--<div class="container">--}}
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header page-scroll">
@@ -104,16 +150,22 @@
                                 class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" style="padding-top: 15px;padding-bottom: 15px">
-                        <li>
-                            <a href="#" style="padding-top: 5px;padding-bottom: 5px;text-align: left">
+                        <li ng-show="thisUser.user_type != 'a'">
+                            <a href="{{ url('/profile') }}" style="padding-top: 5px;padding-bottom: 5px;text-align: left">
                                 <i class="fa fa-address-card fa-lg"
                                    aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;ข้อมูลส่วนตัว
                             </a>
                         </li>
-                        <li>
-                            <a href="#" style="padding-top: 5px;padding-bottom: 5px;text-align: left">
+                        <li ng-show="thisUser.user_type != 'a'">
+                            <a href="#" style="padding-top: 5px;padding-bottom: 5px;text-align: left" ng-click="userLogOut()">
                             <i class="fa fa-sign-out fa-lg"
                                aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;ออกจากระบบ
+                            </a>
+                        </li>
+                        <li ng-show="thisUser.user_type === 'a'">
+                            <a href="#" style="padding-top: 5px;padding-bottom: 5px;text-align: left" ng-click="adminLogOut()">
+                                <i class="fa fa-sign-out fa-lg"
+                                   aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;ออกจากระบบ
                             </a>
                         </li>
                     </ul>

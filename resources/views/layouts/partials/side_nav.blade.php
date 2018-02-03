@@ -8,6 +8,18 @@
             $("#wrapper").removeAttr('class','toggled');
             $("#page-content-wrapper").removeAttr('style');
         }
+
+        var today = new Date();
+        console.log(today);
+        console.log(today.getDate());
+        console.log(today.getMonth());
+        console.log(today.getFullYear());
+
+        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        console.log(today.toLocaleDateString('th-TH', options));
+
+        $("#a_today").html(today.toLocaleDateString('th-TH', options));
+
     });
 
     $(window).resize(function () {
@@ -32,7 +44,7 @@
     <div id="sidebar-wrapper" style="display: none">
         <ul class="sidebar-nav">
             <li class="sidebar-brand">
-                <a href="#">
+                <a href="#" id="a_today">
                    วันที่ 10 มิถุนายน 2560
                 </a>
             </li>

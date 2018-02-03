@@ -1,7 +1,7 @@
 @extends('layouts.template')
 @section('checkUser')
     <script>
-        var user = addUser();
+//        var user = addUser();
         $(document).ready(function () {
             $('#side_index').attr('class','active');
         });

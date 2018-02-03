@@ -19,9 +19,17 @@ Route::get('/index', function () {
     return view('pages/index');
 });
 
+Route::get('/profile', function () {
+    return view('pages/profile');
+});
+
 //--------------------------- UserController ---------------------------
 
-Route::resource('/user', 'UserController');
+//Route::resource('/user', 'UserController');
+
+Route::get('/loggedIn','UserController@loggedIn' );
+
+Route::get('/checkUser','UserController@checkUser' );
 
 Route::get('/findByPersonalID','UserController@findByPersonalID' );
 
@@ -34,6 +42,12 @@ Route::get('/findUserByID', 'UserController@findUserByID');
 Route::get('/findAdmin', 'UserController@findAdmin');
 
 Route::get('/getAdmin', 'UserController@getAdmin');
+
+Route::get('/testSession', 'UserController@testSession');
+
+Route::get('/adminLogout', 'UserController@adminLogout');
+
+Route::get('/userLogOut', 'UserController@userLogOut');
 
 Route::get('/teaList', 'UserController@teaList');
 

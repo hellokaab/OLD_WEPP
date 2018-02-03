@@ -2,7 +2,7 @@ app.controller("loginCtrl", function($scope) {
 
 
     $scope.loginClick = function() {
-        window.location.href = url + "index";
+        window.location.href = url + "makeData.php";
     };
 
     $scope.AdminLogin = function () {

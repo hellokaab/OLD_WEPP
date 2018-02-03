@@ -22,6 +22,80 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function loggedIn(){
+        session_start();
+        if(isset($_SESSION['ssoUserData'])){
+            echo '<pre>' . print_r($_SESSION['ssoUserData'], TRUE) . '</pre>';
+            $findUser = Users::where('personal_id', $_SESSION['ssoUserData']['personalId'])->first();
+            if ($findUser === NULL) {
+                $users = new Users;
+                $users->personal_id = $_SESSION['ssoUserData']['personalId'];
+                $users->prefix = $_SESSION['ssoUserData']['prename'];
+                $users->fname_en = $_SESSION['ssoUserData']['cn'];
+                $users->fname_th = $_SESSION['ssoUserData']['firstNameThai'];
+                $users->lname_en = $_SESSION['ssoUserData']['sn'];
+                $users->lname_th = $_SESSION['ssoUserData']['lastNameThai'];
+                $users->stu_id = $_SESSION['ssoUserData']['studentId'];
+                $users->faculty = $_SESSION['ssoUserData']['faculty'];
+                $users->department = $_SESSION['ssoUserData']['program'];
+                $users->email = $_SESSION['ssoUserData']['mail'];
+                if($_SESSION['ssoUserData']['gidNumber'] == "4500"){
+                    $users->user_type = 's';
+                }elseif ($_SESSION['ssoUserData']['gidNumber'] == "2800"){
+                    $users->user_type = 't';
+                }else{
+                    $users->user_type = 'o';
+                }
+                $users->save();
+//                return response()->json($users);
+            }else{
+                $users = Users::find($findUser->id);
+                $users->personal_id = $_SESSION['ssoUserData']['personalId'];
+                $users->prefix = $_SESSION['ssoUserData']['prename'];
+                $users->fname_en = $_SESSION['ssoUserData']['cn'];
+                $users->fname_th = $_SESSION['ssoUserData']['firstNameThai'];
+                $users->lname_en = $_SESSION['ssoUserData']['sn'];
+                $users->lname_th = $_SESSION['ssoUserData']['lastNameThai'];
+                $users->stu_id = $_SESSION['ssoUserData']['studentId'];
+                $users->faculty = $_SESSION['ssoUserData']['faculty'];
+                $users->department = $_SESSION['ssoUserData']['program'];
+                $users->email = $_SESSION['ssoUserData']['mail'];
+                if($_SESSION['ssoUserData']['gidNumber'] == "4500"){
+                    $users->user_type = 's';
+                }elseif ($_SESSION['ssoUserData']['gidNumber'] == "2800"){
+                    $users->user_type = 't';
+                }else{
+                    $users->user_type = 'o';
+                } $users->save();
+//                return response()->json($users);
+            }
+
+            return redirect('/index');
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function checkUser(){
+        session_start();
+//        unset($_SESSION['ssoUserData']);
+        if(isset($_SESSION['ssoUserData'])){
+//            return 200;
+            $findUser = Users::where('personal_id', $_SESSION['ssoUserData']['personalId'])->first();
+            return $findUser;
+        } else {
+            return 404;
+        }
+    }
+
+    public function userLogOut(){
+        session_start();
+        unset($_SESSION['ssoUserData']);
+
+        header( "location: http://localhost/WEPP/public/" );
+        exit(0);
+    }
+
     public function index(Request $request)
     {
         $findUser = Users::where('personal_id', $request->personalId)->first();
@@ -169,14 +243,34 @@ class UserController extends Controller
         if ($admin === NULL) {
              return response()->json(['error' => 'Error msg'], 209);
         }else{
-            Session::set('wepp_admin',$admin);
+            Session::set('weppAdmin',$admin);
         }
     }
 
     public function getAdmin()
     {
-        $admin = Session::get('wepp_admin');
-        return response()->json($admin);
+        if(Session::has('weppAdmin')){
+            $admin = Session::get('weppAdmin');
+            return response()->json($admin);
+        } else {
+//            return view('pages/login');
+            return 500;
+        }
+//
+    }
+
+    public function adminLogout(){
+        Session::forget('weppAdmin');
+    }
+
+    public function testSession(){
+        session_start();
+//        unset($_SESSION['test']);
+//        $_SESSION["test"] = "Hello";
+//        echo '<pre>' . print_r(Session::all(), TRUE) . '</pre>';
+        echo  "<br> ************************************************ <br>";
+//        echo '<pre>' . print_r($request->session(), TRUE) . '</pre>';
+        echo '<pre>' . print_r($_SESSION, TRUE) . '</pre>';
     }
 
     public function teaList()

@@ -49,6 +49,10 @@
         async: false,
     }).responseJSON;
     console.log(admin);
+    if(admin == 500){
+        alert("กรุณา Login ด้วยบัญชี admin");
+        window.location.href = url;
+    }
     var myuser = {
         user_type : "a"
     };
