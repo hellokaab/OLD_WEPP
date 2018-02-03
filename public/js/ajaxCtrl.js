@@ -95,7 +95,18 @@ function deleteStudent(UID) {
         }
     });
 }
-
+function checkUser() {
+    var user = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/checkUser',
+        async: false,
+    }).responseJSON;
+    return user;
+}
 function findUserByPersonalID() {
     var user = $.ajax({
         contentType: "application/json; charset=utf-8",
