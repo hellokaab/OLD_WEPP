@@ -29,6 +29,14 @@
     <script src="dateTimePicker/DateTimePicker.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
     <script src="highlight/highlight.pack.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.8.2/fullcalendar.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.8.2/locale-all.js'></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.8.2/fullcalendar.min.css">
+    {{--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.8.2/fullcalendar.print.css">--}}
+
+
     <script>hljs.initHighlightingOnLoad();</script>
     {{--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>--}}
     <script>
@@ -57,6 +65,14 @@
                 type = "บุคลากร";
             }
             var name = "คุณ "+myuser.fname_th+" "+myuser.lname_th+' ('+type+')';
+        }
+
+        function dtJsToDtDB(date) {
+            date = date.toLocaleString();
+            dt = date.split(' ');
+            d = dt[0].split('/');
+            r = (d[2] - 543) + '-' + d[1] + '-' + d[0] + ' ' + dt[1];
+            return r;
         }
     </script>
 </head>
