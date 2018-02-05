@@ -18,6 +18,33 @@ function addUser() {
     return user;
 }
 
+function keepHistory(UID,page,time) {
+    var user = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/keepHistory',
+        data: { user_id : UID, page : page, time_stamp : time },
+        async: false,
+    }).responseJSON;
+    return user;
+}
+
+function findWebHistory() {
+    var user = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/findWebHistory',
+        async: false,
+    }).responseJSON;
+    return user;
+}
+
 function findAllTeacher() {
     var teachers = $.ajax({
         contentType: "application/json; charset=utf-8",
@@ -42,6 +69,20 @@ function findAllStudent() {
         async: false,
     }).responseJSON;
     return students;
+}
+
+function findMyEvent(UID,UT) {
+    var event = $.ajax({
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Accept: "application/json"
+        },
+        url: url + '/findMyEvent',
+        data : { user_id : UID,user_type : UT},
+        async: false,
+    }).responseJSON;
+    return event;
 }
 
 function deleteTeacher(UID) {
@@ -95,6 +136,7 @@ function deleteStudent(UID) {
         }
     });
 }
+
 function checkUser() {
     var user = $.ajax({
         contentType: "application/json; charset=utf-8",
@@ -107,6 +149,7 @@ function checkUser() {
     }).responseJSON;
     return user;
 }
+
 function findUserByPersonalID() {
     var user = $.ajax({
         contentType: "application/json; charset=utf-8",

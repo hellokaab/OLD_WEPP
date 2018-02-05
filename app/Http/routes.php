@@ -31,6 +31,12 @@ Route::get('/loggedIn','UserController@loggedIn' );
 
 Route::get('/checkUser','UserController@checkUser' );
 
+Route::get('/findMyEvent','UserController@findMyEvent' );
+
+Route::get('/keepHistory','UserController@keepHistory' );
+
+Route::get('/findWebHistory','UserController@findWebHistory' );
+
 Route::get('/findByPersonalID','UserController@findByPersonalID' );
 
 Route::get('/findCreaterByPersonalID/{PID}', 'UserController@findCreaterByPersonalID');

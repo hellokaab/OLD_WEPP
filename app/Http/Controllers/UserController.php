@@ -7,6 +7,7 @@ use App\Examing;
 use App\ResExam;
 use App\Section;
 use App\Sheeting;
+use App\WebHistory;
 use App\WorksheetGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -76,6 +77,78 @@ class UserController extends Controller
         }
     }
 
+    public function findMyEvent(Request $request){
+
+        $event = array();
+        if($request->user_type === 't'){
+            $examing = DB::select('SELECT CONCAT(examing_name,"(",group_name,")") as event_name,start_date_time,end_date_time,CONCAT("E") AS type 
+                                   FROM (
+                                      SELECT id as group_id,group_name 
+                                      FROM groups 
+                                      WHERE groups.user_id = ? ) as a 
+                                      INNER JOIN examings as b 
+                                      ON a.group_id = b.group_id',[$request->user_id]);
+
+            $sheeting = DB::select('SELECT CONCAT(sheeting_name,"(",group_name,")") as event_name,start_date_time,end_date_time,CONCAT("S") AS type 
+                                   FROM (
+                                      SELECT id as group_id,group_name 
+                                      FROM groups 
+                                      WHERE groups.user_id = ? ) as a 
+                                      INNER JOIN sheetings as b 
+                                      ON a.group_id = b.group_id',[$request->user_id]);
+
+            if(!is_null($examing)){
+                foreach ($examing as $e) {
+                    array_push($event,$e);
+                }
+            }
+
+            if(!is_null($sheeting)) {
+                foreach ($sheeting as $s) {
+                    array_push($event, $s);
+                }
+            }
+
+        } else if ($request->user_type === 's'){
+            $examing = DB::select('SELECT CONCAT(examing_name,"(",group_name,")") as event_name,start_date_time,end_date_time,CONCAT("E") AS type 
+                                   FROM (
+                                      SELECT a.group_id,b.group_name 
+                                      FROM (
+                                          SELECT group_id 
+                                          FROM join_groups 
+                                          WHERE user_id = ? ) as a 
+                                      INNER JOIN groups as b 
+                                      ON a.group_id = b.id ) as c 
+                                   INNER JOIN examings as d 
+                                   ON c.group_id = d.group_id',[$request->user_id]);
+
+            $sheeting = DB::select('SELECT CONCAT(sheeting_name,"(",group_name,")") as event_name,start_date_time,end_date_time,CONCAT("S") AS type 
+                                   FROM (
+                                      SELECT a.group_id,b.group_name 
+                                      FROM (
+                                          SELECT group_id 
+                                          FROM join_groups 
+                                          WHERE user_id = ? ) as a 
+                                      INNER JOIN groups as b 
+                                      ON a.group_id = b.id ) as c 
+                                   INNER JOIN sheetings as d 
+                                   ON c.group_id = d.group_id',[$request->user_id]);
+
+            if(!is_null($examing)){
+                foreach ($examing as $e) {
+                    array_push($event,$e);
+                }
+            }
+
+            if(!is_null($sheeting)) {
+                foreach ($sheeting as $s) {
+                    array_push($event, $s);
+                }
+            }
+        }
+        return response()->json($event);
+    }
+
     public function checkUser(){
         session_start();
 //        unset($_SESSION['ssoUserData']);
@@ -94,6 +167,29 @@ class UserController extends Controller
 
         header( "location: http://localhost/WEPP/public/" );
         exit(0);
+    }
+
+    public function keepHistory(Request $request){
+
+        $history = new WebHistory;
+        $history->user_id = $request->user_id;
+        $history->page = $request->page;
+        $history->ip = $_SERVER['REMOTE_ADDR'];
+        $history->time_stamp = $request->time_stamp;
+        $history->timestamps = false;
+        $history->save();
+    }
+
+    public function findWebHistory(){
+        $history = DB::select(' SELECT * 
+                                FROM users as u 
+                                INNER JOIN 
+                                    ( SELECT user_id 
+                                      FROM web_histories 
+                                      WHERE time_stamp >= DATE_SUB(NOW(), INTERVAL 15 MINUTE)
+                                      GROUP BY user_id) as h 
+                                ON u.id = h.user_id');
+        return response()->json($history);
     }
 
     public function index(Request $request)
