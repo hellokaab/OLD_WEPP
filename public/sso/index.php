@@ -3,10 +3,10 @@
  *  SAML Handler
  */
 ini_set('display_errors', 0);
+
 $include = count(get_required_files())-1;
 
 session_start();
-include '../php/config.php';
 require_once dirname(__FILE__).'/_toolkit_loader.php';
 require_once dirname(__FILE__).'/settings.php';
 
@@ -34,7 +34,7 @@ if(isset($_REQUEST['sso'])){
     if(isset($_SESSION['ssoSessionIndex'])){
         $sessionIndex = $_SESSION['ssoSessionIndex'];
     }
-	  $redirect = "http://ict.ea.rmuti.ac.th/sjet/";
+
     $auth->logout($redirect, $paramters, $nameId, $sessionIndex);
 
 	die;
@@ -44,7 +44,6 @@ if(isset($_REQUEST['sso'])){
 
     $auth->processResponse();
     $errors = $auth->getErrors();
-
     if(!empty($errors)){
         print_r('<p>'.implode(', ', $errors).'</p>');
         exit();
@@ -69,77 +68,10 @@ if(isset($_REQUEST['sso'])){
     // End of user codes --------------------
 
     if(isset($_POST['RelayState'])&& OneLogin_Saml2_Utils::getSelfURL()!= $_POST['RelayState']){
-        //$auth->redirectTo($_POST['RelayState']);
-        if(isset($_SESSION['ssoUserdata'])){
-            if(!empty($_SESSION['ssoUserdata'])){
-                $attributes = $_SESSION['ssoUserdata'];
-                foreach($attributes as $attributeName => $attributeValues){
-                    foreach($attributeValues as $attributeValue){
-                        if (htmlentities($attributeName) == 'personalId'){
-                            $userID = htmlentities($attributeValue);
-                        }else if(htmlentities($attributeName) == 'prename'){
-                            $prename = htmlentities($attributeValue);
-                        }else if(htmlentities($attributeName) == 'firstNameThai'){
-                            $firstNameThai = htmlentities($attributeValue);
-                        }else if(htmlentities($attributeName) == 'lastNameThai'){
-                            $lastNameThai = htmlentities($attributeValue);
-                        }else if(htmlentities($attributeName) == 'mail'){
-                            $mail = htmlentities($attributeValue);
-                        }else if(htmlentities($attributeName) == 'programId'){
-                            $programId = htmlentities($attributeValue);
-                        }
-                    }
-                }
-            }else{
-                
-            }
-        }
-        
-        $sql = "SELECT COUNT(userID) as count FROM user WHERE userID = '$userID'";
-        $qry = mysqli_query($connect, $sql);
-        $result = mysqli_fetch_array($qry);
-        $count = $result["count"];
-
-        if($count == 0){
-            if($prename == "นาย"){
-                $prefixID = 1;
-            }else if($prename == "นาง"){
-                $prefixID = 2;
-            }else if($prename == "นางสาว"){
-                $prefixID = 3;
-            }
-
-            $firstName = $firstNameThai;
-            $lastName = $lastNameThai;
-            $phoneNumber = "---";
-            $email = $mail;
-            $positionID = 53;
-            $programID = split("[0]", (string)($programId));
-
-            $sql ="SELECT majorID FROM major WHERE programID = '$programID[0]'";
-            $qry = mysqli_query($connect, $sql);
-            $result = mysqli_fetch_array($qry);
-
-            $majorID = $result["majorID"];
-            $password = $userID;
-
-            $sql = "INSERT INTO user (userID, prefixID, firstName, lastName, phoneNumber, email, majorID, password, status)
-                    VALUES('$userID', '$prefixID', '$firstName', '$lastName' , '$phoneNumber', '$email', $majorID, '$password', 'USER');";
-            $qry = mysqli_query($connect, $sql);
-
-            $sql = "INSERT INTO register_position (userID, positionID)
-                    VALUES('$userID', '$positionID')";
-            $qry = mysqli_query($connect, $sql);
-            
-            $_SESSION['userID'] = $userID;
-            echo "<script>window.location.href = '../profile?chkProfile=1';</script>";
-        }else if($count == 1){
-            $_SESSION['userID'] = $userID;
-            echo "<script>window.location.href = '../homepage';</script>";
-        }
+        $auth->redirectTo($_POST['RelayState']);
     }
-    
-    die;
+	
+	die;
 
 }else if(isset($_REQUEST['sls'])){
     // Logout result from SSO
@@ -190,5 +122,55 @@ if($include==0){
 	}
 }
 ?>
-- <a href="?sso">Login</a> <i>(Url: <?php echo $REQUEST_SCHEME.'://'.$sso_settings['sp']['entityId']."/sso/?sso" ?>)</i><br/><br/>
-- <a href="?slo">Logout</a> <i>(Url: <?php echo $REQUEST_SCHEME.'://'.$sso_settings['sp']['entityId']."/sso/?slo" ?>)</i><br/>
+<center><h3>You are directly accessing to Single Sign-On script</h3></center><br/>
+<style>
+th {
+	text-align: left;
+}
+ul {
+	margin: 0px;
+}
+li {
+	padding: 0px;
+}
+</style>
+- Service Provider <a href="<?php echo $REQUEST_SCHEME.'://'.$sso_settings['sp']['entityId']."/sso/metadata.php"; ?>">SAML Metadata (<?php echo $REQUEST_SCHEME.'://'.$sso_settings['sp']['entityId']."/sso/metadata.php"; ?>)</a><br/>
+  <br/>
+- Use this value to add to your IdP:<br/>
+  <div style='margin-left: 40px;'>
+	<table style="padding-top: 5px;">
+	<thead><th width=100>Name</th><th>Value</th></thead>
+	<tbody>
+		<tr><td>SP Metadata URL</td><td><?php echo $REQUEST_SCHEME.'://'.$sso_settings['sp']['entityId']."/sso/metadata.php"; ?></td></tr>
+		<tr><td>SP Entity ID</td><td><?php echo $sso_settings['sp']['entityId']; ?></td></tr>
+		<tr><td>AssertionConsumerService</td><td><?php echo $sso_settings['sp']['assertionConsumerService']['url']; ?></td></tr>
+		<tr><td>SingleLogoutService</td><td><?php echo $sso_settings['sp']['singleLogoutService']['url']; ?></td></tr>
+		<tr><td>NameIDFormat</td><td><?php echo $sso_settings['sp']['NameIDFormat']; ?></td></tr>
+	</tbody>
+	</table>
+  </div>
+  <br/>
+<?php
+if(isset($_SESSION['ssoUserdata'])){
+    echo '- You are logged in -- You have the following attributes from $_SESSION[\'ssoUserdata\']:<br/>';
+    echo "<div style='margin-left: 40px;'>";
+    if(!empty($_SESSION['ssoUserdata'])){
+        $attributes = $_SESSION['ssoUserdata'];
+        echo '<table style="padding-top: 5px;"><thead><th>Name</th><th>Values</th></thead><tbody>';
+        foreach($attributes as $attributeName => $attributeValues){
+            echo '<tr><td>' . htmlentities($attributeName). '</td><td><ul>';
+            foreach($attributeValues as $attributeValue){
+                echo '<li>' . htmlentities($attributeValue). '</li>';
+            }
+            echo '</ul></td></tr>';
+        }
+        echo '</tbody></table>';
+    }else{
+        echo "<p>You don't have any attribute</p>";
+    }
+    echo "</div>";
+}
+?>
+  <br/>
+- <a href="?sso&redirect=">Login</a> <i>(Url: <?php echo $REQUEST_SCHEME.'://'.$sso_settings['sp']['entityId']."/sso/?sso&redirect=" ?>)</i><br/><br/>
+- <a href="?slo&redirect=">Logout</a> <i>(Url: <?php echo $REQUEST_SCHEME.'://'.$sso_settings['sp']['entityId']."/sso/?slo&redirect=" ?>)</i><br/>
