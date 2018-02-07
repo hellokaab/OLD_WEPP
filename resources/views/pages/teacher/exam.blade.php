@@ -9,7 +9,7 @@
     <div ng-controller="examCtrl" style="display: none" id="exam_div">
         <div class="col-lg-12">
             <ol class="breadcrumb">
-                <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
+                <li><a href="{{ url('/index')}}">หน้าหลัก</a></li>
                 <li>คลังข้อสอบ</li>
                 <li class="active">กลุ่มข้อสอบที่แบ่งปันกับฉัน</li>
             </ol>
@@ -92,7 +92,7 @@
             <div class="panel panel-default" ng-repeat="g in sectionSharedToMe" ng-hide="groupId != <%g.id%>">
                 <div class="panel-heading">
                     <b style="color: #555"><%g.section_name%></b>
-                    <a ng-hide="<%g.user_id%> != thisUser.id" href="<%myUrl%>/addExam<%groupId%>" style="float: right"><i class="fa fa-plus"></i>
+                    <a ng-hide="<%g.user_id%> != thisUser.id" href="{{ url('/addExam<%groupId%>')}}" style="float: right"><i class="fa fa-plus"></i>
                         เพิ่มข้อสอบ</a>
                 </div>
                 <div class="panel-body">

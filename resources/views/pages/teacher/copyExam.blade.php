@@ -9,9 +9,9 @@
     <div ng-controller="copyExamCtrl" style="display: none" id="copy_exam_div">
         <div class="col-lg-12">
             <ol class="breadcrumb">
-                <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
+                <li><a href="{{ url('/index')}}">หน้าหลัก</a></li>
                 <li>คลังข้อสอบ</li>
-                <li><a href="<%myUrl%>/exam">กลุ่มข้อสอบที่แบ่งปันกับฉัน</a></li>
+                <li><a href="{{ url('/exam')}}">กลุ่มข้อสอบที่แบ่งปันกับฉัน</a></li>
                 <li class="active">คัดลอกข้อสอบ</li>
             </ol>
         </div>

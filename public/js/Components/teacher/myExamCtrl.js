@@ -95,11 +95,11 @@ app.controller('myExamCtrl', ['$scope', '$window', function ($scope, $window) {
         };
         //----------------------------------------------------------------------
         $scope.addExam = function () {
-            window.location.href = url+"/addExam"+$scope.groupId;
+            window.location.href = url+"addExam"+$scope.groupId;
         };
         //----------------------------------------------------------------------
         $scope.gotoEditExam = function (data) {
-            window.location.href = url+"/editExam"+data.id;
+            window.location.href = url+"editExam"+data.id;
         };
         //----------------------------------------------------------------------
         $scope.detailExam = function (data) {
@@ -158,7 +158,7 @@ app.controller('myExamCtrl', ['$scope', '$window', function ($scope, $window) {
         };
         //----------------------------------------------------------------------
         $scope.editExam = function () {
-           window.location.href = url+"/editExam"+$scope.examId;
+           window.location.href = url+"editExam"+$scope.examId;
         };
         //----------------------------------------------------------------------
         $scope.deleteExam = function (data) {
@@ -177,7 +177,7 @@ app.controller('myExamCtrl', ['$scope', '$window', function ($scope, $window) {
         };
         //----------------------------------------------------------------------
         $('#okSuccess').on('click',function () {
-            window.location.href = url+'/myExam';
+            window.location.href = url+'myExam';
         });
         //----------------------------------------------------------------------
         function decapeHtml(str) {

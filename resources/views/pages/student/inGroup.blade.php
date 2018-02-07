@@ -8,10 +8,10 @@
     <div ng-controller="inGroupCtrl" style="display: none" id="in_group_div">
         <div class="col-lg-12">
             <ol class="breadcrumb">
-                <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
+                <li><a href="{{ url('/index')}}">หน้าหลัก</a></li>
                 <li>กลุ่มเรียน</li>
-                <li class="active" ng-if="thisUser.user_type ==='s'"><a href="<%myUrl%>/stdMyGroup">กลุ่มเรียนของฉัน</a></li>
-                <li class="active" ng-if="thisUser.user_type ==='t'"><a href="<%myUrl%>/stdMyGroup">กลุ่มเรียนที่ฉันเข้าร่วม</a></li>
+                <li class="active" ng-if="thisUser.user_type ==='s'"><a href="{{ url('/stdMyGroup')}}">กลุ่มเรียนของฉัน</a></li>
+                <li class="active" ng-if="thisUser.user_type ==='t'"><a href="{{ url('/stdMyGroup')}}">กลุ่มเรียนที่ฉันเข้าร่วม</a></li>
                 <li class="active"><%groupData.group_name%> (<%groupData.creater%>)</li>
             </ol>
         </div>

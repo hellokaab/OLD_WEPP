@@ -7,10 +7,10 @@
     <div ng-controller="assistSheetBoardCtrl" style="display: none" id="sheet_board_div">
         <div class="col-lg-12">
             <ol class="breadcrumb">
-                <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
+                <li><a href="{{ url('/index')}}">หน้าหลัก</a></li>
                 <li>กลุ่มเรียน</li>
-                <li><a href="<%myUrl%>/stdMyGroup">กลุ่มเรียนของฉัน</a></li>
-                <li><a href="<%myUrl%>/inGroup<%sheeting.group_id%>"><%group.group_name%> (<%group.creater%>)</a></li>
+                <li><a href="{{ url('/stdMyGroup')}}">กลุ่มเรียนของฉัน</a></li>
+                <li><a href="{{ url('/inGroup<%sheeting.group_id%>')}}"><%group.group_name%> (<%group.creater%>)</a></li>
                 <li><%sheeting.sheeting_name%></li>
                 <li class="active">สรุปผลคะแนนใบงาน</li>
             </ol>

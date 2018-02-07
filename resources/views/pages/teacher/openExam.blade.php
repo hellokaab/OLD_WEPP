@@ -9,7 +9,7 @@
     <div ng-controller="openExamCtrl" style="display: none" id="openExam_div">
         <div class="col-lg-12">
             <ol class="breadcrumb">
-                <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
+                <li><a href="{{ url('/index')}}">หน้าหลัก</a></li>
                 <li>จัดการการสอบ</li>
                 <li class="active">เปิดสอบ</li>
             </ol>

@@ -75,11 +75,11 @@ app.controller('examCtrl', ['$scope', '$window', function ($scope, $window) {
         };
         //----------------------------------------------------------------------
         $scope.editExam = function () {
-           window.location.href = url+"/editExam"+$scope.examId;
+           window.location.href = url+"editExam"+$scope.examId;
         };
         //----------------------------------------------------------------------
         $scope.copyExam = function (data) {
-            window.location.href = url+"/copyExam"+data.id;
+            window.location.href = url+"copyExam"+data.id;
         };
         //----------------------------------------------------------------------
         function decapeHtml(str) {

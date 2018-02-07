@@ -9,7 +9,7 @@
     <div ng-controller="myExamCtrl" style="display: none" id="exam_div">
         <div class="col-lg-12">
             <ol class="breadcrumb">
-                <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
+                <li><a href="{{ url('/index')}}">หน้าหลัก</a></li>
                 <li>คลังข้อสอบ</li>
                 <li class="active">กลุ่มข้อสอบของฉัน</li>
             </ol>
@@ -384,7 +384,7 @@
                 });
             }
             else {
-                window.location.href = url + '/index';
+                window.location.href = url + 'index';
             }
         });
     </script>
