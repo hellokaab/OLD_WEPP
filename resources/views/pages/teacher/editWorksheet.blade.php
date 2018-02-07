@@ -10,9 +10,9 @@
     <div ng-controller="editWorksheetCtrl" style="display: none" id="edit_sheet_div">
         <div class="col-lg-12">
             <ol class="breadcrumb">
-                <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
+                <li><a href="{{ url('/index')}}">หน้าหลัก</a></li>
                 <li>คลังใบงาน</li>
-                <li><a href="<%myUrl%>/myExam">กลุ่มใบงานของฉัน</a></li>
+                <li><a href="{{ url('/myExam')}}">กลุ่มใบงานของฉัน</a></li>
                 <li class="active">แก้ไขใบงาน</li>
             </ol>
         </div>

@@ -10,7 +10,7 @@
     <div ng-controller="groupCtrl" style="display: none" id="group_div">
         <div class="col-lg-12">
             <ol class="breadcrumb">
-                <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
+                <li><a href="{{ url('/index')}}">หน้าหลัก</a></li>
                 <li>กลุ่มเรียน</li>
                 <li class="active">กลุ่มเรียนของฉัน</li>
             </ol>

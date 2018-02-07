@@ -8,10 +8,10 @@
     <div ng-controller="viewSheetCtrl" style="display: none" id="view_sheet_div">
         <div class="col-lg-12">
             <ol class="breadcrumb">
-                <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
+                <li><a href="{{ url('/index')}}">หน้าหลัก</a></li>
                 <li>กลุ่มเรียน</li>
-                <li><a href="<%myUrl%>/stdMyGroup">กลุ่มเรียนของฉัน</a></li>
-                <li><a href="<%myUrl%>/inGroup<%sheeting.group_id%>"><%groupData.group_name%> (<%groupData.creater%>)</a></li>
+                <li><a href="{{ url('/stdMyGroup')}}">กลุ่มเรียนของฉัน</a></li>
+                <li><a href="{{ url('/inGroup<%sheeting.group_id%>')}}"><%groupData.group_name%> (<%groupData.creater%>)</a></li>
                 <li class="active"><%sheeting.sheeting_name%></li>
             </ol>
         </div>

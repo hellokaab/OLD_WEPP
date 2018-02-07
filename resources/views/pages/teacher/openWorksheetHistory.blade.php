@@ -8,7 +8,7 @@
     <div ng-controller="openWorksheetHistoryCtrl" style="display: none" id="open_sheet_history_div">
         <div class="col-lg-12">
             <ol class="breadcrumb">
-                <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
+                <li><a href="{{ url('/index')}}">หน้าหลัก</a></li>
                 <li>จัดการการสั่งงาน</li>
                 <li class="active">ประวัติการสั่งงาน</li>
             </ol>

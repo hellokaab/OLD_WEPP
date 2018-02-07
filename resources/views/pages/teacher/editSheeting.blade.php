@@ -11,9 +11,9 @@
     <div ng-controller="editOpenSheetingCtrl" style="display: none" id="edit_open_sheet_div">
         <div class="col-lg-12">
             <ol class="breadcrumb">
-                <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
+                <li><a href="{{ url('/index')}}">หน้าหลัก</a></li>
                 <li>จัดการการสั่งงาน</li>
-                <li><a href="<%myUrl%>/examingHistory">ประวัติการสั่งงาน</a></li>
+                <li><a href="{{ url('/examingHistory')}}">ประวัติการสั่งงาน</a></li>
                 <li class="active">แก้ไขการสั่งงาน</li>
             </ol>
         </div>

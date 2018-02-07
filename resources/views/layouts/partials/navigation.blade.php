@@ -95,19 +95,19 @@
                     <a href="#page-top"></a>
                 </li>
                 <li id="nav_home" style="display: none">
-                    <a  href="<%myUrl%>/index"><i class="fa2 fa-home fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;หน้าหลัก</a>
+                    <a  href="{{ url('/index')}}"><i class="fa2 fa-home fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;หน้าหลัก</a>
                 </li>
                 <li id="nav_profile" style="display: none">
                     <a href="#"><i class="fa2 fa-address-card fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;ข้อมูลส่วนตัว</a>
                 </li>
                 <li id="nav_exam_store" style="display: none">
-                    <a href="<%myUrl%>/exam"><i class="fa2 fa-database fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;คลังข้อสอบ</a>
+                    <a href="{{ url('/exam')}}"><i class="fa2 fa-database fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;คลังข้อสอบ</a>
                 </li>
                 <li id="nav_sheet_store" style="display: none">
-                    <a href="<%myUrl%>/worksheet"><i class="fa2 fa-archive fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;คลังใบงาน</a>
+                    <a href="{{ url('/worksheet')}}"><i class="fa2 fa-archive fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;คลังใบงาน</a>
                 </li>
                 <li id="nav_group" style="display: none">
-                    <a href="<%myUrl%>/group"><i class="fa2 fa-users fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;กลุ่มเรียน</a>
+                    <a href="{{ url('/group')}}"><i class="fa2 fa-users fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;กลุ่มเรียน</a>
                 </li>
                 <li id="nav_examing" style="display: none">
                     <a href="" data-target="#nav_demo" data-toggle="collapse" role="presentation" class="collapsed">

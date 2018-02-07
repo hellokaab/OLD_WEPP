@@ -8,9 +8,9 @@
     <div ng-controller="copyWorksheetCtrl" style="display: none" id="copy_sheet_div">
         <div class="col-lg-12">
             <ol class="breadcrumb">
-                <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
+                <li><a href="{{ url('/index')}}">หน้าหลัก</a></li>
                 <li>คลังใบงาน</li>
-                <li><a href="<%myUrl%>/shareWorksheet">กลุ่มใบงานที่แบ่งกันกับฉัน</a></li>
+                <li><a href="{{ url('/shareWorksheet')}}">กลุ่มใบงานที่แบ่งกันกับฉัน</a></li>
                 <li class="active">คัดลอกใบงาน</li>
             </ol>
         </div>

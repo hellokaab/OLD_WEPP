@@ -8,7 +8,7 @@
     <div ng-controller="stdMyGroupCtrl" style="display: none" id="std_my_group_div">
         <div class="col-lg-12">
             <ol class="breadcrumb">
-                <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
+                <li><a href="{{ url('/index')}}">หน้าหลัก</a></li>
                 <li>กลุ่มเรียน</li>
                 <li class="active" ng-if="thisUser.user_type ==='s'">กลุ่มเรียนของฉัน</li>
                 <li class="active" ng-if="thisUser.user_type ==='t'">กลุ่มเรียนที่ฉันเข้าร่วม</li>
@@ -64,7 +64,7 @@
                         </thead>
                         <tbody>
                         <tr ng-show="myJoinGroup.length > 0" dir-paginate="g in myJoinGroup|orderBy:[sortC,sortG]|filter:query|itemsPerPage:selectRow">
-                            <td><a href="<%myUrl%>/inGroup<%g.group_id%>"><%g.group_name%></a></td>
+                            <td><a href="{{ url('/inGroup<%g.group_id%>')}}"><%g.group_name%></a></td>
                             <td><%g.creater%></td>
                             <td>
                                 <button class="btn btn-sm btn-outline-danger" title="ออกจากกลุ่ม" style="cursor:pointer" ng-click="exitGroup(g)">

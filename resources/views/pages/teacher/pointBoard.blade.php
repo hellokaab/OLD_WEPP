@@ -7,9 +7,9 @@
     <div ng-controller="pointBoardCtrl" style="display: none" id="point_board_div">
         <div class="col-lg-12">
             <ol class="breadcrumb">
-                <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
+                <li><a href="{{ url('/index')}}">หน้าหลัก</a></li>
                 <li>จัดการการสอบ</li>
-                <li><a href="<%myUrl%>/examingHistory">ประวัติการเปิดสอบ</a></li>
+                <li><a href="{{ url('/examingHistory')}}">ประวัติการเปิดสอบ</a></li>
                 <li class="active">สรุปผลคะแนนสอบ</li>
             </ol>
         </div>

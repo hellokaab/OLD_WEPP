@@ -9,9 +9,9 @@
     <div ng-controller="editExamCtrl"  style="display: none" id="edit_exam_div">
         <div class="col-lg-12">
             <ol class="breadcrumb">
-                <li><a href="<%myUrl%>/index">หน้าหลัก</a></li>
+                <li><a href="{{ url('/index')}}">หน้าหลัก</a></li>
                 <li>คลังข้อสอบ</li>
-                <li><a href="<%myUrl%>/myExam">กลุ่มข้อสอบของฉัน</a></li>
+                <li><a href="{{ url('/myExam')}}">กลุ่มข้อสอบของฉัน</a></li>
                 <li class="active">แก้ไขข้อสอบ</li>
             </ol>
         </div>

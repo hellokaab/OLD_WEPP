@@ -44,7 +44,7 @@
                 </a>
             </li>
             <li1 ng-show="thisUser.user_type === 't' || thisUser.user_type === 's' ">
-                <a id="side_index" href="<%myUrl%>/index"><i class="fa2 fa-home fa-lg" aria-hidden="true" style="color: #db2828"></i>&nbsp;&nbsp;หน้าหลัก</a>
+                <a id="side_index" href="{{ url('/index') }}"><i class="fa2 fa-home fa-lg" aria-hidden="true" style="color: #db2828"></i>&nbsp;&nbsp;หน้าหลัก</a>
             </li1>
             <li2 ng-show="thisUser.user_type === 't'">
                 <a data-target="#demo3" data-toggle="collapse" role="presentation" id="side_exam_store" href="" class="collapsed">
@@ -54,8 +54,8 @@
             <div class="collapse" id="demo3">
                 <ul class="list-unstyled main-menu" id="_menu3" z="user-managed=">
                     <li2 role="presentation">
-                        <a id="side_my_exam" href="<%myUrl%>/myExam">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ข้อสอบของฉัน</a>
-                        <a id="side_shared_exam" href="<%myUrl%>/exam">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ข้อสอบที่แบ่งปันกับฉัน</a>
+                        <a id="side_my_exam" href="{{ url('/myExam')}}">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ข้อสอบของฉัน</a>
+                        <a id="side_shared_exam" href="{{ url('/exam')}}">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ข้อสอบที่แบ่งปันกับฉัน</a>
                     </li2>
                 </ul>
             </div>
@@ -67,8 +67,8 @@
             <div class="collapse" id="demo4">
                 <ul class="list-unstyled main-menu" id="_menu" z="user-managed=">
                     <li3 role="presentation">
-                        <a id="side_my_Worksheet" href="<%myUrl%>/myWorksheet">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ใบงานของฉัน</a>
-                        <a id="side_shared_Worksheet" href="<%myUrl%>/shareWorksheet">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ใบงานที่แบ่งปันกับฉัน</a>
+                        <a id="side_my_Worksheet" href="{{ url('myWorksheet')}}">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ใบงานของฉัน</a>
+                        <a id="side_shared_Worksheet" href="{{ url('/shareWorksheet') }}">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ใบงานที่แบ่งปันกับฉัน</a>
                     </li3>
                 </ul>
             </div>
@@ -97,8 +97,8 @@
             <div class="collapse" id="demo">
                 <ul class="list-unstyled main-menu" id="_menu" z="user-managed=">
                     <li5 role="presentation">
-                        <a id="side_openExaming" href="<%myUrl%>/openExam">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;เปิดสอบ</a>
-                        <a id="side_historyExaming" href="<%myUrl%>/examingHistory">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ประวัติการเปิดสอบ</a>
+                        <a id="side_openExaming" href="{{ url('/openExam')}}">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;เปิดสอบ</a>
+                        <a id="side_historyExaming" href="{{ url('/examingHistory')}}">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ประวัติการเปิดสอบ</a>
                     </li5>
                 </ul>
             </div>
@@ -110,8 +110,8 @@
             <div class="collapse" id="demo2">
                 <ul class="list-unstyled main-menu" id="_menu2" z="user-managed=">
                     <li6 role="presentation">
-                        <a id="side_openSheeting" href="<%myUrl%>/openWorksheet">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;สั่งงาน</a>
-                        <a id="side_historySheeting" href="<%myUrl%>/sheetingHistory">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ประวัติการสั่งงาน</a>
+                        <a id="side_openSheeting" href="{{ url('/openWorksheet')}}">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;สั่งงาน</a>
+                        <a id="side_historySheeting" href="{{ url('/sheetingHistory')}}">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;ประวัติการสั่งงาน</a>
                     </li6>
                 </ul>
             </div>
@@ -126,8 +126,8 @@
             <div class="collapse" id="demo_std_group">
                 <ul class="list-unstyled main-menu" id="_menu_std_group" z="user-managed=">
                     <li5 role="presentation">
-                        <a id="side_std_allGroup" href="<%myUrl%>/stdGroup">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;กลุ่มเรียนทั้งหมด</a>
-                        <a id="side_std_myGroup" href="<%myUrl%>/stdMyGroup">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;กลุ่มเรียนของฉัน</a>
+                        <a id="side_std_allGroup" href="{{ url('/stdGroup')}}">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;กลุ่มเรียนทั้งหมด</a>
+                        <a id="side_std_myGroup" href="{{ url('/stdMyGroup')}}">&nbsp;&#09;&nbsp;&#09;&nbsp;&#09;&nbsp;กลุ่มเรียนของฉัน</a>
                     </li5>
                 </ul>
             </div>
