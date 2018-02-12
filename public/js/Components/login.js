@@ -2,7 +2,11 @@ app.controller("loginCtrl", function($scope) {
 
 
     $scope.loginClick = function() {
-        window.location.href = url + "makeData.php";
+        // ------------- For Product -------------
+        window.location.href = "http://it.ea.rmuti.ac.th/wepp/sso/?sso&redirect=http://it.ea.rmuti.ac.th/wepp/loggedIn";
+
+        // ------------- For Dev -------------
+        //     window.location.href = url + "makeData.php";
     };
 
     $scope.AdminLogin = function () {

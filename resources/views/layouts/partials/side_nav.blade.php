@@ -10,10 +10,11 @@
         }
 
         var today = new Date();
-        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+//        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        var options = { year: 'numeric', month: 'long', day: 'numeric' };
         console.log(today.toLocaleDateString('th-TH', options));
 
-        $("#a_today").html(today.toLocaleDateString('th-TH', options));
+        $("#a_today").html("วันที่ "+today.toLocaleDateString('th-TH', options));
 
     });
 

@@ -11,7 +11,7 @@
 //        "faculty" => "คณะวิศวกรรมศาสตร์และสถาปัตยกรรมศาสตร์",
 //        "program" => "สาขาวิชาวิศวกรรมคอมพิวเตอร์",
 //        "mail" => "pongpan.kho@rmuti.ac.th",
-//        "gidNumber" => "2800"
+//        "gidNumber" => "2500"
 //    );
 
 //    $user = array(
@@ -25,7 +25,7 @@
 //        "faculty" => "คณะวิศวกรรมศาสตร์และสถาปัตยกรรมศาสตร์",
 //        "program" => "สาขาวิชาวิศวกรรมคอมพิวเตอร์",
 //        "mail" => "pongpan.kho@rmuti.ac.th",
-//        "gidNumber" => "2800"
+//        "gidNumber" => "2500"
 //    );
 
 //    $user = array(

@@ -85,7 +85,7 @@ app.controller('openExamHistoryCtrl', ['$scope', '$window', function ($scope, $w
                             body += '<td style="text-align: center;background-color: ' + (i % 2 === 0 ? '#CCD1D9' : '#AAB2BD') + '" ' + s + '</td>';
                         } else if (res[0].current_status === "t"){
                             body += '<td style="text-align: center;background-color: ' + (i % 2 === 0 ? '#4FC1E9' : '#3BAFDA') + '" ' + s + '</td>';
-                        } else if (res[0].current_status === "t"){
+                        } else if (res[0].current_status === "m"){
                             body += '<td style="text-align: center;background-color: ' + (i % 2 === 0 ? '#EC87C0' : '#D770AD') + '" ' + s + '</td>';
                         }
                     } else {

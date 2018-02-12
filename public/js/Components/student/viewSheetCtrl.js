@@ -59,7 +59,6 @@ app.controller('viewSheetCtrl', ['$scope', '$window', function ($scope, $window)
         var result = "";
         if($scope.inputMode === 'key_input'){
             if($scope.codeSheet.length > 0){
-                send = true;
                 data = {
                     STID : $scope.sheeting.id,
                     SID : $scope.sheetID,
@@ -83,6 +82,11 @@ app.controller('viewSheetCtrl', ['$scope', '$window', function ($scope, $window)
                 else if($scope.selectFileType === "java"){
                     sendSheetJava(data);
                 }
+
+                // ถ้าเป็นไฟล์ .cs
+                else if($scope.selectFileType === "cs"){
+                    sendSheetCs(data);
+                }
                 sendQuiz();
             } else {
                 if($scope.thisStatus != 'a'){
@@ -96,7 +100,6 @@ app.controller('viewSheetCtrl', ['$scope', '$window', function ($scope, $window)
             if($("#file_ans")[0].files.length > 0){
                 checkFile = checkFileType($("#file_ans")[0].files);
                 if(checkFile){
-                    send = true;
                     $window.sheetID = $scope.sheetID;
                     $('#AnsFileForm').submit();
 
@@ -133,8 +136,13 @@ app.controller('viewSheetCtrl', ['$scope', '$window', function ($scope, $window)
                     }
 
                     // ถ้าเป็นไฟล์ .java
-                    if($scope.selectFileType === "java"){
+                    else if($scope.selectFileType === "java"){
                         sendSheetJava(data);
+                    }
+
+                    // ถ้าเป็นไฟล์ .cs
+                    else if($scope.selectFileType === "cs"){
+                        sendSheetCs(data);
                     }
                     sendQuiz();
                 } else {
@@ -205,6 +213,7 @@ app.controller('viewSheetCtrl', ['$scope', '$window', function ($scope, $window)
             complete: function (xhr) {
                 if (xhr.readyState == 4) {
                     if (xhr.status == 200) {
+                        send = true;
                         $scope.sheetSheeting[$scope.CurrentIndex].current_status = 'Q';
                         // $scope.$apply();
                         $scope.resSheetID = xhr.responseJSON;
@@ -236,6 +245,7 @@ app.controller('viewSheetCtrl', ['$scope', '$window', function ($scope, $window)
             complete: function (xhr) {
                 if (xhr.readyState == 4) {
                     if (xhr.status == 200) {
+                        send = true;
                         $scope.sheetSheeting[$scope.CurrentIndex].current_status = 'Q';
                         // $scope.$apply();
                         $scope.resSheetID = xhr.responseJSON;
@@ -269,6 +279,7 @@ app.controller('viewSheetCtrl', ['$scope', '$window', function ($scope, $window)
             complete: function (xhr) {
                 if (xhr.readyState == 4) {
                     if (xhr.status == 200) {
+                        send = true;
                         $scope.sheetSheeting[$scope.CurrentIndex].current_status = 'Q';
                         // $scope.$apply();
                         $scope.resSheetID = xhr.responseJSON;
@@ -285,6 +296,39 @@ app.controller('viewSheetCtrl', ['$scope', '$window', function ($scope, $window)
             }
         }).responseJSON;
         return sendSheetCpp;
+    }
+    //----------------------------------------------------------------------
+    function sendSheetCs(data) {
+        var sendSheetCs = $.ajax({
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Accept: "application/json"
+            },
+            url: url + '/csSendSheet',
+            data:JSON.stringify(data),
+            async: false,
+            complete: function (xhr) {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        send = true;
+                        $scope.sheetSheeting[$scope.CurrentIndex].current_status = 'Q';
+                        // $scope.$apply();
+                        $scope.resSheetID = xhr.responseJSON;
+                        $('#detail_sheet_modal').modal('hide');
+                    } else if (xhr.status == 209) {
+                        $('#detail_sheet_modal').modal('hide');
+                        $('#err_message').html('โค้ดที่ส่งห้ามมี namespace');
+                        $('#fail_modal').modal('show');
+                    } else {
+                        $('#detail_sheet_modal').modal('hide');
+                        $('#unsuccess_modal').modal({backdrop: 'static'});
+                    }
+                }
+            }
+        }).responseJSON;
+        return sendSheetCs;
     }
     //----------------------------------------------------------------------
     function dtJsToDtDB(date) {
@@ -380,6 +424,9 @@ app.controller('viewSheetCtrl', ['$scope', '$window', function ($scope, $window)
                         else if(fileType === "java"){
                             compileAndRunJava(pathSheetID);
                         }
+                        else if(fileType === "cs"){
+                            compileAndRunCs(pathSheetID);
+                        }
                     } else { // ถ้าไม่ใช่คนแรก
                         // รอตรวจนานเกิน 9 วินาที
                         if (count > 2) {
@@ -464,6 +511,50 @@ app.controller('viewSheetCtrl', ['$scope', '$window', function ($scope, $window)
                 mode:"sheet",
                 pathSheetID:pathSheetID,
                 sheet_id : $scope.sheetID
+            },
+            async: false,
+            complete: function (xhr) {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        $scope.sheetSheeting[$scope.CurrentIndex].current_status = xhr.responseJSON;
+                        $scope.$apply();
+                        deleteFirstQueue();
+                    }
+                }
+            }
+        }).responseJSON;
+        console.log(testCompile);
+    }
+    //----------------------------------------------------------------------
+    function compileAndRunCs(pathSheetID) {
+        var pathBat = $.ajax({
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Accept: "application/json"
+            },
+            url: url + '/createBatFile',
+            data:{
+                mode:"sheet",
+                pathSheetID:pathSheetID,
+                sheet_id : $scope.sheetID
+            },
+            async: false,
+        }).responseJSON;
+        console.log(pathBat);
+
+        var testCompile = $.ajax({
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Accept: "application/json"
+            },
+            url: url + '/csCompileAndRun',
+            data:{
+                mode:"sheet",
+                pathSheetID:pathSheetID,
+                sheet_id : $scope.sheetID,
+                pathBat : pathBat
             },
             async: false,
             complete: function (xhr) {
