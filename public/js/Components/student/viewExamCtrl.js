@@ -92,7 +92,6 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
         $('#notice_exam_file_ans').hide();
         if($scope.inputMode === 'key_input'){
             if($scope.codeExam.length > 0){
-                send = true;
                 data = {
                     EMID : $scope.examing.id,
                     EID : $scope.examID,
@@ -115,6 +114,11 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
                 else if($scope.selectFileType === "java"){
                     sendExamJava(data);
                 }
+
+                // ถ้าเป็นไฟล์ .cs
+                else if($scope.selectFileType === "cs"){
+                    sendExamCs(data);
+                }
             } else {
                 $('#notice_exam_key_ans').html('* กรุณาใส่โค้ดโปรแกรม').show();
             }
@@ -124,7 +128,6 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
             if($("#file_ans")[0].files.length > 0){
                 checkFile = checkFileType($("#file_ans")[0].files);
                 if(checkFile){
-                    send = true;
                     $window.examID = $scope.examID;
                     $('#AnsFileForm').submit();
 
@@ -161,6 +164,11 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
                     // ถ้าเป็นไฟล์ .java
                     else if($scope.selectFileType === "java"){
                         sendExamJava(data);
+                    }
+
+                    // ถ้าเป็นไฟล์ .cs
+                    else if($scope.selectFileType === "cs"){
+                        sendExamCs(data);
                     }
                 } else {
                     $('#detail_exam_part').waitMe('hide');
@@ -217,6 +225,7 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
             complete: function (xhr) {
                     if (xhr.readyState == 4) {
                         if (xhr.status == 200) {
+                            send = true;
                             $scope.examExaming[$scope.CurrentIndex].current_status = 'Q';
                             // $scope.$apply();
                             pathExamID = xhr.responseJSON;
@@ -249,6 +258,7 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
             complete: function (xhr) {
                 if (xhr.readyState == 4) {
                     if (xhr.status == 200) {
+                        send = true;
                         $scope.examExaming[$scope.CurrentIndex].current_status = 'Q';
                         // $scope.$apply();
                         pathExamID = xhr.responseJSON;
@@ -282,6 +292,7 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
             complete: function (xhr) {
                 if (xhr.readyState == 4) {
                     if (xhr.status == 200) {
+                        send = true;
                         $scope.examExaming[$scope.CurrentIndex].current_status = 'Q';
                         // $scope.$apply();
                         pathExamID = xhr.responseJSON;
@@ -299,6 +310,40 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
         }).responseJSON;
         console.log(sendExamCpp);
         return sendExamCpp;
+    }
+    //----------------------------------------------------------------------
+    function sendExamCs(data) {
+        // $('#detail_exam_modal').modal('hide');
+        var sendExamCs = $.ajax({
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Accept: "application/json"
+            },
+            url: url + '/csSendExam',
+            data:JSON.stringify(data),
+            async: false,
+            complete: function (xhr) {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        send = true;
+                        $scope.examExaming[$scope.CurrentIndex].current_status = 'Q';
+                        // $scope.$apply();
+                        pathExamID = xhr.responseJSON;
+                        $('#detail_exam_modal').modal('hide');
+                    } else if (xhr.status == 209) {
+                        $('#detail_exam_modal').modal('hide');
+                        $('#err_message').html('โค้ดที่ส่งห้ามมี namespace');
+                        $('#fail_modal').modal('show');
+                    } else {
+                        $('#detail_exam_modal').modal('hide');
+                        $('#unsuccess_modal').modal({backdrop: 'static'});
+                    }
+                }
+            }
+        }).responseJSON;
+        return sendExamCs;
     }
     //----------------------------------------------------------------------
     function checkOrderEx(pathExamID) {
@@ -327,6 +372,9 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
                         }
                         else if(fileType === "java"){
                             compileAndRunJava(pathExamID);
+                        }
+                        else if(fileType === "cs"){
+                            compileAndRunCs(pathExamID);
                         }
                     } else { // ถ้าไม่ใช่คนแรก
                         // รอตรวจนานเกิน 9 วินาที
@@ -429,6 +477,50 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
         console.log(testCompile);
     }
     //----------------------------------------------------------------------
+    function compileAndRunCs(pathExamID) {
+        var pathBat = $.ajax({
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Accept: "application/json"
+            },
+            url: url + '/createBatFile',
+            data:{
+                mode:"exam",
+                pathExamID:pathExamID,
+                exam_id : $scope.examID
+            },
+            async: false,
+        }).responseJSON;
+        console.log(pathBat);
+
+        var testCompile = $.ajax({
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Accept: "application/json"
+            },
+            url: url + '/csCompileAndRun',
+            data:{
+                mode:"exam",
+                pathExamID:pathExamID,
+                exam_id : $scope.examID,
+                pathBat : pathBat
+            },
+            async: false,
+            complete: function (xhr) {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        $scope.examExaming[$scope.CurrentIndex].current_status = xhr.responseJSON;
+                        $scope.$apply();
+                        deleteFirstQueue();
+                    }
+                }
+            }
+        }).responseJSON;
+        console.log(testCompile);
+    }
+    //----------------------------------------------------------------------
     function deleteFirstQueue() {
         $.ajax({
             contentType: "application/json; charset=utf-8",
@@ -496,7 +588,7 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
                             body += '<td style="text-align: center;background-color: ' + (i % 2 === 0 ? '#CCD1D9' : '#AAB2BD') + '" ' + s + '</td>';
                         } else if (res[0].current_status === "t"){
                             body += '<td style="text-align: center;background-color: ' + (i % 2 === 0 ? '#4FC1E9' : '#3BAFDA') + '" ' + s + '</td>';
-                        } else if (res[0].current_status === "t"){
+                        } else if (res[0].current_status === "m"){
                             body += '<td style="text-align: center;background-color: ' + (i % 2 === 0 ? '#EC87C0' : '#D770AD') + '" ' + s + '</td>';
                         }
                     } else {

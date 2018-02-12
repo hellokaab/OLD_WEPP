@@ -813,7 +813,7 @@ class CompileCController extends Controller
         $cmd = "cd $dir_code";
 
         // สร้างไฟล์ .bat สำหรับการคอมไพล์
-        $file_bat = 'complie.bat';
+        $file_bat = 'compile.bat';
         $openfile = fopen("$folder_code/$file_bat", 'w');
         fwrite($openfile, $cmd . " \n gcc ex.c -o wepp_ex");
         fclose($openfile);
@@ -925,7 +925,7 @@ class CompileCController extends Controller
                     $i++;
                 }
             }
-            if ($bufchar[$i - 3] == 'l' && $bufchar[$i - 2] == 'o' && $bufchar[$i - 1] == 'n' && $bufchar[$i] == 'g') {
+            if ($bufchar[$i - 3] == 'l' && $bufchar[$i - 2] == 'o' && $bufchar[$i - 1] == 'n' && $bufchar[$i] == 'g') { // long Howlong = 50; strpos($str,'long ') int int1 = 5; int int2 = 10; int int3 = 15;
                 while (TRUE) {
                     if($bufchar[$i]=="{"||$bufchar[$i]=="("){
                         break;

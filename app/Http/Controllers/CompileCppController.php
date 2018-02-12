@@ -381,7 +381,7 @@ class CompileCppController extends Controller
         $cmd = "cd $dir_code";
 
         // สร้างไฟล์ .bat สำหรับการคอมไพล์
-        $file_bat = 'complie.bat';
+        $file_bat = 'compile.bat';
         $openfile = fopen("$folder_code/$file_bat", 'w');
         fwrite($openfile, $cmd . " \n g++ ex.cpp -o wepp_ex");
         fclose($openfile);

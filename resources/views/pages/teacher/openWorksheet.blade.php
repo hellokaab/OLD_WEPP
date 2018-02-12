@@ -99,6 +99,10 @@
                                         <input type="checkbox" id="file_type_java" value="java" style="margin-left: 0px">
                                         <label for="file_type_java">.java</label>
                                     </div>
+                                    <div class="col-md-2 checkbox">
+                                        <input type="checkbox" id="file_type_cs" value="cs" style="margin-left: 0px">
+                                        <label for="file_type_cs">.cs</label>
+                                    </div>
                                 </div>
                                 <div class="notice" id="notice_file_type" style="display: none">กรุณาระบุไฟล์ที่อนุญาตให้ส่ง</div>
                             </div>

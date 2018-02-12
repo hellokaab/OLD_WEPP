@@ -17,21 +17,20 @@ use DirectoryIterator;
 use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
 
-class CompileJavaController extends Controller
+class CompileCsController extends Controller
 {
-    //
-    public function sendExamJava(Request $request){
-        $default_package = TRUE;
+    public function sendExamCs(Request $request){
+        $no_namespace = TRUE;
         $folder_ans = "";
         $resExamID = "";
         $completeInsRes = false;
-//        ถ้าพิมพ์โค้ดส่ง
+        //        ถ้าพิมพ์โค้ดส่ง
         if($request->mode === "key") {
             $code = $request->code;
-//            ตรวจสอบว่าเป็น default package หรือเปล่า
-            $default_package = $this->is_default_package($code);
-            if ($default_package) {
-//                สร้างโฟลเดอร์เก็บไฟล์ที่ส่ง
+            // ตรวจสอบว่ามี namespace หรือเปล่า
+            $no_namespace = $this->check_namespace($code);
+            if($no_namespace){
+                // สร้างโฟลเดอร์เก็บไฟล์ที่ส่ง
                 $user = Users::find($request->UID);
                 $userFolder = $user->stu_id . "_" . $user->fname_en . "_" . $user->lname_en;
                 $examingFolder = "Examing_" . $request->EMID;
@@ -49,35 +48,33 @@ class CompileJavaController extends Controller
                 $folder_ans = $path . $examingFolder . "/" . $examFolder . "/" . $userFolder . "/" . $folderName;
                 mkdir($folder_ans, 0777, true);
 
-//                สร้างไฟล์เก็บโค้ดที่ส่งมา
                 $code = stripslashes($code);
-
-//                ตั้งชื่อไฟล์ให้เหมือนชื่อคลาส
+                // ตั้งชื่อไฟล์ให้เหมือนชื่อคลาส
                 $file_name = $this->get_class_name($code);
-                $file_ans = "$file_name.java";
+                $file_ans = "$file_name.cs";
 
-//                เขียนไฟล์
+                // เขียนไฟล์
                 $handle = fopen("$folder_ans/$file_ans", 'w') or die('Cannot open file:  ' . $file_ans);
                 fwrite($handle, $code);
                 fclose($handle);
             }
 
         } else {
-//            แต่ถ้าส่งไฟล์โค้ดมา
+            // แต่ถ้าส่งไฟล์โค้ดมา
             $folder_ans = $request->path;
             $files = scandir($folder_ans);
             foreach ($files as $f) {
-//                 ลูปเช็ค package ทุกไฟล์ที่มีนามสกุล .java
-                if (strpos($f, '.java') && $default_package) {
+                // ลูปเช็คทุกไฟล์ที่มีนามสกุล .cs
+                if (strpos($f, '.cs') && $no_namespace) {
                     $handle = fopen("$folder_ans/$f", "r");
                     $code_in_file = fread($handle, filesize("$folder_ans/$f"));
                     fclose($handle);
-                    $default_package = $this->is_default_package($code_in_file);
+                    $no_namespace = $this->check_namespace($code_in_file);
                 }
             }
 
-            if(!$default_package){
-//                 ลบไฟล์ที่ถูกส่งมา
+            if(!$no_namespace){
+                // ลบไฟล์ที่ถูกส่งมา
                 $files = scandir($folder_ans);
                 foreach ($files as $f) {
                     @unlink("$folder_ans/$f");
@@ -87,8 +84,8 @@ class CompileJavaController extends Controller
         }
 
         try{
-            if ($default_package) {
-//            บันทึกลงฐานข้อมูล ตาราง res_exams
+            if ($no_namespace) {
+                // บันทึกลงฐานข้อมูล ตาราง res_exams
                 $resExam = ResExam::where('examing_id',$request->EMID)
                     ->where('exam_id',$request->EID)
                     ->where('user_id',$request->UID)
@@ -113,9 +110,9 @@ class CompileJavaController extends Controller
                 }
                 $completeInsRes = true;
 
-//            บันทึกลงฐานข้อมูล ตาราง path_exams
+                // บันทึกลงฐานข้อมูล ตาราง path_exams
                 $pathExam = new PathExam;
-//            $pathExam->resexam_id = $resExam->id;
+//                $pathExam->resexam_id = $resExam->id;
                 $pathExam->resexam_id = $resExamID;
                 $pathExam->path = $folder_ans;
                 $pathExam->status = "q";
@@ -125,13 +122,12 @@ class CompileJavaController extends Controller
                 $insertedId = $pathExam->id;
                 $pathExamID = $insertedId;
 
-//            บันทึกลงฐานข้อมูล ready_queue_exes
+                // บันทึกลงฐานข้อมูล ready_queue_exes
                 $readyQueue = new ReadyQueueEx;
                 $readyQueue->path_exam_id = $pathExamID;
-                $readyQueue->file_type = "java";
+                $readyQueue->file_type = "cs";
                 $readyQueue->save();
                 return response()->json($pathExamID);
-
             } else {
                 return response()->json(['error' => 'Error msg'], 209);
             }
@@ -152,18 +148,18 @@ class CompileJavaController extends Controller
         }
     }
 
-    public function sendSheetJava(Request $request){
-        $default_package = TRUE;
+    public function sendSheetCs(Request $request){
+        $no_namespace = TRUE;
         $folder_ans = "";
         $resSheetID = "";
         $completeInsRes = false;
-//        ถ้าพิมพ์โค้ดส่ง
+        // ถ้าพิมพ์โค้ดส่ง
         if($request->mode === "key") {
             $code = $request->code;
-//            ตรวจสอบว่าเป็น default package หรือเปล่า
-            $default_package = $this->is_default_package($code);
-            if ($default_package) {
-//                สร้างโฟลเดอร์เก็บไฟล์ที่ส่ง
+            // ตรวจสอบว่ามี namespace หรือเปล่า
+            $no_namespace = $this->check_namespace($code);
+            if ($no_namespace) {
+                // สร้างโฟลเดอร์เก็บไฟล์ที่ส่ง
                 $user = Users::find($request->UID);
                 $userFolder = $user->stu_id . "_" . $user->fname_en . "_" . $user->lname_en;
                 $sheetingFolder = "Sheeting_" . $request->STID;
@@ -181,34 +177,34 @@ class CompileJavaController extends Controller
                 $folder_ans = $path . $sheetingFolder . "/" . $sheetFolder . "/" . $userFolder . "/" . $folderName;
                 mkdir($folder_ans, 0777, true);
 
-//                สร้างไฟล์เก็บโค้ดที่ส่งมา
+                // สร้างไฟล์เก็บโค้ดที่ส่งมา
                 $code = stripslashes($code);
 
-//                ตั้งชื่อไฟล์ให้เหมือนชื่อคลาส
+                // ตั้งชื่อไฟล์ให้เหมือนชื่อคลาส
                 $file_name = $this->get_class_name($code);
-                $file_ans = "$file_name.java";
+                $file_ans = "$file_name.cs";
 
-//                เขียนไฟล์
+                // เขียนไฟล์
                 $handle = fopen("$folder_ans/$file_ans", 'w') or die('Cannot open file:  ' . $file_ans);
                 fwrite($handle, $code);
                 fclose($handle);
             }
         } else {
-//            แต่ถ้าส่งไฟล์โค้ดมา
+            // แต่ถ้าส่งไฟล์โค้ดมา
             $folder_ans = $request->path;
             $files = scandir($folder_ans);
             foreach ($files as $f) {
-//                 ลูปเช็ค package ทุกไฟล์ที่มีนามสกุล .java
-                if (strpos($f, '.java') && $default_package) {
+                // ลูปเช็คทุกไฟล์ที่มีนามสกุล .cs
+                if (strpos($f, '.cs') && $no_namespace) {
                     $handle = fopen("$folder_ans/$f", "r");
                     $code_in_file = fread($handle, filesize("$folder_ans/$f"));
                     fclose($handle);
-                    $default_package = $this->is_default_package($code_in_file);
+                    $no_namespace = $this->check_namespace($code_in_file);
                 }
             }
 
-            if(!$default_package){
-//                 ลบไฟล์ที่ถูกส่งมา
+            if(!$no_namespace){
+                // ลบไฟล์ที่ถูกส่งมา
                 $files = scandir($folder_ans);
                 foreach ($files as $f) {
                     @unlink("$folder_ans/$f");
@@ -218,8 +214,8 @@ class CompileJavaController extends Controller
         }
 
         try{
-            if ($default_package) {
-//            บันทึกลงฐานข้อมูล ตาราง res_sheets
+            if ($no_namespace) {
+                // บันทึกลงฐานข้อมูล ตาราง res_sheets
                 $resSheet = ResSheet::where('sheeting_id',$request->STID)
                     ->where('sheet_id',$request->SID)
                     ->where('user_id',$request->UID)
@@ -247,24 +243,12 @@ class CompileJavaController extends Controller
                 }
                 $completeInsRes = true;
 
-//            บันทึกลงฐานข้อมูล ตาราง path_sheets
-//                $pathSheet = new PathSheet;
-//                $pathSheet->ressheet_id = $resSheetID;
-//                $pathSheet->path = $folder_ans;
-//                $pathSheet->status = "q";
-//                $pathSheet->send_date_time = $request->send_date_time;
-//                $pathSheet->save();
-//                $insertedId = $pathSheet->id;
-//                $pathSheetID = $insertedId;
-
-//            บันทึกลงฐานข้อมูล ready_queue_shes
+                // บันทึกลงฐานข้อมูล ready_queue_shes
                 $readyQueue = new ReadyQueueSh;
-//                $readyQueue->path_sheet_id = $pathSheetID;
                 $readyQueue->ressheet_id = $resSheetID;
-                $readyQueue->file_type = "java";
+                $readyQueue->file_type = "cs";
                 $readyQueue->save();
                 return response()->json($resSheetID);
-
             } else {
                 return response()->json(['error' => 'Error msg'], 209);
             }
@@ -285,10 +269,8 @@ class CompileJavaController extends Controller
         }
     }
 
-    public function compileAndRunJava(Request $request){
-        $status = "";
+    public function createBatFile(Request $request){
         $folder_ans = "";
-        // คิวรี่ ที่อยู่ของไฟล์ที่ส่ง
         if($request->mode == "exam"){
             $pathExam = PathExam::find($request->pathExamID);
             $folder_ans = $pathExam->path;
@@ -298,56 +280,131 @@ class CompileJavaController extends Controller
             $folder_ans = $resSheet->path;
         }
 
-
-        // ตรวจหาเมธอด main() ในโฟลเดอร์ แล้วเก็บ ชื่อไฟล์ที่มีเมธอด main() ใน $file_main
+        // ตรวจหาเมธอด Main() ในโฟลเดอร์ แล้วเก็บ ชื่อไฟล์ที่มีเมธอด Main() ใน $file_main
         $files = scandir($folder_ans);
         $file_main = null;
+        $str_file = "";
         foreach ($files as $f) {
-            if (strpos($f, '.java')) {
-                // ถ้าในไฟล์นี้ มีเมธอด main()
+            if (strpos($f, '.cs')) {
+                // ถ้าในไฟล์นี้ มีเมธอด Main()
                 if ($this->is_main("$folder_ans/$f")) {
                     $file_main = $f;
+                } else {
+                    $str_file = $str_file.$f." ";
                 }
             }
         }
 
-        // ถ้าเจอเมธอด main() ในโฟลเดอร์
+        // ถ้าเจอเมธอด Main() ในโฟลเดอร์
         if ($file_main) {
             // อ่านโค้ดในไฟล์
             $myfile = fopen("$folder_ans/$file_main", 'r');
             $origin_code = fread($myfile, filesize("$folder_ans/$file_main"));
             fclose($myfile);
 
-            // แก้ชื่อคลาสเป็น Main
+            // แก้ชื่อคลาสเป็น WEPP_Main
             $class_name = $this->get_class_name($origin_code);
             $pos_begin_class_name = strpos($origin_code, $class_name);
-            $new_class_code = substr_replace($origin_code, 'Main', $pos_begin_class_name, strlen($class_name));
+            $new_class_code = substr_replace($origin_code, 'WEPP', $pos_begin_class_name, strlen($class_name));
 
             // เพิ่มโค้ดส่วนการเช็คลูป เช็คเมมโมรี่ เช็คเวลา
             $code_add_checker = $this->add_check_code($new_class_code);
 
-            // เก็บไว้ในไฟล์ชื่อ Main.java
+            // เก็บไว้ในไฟล์ชื่อ Main.cs
             $file = 'Main';
-            $handle = fopen("$folder_ans/$file.java", 'w') or die('Cannot open file:  ' . $file);
+            $handle = fopen("$folder_ans/$file.cs", 'w') or die('Cannot open file:  ' . $file);
             fwrite($handle, $code_add_checker);
 
-            // คอมไพล์โค้ดที่ส่ง
-            $this->compile_code($folder_ans, $file);
+            // สร้าง bat file เพื่อ compile
+//            $this->compile_code($folder_ans,$file,$str_file);
+            $bat = $this->create_bat($folder_ans,$file,$str_file);
+            return response()->json($bat);
+        } else {
+            // ถ้าไม่พบเมธอด main() ในโค้ดที่ส่ง
+            // ตรวจสอบว่า เป็นข้อสอบเขียนคลาส หรือไม่
+            $file_main = "";
+            if($request->mode == "exam") {
+                $exam = Exam::find($request->exam_id);
+                $file_main = $exam->main_code;
+            } else if($request->mode == "sheet") {
+                $sheet = Worksheet::find($request->sheet_id);
+                $file_main = $sheet->main_code;
+            }
 
-            // ตรวจสอบการคอมไพล์(มีไฟล์ Main.class ไหม)
-            if (file_exists("$folder_ans/Main.class")) {
-                $input_file = "";
+            if ($file_main) {
+                // อ่านโค้ดในไฟล์
+                $myfile = fopen($file_main, 'r');
+                $origin_code = fread($myfile, filesize($file_main));
+                fclose($myfile);
+
+                // แก้ชื่อคลาสเป็น WEPP
+                $class_name = $this->get_class_name($origin_code);
+                $pos_begin_class_name = strpos($origin_code, $class_name);
+                $new_class_code = substr_replace($origin_code, "WEPP", $pos_begin_class_name, strlen($class_name));
+
+                // เพิ่มโค้ดส่วนการเช็คลูป เช็คเมมโมรี่ เช็คเวลา
+                $code_add_checker = $this->add_check_code($new_class_code);
+
+                // เก็บไว้ในไฟล์ชื่อ Main.cs
+                $file = 'Main';
+                $handle = fopen("$folder_ans/$file.cs", 'w') or die('Cannot open file:  ' . $file);
+                fwrite($handle, $code_add_checker);
+
+                // สร้าง bat file เพื่อ compile
+                $bat = $this->create_bat($folder_ans,$file,$str_file);
+                return response()->json($bat);
+            }
+        }
+    }
+
+    public function compileAndRunCs(Request $request){
+        $status = "";
+        $folder_ans = "";
+        if($request->mode == "exam"){
+            $pathExam = PathExam::find($request->pathExamID);
+            $folder_ans = $pathExam->path;
+        } else if($request->mode == "sheet"){
+//            $pathSheet = PathSheet::find($request->pathSheetID);
+            $resSheet = ResSheet::find($request->pathSheetID);
+            $folder_ans = $resSheet->path;
+        }
+
+        // ตรวจสอบว่ามีไฟล์ .bat หรือเปล่า
+        $files = scandir($folder_ans);
+        $bat = false;
+        foreach ($files as $f) {
+            if (strpos($f, '.bat')) {
+                $bat = true;
+            }
+        }
+
+        $ans = "";
+        if($bat){
+            // ถ้ามีให้คอมไพล์โค้ดที่ส่ง
+            $this->compile_code($request->pathBat);
+
+            // ตรวจสอบการคอมไพล์(มีไฟล์ weep_ex.exe ไหม)
+            if (file_exists("$folder_ans/wepp_ex.exe")) {
                 // คิวรี่ ไฟล์อินพุทของข้อสอบ
+                $input = "";
                 if($request->mode == "exam") {
                     $exam = Exam::find($request->exam_id);
-                    $input_file = $exam->exam_inputfile;
-                } else if ($request->mode == "sheet"){
+                    if (strlen($exam->exam_inputfile) > 0) {
+                        $handle = fopen($exam->exam_inputfile, "r");
+                        $input = fread($handle, filesize($exam->exam_inputfile));
+                        fclose($handle);
+                    }
+                } else if($request->mode == "sheet"){
                     $sheet = Worksheet::find($request->sheet_id);
-                    $input_file = $sheet->sheet_input_file;
+                    if (strlen($sheet->sheet_input_file) > 0) {
+                        $handle = fopen($sheet->sheet_input_file, "r");
+                        $input = fread($handle, filesize($sheet->sheet_input_file));
+                        fclose($handle);
+                    }
                 }
 
                 // รันโค้ดที่ส่ง
-                $lines_run = $this->run_code($folder_ans, $file, $input_file);
+                $lines_run = $this->run_code($input,$folder_ans);
 
                 // ตรวจสอบคำตอบ
                 $checker = "";
@@ -367,8 +424,7 @@ class CompileJavaController extends Controller
                     $status = $this->update_resworksheet($request->pathSheetID,$request->sheet_id,$checker,$folder_ans);
                 }
             } else {
-                // ไม่พบไฟล์ Main.class
-                // อัพเดตสถานะการส่ง เป็น complie error
+                // ไม่เเจอ wepp_ex.exe
                 if($request->mode == "exam"){
                     $checker = array("status" => "c", "res_run" => null, "time" => null, "mem" => null);
                     $status = $this->update_resexam($request->pathExamID,$request->exam_id,$checker,$folder_ans);
@@ -378,203 +434,67 @@ class CompileJavaController extends Controller
                 }
             }
         } else {
-            // ถ้าไม่พบเมธอด main() ในโค้ดที่ส่ง
-            // ตรวจสอบว่า เป็นข้อสอบเขียนคลาส หรือไม่
-            $file_main = "";
-            if($request->mode == "exam") {
-                $exam = Exam::find($request->exam_id);
-                $file_main = $exam->main_code;
+            // ไม่เจอไฟล์ bat
+            if($request->mode == "exam"){
+                $checker = array("status" => "c", "res_run" => null, "time" => null, "mem" => null);
+                $status = $this->update_resexam($request->pathExamID,$request->exam_id,$checker,$folder_ans);
             } else if($request->mode == "sheet") {
-                $sheet = Worksheet::find($request->sheet_id);
-                $file_main = $sheet->main_code;
-            }
-
-
-            if ($file_main) {
-                // อ่านโค้ดในไฟล์
-                $myfile = fopen($file_main, 'r');
-                $origin_code = fread($myfile, filesize($file_main));
-                fclose($myfile);
-
-                // แก้ชื่อคลาสเป็น Main
-                $class_name = $this->get_class_name($origin_code);
-                $pos_begin_class_name = strpos($origin_code, $class_name);
-                $new_class_code = substr_replace($origin_code, "Main", $pos_begin_class_name, strlen($class_name));
-
-                // เพิ่มโค้ดส่วนการเช็คลูป เช็คเมมโมรี่ เช็คเวลา
-                $code_add_checker = $this->add_check_code($new_class_code);
-
-                // เก็บไว้ในไฟล์ชื่อ Main.java
-                $file = "Main";
-                $handle = fopen("$folder_ans/$file.java", 'w') or die('Cannot open file:  ' . $file);
-                fwrite($handle, $code_add_checker);
-
-                // คอมไพล์โค้ดที่ส่ง
-                $this->compile_code($folder_ans, $file);
-
-                // ตรวจสอบการคอมไพล์(มีไฟล์ Main.class ไหม)
-                if (file_exists("$folder_ans/Main.class")) {
-                    $input_file = "";
-                    // คิวรี่ ไฟล์อินพุทของข้อสอบ
-                    if($request->mode == "exam") {
-                        $exam = Exam::find($request->exam_id);
-                        $input_file = $exam->exam_inputfile;
-                    } else if ($request->mode == "sheet"){
-                        $sheet = Worksheet::find($request->sheet_id);
-                        $input_file = $sheet->sheet_input_file;
-                    }
-
-                    // รันโค้ดที่ส่ง
-                    $lines_run = $this->run_code($folder_ans, $file, $input_file);
-
-                    // ตรวจสอบคำตอบ
-                    $checker = "";
-                    if($request->mode == "exam") {
-                        $checker = $this->check_correct_ans_ex($lines_run, $request->exam_id);
-                    } else if($request->mode == "sheet") {
-                        $checker = $this->check_correct_ans_sh($lines_run, $request->sheet_id);
-                    }
-
-                    // เครียร์ไฟล์ขยะ (*.class, *.bat)
-                    $this->clearFolderAns($folder_ans);
-
-                    // อัพเดตสถานะการส่ง เป็นสถานะที่เช็คได้
-                    if($request->mode == "exam"){
-                        $status = $this->update_resexam($request->pathExamID,$request->exam_id,$checker,$folder_ans);
-                    } else if($request->mode == "sheet") {
-                        $status = $this->update_resworksheet($request->pathSheetID,$request->sheet_id,$checker,$folder_ans);
-                    }
-                } else {
-                    // ไม่พบไฟล์ Main.class
-                    // อัพเดตสถานะการส่ง เป็น complie error
-                    if($request->mode == "exam"){
-                        $checker = array("status" => "c", "res_run" => null, "time" => null, "mem" => null);
-                        $status = $this->update_resexam($request->pathExamID,$request->exam_id,$checker,$folder_ans);
-                    } else if($request->mode == "sheet") {
-                        $checker = array("status" => "c", "res_run" => null, "time" => null, "mem" => null);
-                        $status = $this->update_resworksheet($request->pathSheetID,$request->sheet_id,$checker,$folder_ans);
-                    }
-                }
-            } else{
-                // ไม่เจอ method main
-                if($request->mode == "exam"){
-                    $checker = array("status" => "c", "res_run" => null, "time" => null, "mem" => null);
-                    $status = $this->update_resexam($request->pathExamID,$request->exam_id,$checker,$folder_ans);
-                } else if($request->mode == "sheet") {
-                    $checker = array("status" => "c", "res_run" => null, "time" => null, "mem" => null);
-                    $status = $this->update_resworksheet($request->pathSheetID,$request->sheet_id,$checker,$folder_ans);
-                }
+                $checker = array("status" => "c", "res_run" => null, "time" => null, "mem" => null);
+                $status = $this->update_resworksheet($request->pathSheetID,$request->sheet_id,$checker,$folder_ans);
             }
         }
         return response()->json($status);
+
     }
 
-    function is_default_package($code) {
-        $class = $this->get_class_name($code);
-        if ($class) {
-            $pos_begin_class = strpos($code, $class);
-            $code_before_class = substr($code, 0, $pos_begin_class);
-
-            if (is_int(strpos($code_before_class, 'package '))) {
-                return FALSE;
-            }
-        }
-        return TRUE;
-    }
-
-    function get_class_name($code) {
-        $tmp = explode('class', $code);
-        $tmp2 = explode('{', $tmp[1]);
-        $class = trim($tmp2[0]);
-        return $class ? $class : FALSE;
-    }
-
-    function is_main($file) {
-        $myfile = fopen($file, 'r') or die('ERROR_CODE : UNABLE_TO_OPEN_FILE');
-        $code = fread($myfile, filesize($file));
-        fclose($myfile);
-
-        if (strpos($code, 'main') != FALSE) {
-            return true;
-        }
-        return false;
-    }
-
-    // JCP process code function
     function add_check_code($code) {
-        $str_check_code = ' static TimerThread timeThr = new TimerThread();
-                        static RunThread runThr = new RunThread();
-                        static class TimerThread extends Thread {
-                            public void run() {
-                                try {
-                                    sleep(3000);
-                                    runThr.stop();
-                                    System.out.println("OverTime");
-                                    System.exit(0);
-                                } catch (InterruptedException e) {}
-                            }
-                        }
-                        static class RunThread extends Thread {
-                            public void run() {
-                                long start = System.currentTimeMillis();
-                                Runtime runtime = Runtime.getRuntime();
-                                runtime.gc();
-                                long mem = runtime.totalMemory() - runtime.freeMemory();
-                                long memNow = runtime.totalMemory() - runtime.freeMemory() - mem;
-                                System.out.println("UsedMem:" + memNow/1024.0);
-                                long time = System.currentTimeMillis() - start;
-                                timeThr.stop();
-                                System.out.println("RunTime:" + time / 1000.0);
-                            }
+        $using_code = 'using System.Management;
+                       using System.Threading;
+                       ';
+
+        $str_check_code = 'static Thread timeThr = new Thread(new ThreadStart(TimerThread));
+                        static Thread runThr = new Thread(new ThreadStart(RunThread));		       
+		                static void TimerThread(){
+			                Thread.Sleep(3000);
+			                runThr.Abort();
+			                Console.WriteLine("OverTime");
+			                System.Environment.Exit(0);
+		                }
+                        static void RunThread(){
+                            var watch = System.Diagnostics.Stopwatch.StartNew();
+                                            
+                            timeThr.Abort();
+                            watch.Stop();
+                            var elapsedMs = watch.ElapsedMilliseconds;
+                            Console.WriteLine("UsedMem : 0");
+                            Console.WriteLine("Runtime : {0}",elapsedMs/1000.00);
                         }';
 
         // เก็บโค้ด ที่อยู่ในเมธอด main
         $code_in_main = $this->get_code_in_main($code);
 
         // นำโค้ดที่อยู่ในเมธอด main ใส่ในเทรดการรัน
-        $pos_add_code = strpos($str_check_code, "long memNow") - 1;
+        $pos_add_code = strpos($str_check_code, "timeThr.Abort();") - 1;
         $check_code = substr_replace($str_check_code, $code_in_main["code"], $pos_add_code, 0);
 
         // ตัดโค้ด ที่อยู่ในเมธอด main ออก
         $code_cut_in_main = str_replace($code_in_main["code"], "", $code);
 
         // เพิ่มโค้ด สั่งรันเทรด ให้เมธอด main
-        $code_add_in_main = substr_replace($code_cut_in_main, "timeThr.start(); runThr.start();", $code_in_main["begin"], 0);
+        $code_add_in_main = substr_replace($code_cut_in_main, "timeThr.Start(); runThr.Start();", $code_in_main["begin"], 0);
 
         // เพิ่มโค้ดที่ใช้เช็คหน่วยความจำ เวลา และลูปไม่รู้จบ
         $pos_bracket_class = strpos($code_add_in_main, "{");
-        $complet_code = substr_replace($code_add_in_main, $check_code, $pos_bracket_class + 1, 0);
+        $full_code = substr_replace($code_add_in_main, $check_code, $pos_bracket_class + 1, 0);
+        $complet_code = substr_replace($full_code,$using_code,0,0);
 
         return $complet_code;
     }
 
-    function get_code_in_main($code) {
-        $res = array();
+    function create_bat($folder_code,$file_main,$str_file){
+        exec("Taskkill /IM wepp_ex.exe /F");
 
-        $pos_main = strpos($code, "main");
-        $code_from_main = substr($code, $pos_main);
-
-        $pos_bracket_main = strpos($code_from_main, "{") + $pos_main;
-        $braket = array();
-
-        for ($i = $pos_bracket_main; $i < strlen($code); $i++) {
-            if ($code[$i] == "{") {
-                array_push($braket, "{");
-            } else if ($code[$i] == "}") {
-                array_pop($braket);
-                if (empty($braket)) {
-                    $res["begin"] = $pos_bracket_main + 1;
-                    $res["length"] = $i - $pos_bracket_main - 1;
-                    $res["code"] = substr($code, $res["begin"], $res["length"]);
-                    return $res;
-                }
-            }
-        }
-        return FALSE;
-    }
-
-    function compile_code($folder_code, $file_main) {
-//        ค้าหาพาร์ทของไฟล์ที่จะคอมไฟล์
+        // ค้าหาพาร์ทของไฟล์ที่จะคอมไฟล์
         $dir = getcwd();
         $dir_split = explode("\\",$dir);
         $dir_code = "";
@@ -583,72 +503,63 @@ class CompileJavaController extends Controller
         }
         $dir_split = explode("/",$folder_code);
         for($i = 1;$i<sizeof($dir_split);$i++){
-            $dir_code = $dir_code.$dir_split[$i]."\\";
+            $dir_code = $dir_code.$dir_split[$i].'\\';
         }
         $cmd = "cd $dir_code";
 
         // สร้างไฟล์ .bat สำหรับการคอมไพล์
         $file_bat = 'compile.bat';
         $openfile = fopen("$folder_code/$file_bat", 'w');
-        fwrite($openfile, $cmd . " \n javac -encoding UTF8 $file_main.java");
+        fwrite($openfile, $cmd . " \n csc -t:exe -out:wepp_ex.exe $file_main.cs ".$str_file."");
         fclose($openfile);
 
         exec($dir_code.$file_bat);
+        return $dir_code.$file_bat;
     }
 
-    function run_code($folder_code, $file_main, $input_file) {
+    function compile_code($path_bat) {
+        exec($path_bat);
+    }
+
+    function run_code($input,$folder_ans){
+        $resoutput = "";
+        $descriptorspec = array(
+            0 => array("pipe", "r"), // stdin is a pipe that the child will read from
+            1 => array("pipe", "w"), // stdout is a pipe that the child will write to
+            2 => array("file", "ex.txt", "a") // stderr is a file to write to
+        );
+
         $dir = getcwd();
         $dir_split = explode("\\",$dir);
-
-        // พาร์ทของข้อสอบ
-        $dir_exam = "";
+        $dir_code = "";
         for($i = 0;$i<sizeof($dir_split)-1;$i++){
-            $dir_exam = $dir_exam.$dir_split[$i]."\\";
+            $dir_code = $dir_code.$dir_split[$i]."\\";
         }
-        $dir_split = explode("/",$folder_code);
+        $dir_split = explode("/",$folder_ans);
         for($i = 1;$i<sizeof($dir_split);$i++){
-            $dir_exam = $dir_exam.$dir_split[$i]."\\";
+            $dir_code = $dir_code.$dir_split[$i]."\\";
         }
-        $cmd = "cd $dir_exam";
-
-
-        // สร้างไฟล์ .bat สำหรับการรัน
-        $file_bat = 'run.bat';
-        $openfile = fopen("$folder_code/$file_bat", 'w');
-        if ($input_file) {
-            // พาร์ทของ input file
-            $dir_input = "";
-            $dir_split = explode("\\",$dir);
-            for($i = 0;$i<sizeof($dir_split)-1;$i++){
-                $dir_input = $dir_input.$dir_split[$i]."\\";
-            }
-            $dir_split = explode("/",$input_file);
-            for($i = 1;$i<sizeof($dir_split)-1;$i++){
-                $dir_input = $dir_input.$dir_split[$i]."\\";
-            }
-            $dir_input = $dir_input.$dir_split[sizeof($dir_split)-1];
-
-            fwrite($openfile, $cmd . " \n java $file_main < " . $dir_input);
-        } else {
-            fwrite($openfile, $cmd . " \n java $file_main");
+        $cwd = $dir_code;
+        $process = proc_open('wepp_ex.exe', $descriptorspec, $pipes, $cwd);
+        if (is_resource($process)) {
+            fwrite($pipes[0], $input);
+            fclose($pipes[0]);
+            $resoutput = stream_get_contents($pipes[1]);
+            fclose($pipes[1]);
+            $return_value = proc_close($process);
         }
-        fclose($openfile);
 
-        $lines_run = array();
-        exec($dir_exam.$file_bat, $lines_run);
-        return $lines_run;
+        unlink('ex.txt');
+
+        return $resoutput;
     }
 
-    function check_correct_ans_ex($lines_run, $exam_id) {
+    function check_correct_ans_ex($lines_run, $exam_id){
         $exam = Exam::find($exam_id);
         $run = $this->prepare_result($lines_run);
 
         if ($run == 'OverTime') {
             return array("status" => "t", "res_run" => 'Over time', "time" => 0, "mem" => 0);
-        } else if ($run['mem'] > $exam->memory_size) {
-            return array("status" => "m", "res_run" => 'Over memory', "time" => $run['time'], "mem" => $run['mem']);
-        } else if ($run['time'] > $exam->time_limit) {
-            return array("status" => "t", "res_run" => 'Over time', "time" => $run['time'], "mem" => $run['mem']);
         } else {
             // อ่านไฟล์ output ของ Teacher
             $file_output = $exam->exam_outputfile;
@@ -715,70 +626,31 @@ class CompileJavaController extends Controller
         }
     }
 
-    function prepare_result($lines_run) {
-        $iMem = $iTime = $iOverTime = -1;
+    function prepare_result($result_run) {
+        $checkSuccess = $checkOverTime = false;
         $res_run = '';
+        $time = 0;
+        $mem = 0;
 
-        for ($i = 4; $i < count($lines_run); $i++) {
-            $line = $lines_run[$i];
-            if (strpos($line, "UsedMem:") > -1) {
-                $iMem = $i;
-            } else if (strpos($line, "RunTime:") > -1) {
-                $iTime = $i;
-            } else if (strpos($line, "OverTime") > -1) {
-                $iOverTime = $i;
-            }
+        if(strpos($result_run,'UsedMem :') && strpos($result_run,'Runtime :')){
+            $checkSuccess = true;
+        } else if(strpos($result_run,'OverTime')){
+            $checkOverTime = true;
         }
 
-        if ($iOverTime > -1) {
+        if ($checkOverTime){
             return "OverTime";
-        } else if ($iMem > -1 && $iTime > -1) {
-//            $res_run = array_slice($lines_run, 4, $iMem - 4);
-//            $i = 0;
-//            foreach ($res_run as $val) {
-//                $res_run[$i++] = iconv(mb_detect_encoding($val), "utf-8", $val);
-//            }
-
-            $ar_res_run = array_slice($lines_run, 4, $iMem - 4);
-            $i = 0;
-            foreach ($ar_res_run as $val) {
-                $ar_res_run[$i] = iconv(mb_detect_encoding($val), "utf-8", $val);
-                $res_run .= $ar_res_run[$i++]."\n";
-            }
-
-            $mem = substr($lines_run[$iMem], 8);
-            $time = substr($lines_run[$iTime], 8);
-
-            return array('res_run' => trim($res_run), 'mem' => $mem, 'time' => $time);
+        } else if($checkSuccess){
+            $arr_res_run1 = explode('UsedMem : ',$result_run);
+            $res_run = trim($arr_res_run1[0]);
+            $arr_res_run2 = explode('Runtime : ',$arr_res_run1[1]);
+            $mem = trim($arr_res_run2[0]);
+            $time = trim($arr_res_run2[1]);
+            return array('res_run' => $res_run, 'mem' => $mem, 'time' => $time);
         }
     }
 
     function check_percentage_ans($output_teacher, $output_run, $is_case_sensitive) {
-
-//        // เช็คจำนวนแถว output ที่รันได้ไม่เกิน output ตรวจสอบใช่ไหม
-//        if (count($output_run) <= count($output_teacher)) {
-//            $count_check = 0;
-//            for ($i = 0; $i < count($output_run); $i++) { // เช็คว่าคำตอบทั้ง 2 ไฟล์ ตรงกันหรือไม่
-//                // ในกรณีไม่คิด Case sensitive
-//                if (!$is_case_sensitive) {
-//                    $output_run[$i] = strtolower($output_run[$i]);
-//                    $output_teacher[$i] = strtolower($output_teacher[$i]);
-//                }
-//                if (trim($output_run[$i]) == trim($output_teacher[$i])) {
-//                    $count_check++;
-//                }
-//            }
-//
-//            if ($count_check == count($output_teacher)) {
-//                return 100;
-//            } else {
-//                return $count_check * 100 / count($output_teacher);
-//            }
-//        } else {
-//            // output ที่รันได้ มีจำนวนมากกว่า output ตรวจสอบ
-//            return 0;
-//        }
-
         $count_check = 0;
         for ($i = 0; ($i < strlen($output_run) || $i < strlen($output_teacher)); $i++ ){
             try {
@@ -799,26 +671,6 @@ class CompileJavaController extends Controller
             return $count_check * 100 / strlen($output_run);
         } else {
             return $count_check * 100 / strlen($output_teacher);
-        }
-    }
-
-    function arr_to_code($res_run) {
-        $str = '';
-        for ($i = 0; $i < count($res_run) - 1; $i++) {
-            $str .= ($res_run[$i] . PHP_EOL);
-        }
-        $str .= $res_run[$i];
-        return $str;
-    }
-
-    function clearFolderAns($folder_ans) {
-        $files = scandir($folder_ans);
-
-        // ลูปลบไฟล์ที่นามสกุลไม่ใช่ .java และ Main.java
-        foreach ($files as $f) {
-            if (!strpos($f, '.java') || $f == 'Main.java') {
-                @unlink("$folder_ans/$f");
-            }
         }
     }
 
@@ -871,10 +723,10 @@ class CompileJavaController extends Controller
         // ค้นหาการส่งข้อสอบ
         $resExam = ResExam::find($resExamID);
         $resExam->current_status = $checker["status"];
-        
+
         // คำนวนคะแนนที่ต้องถูกหัก
         $cutScore = ($exam->cut_wrongans*$resExam->sum_wrong)+($exam->cut_comerror*$resExam->sum_comerror)+($exam->cut_overmemory*$resExam->sum_overmem)+($exam->cut_overtime*$resExam->sum_overtime);
-        
+
         // ถ้าสถานะเป็น ผ่าน หรือ ถูกต้องบางส่วน
         $score = 0;
         if ($checker['status'] == 'a' || is_numeric($checker['status'])) {
@@ -922,41 +774,7 @@ class CompileJavaController extends Controller
         $sheet = Worksheet::find($sheet_id);
 
         $resSheetID = $path_sheet_id;
-//        $resSheetID = "";
-//        // อัพเดทข้อมูลใน table path_sheets
-//        $pathSheet = PathSheet::find($path_sheet_id);
-//        $resSheetID = $pathSheet->ressheet_id;
-//        $pathSheet->resrun = "$folder_ans/resrun.txt";
-//        $pathSheet->status = $checker["status"];
-//        $pathSheet->save();
 
-        // ค้นคำตอบที่มีเปอร์เซ็นถูกต้องเยอะที่สุด จากที่เคยส่ง
-        $statusImp = DB::select('SELECT status 
-                                  FROM (SELECT * FROM path_sheets WHERE path_sheets.ressheet_id = ?) AS s 
-                                  WHERE s.status = "9" 
-                                  OR s.status = "8" 
-                                  OR s.status = "7" 
-                                  OR s.status = "6" 
-                                  OR s.status = "5" 
-                                  GROUP BY s.status',[$resSheetID]);
-        $maxPercent = 0;
-        if($statusImp){
-            foreach($statusImp as $status){
-                if($status->status == 9) {
-                    if($maxPercent < 9) $maxPercent = 9;
-                } else if ($status->status == 8){
-                    if($maxPercent < 8) $maxPercent = 8;
-                } else if ($status->status == 7){
-                    if($maxPercent < 7) $maxPercent = 7;
-                } else if ($status->status == 6){
-                    if($maxPercent < 6) $maxPercent = 6;
-                } else if ($status->status == 5){
-                    if($maxPercent < 5) $maxPercent = 5;
-                }
-            }
-        }
-
-        $cutScore = 0;
         // ค้นหาการส่งข้อสอบ
         $resSheet = ResSheet::find($resSheetID);
         $resSheet->current_status = $checker["status"];
@@ -968,18 +786,79 @@ class CompileJavaController extends Controller
             if($checker['status'] == 'a'){
                 $score = $sheet->full_score;
             } else {
-                if($checker['status'] > $maxPercent){
-                    $score = $sheet->full_score * $checker['status'] / 10;
-                } else {
-                    $score = $sheet->full_score * $maxPercent / 10;
-                }
+                $score = $sheet->full_score * $checker['status'] / 10;
             }
-        } else {
-            $score = $sheet->full_score * $maxPercent / 10;
         }
         $resSheet->score = $score;
         $resSheet->save();
         return $checker['status'];
+    }
+
+    function get_code_in_main($code) {
+        $res = array();
+
+        $pos_main = strpos($code, "Main");
+        $code_from_main = substr($code, $pos_main);
+
+        $pos_bracket_main = strpos($code_from_main, "{") + $pos_main;
+        $braket = array();
+
+        for ($i = $pos_bracket_main; $i < strlen($code); $i++) {
+            if ($code[$i] == "{") {
+                array_push($braket, "{");
+            } else if ($code[$i] == "}") {
+                array_pop($braket);
+                if (empty($braket)) {
+                    $res["begin"] = $pos_bracket_main + 1;
+                    $res["length"] = $i - $pos_bracket_main - 1;
+                    $res["code"] = substr($code, $res["begin"], $res["length"]);
+                    return $res;
+                }
+            }
+        }
+        return FALSE;
+    }
+
+    function check_namespace($code) {
+        $class = $this->get_class_name($code);
+        if ($class) {
+            $pos_begin_class = strpos($code, $class);
+            $code_before_class = substr($code, 0, $pos_begin_class);
+
+            if (is_int(strpos($code_before_class, 'namespace '))) {
+                return FALSE;
+            }
+        }
+        return TRUE;
+    }
+
+    function get_class_name($code) {
+        $tmp = explode('class', $code);
+        $tmp2 = explode('{', $tmp[1]);
+        $class = trim($tmp2[0]);
+        return $class ? $class : FALSE;
+    }
+
+    function is_main($file) {
+        $myfile = fopen($file, 'r') or die('ERROR_CODE : UNABLE_TO_OPEN_FILE');
+        $code = fread($myfile, filesize($file));
+        fclose($myfile);
+
+        if (strpos($code, 'Main') != FALSE) {
+            return true;
+        }
+        return false;
+    }
+
+    function clearFolderAns($folder_ans) {
+        $files = scandir($folder_ans);
+
+        // ลูปลบไฟล์ที่นามสกุลไม่ใช่ .cs และ Main.cs
+        foreach ($files as $f) {
+            if (!strpos($f, '.cs') || $f == 'Main.cs') {
+                @unlink("$folder_ans/$f");
+            }
+        }
     }
 
     function makeFolder($path,$folder) {
@@ -1003,10 +882,4 @@ class CompileJavaController extends Controller
             rmdir($path);
         } catch(\Exception $e ){}
     }
-
-    public function test(Request $request)
-    {
-        return response()->json($request->mode);
-    }
-
 }

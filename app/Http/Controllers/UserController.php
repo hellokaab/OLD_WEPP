@@ -25,24 +25,30 @@ class UserController extends Controller
      */
     public function loggedIn(){
         session_start();
-        if(isset($_SESSION['ssoUserData'])){
-            echo '<pre>' . print_r($_SESSION['ssoUserData'], TRUE) . '</pre>';
-            $findUser = Users::where('personal_id', $_SESSION['ssoUserData']['personalId'])->first();
+//        ---------- For Product ---------------
+        if(isset($_SESSION['ssoUserdata'])){
+            $findUser = Users::where('personal_id', $_SESSION['ssoUserdata']['personalId'][0])->first();
             if ($findUser === NULL) {
                 $users = new Users;
-                $users->personal_id = $_SESSION['ssoUserData']['personalId'];
-                $users->prefix = $_SESSION['ssoUserData']['prename'];
-                $users->fname_en = $_SESSION['ssoUserData']['cn'];
-                $users->fname_th = $_SESSION['ssoUserData']['firstNameThai'];
-                $users->lname_en = $_SESSION['ssoUserData']['sn'];
-                $users->lname_th = $_SESSION['ssoUserData']['lastNameThai'];
-                $users->stu_id = $_SESSION['ssoUserData']['studentId'];
-                $users->faculty = $_SESSION['ssoUserData']['faculty'];
-                $users->department = $_SESSION['ssoUserData']['program'];
-                $users->email = $_SESSION['ssoUserData']['mail'];
-                if($_SESSION['ssoUserData']['gidNumber'] == "4500"){
+                $users->personal_id = $_SESSION['ssoUserdata']['personalId'][0];
+                $users->prefix = $_SESSION['ssoUserdata']['prename'][0];
+                $users->fname_en = $_SESSION['ssoUserdata']['cn'][0];
+                $users->fname_th = $_SESSION['ssoUserdata']['firstNameThai'][0];
+                $users->lname_en = $_SESSION['ssoUserdata']['sn'][0];
+                $users->lname_th = $_SESSION['ssoUserdata']['lastNameThai'][0];
+
+                if(isset($_SESSION['ssoUserdata']['studentId'])){
+                    $users->stu_id = $_SESSION['ssoUserdata']['studentId'][0];
+                } else {
+                    $users->stu_id = "";
+                }
+
+                $users->faculty = $_SESSION['ssoUserdata']['faculty'][0];
+                $users->department = $_SESSION['ssoUserdata']['program'][0];
+                $users->email = $_SESSION['ssoUserdata']['mail'][0];
+                if($_SESSION['ssoUserdata']['gidNumber'][0] == "4500"){
                     $users->user_type = 's';
-                }elseif ($_SESSION['ssoUserData']['gidNumber'] == "2800"){
+                }elseif ($_SESSION['ssoUserdata']['gidNumber'][0] == "2800"){
                     $users->user_type = 't';
                 }else{
                     $users->user_type = 'o';
@@ -51,19 +57,25 @@ class UserController extends Controller
 //                return response()->json($users);
             }else{
                 $users = Users::find($findUser->id);
-                $users->personal_id = $_SESSION['ssoUserData']['personalId'];
-                $users->prefix = $_SESSION['ssoUserData']['prename'];
-                $users->fname_en = $_SESSION['ssoUserData']['cn'];
-                $users->fname_th = $_SESSION['ssoUserData']['firstNameThai'];
-                $users->lname_en = $_SESSION['ssoUserData']['sn'];
-                $users->lname_th = $_SESSION['ssoUserData']['lastNameThai'];
-                $users->stu_id = $_SESSION['ssoUserData']['studentId'];
-                $users->faculty = $_SESSION['ssoUserData']['faculty'];
-                $users->department = $_SESSION['ssoUserData']['program'];
-                $users->email = $_SESSION['ssoUserData']['mail'];
-                if($_SESSION['ssoUserData']['gidNumber'] == "4500"){
+                $users->personal_id = $_SESSION['ssoUserdata']['personalId'][0];
+                $users->prefix = $_SESSION['ssoUserdata']['prename'][0];
+                $users->fname_en = $_SESSION['ssoUserdata']['cn'][0];
+                $users->fname_th = $_SESSION['ssoUserdata']['firstNameThai'][0];
+                $users->lname_en = $_SESSION['ssoUserdata']['sn'][0];
+                $users->lname_th = $_SESSION['ssoUserdata']['lastNameThai'][0];
+
+                if(isset($_SESSION['ssoUserdata']['studentId'])){
+                    $users->stu_id = $_SESSION['ssoUserdata']['studentId'][0];
+                } else {
+                    $users->stu_id = "";
+                }
+
+                $users->faculty = $_SESSION['ssoUserdata']['faculty'][0];
+                $users->department = $_SESSION['ssoUserdata']['program'][0];
+                $users->email = $_SESSION['ssoUserdata']['mail'][0];
+                if($_SESSION['ssoUserdata']['gidNumber'][0] == "4500"){
                     $users->user_type = 's';
-                }elseif ($_SESSION['ssoUserData']['gidNumber'] == "2800"){
+                }elseif ($_SESSION['ssoUserdata']['gidNumber'][0] == "2500"){
                     $users->user_type = 't';
                 }else{
                     $users->user_type = 'o';
@@ -75,6 +87,69 @@ class UserController extends Controller
         } else {
             return redirect('/');
         }
+
+//        ---------- For Dev ---------------
+//        if(isset($_SESSION['ssoUserData'])){
+//            $findUser = Users::where('personal_id', $_SESSION['ssoUserData']['personalId'])->first();
+//            if ($findUser === NULL) {
+//                $users = new Users;
+//                $users->personal_id = $_SESSION['ssoUserData']['personalId'];
+//                $users->prefix = $_SESSION['ssoUserData']['prename'];
+//                $users->fname_en = $_SESSION['ssoUserData']['cn'];
+//                $users->fname_th = $_SESSION['ssoUserData']['firstNameThai'];
+//                $users->lname_en = $_SESSION['ssoUserData']['sn'];
+//                $users->lname_th = $_SESSION['ssoUserData']['lastNameThai'];
+//
+//                if(isset($_SESSION['ssoUserData']['studentId'])){
+//                    $users->stu_id = $_SESSION['ssoUserData']['studentId'];
+//                } else {
+//                    $users->stu_id = "";
+//                }
+//
+//                $users->faculty = $_SESSION['ssoUserData']['faculty'];
+//                $users->department = $_SESSION['ssoUserData']['program'];
+//                $users->email = $_SESSION['ssoUserData']['mail'];
+//                if($_SESSION['ssoUserData']['gidNumber'] == "4500"){
+//                    $users->user_type = 's';
+//                }elseif ($_SESSION['ssoUserData']['gidNumber'] == "2800"){
+//                    $users->user_type = 't';
+//                }else{
+//                    $users->user_type = 'o';
+//                }
+//                $users->save();
+////                return response()->json($users);
+//            }else{
+//                $users = Users::find($findUser->id);
+//                $users->personal_id = $_SESSION['ssoUserData']['personalId'];
+//                $users->prefix = $_SESSION['ssoUserData']['prename'];
+//                $users->fname_en = $_SESSION['ssoUserData']['cn'];
+//                $users->fname_th = $_SESSION['ssoUserData']['firstNameThai'];
+//                $users->lname_en = $_SESSION['ssoUserData']['sn'];
+//                $users->lname_th = $_SESSION['ssoUserData']['lastNameThai'];
+//
+//                if(isset($_SESSION['ssoUserData']['studentId'])){
+//                    $users->stu_id = $_SESSION['ssoUserData']['studentId'];
+//                } else {
+//                    $users->stu_id = "";
+//                }
+//
+//                $users->faculty = $_SESSION['ssoUserData']['faculty'];
+//                $users->department = $_SESSION['ssoUserData']['program'];
+//                $users->email = $_SESSION['ssoUserData']['mail'];
+//                if($_SESSION['ssoUserData']['gidNumber'] == "4500"){
+//                    $users->user_type = 's';
+//                }elseif ($_SESSION['ssoUserData']['gidNumber'] == "2500"){
+//                    $users->user_type = 't';
+//                }else{
+//                    $users->user_type = 'o';
+//                } $users->save();
+//
+//            }
+//
+//            return redirect('/index');
+//        } else {
+//            return redirect('/');
+//        }
     }
 
     public function findMyEvent(Request $request){
@@ -151,14 +226,24 @@ class UserController extends Controller
 
     public function checkUser(){
         session_start();
-//        unset($_SESSION['ssoUserData']);
-        if(isset($_SESSION['ssoUserData'])){
+
+//        ------------- For Product -------------
+        if(isset($_SESSION['ssoUserdata'])){
 //            return 200;
-            $findUser = Users::where('personal_id', $_SESSION['ssoUserData']['personalId'])->first();
+            $findUser = Users::where('personal_id', $_SESSION['ssoUserdata']['personalId'][0])->first();
             return $findUser;
         } else {
             return 404;
         }
+
+//        ------------- For Dev -------------
+//        if(isset($_SESSION['ssoUserData'])){
+////            return 200;
+//            $findUser = Users::where('personal_id', $_SESSION['ssoUserData']['personalId'])->first();
+//            return $findUser;
+//        } else {
+//            return 404;
+//        }
     }
 
     public function userLogOut(){
@@ -360,12 +445,10 @@ class UserController extends Controller
     }
 
     public function testSession(){
+        var_dump("session");
         session_start();
-//        unset($_SESSION['test']);
-//        $_SESSION["test"] = "Hello";
-//        echo '<pre>' . print_r(Session::all(), TRUE) . '</pre>';
+
         echo  "<br> ************************************************ <br>";
-//        echo '<pre>' . print_r($request->session(), TRUE) . '</pre>';
         echo '<pre>' . print_r($_SESSION, TRUE) . '</pre>';
     }
 

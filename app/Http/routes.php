@@ -345,6 +345,16 @@ Route::get('/cppCompileAndRun','CompileCppController@compileAndRunCpp');
 
 Route::post('/cppSendSheet','CompileCppController@sendSheetCpp');
 
+//--------------------------- CompileCsController ---------------------------
+
+Route::post('/csSendExam','CompileCsController@sendExamCs');
+
+Route::post('/csSendSheet','CompileCsController@sendSheetCs');
+
+Route::get('/csCompileAndRun','CompileCsController@compileAndRunCs');
+
+Route::get('/createBatFile','CompileCsController@createBatFile');
+
 //--------------------------- PathExamController ---------------------------
 
 Route::get('/findPathExamByResExamID','PathExamController@findPathExamByResExamID');
