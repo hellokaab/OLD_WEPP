@@ -29,7 +29,8 @@ class PathExamController extends Controller
                 fclose($handle);
             }
 
-            else if (strpos($f, '.c') && $f != 'ex.c' && $f != 'ex.cpp') {
+//            else if (strpos($f, '.c') && $f != 'ex.c' && $f != 'ex.cpp') {
+            else if (strpos($f, '.c') && $f != 'ex.c' && $f != 'ex.cpp' && $f != 'Main.cs') {
                 $handle = fopen("$folder_ans/$f", "r");
                 $codeInFile = fread($handle, filesize("$folder_ans/$f"));
                 array_push($code, $codeInFile);
@@ -52,6 +53,7 @@ class PathExamController extends Controller
         $handle = fopen("$file_resrun", "r");
         $resrun = trim(fread($handle, filesize("$file_resrun")));
         fclose($handle);
+        $resrun = $this->modify_output($resrun);
         return response()->json($resrun);
     }
 
@@ -65,5 +67,16 @@ class PathExamController extends Controller
             ->get();
 
         return response()->json($myHistory);
+    }
+
+    function modify_output($output){
+        $modified_output = "";
+        for($i=0;$i<strlen($output);$i++){
+            if(ord($output[$i]) != 13){
+                $modified_output = $modified_output.$output[$i];
+            }
+        }
+
+        return $modified_output;
     }
 }
