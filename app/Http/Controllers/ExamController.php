@@ -155,6 +155,7 @@ class ExamController extends Controller
         $outputFile = fopen("$request->exam_outputfile", "r") or die("Unable to open file!");
         $output = fread($outputFile,filesize("$request->exam_outputfile"));
         fclose($outputFile);
+        $output = $this->modify_output($output);
 
         if($request->main_code != NULL){
             $mainCodeFile = fopen("$request->main_code", "r") or die("Unable to open file!");
@@ -262,5 +263,16 @@ class ExamController extends Controller
             'examId' => $id
         );
         return view('pages/teacher/detailExam',$data);
+    }
+
+    function modify_output($output){
+        $modified_output = "";
+        for($i=0;$i<strlen($output);$i++){
+            if(ord($output[$i]) != 13){
+                $modified_output = $modified_output.$output[$i];
+            }
+        }
+
+        return $modified_output;
     }
 }

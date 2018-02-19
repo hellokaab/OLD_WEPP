@@ -225,6 +225,7 @@ class WorkSheetController extends Controller
         $outputFile = fopen("$request->sheet_output_file", "r") or die("Unable to open file!");
         $output = fread($outputFile,filesize("$request->sheet_output_file"));
         fclose($outputFile);
+        $output = $this->modify_output($output);
 
         if($request->main_code != NULL){
             $mainCodeFile = fopen("$request->main_code", "r") or die("Unable to open file!");
@@ -369,6 +370,17 @@ class WorkSheetController extends Controller
             }
             rmdir($path);
         } catch(\Exception $e ){}
+    }
+
+    function modify_output($output){
+        $modified_output = "";
+        for($i=0;$i<strlen($output);$i++){
+            if(ord($output[$i]) != 13){
+                $modified_output = $modified_output.$output[$i];
+            }
+        }
+
+        return $modified_output;
     }
 }
 

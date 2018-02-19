@@ -57,7 +57,7 @@
             window.location.href = "http://it.ea.rmuti.ac.th/wepp/sso/?slo&redirect=http://it.ea.rmuti.ac.th/wepp";
 
 //            ------------- For Dev -------------
-//                $.ajax ({
+//            $.ajax ({
 //                contentType: "application/json; charset=utf-8",
 //                dataType: "json",
 //                headers: {
@@ -74,7 +74,7 @@
 //                        }
 //                    }
 //                }
-            });
+//            });
         }
     });
 </script>

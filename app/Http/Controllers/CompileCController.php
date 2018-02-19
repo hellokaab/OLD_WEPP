@@ -335,17 +335,19 @@ class CompileCController extends Controller
 
             // รันโค้ดที่ส่ง
             $lines_run = $this->run_code($input,$folder_ans);
+//            return response()->json($lines_run);
 
             // ตรวจสอบคำตอบ
             $checker = "";
             if($request->mode == "exam") {
                 $checker = $this->check_correct_ans_ex($lines_run, $request->exam_id,$folder_ans);
+//                return response()->json($checker);
             } else if($request->mode == "sheet") {
                 $checker = $this->check_correct_ans_sh($lines_run, $request->sheet_id,$folder_ans);
             }
 //
             // เครียร์ไฟล์ขยะ (*.exe, *.bat)
-            $this->clearFolderAns($folder_ans);
+//            $this->clearFolderAns($folder_ans);
 
             // อัพเดตสถานะการส่ง เป็นสถานะที่เช็คได้
             if($request->mode == "exam"){
@@ -541,8 +543,10 @@ class CompileCController extends Controller
             $output_teacher = trim(fread($handle, filesize("$file_output")));
             fclose($handle);
 
+//            return array("output_teacher" => $output_teacher, "res_run" => $run['res_run']);
+
             // คิดคำตอบเหมือน output กี่เปอร์เซ็นต์
-            $percent_equal = $this->check_percentage_ans($output_teacher, $run['res_run'], $exam->case_sensitive);
+            $percent_equal = $this->check_percentage_ans($this->modify_output($output_teacher), $this->modify_output($run['res_run']), $exam->case_sensitive);
 
             if ($percent_equal == 100) {
                 return array("status" => "a", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
@@ -579,7 +583,7 @@ class CompileCController extends Controller
             fclose($handle);
 
             // คิดคำตอบเหมือน output กี่เปอร์เซ็นต์
-            $percent_equal = $this->check_percentage_ans($output_teacher, $run['res_run'], $sheet->case_sensitive);
+            $percent_equal = $this->check_percentage_ans($this->modify_output($output_teacher), $this->modify_output($run['res_run']), $sheet->case_sensitive);
 
             if ($percent_equal == 100) {
                 return array("status" => "a", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
@@ -822,6 +826,7 @@ class CompileCController extends Controller
     }
 
     function run_code($input,$folder_ans){
+
         $resoutput = "";
         $descriptorspec = array(
             0 => array("pipe", "r"), // stdin is a pipe that the child will read from
@@ -842,7 +847,7 @@ class CompileCController extends Controller
         $cwd = $dir_code;
         $process = proc_open('wepp_ex.exe', $descriptorspec, $pipes, $cwd);
         if (is_resource($process)) {
-            fwrite($pipes[0], substr($input, 1, strlen($input)));
+            fwrite($pipes[0], $input);
             fclose($pipes[0]);
             $resoutput = stream_get_contents($pipes[1]);
             fclose($pipes[1]);
@@ -852,6 +857,17 @@ class CompileCController extends Controller
         unlink('ex.txt');
 
         return $resoutput;
+    }
+
+    function modify_output($output){
+        $modified_output = "";
+        for($i=0;$i<strlen($output);$i++){
+            if(ord($output[$i]) != 13){
+                $modified_output = $modified_output.$output[$i];
+            }
+        }
+
+        return $modified_output;
     }
 
     function makeFolder($path,$folder) {

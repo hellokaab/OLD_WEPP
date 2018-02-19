@@ -310,14 +310,15 @@ class SheetingController extends Controller
                                 AND join_groups.group_id = ?
                                 AND join_groups.status = \'s\' ) as a 
                             LEFT JOIN (
-                                SELECT sq.ressheet_id,re.user_id,re.sheeting_id,re.sheet_id,re.score,sq.sum_score_quiz,re.send_late 
+                                SELECT re.id as ressheet_id,re.user_id,re.sheeting_id,re.sheet_id,re.score,sq.sum_score_quiz,re.send_late 
                                 FROM res_sheets as re LEFT JOIN (
-  	                            SELECT res_quizzes.ressheet_id,SUM(res_quizzes.score) as sum_score_quiz
-	                            FROM res_quizzes 
-	                            GROUP BY res_quizzes.ressheet_id ) as sq 
-	                        ON re.id = sq.ressheet_id
-                            WHERE re.sheeting_id = ?
-                            AND re.sheet_id = ?) as b ON a.user_id = b.user_id', [$request->group_id,$request->sheeting_id,$request->sheet_id]);
+                                    SELECT res_quizzes.ressheet_id,SUM(res_quizzes.score) as sum_score_quiz
+                                    FROM res_quizzes 
+                                    GROUP BY res_quizzes.ressheet_id ) as sq 
+	                            ON re.id = sq.ressheet_id
+                                WHERE re.sheeting_id = ?
+                            AND re.sheet_id = ?) as b 
+                            ON a.user_id = b.user_id', [$request->group_id,$request->sheeting_id,$request->sheet_id]);
         return response()->json($data);
     }
 

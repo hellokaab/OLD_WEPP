@@ -410,7 +410,7 @@ class CompileCppController extends Controller
         $cwd = $dir_code;
         $process = proc_open('wepp_ex.exe', $descriptorspec, $pipes, $cwd);
         if (is_resource($process)) {
-            fwrite($pipes[0], substr($input, 1, strlen($input)));
+            fwrite($pipes[0],$input);
             fclose($pipes[0]);
             $resoutput = stream_get_contents($pipes[1]);
             fclose($pipes[1]);
@@ -595,7 +595,7 @@ class CompileCppController extends Controller
             fclose($handle);
 
             // คิดคำตอบเหมือน output กี่เปอร์เซ็นต์
-            $percent_equal = $this->check_percentage_ans($output_teacher, $run['res_run'], $exam->case_sensitive);
+            $percent_equal = $this->check_percentage_ans($this->modify_output($output_teacher), $this->modify_output($run['res_run']), $exam->case_sensitive);
 
             if ($percent_equal == 100) {
                 return array("status" => "a", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
@@ -632,7 +632,7 @@ class CompileCppController extends Controller
             fclose($handle);
 
             // คิดคำตอบเหมือน output กี่เปอร์เซ็นต์
-            $percent_equal = $this->check_percentage_ans($output_teacher, $run['res_run'], $sheet->case_sensitive);
+            $percent_equal = $this->check_percentage_ans($this->modify_output($output_teacher), $this->modify_output($run['res_run']), $sheet->case_sensitive);
 
             if ($percent_equal == 100) {
                 return array("status" => "a", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
@@ -853,6 +853,17 @@ class CompileCppController extends Controller
         if (!in_array((string) $folder, (array) $dirList)) {
             mkdir($path.$folder, 0777, true);
         }
+    }
+
+    function modify_output($output){
+        $modified_output = "";
+        for($i=0;$i<strlen($output);$i++){
+            if(ord($output[$i]) != 13){
+                $modified_output = $modified_output.$output[$i];
+            }
+        }
+
+        return $modified_output;
     }
 
     function calculate_memory($folder_ans){

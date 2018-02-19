@@ -448,6 +448,10 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
             }
         }).responseJSON;
         console.log(testCompile);
+        // for(var i=0;i<testCompile.output_teacher.length || i< testCompile.res_run.length;i++){
+        //     console.log(i+" t : "+testCompile.output_teacher[i]);
+        //     console.log(i+" s : "+testCompile.res_run[i]);
+        // }
     }
     //----------------------------------------------------------------------
     function compileAndRunCpp(pathExamID) {
@@ -519,6 +523,12 @@ app.controller('viewExamCtrl', ['$scope', '$window', function ($scope, $window) 
             }
         }).responseJSON;
         console.log(testCompile);
+        // for(var i=0;i<testCompile.output_teacher.length || i< testCompile.res_run.length;i++){
+        //     console.log(i+" t : "+testCompile.output_teacher[i].charCodeAt(0)+" s : "+testCompile.res_run[i].charCodeAt(0))
+        // }
+        // console.log(testCompile.output_teacher.length);
+        // console.log(testCompile.res_run.length);
+        // console.log(testCompile.output_teacher === testCompile.res_run);
     }
     //----------------------------------------------------------------------
     function deleteFirstQueue() {

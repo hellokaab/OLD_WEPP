@@ -308,7 +308,15 @@ class CompileCsController extends Controller
             $new_class_code = substr_replace($origin_code, 'WEPP', $pos_begin_class_name, strlen($class_name));
 
             // เพิ่มโค้ดส่วนการเช็คลูป เช็คเมมโมรี่ เช็คเวลา
-            $code_add_checker = $this->add_check_code($new_class_code);
+            $path_input = "";
+            if($request->mode == "exam") {
+                $exam = Exam::find($request->exam_id);
+                $path_input = $exam->exam_inputfile;
+            } else if($request->mode == "sheet") {
+                $sheet = Worksheet::find($request->sheet_id);
+                $path_input = $sheet->sheet_input_file;
+            }
+            $code_add_checker = $this->add_check_code($new_class_code,$path_input);
 
             // เก็บไว้ในไฟล์ชื่อ Main.cs
             $file = 'Main';
@@ -343,7 +351,15 @@ class CompileCsController extends Controller
                 $new_class_code = substr_replace($origin_code, "WEPP", $pos_begin_class_name, strlen($class_name));
 
                 // เพิ่มโค้ดส่วนการเช็คลูป เช็คเมมโมรี่ เช็คเวลา
-                $code_add_checker = $this->add_check_code($new_class_code);
+                $path_input = "";
+                if($request->mode == "exam") {
+                    $exam = Exam::find($request->exam_id);
+                    $path_input = $exam->exam_inputfile;
+                } else if($request->mode == "sheet") {
+                    $sheet = Worksheet::find($request->sheet_id);
+                    $path_input = $sheet->sheet_input_file;
+                }
+                $code_add_checker = $this->add_check_code($new_class_code,$path_input);
 
                 // เก็บไว้ในไฟล์ชื่อ Main.cs
                 $file = 'Main';
@@ -393,6 +409,10 @@ class CompileCsController extends Controller
                         $handle = fopen($exam->exam_inputfile, "r");
                         $input = fread($handle, filesize($exam->exam_inputfile));
                         fclose($handle);
+
+//                        $input_spilt = explode("\n",$input);
+//                        $pos_count_loop = strpos($input,$input_spilt[0]);
+//                        $input = substr_replace($input,"",$pos_count_loop,strlen($input_spilt[0])+1);
                     }
                 } else if($request->mode == "sheet"){
                     $sheet = Worksheet::find($request->sheet_id);
@@ -400,16 +420,22 @@ class CompileCsController extends Controller
                         $handle = fopen($sheet->sheet_input_file, "r");
                         $input = fread($handle, filesize($sheet->sheet_input_file));
                         fclose($handle);
+
+//                        $input_spilt = explode("\n",$input);
+//                        $pos_count_loop = strpos($input,$input_spilt[0]);
+//                        $input = substr_replace($input,"",$pos_count_loop,strlen($input_spilt[0])+1);
                     }
                 }
 
                 // รันโค้ดที่ส่ง
                 $lines_run = $this->run_code($input,$folder_ans);
+//                return response()->json($lines_run);
 
                 // ตรวจสอบคำตอบ
                 $checker = "";
                 if($request->mode == "exam") {
                     $checker = $this->check_correct_ans_ex($lines_run, $request->exam_id);
+//                    return response()->json($checker);
                 } else if($request->mode == "sheet") {
                     $checker = $this->check_correct_ans_sh($lines_run, $request->sheet_id);
                 }
@@ -447,9 +473,25 @@ class CompileCsController extends Controller
 
     }
 
-    function add_check_code($code) {
+    function add_check_code($code,$path_input) {
+        $count_loop = 1;
+
+        if (strlen($path_input) > 0) {
+            $handle = fopen($path_input, "r");
+            $input = fread($handle, filesize($path_input));
+            fclose($handle);
+
+            $input_split = explode('\n',$input);
+            $count_loop = (int)trim($input_split[0]);
+        }
+
+        $sss = 'for (int i = 0 ; i < '.$count_loop.' ; i++){
+                                            
+                            }';
+
         $using_code = 'using System.Management;
                        using System.Threading;
+                       using System.Diagnostics;
                        ';
 
         $str_check_code = 'static Thread timeThr = new Thread(new ThreadStart(TimerThread));
@@ -462,11 +504,12 @@ class CompileCsController extends Controller
 		                }
                         static void RunThread(){
                             var watch = System.Diagnostics.Stopwatch.StartNew();
-                                            
+                            long memoryBefore = System.Diagnostics.Process.GetCurrentProcess().PrivateMemorySize64;
+                            long memoryAfter = System.Diagnostics.Process.GetCurrentProcess().PrivateMemorySize64;
                             timeThr.Abort();
                             watch.Stop();
                             var elapsedMs = watch.ElapsedMilliseconds;
-                            Console.WriteLine("UsedMem : 0");
+                            Console.WriteLine("UsedMem : {0}",(memoryAfter-memoryBefore)/1024);
                             Console.WriteLine("Runtime : {0}",elapsedMs/1000.00);
                         }';
 
@@ -474,7 +517,8 @@ class CompileCsController extends Controller
         $code_in_main = $this->get_code_in_main($code);
 
         // นำโค้ดที่อยู่ในเมธอด main ใส่ในเทรดการรัน
-        $pos_add_code = strpos($str_check_code, "timeThr.Abort();") - 1;
+        $pos_add_code = strpos($str_check_code, "long memoryAfter") - 1;
+//        $pos_add_code = strpos($str_check_code, "}long memoryAfter") - 1;
         $check_code = substr_replace($str_check_code, $code_in_main["code"], $pos_add_code, 0);
 
         // ตัดโค้ด ที่อยู่ในเมธอด main ออก
@@ -568,8 +612,10 @@ class CompileCsController extends Controller
             $output_teacher = trim(fread($handle, filesize("$file_output")));
             fclose($handle);
 
+//            return array("output_teacher" => $output_teacher, "res_run" => $run['res_run']);
+
             // คิดคำตอบเหมือน output กี่เปอร์เซ็นต์
-            $percent_equal = $this->check_percentage_ans($output_teacher, $run['res_run'], $exam->case_sensitive);
+            $percent_equal = $this->check_percentage_ans($this->modify_output($output_teacher), $this->modify_output($run['res_run']), $exam->case_sensitive);
 
             if ($percent_equal == 100) {
                 return array("status" => "a", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
@@ -605,7 +651,7 @@ class CompileCsController extends Controller
             fclose($handle);
 
             // คิดคำตอบเหมือน output กี่เปอร์เซ็นต์
-            $percent_equal = $this->check_percentage_ans($output_teacher, $run['res_run'], $sheet->case_sensitive);
+            $percent_equal = $this->check_percentage_ans($this->modify_output($output_teacher), $this->modify_output($run['res_run']), $sheet->case_sensitive);
 
             if ($percent_equal == 100) {
                 return array("status" => "a", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
@@ -848,6 +894,17 @@ class CompileCsController extends Controller
             return true;
         }
         return false;
+    }
+
+    function modify_output($output){
+        $modified_output = "";
+        for($i=0;$i<strlen($output);$i++){
+            if(ord($output[$i]) != 13){
+                $modified_output = $modified_output.$output[$i];
+            }
+        }
+
+        return $modified_output;
     }
 
     function clearFolderAns($folder_ans) {

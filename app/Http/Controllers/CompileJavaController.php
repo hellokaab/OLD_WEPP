@@ -324,7 +324,15 @@ class CompileJavaController extends Controller
             $new_class_code = substr_replace($origin_code, 'Main', $pos_begin_class_name, strlen($class_name));
 
             // เพิ่มโค้ดส่วนการเช็คลูป เช็คเมมโมรี่ เช็คเวลา
-            $code_add_checker = $this->add_check_code($new_class_code);
+            $path_input = "";
+            if($request->mode == "exam") {
+                $exam = Exam::find($request->exam_id);
+                $path_input = $exam->exam_inputfile;
+            } else if($request->mode == "sheet") {
+                $sheet = Worksheet::find($request->sheet_id);
+                $path_input = $sheet->sheet_input_file;
+            }
+            $code_add_checker = $this->add_check_code($new_class_code,$path_input);
 
             // เก็บไว้ในไฟล์ชื่อ Main.java
             $file = 'Main';
@@ -402,7 +410,15 @@ class CompileJavaController extends Controller
                 $new_class_code = substr_replace($origin_code, "Main", $pos_begin_class_name, strlen($class_name));
 
                 // เพิ่มโค้ดส่วนการเช็คลูป เช็คเมมโมรี่ เช็คเวลา
-                $code_add_checker = $this->add_check_code($new_class_code);
+                $path_input = "";
+                if($request->mode == "exam") {
+                    $exam = Exam::find($request->exam_id);
+                    $path_input = $exam->exam_inputfile;
+                } else if($request->mode == "sheet") {
+                    $sheet = Worksheet::find($request->sheet_id);
+                    $path_input = $sheet->sheet_input_file;
+                }
+                $code_add_checker = $this->add_check_code($new_class_code,$path_input);
 
                 // เก็บไว้ในไฟล์ชื่อ Main.java
                 $file = "Main";
@@ -501,13 +517,28 @@ class CompileJavaController extends Controller
     }
 
     // JCP process code function
-    function add_check_code($code) {
+    function add_check_code($code,$path_input) {
+        $count_loop = 1;
+
+        if (strlen($path_input) > 0) {
+            $handle = fopen($path_input, "r");
+            $input = fread($handle, filesize($path_input));
+            fclose($handle);
+
+            $input_split = explode("\n",$input);
+            $count_loop = (int)trim($input_split[0]);
+        }
+
+        $sss = 'for (int i = 0 ; i < '.$count_loop.' ; i++){
+                                            
+                                }';
+
         $str_check_code = ' static TimerThread timeThr = new TimerThread();
                         static RunThread runThr = new RunThread();
                         static class TimerThread extends Thread {
                             public void run() {
                                 try {
-                                    sleep(3000);
+                                    sleep(10000);
                                     runThr.stop();
                                     System.out.println("OverTime");
                                     System.exit(0);
@@ -544,7 +575,6 @@ class CompileJavaController extends Controller
         // เพิ่มโค้ดที่ใช้เช็คหน่วยความจำ เวลา และลูปไม่รู้จบ
         $pos_bracket_class = strpos($code_add_in_main, "{");
         $complet_code = substr_replace($code_add_in_main, $check_code, $pos_bracket_class + 1, 0);
-
         return $complet_code;
     }
 
@@ -614,8 +644,25 @@ class CompileJavaController extends Controller
 
         // สร้างไฟล์ .bat สำหรับการรัน
         $file_bat = 'run.bat';
+        $input_data = "";
         $openfile = fopen("$folder_code/$file_bat", 'w');
         if ($input_file) {
+//            // เปิดไฟล์อินพุทของข้อสอบ
+//            $handle = fopen($input_file, "r");
+//            $input_data = fread($handle, filesize($input_file));
+//            fclose($handle);
+//
+//            // ตัดตัวเลขกำหนดจำนวนลูปออก
+//            $input_spilt = explode("\n",$input_data);
+//            $pos_count_loop = strpos($input_data,$input_spilt[0]);
+//            $input_data = substr_replace($input_data,"",$pos_count_loop,strlen($input_spilt[0]));
+//
+//            // เขียนไฟล์อินพุตใหม่ ที่ไม่มีเลขจำนวนลูป
+//            $new_input_file = 'input.txt';
+//            $open_file_input = fopen("$folder_code/$new_input_file", 'w');
+//            fwrite($open_file_input,$input_data);
+//            fclose($open_file_input);
+
             // พาร์ทของ input file
             $dir_input = "";
             $dir_split = explode("\\",$dir);
@@ -629,6 +676,7 @@ class CompileJavaController extends Controller
             $dir_input = $dir_input.$dir_split[sizeof($dir_split)-1];
 
             fwrite($openfile, $cmd . " \n java $file_main < " . $dir_input);
+//            fwrite($openfile, $cmd . " \n java $file_main < " . $dir_exam.$new_input_file);
         } else {
             fwrite($openfile, $cmd . " \n java $file_main");
         }
@@ -658,7 +706,7 @@ class CompileJavaController extends Controller
             fclose($handle);
 
             // คิดคำตอบเหมือน output กี่เปอร์เซ็นต์
-            $percent_equal = $this->check_percentage_ans($output_teacher, $run['res_run'], $exam->case_sensitive);
+            $percent_equal = $this->check_percentage_ans($this->modify_output($output_teacher), $this->modify_output($run['res_run']), $exam->case_sensitive);
 
             if ($percent_equal == 100) {
                 return array("status" => "a", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
@@ -694,7 +742,7 @@ class CompileJavaController extends Controller
             fclose($handle);
 
             // คิดคำตอบเหมือน output กี่เปอร์เซ็นต์
-            $percent_equal = $this->check_percentage_ans($output_teacher, $run['res_run'], $sheet->case_sensitive);
+            $percent_equal = $this->check_percentage_ans($this->modify_output($output_teacher), $this->modify_output($run['res_run']), $sheet->case_sensitive);
 
             if ($percent_equal == 100) {
                 return array("status" => "a", "res_run" => $run['res_run'], "time" => $run['time'], "mem" => $run['mem']);
@@ -980,6 +1028,17 @@ class CompileJavaController extends Controller
         $resSheet->score = $score;
         $resSheet->save();
         return $checker['status'];
+    }
+
+    function modify_output($output){
+        $modified_output = "";
+        for($i=0;$i<strlen($output);$i++){
+            if(ord($output[$i]) != 13){
+                $modified_output = $modified_output.$output[$i];
+            }
+        }
+
+        return $modified_output;
     }
 
     function makeFolder($path,$folder) {
